@@ -58,8 +58,12 @@ export default {
     background-color: #fff !important;
     border-color:@color-link !important;
     color:@color-link;
-    &:hover,&:focus{
-        color:@color-link !important;
+    &:hover,&:focus,&.router-link-active{
+        color:#f39 !important;
+        border-color:#f39 !important;
+        .u-bucket{
+            fill:#f39;
+        }
     }
 }
 .m-nav {

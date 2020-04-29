@@ -1,6 +1,12 @@
 <template>
     <div class="m-dashboard m-dashboard-index">
-        index
+        头像  名字+UID
+        分组
+        等级
+        积分
+        邮箱
+
+
     </div>
 </template>
 

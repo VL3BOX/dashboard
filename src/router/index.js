@@ -11,6 +11,7 @@ import msg from "../views/msg.vue";
 import profile from "../views/profile.vue";
 import pwd from "../views/pwd.vue";
 import bucket from "../views/bucket.vue";
+import avatar from "../views/avatar.vue";
 
 Vue.use(VueRouter);
 
@@ -26,6 +27,7 @@ const routes = [
     { path: '/profile', component: profile },
     { path: '/pwd', component: pwd },
     { path: '/bucket', component: bucket },
+    { path: '/avatar', component: avatar },
 ]
 
 const router = new VueRouter({

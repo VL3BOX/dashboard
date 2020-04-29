@@ -1,6 +1,6 @@
 import VueRouter from "vue-router";
 
-import index from "../views/home.vue";
+import index from "../views/index.vue";
 import work from "../views/work.vue";
 import publish from "../views/publish.vue";
 import email from "../views/email.vue";

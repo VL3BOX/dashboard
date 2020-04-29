@@ -1,14 +1,10 @@
 <template>
-    <main class="c-main m-$channel-list">
-        List
-        <Info />
-    </main>
+    <div class="m-dashboard m-dashboard-publish"></div>
 </template>
 
 <script>
-import Info from '@/components/Info.vue';
     export default {
-        name : 'List',
+        name : 'publish',
         props:[],
         data : function(){
             return {
@@ -18,8 +14,9 @@ import Info from '@/components/Info.vue';
         computed:{},
         methods:{},
         mounted:function(){},
-        components:{
-            Info
-        }
     }
 </script>
+
+<style lang="less">
+    @import '../assets/css/publish.less';
+</style>

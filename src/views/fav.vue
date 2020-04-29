@@ -1,14 +1,14 @@
 <template>
-    <main class="c-main m-$channel-view">
-        View
-        <Meta />
-    </main>
+    <div class="m-dashboard m-dashboard-fav">
+        收藏列表
+
+        取消收藏
+    </div>
 </template>
 
 <script>
-import Meta from '@/components/Meta.vue';
     export default {
-        name : 'View',
+        name : 'fav',
         props:[],
         data : function(){
             return {
@@ -18,8 +18,9 @@ import Meta from '@/components/Meta.vue';
         computed:{},
         methods:{},
         mounted:function(){},
-        components:{
-            Meta
-        }
     }
 </script>
+
+<style lang="less">
+    @import '../assets/css/fav.less';
+</style>

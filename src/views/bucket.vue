@@ -1,12 +1,12 @@
 <template>
-    <div class="m-dashboard m-dashboard-index">
-        index
+    <div class="m-dashboard m-dashboard-bucket">
+        加入仓库的宏等
     </div>
 </template>
 
 <script>
     export default {
-        name : 'index',
+        name : 'bucket',
         props:[],
         data : function(){
             return {
@@ -20,5 +20,5 @@
 </script>
 
 <style lang="less">
-    @import '../assets/css/index.less';
+    @import '../assets/css/bucket.less';
 </style>

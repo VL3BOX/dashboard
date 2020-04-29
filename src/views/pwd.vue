@@ -1,12 +1,10 @@
 <template>
-    <div class="m-dashboard m-dashboard-index">
-        index
-    </div>
+    <div class="m-dashboard m-dashboard-pwd"></div>
 </template>
 
 <script>
     export default {
-        name : 'index',
+        name : 'pwd',
         props:[],
         data : function(){
             return {
@@ -20,5 +18,5 @@
 </script>
 
 <style lang="less">
-    @import '../assets/css/index.less';
+    @import '../assets/css/pwd.less';
 </style>

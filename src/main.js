@@ -11,6 +11,7 @@ import JX3BOX_UI from "@jx3box/jx3box-common/vue";
 Vue.use(JX3BOX_UI);
 Vue.prototype.JX3BOX = JX3BOX;
 Vue.prototype.$axios = axios;
+Vue.prototype.$axios.defaults.withCredentials = true;
 
 import router from "./router";
 // import store from "./store";

@@ -9,6 +9,7 @@
         max-width:240px;
         box-sizing:border-box;
         overflow: hidden;
+        .mb(10px);
     }
 
     
@@ -22,5 +23,37 @@
 
     .u-status{
         .nobreak;
+    }
+}
+
+@media screen and (max-width:@ipad-y){
+    .m-dashboard-connect {
+        .box-card{
+            float:none;
+            padding:0;
+            .w(auto);
+            max-width:none;
+            .mr(0);
+        }
+
+        .el-card__body{
+            .clearfix;
+        }
+
+        svg{
+            .size(40px);
+            .fl;
+            .mr(10px);
+        }
+
+        .u-status{
+            margin:0;
+            .fl;
+            .w(80px);
+            .lh(40px);
+        }
+        .u-button{
+            .fr;
+        }
     }
 }

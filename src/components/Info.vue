@@ -7,6 +7,7 @@
                 src="../assets/img/dashboard.svg"
             />
             <span class="u-title">用户中心</span>
+            <span class="u-desc">首页</span>
         </router-link>
         <div class="u-stat"></div>
         <div class="u-home">
@@ -49,6 +50,13 @@ export default {
         .mt(5px);
         fill: @color;
     }
+    .u-desc{
+        .fz(12px);
+        border:1px solid #eee;
+        .r(3px);
+        .ml(10px);
+        padding:2px 10px;
+    }
     .u-home {
         .fr;
         margin-right: 10px;
@@ -72,11 +80,10 @@ export default {
         }
     }
 }
-@media screen and (max-width: @ipad) {
+@media screen and (max-width: @phone) {
     .c-breadcrumb {
-        .u-stat {
-            white-space: nowrap;
-            overflow: auto;
+        .u-desc {
+            .none;
         }
     }
 }

@@ -57,10 +57,8 @@
 
 <script>
 const { JX3BOX, User } = require("@jx3box/jx3box-common");
-// const API = JX3BOX.__server
-
-// FIXME:test
-const API = "http://localhost:5160/";
+const API = JX3BOX.__server
+// const API = "http://localhost:5160/";
 
 export default {
     name: "profile",

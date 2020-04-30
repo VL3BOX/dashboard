@@ -26,11 +26,10 @@ export default {
     computed: {},
     methods: {},
     mounted: function () {
-        // TODO:remove
-        // if(!User.isLogin()){
-            // User.destroy()
-        //     User.toLogin()
-        // }
+        if(!User.isLogin()){
+            User.destroy()
+            User.toLogin()
+        }
     },
     components: {
         Info,

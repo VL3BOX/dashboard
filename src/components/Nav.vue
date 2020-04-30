@@ -17,7 +17,7 @@
             <router-link to="avatar"><img class="u-avatar" svg-inline src="../assets/img/avatar.svg" /><span>修改头像</span></router-link>
             <router-link to="pwd"><img class="u-pass" svg-inline src="../assets/img/pass.svg" /><span>修改密码</span></router-link>
             <router-link to="email"><img class="u-mail" svg-inline src="../assets/img/mail.svg" /><span>绑定邮箱</span></router-link>
-            <router-link to="link"><img class="u-link" svg-inline src="../assets/img/link.svg" /><span>绑定账号</span></router-link>
+            <router-link to="connect"><img class="u-link" svg-inline src="../assets/img/link.svg" /><span>绑定账号</span></router-link>
             <a :href="feedback" target="_blank"><img class="u-help" svg-inline src="../assets/img/help.svg" /><span>需要帮助</span><img class="u-blank" svg-inline src="../assets/img/blank.svg" /></a>
         </div>
 
@@ -84,7 +84,7 @@ export default {
         padding: 5px 25px;
         color: #555;
         svg{
-            .y;
+            .y(-3px);
             .mr(5px);
             fill:#555;
             .size(16px);

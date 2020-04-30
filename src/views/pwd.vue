@@ -1,6 +1,17 @@
 <template>
     <div class="m-dashboard m-dashboard-pwd">
+        <img class="u-pic" svg-inline src="../assets/img/pwd.svg" />
         <form>
+            <el-alert
+                class="u-ac"
+                title="请妥善保管"
+                type="warning"
+                description="未绑定邮箱用户将无法使用找回密码功能"
+                show-icon
+                :closable="false"
+            >
+            </el-alert>
+
             <!-- 新密码 -->
             <div class="u-pass">
                 <el-input
@@ -71,11 +82,9 @@
 
 <script>
 const { validator } = require("sterilizer");
-const { JX3BOX,User } = require("@jx3box/jx3box-common");
-// const API = JX3BOX.__server
-
-// FIXME:test
-const API = "http://localhost:5160/";
+const { JX3BOX, User } = require("@jx3box/jx3box-common");
+const API = JX3BOX.__server
+// const API = "http://localhost:5160/";
 export default {
     name: "pwd",
     props: [],
@@ -93,10 +102,7 @@ export default {
             return this.pwd1 === this.pwd2;
         },
         ready: function() {
-            return (
-                this.pass_validate &&
-                this.accordance
-            );
+            return this.pass_validate && this.accordance;
         },
     },
     methods: {
@@ -120,16 +126,16 @@ export default {
                 })
                 .then((res) => {
                     this.$message({
-                        message: '密码修改成功',
-                        type: 'success'
+                        message: "密码修改成功",
+                        type: "success",
                     });
                 })
                 .catch((err) => {
-                    if(err.response.data.code){
+                    if (err.response.data.code) {
                         this.$message.error(
                             `[${err.response.data.code}]${err.response.data.msg}`
                         );
-                    }else{
+                    } else {
                         this.$message.error("网络请求异常");
                     }
                 });

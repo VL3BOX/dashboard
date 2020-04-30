@@ -6,7 +6,7 @@ import publish from "../views/publish.vue";
 import email from "../views/email.vue";
 import fav from "../views/fav.vue";
 import feed from "../views/feed.vue";
-import link from "../views/link.vue";
+import connect from "../views/connect.vue";
 import msg from "../views/msg.vue";
 import profile from "../views/profile.vue";
 import pwd from "../views/pwd.vue";
@@ -22,7 +22,7 @@ const routes = [
     { path: '/email', component: email },
     { path: '/fav', component: fav },
     { path: '/feed', component: feed },
-    { path: '/link', component: link },
+    { path: '/connect', component: connect },
     { path: '/msg', component: msg },
     { path: '/profile', component: profile },
     { path: '/pwd', component: pwd },

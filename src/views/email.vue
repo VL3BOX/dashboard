@@ -1,24 +1,231 @@
 <template>
     <div class="m-dashboard m-dashboard-email">
-        email
+        <img class="u-pic" svg-inline src="../assets/img/email_done.svg" />
+
+        <!-- 已绑定 -->
+        <div v-if="status == true" class="u-done">
+            <h1 class="u-title">已绑定邮箱</h1>
+            <p class="u-address">{{ address }}</p>
+
+            <el-alert
+                v-if="verified"
+                class="u-tip"
+                title="已验证邮箱"
+                type="success"
+                description="仅绑定邮箱用户支持邮件订阅通知等功能"
+                show-icon
+                :closable="false"
+            >
+            </el-alert>
+
+            <template v-if="!verified">
+                <el-alert
+                    title="未验证邮箱"
+                    class="u-tip"
+                    type="warning"
+                    description="请尽快进行邮箱验证,否则您的账号将面临风险与权限受阻"
+                    show-icon
+                    :closable="false"
+                >
+                </el-alert>
+                <el-button type="primary" class="u-button" @click="verify"
+                    >验证邮箱</el-button
+                >
+            </template>
+        </div>
+
+        <!-- 未绑定 -->
+        <div v-if="status == false" class="u-none">
+            <h1 class="u-title">未绑定邮箱</h1>
+
+            <div class="u-email">
+                <el-input
+                    class="u-text u-email"
+                    v-model="email"
+                    placeholder="邮箱地址"
+                    minlength="3"
+                    maxlength="50"
+                    @change="checkEmail"
+                >
+                    <template slot="prepend">
+                        <img
+                            class="i-mail"
+                            svg-inline
+                            src="../assets/img/mail.svg"
+                        />
+                    </template>
+                </el-input>
+                <div class="u-error">
+                    <el-alert
+                        v-show="email_validate == false"
+                        :title="email_validate_tip"
+                        type="error"
+                        show-icon
+                        :closable="false"
+                    ></el-alert>
+                    <el-alert
+                        v-show="email_available == false"
+                        :title="email_available_tip"
+                        type="error"
+                        show-icon
+                        :closable="false"
+                    ></el-alert>
+                </div>
+                <i v-show="ready" class="el-icon-success el-icons-status"></i>
+            </div>
+
+            <el-alert
+                title="绑定后将不可修改"
+                class="u-tip"
+                type="warning"
+                description="绑定邮箱后将可以使用邮箱进行登录,当第三方登录出现异常时不会受影响"
+                show-icon
+                :closable="false"
+            >
+            </el-alert>
+
+            <el-button
+                type="primary"
+                class="u-button"
+                @click="bind"
+                :disabled="!ready"
+                >绑定邮箱</el-button
+            >
+        </div>
     </div>
 </template>
 
 <script>
-    export default {
-        name : 'email',
-        props:[],
-        data : function(){
-            return {
-                
-            }
+const { validator } = require("sterilizer");
+const { JX3BOX, User } = require("@jx3box/jx3box-common");
+// const API = JX3BOX.__server
+
+// FIXME:test
+const API = "http://localhost:5160/";
+export default {
+    name: "email",
+    props: [],
+    data: function() {
+        return {
+            status: null,
+            uid: User.getInfo().uid,
+            address: "",
+            verified: null,
+
+            email: "",
+            email_validate: null,
+            email_validate_tip: "邮箱格式不正确或长度超出限制",
+            email_available: null,
+            email_available_tip: "邮箱已被使用,请更换",
+        };
+    },
+    computed: {
+        ready: function() {
+            return this.email_validate && this.email_available;
         },
-        computed:{},
-        methods:{},
-        mounted:function(){},
-    }
+    },
+    methods: {
+        verify: function() {
+            this.$axios
+                .get(API + "dashboard/email/verify", {
+                    params: {
+                        uid: this.uid,
+                    },
+                })
+                .then((res) => {
+                    this.$message({
+                        message: "邮件已发送请查收",
+                        type: "success",
+                    });
+                })
+                .catch((err) => {
+                    if (err.response.data.code) {
+                        this.$message.error(
+                            `[${err.response.data.code}]${err.response.data.msg}`
+                        );
+                    } else {
+                        this.$message.error("网络请求异常");
+                    }
+                });
+        },
+        checkEmail: function() {
+            // 如果为空
+            if (this.email == "") {
+                this.email_validate = null;
+                this.email_available = null;
+                return;
+            }
+
+            // 校验格式
+            let result = validator(this.email, {
+                isEmail: true,
+                len: [3, 50],
+            });
+            this.email_validate = result;
+            this.email_available = null;
+            if (!result) return;
+
+            // 邮箱是否可用
+            this.$axios
+                .get(API + "account/has", {
+                    params: {
+                        user_login: this.email,
+                    },
+                })
+                .then((res) => {
+                    this.email_available = res.data ? false : true;
+                })
+                .catch((err) => {
+                    this.$message.error("网络请求异常");
+                });
+        },
+        bind: function() {
+            if (!this.ready) {
+                this.$message.error("邮箱地址不合法");
+                return;
+            }
+
+            this.$axios
+                .post(API + "dashboard/email/bind", {
+                    uid: this.uid,
+                    email: this.email,
+                })
+                .then((res) => {
+                    this.$alert("申请提交成功,请前往邮箱验证", "消息", {
+                        confirmButtonText: "确定",
+                    });
+                })
+                .catch((err) => {
+                    if (err.response.data.code) {
+                        this.$message.error(
+                            `[${err.response.data.code}]${err.response.data.msg}`
+                        );
+                    } else {
+                        this.$message.error("网络请求异常");
+                    }
+                });
+        },
+    },
+    mounted: function() {
+        this.uid = User.getInfo().uid
+        this.$axios
+            .get(API + "dashboard/email/check", {
+                params: {
+                    uid: this.uid,
+                },
+            })
+            .then((res) => {
+                this.status = true;
+                this.address = res.data.data.email;
+                this.verified = parseInt(res.data.data.verified);
+            })
+            .catch((err) => {
+                this.status = false;
+            });
+    },
+};
 </script>
 
 <style lang="less">
-    @import '../assets/css/email.less';
+@import "../assets/css/email.less";
 </style>

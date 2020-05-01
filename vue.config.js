@@ -8,16 +8,16 @@ module.exports = {
     //❤️ Multiple pages ~
     // pages:{
     //     index : {
-    //         title : 'Home - JX3BOX',
-    //         entry:'src/main.js',
+    //         title : '个人中心 - JX3BOX',
+    //         entry:'src/driver/index.js',
     //         template : 'public/index.html',
     //         filename:'index.html',
     //     },
-    //     $project : {
-    //         title : 'Home - JX3BOX',
-    //         entry:'src/core/$project/index.js',
-    //         template : 'public/$project/index.html',
-    //         filename:'$project/index.html',
+    //     publish : {
+    //         title : '发布中心 - JX3BOX',
+    //         entry:'src/driver/publish.js',
+    //         template : 'public/index.html',
+    //         filename:'publish.html',
     //     },
     // },
 
@@ -43,7 +43,7 @@ module.exports = {
 
     chainWebpack: config => {
 
-        //💘 html-webpack-plugin ~
+        // 💘 html-webpack-plugin ~
         // Multiple pages disable the block below
         config.plugin("html").tap(args => {
             args[0].meta = {                            //------设置SEO信息

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@jx3box/jx3box-common": "^1.0.59",
+    "@tinymce/tinymce-vue": "^3.2.1",
     "axios": "^0.19.2",
     "core-js": "^3.4.3",
     "csslab": "^4.0.3",
@@ -18,6 +19,7 @@
     "moment": "^2.24.0",
     "register-service-worker": "^1.6.2",
     "sterilizer": "0.0.4",
+    "tinymce": "^5.2.2",
     "urijs": "^1.19.2",
     "vue": "^2.6.11",
     "vue-router": "^3.1.3",

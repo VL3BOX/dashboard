@@ -26,9 +26,11 @@ export default {
     computed: {},
     methods: {},
     mounted: function () {
-        if(!User.isLogin()){
-            User.destroy()
-            User.toLogin()
+        if(location.hostname != 'localhost'){
+            if(!User.isLogin()){
+                User.destroy()
+                User.toLogin()
+            }
         }
     },
     components: {

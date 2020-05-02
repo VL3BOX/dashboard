@@ -13,13 +13,13 @@ Vue.prototype.JX3BOX = JX3BOX;
 Vue.prototype.$axios = axios;
 Vue.prototype.$axios.defaults.withCredentials = true;
 
-import router from "./router";
+import router from "../router/publish";
 // import store from "./store";
 
-import App from "./App.vue";
+import publish from "./publish.vue";
 
 new Vue({
     router,
     // store,
-    render: (h) => h(App),
+    render: (h) => h(publish),
 }).$mount("#app");

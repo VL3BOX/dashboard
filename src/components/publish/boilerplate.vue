@@ -1,5 +1,5 @@
 <template>
-    <div class="m-publish-box">
+    <div class="m-dashboard-publish-box">
         <!-- 头部 -->
         <pubheader :name="name"><slot name="header"></slot></pubheader>
 
@@ -43,7 +43,7 @@
             <!-- 扩展功能 -->
             <el-divider content-position="left">扩展</el-divider>
             <div class="m-dashboard-publish-extend">
-                <notify :notify_conf="notify_conf"/>
+                <notify :notify_conf="notify_conf" />
                 <slot name="extend"></slot>
             </div>
 
@@ -73,10 +73,18 @@ import action from "./action.vue";
 
 export default {
     name: "boilerplate",
-    props: ["name", "title", "mode", "content","digest","tags","notify_conf"],
+    props: [
+        "name",
+        "title",
+        "mode",
+        "content",
+        "digest",
+        "tags",
+        "notify_conf",
+    ],
     data: function() {
         return {
-            e_mode : this.mode
+            e_mode: this.mode,
         };
     },
     computed: {},
@@ -92,7 +100,26 @@ export default {
         excerpt,
         notify,
         banner,
-        action
+        action,
     },
 };
 </script>
+
+<style lang="less">
+.m-dashboard-publish-box {
+    .el-divider__text {
+        color: #888;
+        font-weight: 300;
+    }
+}
+.m-dashboard-publish-prepend {
+    .u-editor-mode {
+        .mb(10px);
+        .fr;
+    }
+    .u-editor-upload {
+        // .fl;
+    }
+    .clearfix;
+}
+</style>

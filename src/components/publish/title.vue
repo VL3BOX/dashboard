@@ -6,6 +6,8 @@
             maxlength="30"
             minlength="2"
             show-word-limit
+            required
+            placeholder="请填写标题"
         ></el-input>
         <slot></slot>
     </div>

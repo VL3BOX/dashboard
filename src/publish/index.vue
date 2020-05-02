@@ -5,7 +5,7 @@
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/jx3dat"
+                        ><router-link to="/jx3dat"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/jx3dat.svg"
@@ -15,7 +15,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/bps"
+                        ><router-link to="/bps"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/bps.svg"
@@ -29,7 +29,7 @@
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/macro"
+                        ><router-link to="/macro"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/macro.svg"
@@ -39,7 +39,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/fb"
+                        ><router-link to="/fb"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/fb.svg"
@@ -53,7 +53,7 @@
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/cj"
+                        ><router-link to="/cj"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/cj.svg"
@@ -63,7 +63,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/share"
+                        ><router-link to="/share"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/share.svg"
@@ -73,7 +73,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/house"
+                        ><router-link to="/house"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/house.svg"
@@ -83,7 +83,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/emotion"
+                        ><router-link to="/emotion"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/house.svg"
@@ -93,7 +93,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/fb"
+                        ><router-link to="/fb"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/fb.svg"
@@ -107,7 +107,7 @@
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/wiki"
+                        ><router-link to="/wiki"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/house.svg"
@@ -117,7 +117,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/tool"
+                        ><router-link to="/tool"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/tool.svg"
@@ -127,7 +127,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/tool"
+                        ><router-link to="/tool"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/tool.svg"
@@ -137,7 +137,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/publish/bbs"
+                        ><router-link to="/bbs"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/post.svg"
@@ -152,7 +152,7 @@
 
 <script>
 export default {
-    name: "pt",
+    name: "index",
     props: [],
     data: function() {
         return {};

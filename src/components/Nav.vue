@@ -1,7 +1,7 @@
 <template>
     <nav class="m-nav">
-        <router-link class="m-nav-publish el-button el-button--primary" to="/publish/index"><i class="el-icon-edit"></i><span>发布</span></router-link>
-        <router-link class="m-nav-bucket el-button el-button--primary is-plain"  to="/bucket"><img class="u-bucket" svg-inline src="../assets/img/bucket.svg" /> <span>仓库</span></router-link>
+        <a class="m-nav-publish el-button el-button--primary" href="./publish"><i class="el-icon-edit"></i><span>发布</span></a>
+        <a class="m-nav-bucket el-button el-button--primary is-plain"  href="./bucket"><img class="u-bucket" svg-inline src="../assets/img/bucket.svg" /> <span>仓库</span></a>
 
         <h5 class="u-title">写作台</h5>
         <div class="m-nav-group">
@@ -9,6 +9,7 @@
             <router-link to="/msg"><img svg-inline src="../assets/img/msg.svg" /><span>我的消息</span></router-link>
             <router-link to="/feed"><img svg-inline src="../assets/img/feed.svg" /><span>我的订阅</span></router-link>
             <router-link to="/fav"><img class="u-fav" svg-inline src="../assets/img/fav.svg" /><span>我的收藏</span></router-link>
+            <router-link to="/setting"><img class="u-setting" svg-inline src="../assets/img/setting.svg" /><span>隐私通知</span></router-link>
         </div>
 
         <h5 class="u-title">账号设置</h5>
@@ -27,7 +28,6 @@
 <script>
 export default {
     name: "Nav",
-    props : ['MODE'],
     data: function() {
         return {
             feedback : this.JX3BOX.feedback
@@ -40,83 +40,5 @@ export default {
 </script>
 
 <style lang="less">
-.c-sidebar-left {
-    padding: 0;
-}
-.m-nav-publish{
-    margin:10px;
-    .db;
-    box-sizing: border-box;
-}
-.m-nav-bucket{
-    .db;
-    box-sizing: border-box;
-    margin:10px;
-    .u-bucket{
-        fill:@color-link;
-        .y(-3px);
-    }
-
-    background-color: #fff !important;
-    border-color:@color-link !important;
-    color:@color-link;
-    &:hover,&:focus{
-        color:#f39 !important;
-        border-color:#f39 !important;
-        .u-bucket{
-            fill:#f39;
-        }
-    }
-}
-.m-nav {
-    .u-title {
-        padding: 10px;
-        border-bottom: 1px solid #eee;
-        margin:0;
-    }
-}
-.m-nav-group {
-    margin-top:5px;
-    margin-bottom:10px;
-    a {
-        .db;
-        // border-bottom: 1px solid #eee;
-        .fz(14px, 32px);
-        padding: 5px 25px;
-        color: #555;
-        svg{
-            .y(-3px);
-            .mr(5px);
-            fill:#555;
-            .size(16px);
-        }
-
-        .u-fav,.u-pass,.u-user,.u-avatar{
-            .size(14px);
-            .y(-2px);
-        }
-        .u-blank{
-            .mt(7px);
-            .fr;
-        }
-
-        &:hover {
-            // background-color: #fff;
-            color:@color-link;
-            svg{fill:@color-link;}
-        }
-
-        border-top:1px solid transparent;
-        border-bottom:1px solid transparent;
-        &.router-link-active {
-            background-color: #fff;
-            color:@color-link;
-            svg{fill:@color-link;}
-            .bold;
-            border-top:1px solid #eee;
-            border-bottom:1px solid #eee;
-        }
-    }
-}
-
+    @import '../assets/css/components/nav.less';
 </style>

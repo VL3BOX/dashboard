@@ -5,9 +5,9 @@
             <Info />
         </Breadcrumb>
         <LeftSidebar>
-            <Nav />
+            <Nav_link />
         </LeftSidebar>
-        <Main>
+        <Main class="m-dashboard-publish">
             <router-view />
         </Main>
     </div>
@@ -15,10 +15,10 @@
 
 <script>
 import Info from "@/components/Info.vue";
-import Nav from "@/components/Nav.vue";
+import Nav_link from "@/components/Nav_link.vue";
 const { User } = require("@jx3box/jx3box-common");
 export default {
-    name: "App",
+    name: "publish",
     props: [],
     data: function () {
         return {};
@@ -35,13 +35,8 @@ export default {
     },
     components: {
         Info,
-        Nav,
+        Nav_link
     },
 };
 </script>
 
-<style lang="less">
-.c-main {
-    margin-right: 0 !important;
-}
-</style>

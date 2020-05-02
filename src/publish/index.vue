@@ -1,8 +1,19 @@
 <template>
     <div class="m-dashboard-publish-index">
         <div class="u-nav">
+            
             <el-divider content-position="left">PVE / PVP</el-divider>
             <el-row :gutter="20">
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link to="/macro"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/macro.svg"
+                            /><span>剑三宏</span></router-link
+                        ></el-card
+                    ></el-col
+                >
                 <el-col :span="4"
                     ><el-card
                         ><router-link to="/jx3dat"
@@ -10,6 +21,16 @@
                                 svg-inline
                                 src="../assets/img/channel/jx3dat.svg"
                             /><span>插件数据</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link to="/fb"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/fb.svg"
+                            /><span>副本攻略</span></router-link
                         ></el-card
                     ></el-col
                 >
@@ -25,25 +46,25 @@
                 >
             </el-row>
 
-            <el-divider content-position="left">PVE</el-divider>
+            <el-divider content-position="left">PVE / PVP / PVX</el-divider>
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/macro"
+                        ><router-link to="/tool"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/macro.svg"
-                            /><span>剑三宏</span></router-link
+                                src="../assets/img/channel/bps.svg"
+                            /><span>干货教程</span></router-link
                         ></el-card
                     ></el-col
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/fb"
+                        ><router-link to="/tool"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/fb.svg"
-                            /><span>副本攻略</span></router-link
+                                src="../assets/img/channel/tool.svg"
+                            /><span>工具资源</span></router-link
                         ></el-card
                     ></el-col
                 >
@@ -86,18 +107,8 @@
                         ><router-link to="/emotion"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/house.svg"
+                                src="../assets/img/channel/emotion.svg"
                             /><span>沙雕表情</span></router-link
-                        ></el-card
-                    ></el-col
-                >
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link to="/fb"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/fb.svg"
-                            /><span>回忆录</span></router-link
                         ></el-card
                     ></el-col
                 >
@@ -110,28 +121,18 @@
                         ><router-link to="/wiki"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/house.svg"
+                                src="../assets/img/channel/wiki.svg"
                             /><span>百科词条</span></router-link
                         ></el-card
                     ></el-col
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/tool"
+                        ><router-link to="/fb"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/tool.svg"
-                            /><span>工具资源</span></router-link
-                        ></el-card
-                    ></el-col
-                >
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link to="/tool"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/tool.svg"
-                            /><span>干货教程</span></router-link
+                                src="../assets/img/channel/fb.svg"
+                            /><span>回忆录</span></router-link
                         ></el-card
                     ></el-col
                 >

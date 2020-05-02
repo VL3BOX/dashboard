@@ -54,6 +54,7 @@ export default {
                 // UI
                 menubar: false,
                 branding: false,
+                contextmenu: "",
                 plugins: [
                     "link anchor autolink",
                     "hr lists advlist codesample",

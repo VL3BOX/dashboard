@@ -47,8 +47,8 @@ export default {
                 message: "上传成功",
                 type: "success",
             });
-            this.avatar = Utils.showAvatar(res.data.path, "l");
-            this.path = res.data.path;
+            this.avatar = Utils.showAvatar(res.data.list[0], "l");
+            this.path = res.data.list[0];
         },
         fail: function(err) {
             this.$message.error("上传失败,网络异常或非法请求");

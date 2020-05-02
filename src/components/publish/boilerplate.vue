@@ -21,7 +21,7 @@
                     <el-radio-button label="markdown"></el-radio-button>
                 </el-radio-group>
 
-                <upload class="u-editor-upload" />
+                <upload class="u-editor-upload" :mode="e_mode"/>
 
                 <slot name="prepend"></slot>
             </div>
@@ -116,9 +116,6 @@ export default {
     .u-editor-mode {
         .mb(10px);
         .fr;
-    }
-    .u-editor-upload {
-        // .fl;
     }
     .clearfix;
 }

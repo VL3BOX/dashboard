@@ -1,4 +1,6 @@
 .m-dashboard-publish-index{
+
+    padding:5px 20px;
     
     .u-nav{
         .x;
@@ -6,9 +8,10 @@
             .size(40px);
             .db;.auto(x);
             fill:@color;
+            .mb(10px);
         }
         span{
-            .fz(24px,2);
+            .fz(18px,2);
             .db;
             font-weight:300;
             color:@color;
@@ -33,6 +36,45 @@
         padding:0;
     }
     .el-col{
-        .mb(20px);
+        .mb(10px);
+    }
+}
+
+@media screen and (max-width:@mininote){
+    .m-dashboard-publish-index{
+        .el-col{
+            .w(20%);
+        }
+    }
+}
+
+@media screen and (max-width:@ipad-y){
+    .m-dashboard-publish-index{
+        .el-col{
+            .w(25%);
+        }
+    }
+}
+
+@media screen and (max-width:@phone){
+    .m-dashboard-publish-index{
+        .el-col{
+            .w(33.3333%);
+        }
+        .u-nav {
+            svg{
+            .size(28px);
+            }
+            span{
+                .fz(1em);
+            }
+        }
+    }
+}
+@media screen and (max-width:@ip5){
+    .m-dashboard-publish-index{
+        .el-col{
+            .w(50%);
+        }
     }
 }

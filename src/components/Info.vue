@@ -11,7 +11,7 @@
         </router-link>
         <div class="u-stat"></div>
         <div class="u-home">
-            <a class="el-button el-button--primary is-plain" :href="home"
+            <a class="el-button el-button--default is-plain" :href="home"
                 ><img
                     class="u-home-icon"
                     svg-inline
@@ -68,7 +68,7 @@ export default {
 
             &:hover {
                 .u-home-icon {
-                    fill: #fff;
+                    fill: @primary;
                 }
             }
         }
@@ -76,7 +76,7 @@ export default {
             .size(14px);
             .y(-2px);
             .mr(5px);
-            fill: @primary;
+            fill: #666;
         }
     }
 }

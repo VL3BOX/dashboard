@@ -1,41 +1,32 @@
 <template>
     <div class="c-editor-tinymce">
-        <editor id="tinymce" v-model="data" :init="init" class="c-tinymce" />
+        <editor
+            id="tinymce"
+            v-model="data"
+            :init="init"
+            class="c-tinymce"
+            placeholder="✔ 图片可直接拖拽至编辑器内自动上传 ✔ 支持word/excel一键粘贴"
+        />
         <el-alert class="u-tutorial" type="warning" show-icon
-            >进入特殊区域（代码块，折叠块等等）脱离时，请使用键盘方向键，回车只是正常在区块内换行。更多帮助请参阅<a href="https://www.jx3box.com/help/219/" target="_blank">【帮助手册/编辑器】</a>
-            <!-- TODO:修改链接 -->
+            >进入特殊区域（代码块，折叠块等等）脱离时，请使用键盘方向键，回车只是正常在区块内换行。更多帮助请参阅<a
+                href="https://www.jx3box.com/help/219/"
+                target="_blank"
+                >【帮助手册/编辑器】</a
+            >
         </el-alert>
     </div>
 </template>
 
 <script>
-// import tinymce from "tinymce";
 import Editor from "@tinymce/tinymce-vue";
-// import "tinymce/themes/silver/theme";
-
-// import "tinymce/plugins/image";
-// import "tinymce/plugins/link";
-// import "tinymce/plugins/code";
-// import "tinymce/plugins/table";
-// import "tinymce/plugins/lists";
-// import "tinymce/plugins/wordcount";
-// import "tinymce/plugins/anchor";
-// import "tinymce/plugins/autolink";
-// import "tinymce/plugins/hr";
-// import "tinymce/plugins/advlist";
-// import "tinymce/plugins/codesample";
-// import "tinymce/plugins/emoticons";
-// import "tinymce/plugins/autosave";
-// import "tinymce/plugins/fullscreen";
-// import "tinymce/plugins/pagebreak";
-// import "../plugins/axupimgs/plugin";
+// const API = JX3BOX.__server + "publish/upload/tinymce"
+const API = "http://localhost:5160/" + "publish/upload/tinymce";
 
 export default {
     name: "tinymce",
     props: ["content"],
     data: function() {
         return {
-            baseUrl: "/",
             data: this.content,
             init: {
                 // 选择器
@@ -43,31 +34,36 @@ export default {
 
                 // 语言
                 language: "zh_CN",
-                language_url: `./tinymce/langs/zh_CN.js`,
 
                 // 样式
-                // skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide`,
-                content_css: `./tinymce/skins/content/default/content.css`, //FIXME:编辑前后内容样式
+                content_css: `./tinymce/skins/content/default/content.min.css`, //TODO:编辑前后内容样式
                 body_class: "c-editor-tinymce-body",
                 height: 800,
 
                 // UI
+                icons: "custom",
                 menubar: false,
                 branding: false,
                 contextmenu: "",
                 plugins: [
                     "link anchor autolink",
-                    "hr lists advlist codesample",
-                    "table image",
-                    "autosave code fullscreen wordcount pagebreak",
+                    "hr lists advlist table codesample checklist foldtext ",
+                    "image emoticons media videox",
+                    "autosave code fullscreen wordcount pagebreak powerpaste template",
                 ],
                 toolbar: [
                     "undo | formatselect | fontsizeselect | forecolor backcolor | bold italic underline strikethrough superscript subscript | link unlink anchor | restoredraft code fullscreen",
-                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist table blockquote codesample | image | pagebreak",
+                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codesample | emoticons image media videox template pagebreak ",
                 ],
                 mobile: {
-                    plugins: ["autosave", "lists", "autolink", "pagebreak"],
-                    toolbar: ["bold forecolor backcolor pagebreak undo redo"],
+                    toolbar_drawer: true,
+                    plugins: [
+                        "hr lists advlist table emoticons autosave autolink pagebreak fullscreen",
+                    ],
+                    toolbar: [
+                        "undo bold emoticons forecolor backcolor pagebreak restoredraft fullscreen",
+                        "hr alignleft aligncenter alignright alignjustify indent outdent bullist numlist table blockquote",
+                    ],
                 },
                 block_formats:
                     "段落=p;一级标题=h1;二级标题=h2;三级标题=h3;四级标题=h4;五级标题=h5;六级标题=h6;",
@@ -124,14 +120,33 @@ export default {
                     "黑色",
                 ],
 
-                setup: function(editor) {
-                    console.log("ID为: " + editor.id + " 的编辑器即将初始化.");
-                },
-                init_instance_callback: function(editor) {
-                    console.log(
-                        "ID为: " + editor.id + " 的编辑器已初始化完成."
-                    );
-                },
+                // Image
+                image_advtab: true,
+                // paste_data_images: true,
+                file_picker_types: "file image",
+                images_upload_url: API,
+                automatic_uploads: true,
+                images_upload_credentials: true,
+
+                // Hook
+                setup: this.setup,
+                init_instance_callback: this.ready,
+
+                // Template
+                templates: [
+                    {
+                        title: "剑三宏",
+                        description: "",
+                        content: `
+                            <pre class="e-jx3macro-area w-jx3macro">/cast 自绝经脉</pre>
+                        `,
+                    },
+                    // {
+                    //     title: "奇穴方案",
+                    //     description: "",
+                    //     url: "My content",
+                    // },
+                ],
             },
         };
     },
@@ -144,7 +159,14 @@ export default {
         },
     },
     computed: {},
-    methods: {},
+    methods: {
+        setup: function(editor) {
+            console.log("ID为: " + editor.id + " 的编辑器即将初始化.");
+        },
+        ready: function(editor) {
+            console.log("ID为: " + editor.id + " 的编辑器已初始化完成.");
+        },
+    },
     mounted: function() {},
     components: {
         Editor,
@@ -154,26 +176,25 @@ export default {
 
 <style lang="less">
 .c-editor-tinymce {
-
-    .tox .tox-tbtn {
-        cursor: pointer;
-    }
-
+    // .pr;
+    // .u-tip{
+    //     .pa;.lt(0,160px);
+    // }
     .u-tutorial {
         .mt(10px);
         .fz(13px);
-        padding:5px;
-        .el-alert__description{
+        padding: 5px;
+        .el-alert__description {
             .mt(0);
         }
-        .el-alert__icon.is-big{
+        .el-alert__icon.is-big {
             .fz(18px);
         }
-        .el-alert__content{
-            padding-left:0;
+        .el-alert__content {
+            padding-left: 0;
         }
-        .el-alert__closebtn{
-            top:9px;
+        .el-alert__closebtn {
+            top: 9px;
         }
     }
 }

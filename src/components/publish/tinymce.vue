@@ -19,6 +19,7 @@
 
 <script>
 import Editor from "@tinymce/tinymce-vue";
+const {JX3BOX} = require('@jx3box/jx3box-common');
 const API = JX3BOX.__server + "publish/upload/tinymce"
 // const API = "http://localhost:5160/" + "publish/upload/tinymce";
 
@@ -176,10 +177,6 @@ export default {
 
 <style lang="less">
 .c-editor-tinymce {
-    // .pr;
-    // .u-tip{
-    //     .pa;.lt(0,160px);
-    // }
     .u-tutorial {
         .mt(10px);
         .fz(13px);
@@ -195,6 +192,14 @@ export default {
         }
         .el-alert__closebtn {
             top: 9px;
+        }
+    }
+}
+
+@media screen and (max-width:@phone){
+    .c-editor-tinymce{
+        .u-tutorial{
+            .none;
         }
     }
 }

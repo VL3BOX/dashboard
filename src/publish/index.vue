@@ -1,10 +1,10 @@
 <template>
-    <div class="m-dashboard-publish-index">
+    <div class="m-publish-index">
         <div class="u-nav">
             
             <el-divider content-position="left">PVE / PVP</el-divider>
             <el-row :gutter="20">
-                <el-col :span="4"
+                <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/macro"
                             ><img
@@ -13,8 +13,8 @@
                             /><span>剑三宏</span></router-link
                         ></el-card
                     ></el-col
-                >
-                <el-col :span="4"
+                > -->
+                <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/jx3dat"
                             ><img
@@ -23,7 +23,7 @@
                             /><span>插件数据</span></router-link
                         ></el-card
                     ></el-col
-                >
+                > -->
                 <el-col :span="4"
                     ><el-card
                         ><router-link to="/fb"
@@ -34,7 +34,7 @@
                         ></el-card
                     ></el-col
                 >
-                <el-col :span="4"
+                <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/bps"
                             ><img
@@ -43,10 +43,10 @@
                             /><span>职业攻略</span></router-link
                         ></el-card
                     ></el-col
-                >
+                > -->
             </el-row>
 
-            <el-divider content-position="left">PVE / PVP / PVX</el-divider>
+            <!-- <el-divider content-position="left">PVE / PVP / PVX</el-divider>
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
@@ -78,7 +78,7 @@
                         ></el-card
                     ></el-col
                 >
-            </el-row>
+            </el-row> -->
 
             <el-divider content-position="left">PVX</el-divider>
             <el-row :gutter="20">
@@ -92,7 +92,7 @@
                         ></el-card
                     ></el-col
                 >
-                <el-col :span="4"
+                <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/share"
                             ><img
@@ -101,8 +101,8 @@
                             /><span>捏脸分享</span></router-link
                         ></el-card
                     ></el-col
-                >
-                <el-col :span="4"
+                > -->
+                <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/house"
                             ><img
@@ -111,8 +111,8 @@
                             /><span>家园蓝图</span></router-link
                         ></el-card
                     ></el-col
-                >
-                <el-col :span="4"
+                > -->
+                <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/emotion"
                             ><img
@@ -121,10 +121,10 @@
                             /><span>沙雕表情</span></router-link
                         ></el-card
                     ></el-col
-                >
+                > -->
             </el-row>
 
-            <el-divider content-position="left">PVN</el-divider>
+            <!-- <el-divider content-position="left">PVN</el-divider>
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
@@ -146,7 +146,7 @@
                         ></el-card
                     ></el-col
                 >
-            </el-row>
+            </el-row> -->
         </div>
     </div>
 </template>

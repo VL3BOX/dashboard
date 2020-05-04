@@ -7,7 +7,7 @@
         >
 
         <!-- 弹出界面 -->
-        <el-dialog title="上传" :visible.sync="dialogVisible">
+        <el-dialog class="c-large-dialog" title="上传" :visible.sync="dialogVisible">
 
             <!-- 清空按钮 -->
             <el-button
@@ -95,12 +95,11 @@
 const allow_types = require("@jx3box/jx3box-common/data/upload_setting");
 const { JX3BOX } = require("@jx3box/jx3box-common");
 const imgtypes = ["jpg", "png", "gif", "bmp"];
-// const API = JX3BOX.__server + "publish/upload"
+// const API = JX3BOX.__server + "publish/upload"   //TODO:
 const API = "http://localhost:5160/" + "publish/upload";
 
 export default {
     name: "upload",
-    props: ["mode"],
     data: function() {
         return {
 
@@ -196,9 +195,14 @@ export default {
             }
         },
         insert: function() {
+
             this.dialogVisible = false;
 
-            if (this.mode == "tinymce") {
+            //为空不执行插入
+            if(!this.insertList) return
+            
+
+            if (this.$store.state.mode == "tinymce") {
                 tinyMCE.editors["tinymce"].insertContent(this.insertList);
             } else {
                 // TODO:markdown
@@ -229,6 +233,8 @@ export default {
 </script>
 
 <style lang="less">
+@import '../../assets/css/components/large-dialog.less';
+
 .c-upload {
     .u-upload-clear {
         .pa;
@@ -309,33 +315,6 @@ export default {
         }
     }
 
-    .el-dialog__footer {
-    }
 }
 
-// 适配
-.c-upload .el-dialog {
-    .w(60%);
-    height: 70%;
-    .el-dialog__body {
-        height: calc(100% - 54px - 70px);
-        overflow-y: auto;
-        box-sizing: border-box;
-    }
-}
-@media screen and (max-width: @notebook) {
-    .c-upload {
-        .el-dialog {
-            .w(90%);
-        }
-    }
-}
-@media screen and (max-width: @ipad-y) {
-    .c-upload .el-dialog {
-        margin: 0 !important;
-        .size(100%);
-        max-height: none;
-        .h(100%);
-    }
-}
 </style>

@@ -8,19 +8,26 @@
             show-word-limit
             required
             placeholder="请填写标题"
+            @change="done"
         ></el-input>
         <slot></slot>
     </div>
 </template>
 <script>
 export default {
-    name: "Title",
-    props: ["title"],
+    name: "post_title",
+    props:['title'],
     data: function() {
-        return {};
+        return {
+            post_title : this.title
+        };
     },
     computed: {},
-    methods: {},
+    methods: {
+        done : function (){
+            this.$store.commit('editTitle',this.post_title)
+        }
+    },
     mounted: function() {},
     components: {},
 };

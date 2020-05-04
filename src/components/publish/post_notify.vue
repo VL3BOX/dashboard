@@ -1,33 +1,35 @@
 <template>
-    <div class="m-dashboard-publish-notify">
+    <div class="m-publish-notify">
         <el-switch
-            v-model="notify_conf.feedEnable"
+            v-model="notify.feedEnable"
             active-color="#0366d6"
             inactive-color="#999"
-            active-text="通知订阅用户"
+            active-text="通知作品订阅用户"
+            disabled
         >
         </el-switch>
         <el-switch
-            v-model="notify_conf.followEnable"
+            v-model="notify.followEnable"
             active-color="#0366d6"
             inactive-color="#999"
             active-text="通知粉丝"
+            disabled
         >
         </el-switch>
         <el-switch
-            v-model="notify_conf.weiboEnable"
+            v-model="notify.weiboEnable"
             active-color="#0366d6"
             inactive-color="#999"
-            disabled
             active-text="同步至微博文章"
+            disabled
         >
         </el-switch>
         <el-switch
-            v-model="notify_conf.tuilanEnable"
+            v-model="notify.tuilanEnable"
             active-color="#0366d6"
             inactive-color="#999"
-            disabled
             active-text="同步至推栏"
+            disabled
         >
         </el-switch>
     </div>
@@ -35,11 +37,11 @@
 
 <script>
 export default {
-    name: "notify",
-    props: ['notify_conf'],
+    name: "post_notify",
+    props: ['notify'],
     data: function() {
         return {
-            
+            post_notify : this.notify
         };
     },
     computed: {},
@@ -50,9 +52,18 @@ export default {
 </script>
 
 <style lang="less">
-.m-dashboard-publish-notify {
+.m-publish-notify {
     .el-switch {
         .mr(40px);
+    }
+}
+@media screen and (max-width:@phone){
+    .m-publish-notify{
+        div{
+            .mb(10px);
+            .db;
+            .mr(0) !important;
+        }
     }
 }
 </style>

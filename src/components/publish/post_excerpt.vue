@@ -1,10 +1,11 @@
 <template>
-    <div class="m-dashboard-publish-excerpt">
+    <div class="m-publish-excerpt">
         <el-input
             type="textarea"
             :rows="2"
             placeholder="摘要信息"
-            v-model="textarea"
+            v-model="post_excerpt"
+            @change="done"
         >
         </el-input>
     </div>
@@ -12,15 +13,19 @@
 
 <script>
     export default {
-        name : 'excerpt',
-        props:['digest'],
+        name : 'post_excerpt',
+        props:['excerpt'],
         data : function(){
             return {
-                textarea : ''
+                post_excerpt : this.excerpt
             }
         },
         computed:{},
-        methods:{},
+        methods:{
+            done : function (){
+                this.$store.commit('editExcerpt',this.post_excerpt)
+            }
+        },
         mounted:function(){},
         components : {
         }
@@ -28,7 +33,7 @@
 </script>
 
 <style lang="less">
-    .m-dashboard-publish-excerpt{
+    .m-publish-excerpt{
         .mt(10px);
 
         textarea{

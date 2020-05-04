@@ -1,5 +1,5 @@
 <template>
-    <div class="m-dashboard-publish-tag">
+    <div class="m-publish-tag">
         <el-tag
             :key="tag"
             v-for="tag in dynamicTags"
@@ -27,8 +27,9 @@
 </template>
 
 <script>
+// TODO:接口数据表都没写，先不要用
 export default {
-    name: "pubtag",
+    name: "post_tag",
     props: ['tags'],
     data: function() {
         return {

@@ -2,18 +2,29 @@
     <div class="m-publish-fb">
         <!-- 💛 预设选项 -->
         <boilerplate
+
             :name="name"
             :localDraft="true"
             labelPostion="left"
+            :title="post.title"
+
             mode="tinymce"
+            :content="post.content"
+
+            :excerptEnable="true"
+            :excerpt="post.excerpt"
+
             :tagEnable="false"
+            :tags="post.tags"
+
+            :notifyEnable="true"
             :notify="notify"
 
-            :title="post.title"
-            :content="post.content"
-            :excerpt="post.excerpt"
-            :tags="post.tags"
+            :bannerEnable="true"
             :banner="post.banner"
+
+            @publish="toPublish"
+            @draft="toDraft"
         >
 
         <!-- 💛 栏目字段 -->
@@ -78,6 +89,7 @@
             </el-form-item>
 
         </boilerplate>
+
     </div>
 </template>
 
@@ -122,7 +134,7 @@ export default {
                 banner : ''
             },
 
-            //!接口都没写,一个都别启用,有些栏目默认就不太合适默认启用
+            //TODO:接口都没写,一个都别启用,有些栏目默认就不太合适默认启用
             notify : {
                 feedEnable: false,
                 followEnable: false,
@@ -132,8 +144,26 @@ export default {
         };
     },
     computed: {},
+    watch : {
+        info : function (val){
+            this.$store.commit('editInfo',val)
+        }
+    },
     methods: {
-        // 切换展示相关方法
+        // 加载原始内容,接口需要进行鉴权
+        loadOrigin:function (){
+            // this.$axios.get(...)
+        },
+
+        // 发布逻辑,拿store内容提交至对应接口
+        toPublish:function (){
+            console.log(this.$store.state)
+        },
+        toDraft : function (){
+            console.log(this.$store.state)
+        },
+
+        // 本地相关方法
         selectLevel1: function(i) {
             this.options.level1 = i;
         },
@@ -167,7 +197,10 @@ export default {
         this.loadLevel1List();
         this.loadBossList();
 
-        // 初始化文章数据
+        // 初始化文章数据,如果是编辑模式,则应加载对应内容
+        if(location.search.indexOf('edit') >= 0){
+            this.loadOrigin()
+        }
     },
     filters: {
         thumbnail: function(url) {

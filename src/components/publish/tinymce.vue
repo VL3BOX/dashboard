@@ -134,6 +134,7 @@ export default {
                 init_instance_callback: this.ready,
 
                 // Template
+                // TODO:量太大，容我缓缓
                 templates: [
                     {
                         title: "剑三宏",
@@ -152,11 +153,8 @@ export default {
         };
     },
     watch: {
-        tinymceHtml(newValue) {
-            this.data = newV;
-        },
-        data(newValue) {
-            this.$emit("input", newValue);
+        data(val) {
+            this.$store.commit('editContent',val)
         },
     },
     computed: {},

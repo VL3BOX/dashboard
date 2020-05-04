@@ -33,7 +33,7 @@
             </div>
 
             <!-- 正文之后 -->
-            <el-divider content-position="left">附加</el-divider>
+            <el-divider content-position="left" v-if="excerptEnable">附加</el-divider>
             <div class="m-publish-append">
                 <post_tag :tags="tags" v-if="tagEnable"></post_tag>
                 <post_excerpt :excerpt="excerpt"></post_excerpt>
@@ -41,24 +41,23 @@
             </div>
 
             <!-- 扩展功能 -->
-            <el-divider content-position="left">扩展</el-divider>
+            <el-divider content-position="left" v-if="notifyEnable">扩展</el-divider>
             <div class="m-publish-extend">
                 <post_notify :notify="notify" />
                 <slot name="extend"></slot>
             </div>
 
             <!-- 管理功能 -->
-            <div class="m-publish-admin" v-if="isAdmin">
+            <div class="m-publish-admin" v-if="isAdmin && bannerEnable">
                 <el-divider content-position="left">管理</el-divider>
                 <post_banner :banner="banner" />
             </div>
 
             <!-- 按钮 -->
             <div class="m-publish-buttons">
-                <el-button type="primary" @click="publishPost">发 &nbsp;&nbsp; 布</el-button>
-                <el-button type="plain" @click="saveDraft">保存为草稿</el-button>
+                <el-button type="primary" @click="publish">发 &nbsp;&nbsp; 布</el-button>
+                <el-button type="plain" @click="draft">保存为草稿</el-button>
             </div>
-            <action />
         </el-form>
     </div>
 </template>
@@ -81,14 +80,21 @@ export default {
         "name",
         "localDraft",
         "labelPostion",
+        "title",
+
         "mode",
+        "content",
+
+        "excerptEnable",
+        "excerpt",
+
         "tagEnable",
+        "tags",
+
+        "notifyEnable",
         "notify",
         
-        "title",
-        "content",
-        "excerpt",
-        "tags",
+        "bannerEnable",
         "banner"
     ],
     data: function() {
@@ -104,11 +110,11 @@ export default {
     },
     computed: {},
     methods: {
-        publishPost : function (){
-            this.$store.commit('publishPost')
+        publish : function (){
+            this.$emit('publish')
         },
-        saveDraft : function (){
-            this.$store.commit('saveDraft')
+        draft : function (){
+            this.$emit('draft')
         }
     },
     mounted: function() {},

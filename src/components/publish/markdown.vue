@@ -10,8 +10,13 @@ export default {
     props:['content'],
     data : function(){
         return {
-            
+            data : this.content
         }
+    },
+    watch: {
+        data(val) {
+            this.$store.commit('editContent',val)
+        },
     },
     computed:{},
     methods:{},

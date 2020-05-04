@@ -2,7 +2,7 @@
     <div class="m-publish-title">
         <el-divider content-position="left">标题</el-divider>
         <el-input
-            v-model="title"
+            v-model="post_title"
             maxlength="30"
             minlength="2"
             show-word-limit

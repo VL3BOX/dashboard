@@ -9,16 +9,30 @@ let default_state = {
     excerpt: "",
     banner: "",
     tags: [],
+    info : {},
+    notify: {
+        feedEnable: false,
+        followEnable: false,
+        weiboEnable: false,
+        tuilanEnable: false,
+    },
 };
 
 let store = {
     state: {
         mode: "tinymce",
         title: "",
+        info : {},
         content: "",
         excerpt: "",
         banner: "",
         tags: [],
+        notify: {
+            feedEnable: false,
+            followEnable: false,
+            weiboEnable: false,
+            tuilanEnable: false,
+        },
     },
     mutations: {
         changeMode: function(state, payload) {
@@ -27,7 +41,10 @@ let store = {
         editTitle: function(state, payload) {
             state.title = payload;
         },
-        editContent : function (state, payload){
+        editInfo: function(state, payload) {
+            state.info = payload;
+        },
+        editContent: function(state, payload) {
             state.content = payload;
         },
         editExcerpt: function(state, payload) {

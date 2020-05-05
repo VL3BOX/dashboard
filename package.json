@@ -8,7 +8,8 @@
     "inspect": "vue inspect > output.js"
   },
   "dependencies": {
-    "@jx3box/jx3box-common": "^1.0.67",
+    "@jx3box/jx3box-common": "^1.1.2",
+    "@jx3box/jx3box-common-ui": "0.0.4",
     "@tinymce/tinymce-vue": "^3.2.1",
     "axios": "^0.19.2",
     "core-js": "^3.4.3",
@@ -16,7 +17,6 @@
     "element-ui": "^2.13.0",
     "localforage": "^1.7.3",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
     "register-service-worker": "^1.6.2",
     "sterilizer": "0.0.4",
     "tinymce": "^5.2.2",

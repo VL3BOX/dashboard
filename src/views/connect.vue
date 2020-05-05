@@ -1,7 +1,7 @@
 <template>
     <div class="m-dashboard m-dashboard-connect">
         <el-card class="box-card">
-            <img class="u-github" svg-inline src="../assets/img/github.svg" />
+            <img class="u-github" svg-inline src="../assets/img/connect/github.svg" />
             <p class="u-status">{{ github_status ? github : "未绑定" }}</p>
             <el-button
                 class="u-button"
@@ -12,7 +12,7 @@
         </el-card>
 
         <el-card class="box-card">
-            <img class="u-qq" svg-inline src="../assets/img/qq.svg" />
+            <img class="u-qq" svg-inline src="../assets/img/connect/qq.svg" />
             <p class="u-status">{{ qq_status ? qq : "未绑定" }}</p>
             <el-button
                 class="u-button"
@@ -23,7 +23,7 @@
         </el-card>
 
         <el-card class="box-card">
-            <img class="u-weibo" svg-inline src="../assets/img/weibo.svg" />
+            <img class="u-weibo" svg-inline src="../assets/img/connect/weibo.svg" />
             <p class="u-status">{{ weibo_status ? weibo : "未绑定" }}</p>
             <el-button
                 class="u-button"

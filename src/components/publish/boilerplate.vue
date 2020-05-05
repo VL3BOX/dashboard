@@ -18,7 +18,7 @@
             <div class="m-publish-prepend">
                 <el-radio-group v-model="e_mode" class="u-editor-mode">
                     <el-radio-button label="tinymce"></el-radio-button>
-                    <el-radio-button label="markdown"></el-radio-button>
+                    <el-radio-button label="markdown" v-if="markdownEnable"></el-radio-button>
                 </el-radio-group>
 
                 <upload class="u-editor-upload"/>
@@ -29,7 +29,7 @@
             <!-- 正文区域 -->
             <div class="m-publish-content">
                 <tinymce :content="content" v-show="e_mode == 'tinymce'" />
-                <markdown :content="content" v-show="e_mode == 'markdown'" />
+                <markdown v-if="markdownEnable" :content="content" v-show="e_mode == 'markdown'" />
             </div>
 
             <!-- 正文之后 -->
@@ -83,6 +83,7 @@ export default {
         "title",
 
         "mode",
+        "markdownEnable",
         "content",
 
         "excerptEnable",
@@ -134,7 +135,7 @@ export default {
 
 <style lang="less">
 .m-publish-box {
-    padding:40px;
+    padding:30px 40px;
     .el-divider__text {
         color: #888;
         font-weight: 300;

@@ -67,7 +67,7 @@
                         <img
                             class="u-fileplaceholder"
                             svg-inline
-                            src="../../assets/img/file.svg"
+                            src="../../assets/img/publish/file.svg"
                         />
                         <span class="u-filename">{{ file.name }}</span>
                     </div>
@@ -92,11 +92,11 @@
 </template>
 
 <script>
-const allow_types = require("@jx3box/jx3box-common/data/upload_setting");
-const { JX3BOX } = require("@jx3box/jx3box-common");
+const allow_types = require("@jx3box/jx3box-common/js/conf");
+const JX3BOX = require("@jx3box/jx3box-common/js/jx3box");
 const imgtypes = ["jpg", "png", "gif", "bmp"];
-// const API = JX3BOX.__server + "publish/upload"   //TODO:
-const API = "http://localhost:5160/" + "publish/upload";
+const API = JX3BOX.__server + "publish/upload"
+// const API = "http://localhost:5160/" + "publish/upload";
 
 export default {
     name: "upload",

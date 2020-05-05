@@ -1,13 +1,14 @@
 <template>
     <div id="app">
-        <Header />
-        <Breadcrumb>
+        <Header></Header>
+        <Breadcrumb name="个人中心" slug="dashboard" root="/dashboard">
+            <img slot="logo" svg-inline src="../assets/img/logo.svg" />
             <Info />
         </Breadcrumb>
         <LeftSidebar>
             <Nav />
         </LeftSidebar>
-        <Main>
+        <Main :withoutRight="false">
             <router-view />
         </Main>
     </div>
@@ -39,7 +40,3 @@ export default {
     },
 };
 </script>
-
-<style lang="less">
-
-</style>

@@ -51,6 +51,7 @@ export default {
 @import "../../assets/css/components/large-dialog.less";
 .m-publish-header {
     .pr;
+    .clearfix;
 }
 .m-publish-store {
     .fr;

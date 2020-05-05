@@ -9,6 +9,7 @@
             :title="post.title"
 
             mode="tinymce"
+            :markdownEnable="false"
             :content="post.content"
 
             :excerptEnable="false"

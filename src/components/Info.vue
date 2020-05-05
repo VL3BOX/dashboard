@@ -1,14 +1,5 @@
 <template>
     <div class="m-info">
-        <router-link class="u-channel" to="/">
-            <img
-                class="u-channel-logo"
-                svg-inline
-                src="../assets/img/dashboard.svg"
-            />
-            <span class="u-title">用户中心</span>
-            <span class="u-desc">首页</span>
-        </router-link>
         <div class="u-stat"></div>
         <div class="u-home">
             <a class="el-button el-button--default is-plain" :href="home"
@@ -46,9 +37,8 @@ export default {
 <style lang="less">
 .c-breadcrumb {
     .u-channel-logo {
-        .size(18px);
-        .mt(5px);
-        fill: @color;
+        box-sizing: border-box;
+        padding:5px;
     }
     .u-desc{
         .fz(12px);

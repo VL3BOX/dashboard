@@ -1,6 +1,6 @@
 <template>
     <div class="m-dashboard m-dashboard-email">
-        <img class="u-pic" svg-inline src="../assets/img/email_done.svg" />
+        <img class="u-pic" svg-inline src="../assets/img/setting/email_done.svg" />
 
         <!-- 已绑定 -->
         <div v-if="status == true" class="u-done">
@@ -51,7 +51,7 @@
                         <img
                             class="i-mail"
                             svg-inline
-                            src="../assets/img/mail.svg"
+                            src="../assets/img/nav/mail.svg"
                         />
                     </template>
                 </el-input>

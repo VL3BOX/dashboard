@@ -1,6 +1,6 @@
 <template>
     <div class="m-dashboard m-dashboard-pwd">
-        <img class="u-pic" svg-inline src="../assets/img/pwd.svg" />
+        <img class="u-pic" svg-inline src="../assets/img/setting/pwd.svg" />
         <form>
             <el-alert
                 class="u-ac"
@@ -25,7 +25,7 @@
                         <img
                             class="i-pass"
                             svg-inline
-                            src="../assets/img/pass.svg"
+                            src="../assets/img/nav/pass.svg"
                         />
                     </template>
                 </el-input>
@@ -53,7 +53,7 @@
                         <img
                             class="i-pass"
                             svg-inline
-                            src="../assets/img/pass.svg"
+                            src="../assets/img/nav/pass.svg"
                         />
                     </template>
                 </el-input>

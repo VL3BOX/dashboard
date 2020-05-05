@@ -9,6 +9,7 @@
             :title="post.title"
 
             mode="tinymce"
+            :markdownEnable="false"
             :content="post.content"
 
             :excerptEnable="true"
@@ -99,7 +100,7 @@ import boilerplate from "../components/publish/boilerplate";
 // 依赖
 const { __ossMirror } = require("@jx3box/jx3box-common/js/jx3box");
 const { dataPath } = require("@jx3box/jx3box-common/js/utils");
-const fbListURL = dataPath("fb/fb_list.json", "0.0.1");
+const fbListURL = dataPath("fb/fb_list.json", "0.0.2");
 
 export default {
     name: "fb",

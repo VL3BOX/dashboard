@@ -10,6 +10,7 @@
             <!-- <div class="u-level">等级</div> -->
             <!-- <div class="u-credit">积分</div> -->
             <div class="u-join"><em>加入于 : </em>{{ join }}</div>
+            <div class="u-bio">{{ bio }}</div>
         </div>
 
         <!-- 任务 -->
@@ -36,15 +37,19 @@ export default {
             uid: "",
             // group: "",
             join: "",
+            bio : ''
         };
     },
     computed: {},
     methods: {},
     mounted: function() {
         this.avatar = Utils.showAvatar(User.getInfo().avatar_origin, "l");
-        this.name = User.getInfo().name;
-        this.uid = User.getInfo().uid;
-        // this.group = JX3BOX.__userGroup[User.getInfo().group];
+
+        let _info = User.getInfo()
+        this.name = _info.name;
+        this.uid = _info.uid;
+        this.bio = _info.bio;
+        // this.group = JX3BOX.__userGroup[_info.group];
 
         this.$axios
             .get(API + "user/info", {

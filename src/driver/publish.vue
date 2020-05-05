@@ -1,13 +1,14 @@
 <template>
     <div id="app">
-        <Header />
-        <Breadcrumb>
+        <Header></Header>
+        <Breadcrumb name="个人中心" slug="dashboard" root="/dashboard">
+            <img slot="logo" svg-inline src="../assets/img/logo.svg" />
             <Info />
         </Breadcrumb>
         <LeftSidebar>
             <Nav_link />
         </LeftSidebar>
-        <Main class="m-dashboard-publish">
+        <Main :withoutRight="false">
             <router-view />
         </Main>
     </div>
@@ -18,7 +19,7 @@ import Info from "@/components/Info.vue";
 import Nav_link from "@/components/Nav_link.vue";
 const { User } = require("@jx3box/jx3box-common");
 export default {
-    name: "publish",
+    name: "dashboard",
     props: [],
     data: function () {
         return {};
@@ -35,8 +36,9 @@ export default {
     },
     components: {
         Info,
-        Nav_link
+        Nav_link,
     },
 };
 </script>
+
 

@@ -5,7 +5,7 @@
         <!-- 已绑定 -->
         <div v-if="status == true" class="u-done">
 
-            <template v-if="verified">
+            <template v-if="verified == true">
                 <h1 class="u-title">已绑定邮箱</h1>
                 <p class="u-address">{{ address }}</p>
                 <el-alert
@@ -20,7 +20,7 @@
                 </el-alert>
             </template>
 
-            <template else>
+            <template v-if="verified == false">
                 <h1 class="u-title">未验证邮箱</h1>
                 <p class="u-address">{{ address }}</p>
                 <el-alert
@@ -219,7 +219,7 @@ export default {
             .then((res) => {
                 this.status = true;
                 this.address = res.data.data.email;
-                this.verified = parseInt(res.data.data.verified);
+                this.verified = !!parseInt(res.data.data.verified);
             })
             .catch((err) => {
                 this.status = false;

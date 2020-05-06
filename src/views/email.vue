@@ -4,21 +4,25 @@
 
         <!-- 已绑定 -->
         <div v-if="status == true" class="u-done">
-            <h1 class="u-title">已绑定邮箱</h1>
-            <p class="u-address">{{ address }}</p>
 
-            <el-alert
-                v-if="verified"
-                class="u-tip"
-                title="已验证邮箱"
-                type="success"
-                description="仅绑定邮箱用户支持邮件订阅通知等功能"
-                show-icon
-                :closable="false"
-            >
-            </el-alert>
+            <template v-if="verified">
+                <h1 class="u-title">已绑定邮箱</h1>
+                <p class="u-address">{{ address }}</p>
+                <el-alert
+                    v-if="verified"
+                    class="u-tip"
+                    title="已验证邮箱"
+                    type="success"
+                    description="仅绑定邮箱用户支持邮件订阅通知等功能"
+                    show-icon
+                    :closable="false"
+                >
+                </el-alert>
+            </template>
 
-            <template v-if="!verified">
+            <template else>
+                <h1 class="u-title">未验证邮箱</h1>
+                <p class="u-address">{{ address }}</p>
                 <el-alert
                     title="未验证邮箱"
                     class="u-tip"

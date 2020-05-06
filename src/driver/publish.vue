@@ -8,7 +8,7 @@
         <LeftSidebar>
             <Nav_link />
         </LeftSidebar>
-        <Main :withoutRight="false">
+        <Main :withoutRight="false" class="m-dashboard-publish">
             <router-view />
         </Main>
     </div>
@@ -41,4 +41,6 @@ export default {
 };
 </script>
 
-
+<style lang="less">
+    @import '../assets/css/publish.less';
+</style>

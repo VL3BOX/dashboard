@@ -9,7 +9,6 @@
                 <h1 class="u-title">已绑定邮箱</h1>
                 <p class="u-address">{{ address }}</p>
                 <el-alert
-                    v-if="verified"
                     class="u-tip"
                     title="已验证邮箱"
                     type="success"

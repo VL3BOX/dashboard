@@ -167,6 +167,7 @@ export default {
         // 本地相关方法
         selectLevel1: function(i) {
             this.options.level1 = i;
+            this.options.level2 = 0;    //重置为0
         },
         selectLevel2: function(i, cat_id) {
             this.options.level2 = i;

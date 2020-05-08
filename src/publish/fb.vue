@@ -197,7 +197,7 @@ export default {
         },
         // 发布逻辑,拿store内容提交至对应接口
         toPublish: function() {
-            console.log(this.$store.state);
+            this.doPublish('fb',this.$store.state,this)
         },
         toDraft: function() {
             console.log(this.$store.state);

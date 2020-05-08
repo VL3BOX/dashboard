@@ -11,7 +11,9 @@ let store = {
             post_content: "",
             post_excerpt: "",
             post_banner: "",
-            tags: [],
+            post_status : 'publish',
+            post_type : ''
+            // tags: [],
         },
         meta : {},
         extend: {

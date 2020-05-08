@@ -8,12 +8,12 @@ Vue.config.productionTip = false;
 import JX3BOX_UI from "@jx3box/jx3box-common-ui";
 Vue.use(JX3BOX_UI);
 
-const axios = require('axios');
-const _axios = axios.create({
-    withCredentials: true,
-})
+const axios = require("axios");
 Vue.prototype.$http = axios;
-Vue.prototype.$https = _axios;
+
+const { doPublish, doDraft } = require("../service/publish");
+Vue.prototype.doPublish = doPublish;
+Vue.prototype.doDraft = doDraft;
 
 import router from "../router/publish";
 import store from "../store/publish";

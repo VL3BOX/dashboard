@@ -13,30 +13,46 @@
                 title="本地备份"
                 :visible.sync="dialogVisible"
             >
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="insert">{{
+                        buttonTXT
+                    }}</el-button>
+                </span>
             </el-dialog>
         </div>
     </div>
 </template>
 
 <script>
+const { savePost } = require("../../utils/autoSave");
 export default {
     name: "pubheader",
     props: ["name", "localDraft"],
     data: function() {
         return {
             dialogVisible: false,
+            selectedCount: 0,
         };
     },
-    computed: {},
+    computed: {
+        buttonTXT: function() {
+            return this.selectedCount ? "插 入" : "确 定";
+        },
+    },
     methods: {
         goBack: function() {
-            this.$alert('当前页面内容将被清空,但仍可在本地历史存档中找到', '提醒', {
-                confirmButtonText: '确定',
-                callback: action => {
-                    // TODO:处理本地存储逻辑与清空store
-                    this.$root.$router.push("/");
+            this.$alert(
+                "当前页面内容将丢失,但仍可在本地历史存档中找到",
+                "提醒",
+                {
+                    confirmButtonText: "确定",
+                    callback: (action) => {
+                        savePost(this.name, this.$store.state);
+                        this.$root.$router.push("/");
+                    },
                 }
-            })
+            );
         },
         openDraftBox: function() {
             this.dialogVisible = true;

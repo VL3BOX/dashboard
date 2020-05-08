@@ -2,33 +2,25 @@
     <div class="m-publish-fb">
         <!-- 💛 预设选项 -->
         <boilerplate
-
             :name="name"
             :localDraft="true"
             labelPostion="left"
             :title="post.title"
-
-            mode="tinymce"
+            :mode="post.mode"
             :markdownEnable="false"
             :content="post.content"
-
             :excerptEnable="true"
             :excerpt="post.excerpt"
-
             :tagEnable="false"
             :tags="post.tags"
-
             :notifyEnable="true"
-            :notify="notify"
-
+            :notify="extend"
             :bannerEnable="true"
             :banner="post.banner"
-
             @publish="toPublish"
             @draft="toDraft"
         >
-
-        <!-- 💛 栏目字段 -->
+            <!-- 💛 栏目字段 -->
             <!-- 1.选择资料片 -->
             <el-form-item label="资料片">
                 <el-radio
@@ -37,7 +29,7 @@
                     border
                     :key="i"
                     @change="selectLevel1(i)"
-                    v-model="info.fb_zlp"
+                    v-model="meta.fb_zlp"
                     >{{ devide.devide_name }}</el-radio
                 >
             </el-form-item>
@@ -52,19 +44,16 @@
                     :label="fb.name"
                     :key="i"
                     @change="selectLevel2(i, fb.cat_id)"
-                    v-model="info.fb_name"
+                    v-model="meta.fb_name"
                 >
-                    <img
-                        :src="fb.icon | thumbnail(fb.icon)"
-                        :alt="fb.name"
-                    />
+                    <img :src="fb.icon | thumbnail(fb.icon)" :alt="fb.name" />
                     <span>{{ fb.name }}</span>
                 </el-radio>
             </el-form-item>
 
             <!-- 选择BOSS -->
             <el-form-item label="首领名称" v-if="options.fb_list.length">
-                <el-checkbox-group v-model="info.fb_boss">
+                <el-checkbox-group v-model="meta.fb_boss">
                     <el-checkbox-button
                         v-for="(boss, i) in options.boss_list"
                         :label="boss.name"
@@ -77,20 +66,18 @@
 
             <!-- 选择难度模式 -->
             <el-form-item label="难度模式" v-if="options.fb_list.length">
-                <el-checkbox-group v-model="info.fb_level">
+                <el-checkbox-group v-model="meta.fb_level">
                     <el-checkbox
-                        v-for="(level, i) in options.fb_list[
-                            options.level1
-                        ]['dungeon_infos'][options.level2]['maps']"
+                        v-for="(level, i) in options.fb_list[options.level1][
+                            'dungeon_infos'
+                        ][options.level2]['maps']"
                         :label="level.mode"
                         :key="i"
-                        :title="'地图ID : '+level.map_id"
+                        :title="'地图ID : ' + level.map_id"
                     ></el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
-
         </boilerplate>
-
     </div>
 </template>
 
@@ -102,12 +89,17 @@ const { __ossMirror } = require("@jx3box/jx3box-common/js/jx3box");
 const { dataPath } = require("@jx3box/jx3box-common/js/utils");
 const fbListURL = dataPath("fb/fb_list.json", "0.0.2");
 
+// 快捷方法
+const { editCheck } = require("../utils/editCheck");
+const { autoSavePost } = require("../utils/autoSave");
+
 export default {
     name: "fb",
     props: [],
     data: function() {
         return {
             name: "副本攻略",
+            type: "fb",
 
             //选项
             options: {
@@ -118,8 +110,8 @@ export default {
                 level3: "fanyangyebian",
             },
 
-            //取值
-            info: {
+            //字段
+            meta: {
                 fb_zlp: "世外蓬莱",
                 fb_name: "范阳夜变",
                 fb_boss: [],
@@ -127,16 +119,18 @@ export default {
             },
 
             //文章
-            post : {
-                title : '',
-                content : '',
-                excerpt : '',
-                tags : [],
-                banner : ''
+            post: {
+                id: "",
+                mode: "tinymce",
+                title: "",
+                content: "",
+                excerpt: "",
+                tags: [],
+                banner: "",
             },
 
             //TODO:接口都没写,一个都别启用,有些栏目默认就不太合适默认启用
-            notify : {
+            extend: {
                 feedEnable: false,
                 followEnable: false,
                 weiboEnable: false,
@@ -144,30 +138,27 @@ export default {
             },
         };
     },
-    computed: {},
-    watch : {
-        info : function (val){
-            this.$store.commit('editInfo',val)
-        }
+    computed: {
+        dbdata: function() {
+            return this.$store.state;
+        },
+    },
+    watch: {
+        meta: function(val) {
+            this.$store.commit("editMeta", val);
+        },
+        dbdata: {
+            handler: function(data) {
+                autoSavePost(name, data);
+            },
+            deep: true,
+        },
     },
     methods: {
-        // 加载原始内容,接口需要进行鉴权
-        loadOrigin:function (){
-            // this.$axios.get(...)
-        },
-
-        // 发布逻辑,拿store内容提交至对应接口
-        toPublish:function (){
-            console.log(this.$store.state)
-        },
-        toDraft : function (){
-            console.log(this.$store.state)
-        },
-
         // 本地相关方法
         selectLevel1: function(i) {
             this.options.level1 = i;
-            this.options.level2 = 0;    //重置为0
+            this.options.level2 = 0; //重置为0
         },
         selectLevel2: function(i, cat_id) {
             this.options.level2 = i;
@@ -193,16 +184,29 @@ export default {
                     this.options.boss_list = res.data.data.info.boss_infos;
                 });
         },
+
+        // 加载,编辑模式需加载原内并鉴权
+        init: function() {
+            this.post.id = editCheck();
+            if (this.post.id) this.$store.commit("changeID", this.post.id);
+
+            // this.$axios.get(...)
+        },
+        // 发布逻辑,拿store内容提交至对应接口
+        toPublish: function() {
+            console.log(this.$store.state);
+        },
+        toDraft: function() {
+            console.log(this.$store.state);
+        },
     },
     mounted: function() {
+        // 初始化默认文章数据,如果是编辑模式,则应加载对应内容
+        this.init();
+
         // 初始化选项数据
         this.loadLevel1List();
         this.loadBossList();
-
-        // 初始化文章数据,如果是编辑模式,则应加载对应内容
-        if(location.search.indexOf('edit') >= 0){
-            this.loadOrigin()
-        }
     },
     filters: {
         thumbnail: function(url) {

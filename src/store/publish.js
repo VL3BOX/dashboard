@@ -2,32 +2,19 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 // 默认仓储
-let default_state = {
-    mode: "tinymce",
-    title: "",
-    content: "",
-    excerpt: "",
-    banner: "",
-    tags: [],
-    info : {},
-    notify: {
-        feedEnable: false,
-        followEnable: false,
-        weiboEnable: false,
-        tuilanEnable: false,
-    },
-};
-
 let store = {
     state: {
-        mode: "tinymce",
-        title: "",
-        info : {},
-        content: "",
-        excerpt: "",
-        banner: "",
-        tags: [],
-        notify: {
+        post : {
+            ID : '',
+            post_mode: "tinymce",
+            post_title: "",
+            post_post_content: "",
+            post_excerpt: "",
+            post_banner: "",
+            tags: [],
+        },
+        meta : {},
+        extend: {
             feedEnable: false,
             followEnable: false,
             weiboEnable: false,
@@ -35,26 +22,26 @@ let store = {
         },
     },
     mutations: {
+        changeID : function (state,payload){
+            state.post.ID = payload
+        },
         changeMode: function(state, payload) {
-            state.mode = payload;
+            state.post.post_mode = payload;
         },
         editTitle: function(state, payload) {
-            state.title = payload;
-        },
-        editInfo: function(state, payload) {
-            state.info = payload;
+            state.post.post_title = payload;
         },
         editContent: function(state, payload) {
-            state.content = payload;
+            state.post.post_content = payload;
         },
         editExcerpt: function(state, payload) {
-            state.excerpt = payload;
+            state.post.post_excerpt = payload;
         },
         editBanner: function(state, payload) {
-            state.banner = payload;
+            state.post.post_banner = payload;
         },
-        reset: function(state) {
-            state = default_state;
+        editMeta: function(state, payload) {
+            state.meta = payload;
         },
     },
     getters: {},

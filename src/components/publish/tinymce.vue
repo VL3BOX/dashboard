@@ -35,10 +35,10 @@ export default {
 
                 // 语言
                 language: "zh_CN",
-
-                // 样式
-                // content_css: `./css/article.css`, //TODO:编辑前后内容样式
-                content_css: `http://localhost:1024/article.css`,
+                
+                // 样式 
+                content_css: JX3BOX.__staticPath + `jx3box-article-ui@0d2d4f9/css/article.css`, //TODO:修改版本
+                // content_css: `http://localhost:1024/css/article.css`,
                 body_class: "c-article",
                 height: 800,
 

@@ -8,7 +8,7 @@ let store = {
             ID : '',
             post_mode: "tinymce",
             post_title: "",
-            post_post_content: "",
+            post_content: "",
             post_excerpt: "",
             post_banner: "",
             tags: [],

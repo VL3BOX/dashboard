@@ -13,11 +13,47 @@
                 title="本地备份"
                 :visible.sync="dialogVisible"
             >
+                <!-- 清空按钮 -->
+                <el-button
+                    class="u-clear"
+                    plain
+                    icon="el-icon-delete"
+                    size="small"
+                    @click="clear"
+                    >清空</el-button
+                >
+                <el-table :data="tableData" style="width: 100%">
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            {{ props.row.content }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="缓存标识" prop="key">
+                    </el-table-column>
+                    <el-table-column label="操作" class="u-action">
+                        <template slot-scope="scope">
+                            <el-button
+                                size="mini"
+                                @click="useDraft(scope.$index, scope.row.key)"
+                                >使用</el-button
+                            >
+                            <el-button
+                                size="mini"
+                                type="danger"
+                                @click="
+                                    deleteDraft(scope.$index, scope.row.key)
+                                "
+                                >删除</el-button
+                            >
+                        </template>
+                    </el-table-column>
+                </el-table>
+
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="insert">{{
-                        buttonTXT
-                    }}</el-button>
+                    <el-button type="primary" @click="closeDraftBox"
+                        >确 定</el-button
+                    >
                 </span>
             </el-dialog>
         </div>
@@ -25,7 +61,8 @@
 </template>
 
 <script>
-const { savePost } = require("../../utils/autoSave");
+const { DB , savePost } = require("../../utils/autoSave");
+
 export default {
     name: "pubheader",
     props: ["name", "localDraft"],
@@ -33,13 +70,10 @@ export default {
         return {
             dialogVisible: false,
             selectedCount: 0,
+            tableData: [],
         };
     },
-    computed: {
-        buttonTXT: function() {
-            return this.selectedCount ? "插 入" : "确 定";
-        },
-    },
+    computed: {},
     methods: {
         goBack: function() {
             this.$alert(
@@ -56,6 +90,44 @@ export default {
         },
         openDraftBox: function() {
             this.dialogVisible = true;
+            this.loadDrafts();
+        },
+        closeDraftBox: function() {
+            this.dialogVisible = false;
+        },
+        loadDrafts: function() {
+            this.tableData = []
+            DB.iterate((val, key, i) => {
+                this.tableData.push({
+                    key: key,
+                    content: val.post.post_content,
+                });
+            })
+                .then(function() {
+                    console.log("[IDB] Iteration has completed");
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+        },
+        clear: function() {
+            this.$alert("确认清除全部缓存归档么", "信息", {
+                confirmButtonText: "确定",
+                callback: (action) => {
+                    DB.clear();
+                    this.tableData = [];
+                },
+            });
+        },
+        useDraft: function(i, key) {
+            DB.getItem(key).then((data) => {
+                this.$store.replaceState(data)
+                this.closeDraftBox();
+            });
+        },
+        deleteDraft: function(i, key) {
+            this.tableData.splice(i, 1);
+            DB.removeItem(key);
         },
     },
     mounted: function() {},
@@ -70,8 +142,15 @@ export default {
     .clearfix;
 }
 .m-publish-store {
-    .fr;
-    .pa;
-    .rt(0);
+    .pa;.rt(0);
+    .u-clear {
+        .pa;
+        .lt(100px, 16px);
+    }
+    .el-table__body{
+        td:last-child .cell{
+            .fr;
+        }
+    }
 }
 </style>

@@ -153,12 +153,19 @@ export default {
             },
         };
     },
+    computed: {
+        store: function() {
+            return this.$store.state.post.post_content;
+        },
+    },
     watch: {
         data(val) {
             this.$store.commit('editContent',val)
         },
+        store: function(val) {
+            this.data = val;
+        },
     },
-    computed: {},
     methods: {
         setup: function(editor) {
             console.log("ID为: " + editor.id + " 的编辑器即将初始化.");

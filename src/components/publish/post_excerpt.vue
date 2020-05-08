@@ -12,32 +12,40 @@
 </template>
 
 <script>
-    export default {
-        name : 'post_excerpt',
-        props:['excerpt'],
-        data : function(){
-            return {
-                post_excerpt : this.excerpt
-            }
+export default {
+    name: "post_excerpt",
+    props: ["excerpt"],
+    data: function() {
+        return {
+            post_excerpt: this.excerpt,
+        };
+    },
+    computed: {
+        store: function() {
+            return this.$store.state.post.post_excerpt;
         },
-        computed:{},
-        methods:{
-            done : function (){
-                this.$store.commit('editExcerpt',this.post_excerpt)
-            }
+    },
+    watch: {
+        store: function(val) {
+            this.post_excerpt = val;
         },
-        mounted:function(){},
-        components : {
-        }
-    }
+    },
+    methods: {
+        done: function() {
+            this.$store.commit("editExcerpt", this.post_excerpt);
+        },
+    },
+    mounted: function() {},
+    components: {},
+};
 </script>
 
 <style lang="less">
-    .m-publish-excerpt{
-        .mt(10px);
+.m-publish-excerpt {
+    .mt(10px);
 
-        textarea{
-            font-family: inherit;
-        }
+    textarea {
+        font-family: inherit;
     }
+}
 </style>

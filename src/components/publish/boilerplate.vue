@@ -48,11 +48,11 @@
             </div>
 
             <!-- 管理功能 -->
-            <div class="m-publish-admin" v-if="isAdmin && bannerEnable">
+            <div class="m-publish-admin" v-if="isAdmin && bannerEnable"> 
                 <el-divider content-position="left">管理</el-divider>
                 <post_banner :banner="banner" />
             </div>
-
+         
             <!-- 按钮 -->
             <div class="m-publish-buttons">
                 <el-button type="primary" @click="publish">发 &nbsp;&nbsp; 布</el-button>

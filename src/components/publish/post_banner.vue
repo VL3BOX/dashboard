@@ -5,6 +5,7 @@
             :action="url"
             :show-file-list="false"
             :on-success="done"
+            :on-error="fail"
         >
             <img v-if="post_banner" :src="post_banner" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -29,7 +30,18 @@ export default {
     methods: {
         done(res, file) {
             this.post_banner = res.data.list[0];
+            this.$store.commit("editBanner", this.post_banner);
         },
+        fail(err, file, fileList){
+            try{
+                let response = JSON.parse(err.message)
+                this.$message.error(
+                    `[${response.code}]${response.msg}`
+                );
+            }catch{
+                this.$message.error("网络请求异常");
+            }
+        }
     },
 };
 </script>

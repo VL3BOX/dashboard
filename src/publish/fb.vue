@@ -144,8 +144,11 @@ export default {
         },
     },
     watch: {
-        meta: function(val) {
-            this.$store.commit("editMeta", val);
+        meta: {
+            handler: function(val) {
+                this.$store.commit("editMeta", val);
+            },
+            deep: true,
         },
         dbdata: {
             handler: function(data) {

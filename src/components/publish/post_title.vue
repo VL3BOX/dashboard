@@ -22,7 +22,16 @@ export default {
             post_title: this.title,
         };
     },
-    computed: {},
+    computed: {
+        store : function (){
+            return this.$store.state.post.post_title
+        }
+    },
+    watch : {
+        store : function (val){
+            this.post_title = val
+        }
+    },
     methods: {
         done: function() {
             this.$store.commit("editTitle", this.post_title);

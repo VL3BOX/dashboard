@@ -45,6 +45,8 @@ function doDraft(type, data, vm) {
         });
 }
 
+// TODO:编辑加载
+
 // 失败
 function failCallback(err) {
     if (err.response.data.code) {

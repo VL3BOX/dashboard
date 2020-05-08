@@ -1,6 +1,6 @@
 <template>
     <div class="m-dashboard m-dashboard-bucket">
-        加入仓库的宏等
+        加入仓库的宏等,搜索
     </div>
 </template>
 

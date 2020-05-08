@@ -1,5 +1,12 @@
 <template>
     <div class="c-editor-tinymce">
+        <el-alert class="u-tutorial" type="warning" show-icon
+            >进入特殊区域（代码块，折叠块等等）脱离或使用工具栏触发后，请使用键盘方向 → ↓ 键进行脱离，回车只是正常在区块内换行。<a
+                href="https://www.jx3box.com/help/219/"
+                target="_blank"
+                >更多帮助</a
+            >
+        </el-alert>
         <editor
             id="tinymce"
             v-model="data"
@@ -7,13 +14,6 @@
             class="c-tinymce"
             placeholder="✔ 图片可直接拖拽至编辑器内自动上传 ✔ 支持word/excel一键粘贴"
         />
-        <el-alert class="u-tutorial" type="warning" show-icon
-            >进入特殊区域（代码块，折叠块等等）脱离时，请使用键盘方向键，回车只是正常在区块内换行。更多帮助请参阅<a
-                href="https://www.jx3box.com/help/219/"
-                target="_blank"
-                >【帮助手册/编辑器】</a
-            >
-        </el-alert>
     </div>
 </template>
 
@@ -37,8 +37,9 @@ export default {
                 language: "zh_CN",
 
                 // 样式
-                content_css: `./tinymce/skins/content/default/content.min.css`, //TODO:编辑前后内容样式
-                body_class: "c-editor-tinymce-body",
+                // content_css: `./css/article.css`, //TODO:编辑前后内容样式
+                content_css: `http://localhost:1024/article.css`,
+                body_class: "c-article",
                 height: 800,
 
                 // UI
@@ -176,9 +177,9 @@ export default {
 <style lang="less">
 .c-editor-tinymce {
     .u-tutorial {
-        .mt(10px);
+        .mb(10px);
         .fz(13px);
-        padding: 5px;
+        padding: 8px 6px;
         .el-alert__description {
             .mt(0);
         }
@@ -189,7 +190,7 @@ export default {
             padding-left: 0;
         }
         .el-alert__closebtn {
-            top: 9px;
+            top: 12px;
         }
     }
 }

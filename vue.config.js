@@ -16,7 +16,7 @@ module.exports = {
         publish : {
             title : '发布中心 - JX3BOX',
             entry:'src/driver/publish.js',
-            template : 'public/index.html',
+            template : 'public/publish.html',
             filename:'publish/index.html',
         },
     },

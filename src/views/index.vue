@@ -1,15 +1,18 @@
 <template>
     <div class="m-dashboard m-dashboard-index">
         <div class="m-basicinfo">
-            <img :src="avatar" class="u-avatar" />
+            <i class="u-avatar">
+                <i class="u-avatar-avt"><img class="u-avatar-avt-pic" :src="avatar" /></i>
+                <!-- <i class="u-avatar-frame"><img class="u-avatar-frame-pic" src="../assets/img/1.png" /></i> -->
+            </i>
             <h1 class="u-name">{{ name }}</h1>
-            <!--group icon-->
+            <!-- <i class="u-group"><img :src="group | groupicon"></i> -->
             <div class="u-uid">
-                <em>UID : </em><b>{{ uid }}</b>
+                <em>UID</em><b>{{ uid }}</b>
             </div>
-            <!-- <div class="u-level">等级</div> -->
+            <!-- <div class="u-level"></div> -->
             <!-- <div class="u-credit">积分</div> -->
-            <div class="u-join"><em>加入于 : </em>{{ join }}</div>
+            <div class="u-join">加入于{{ join }}</div>
             <div class="u-bio">{{ bio }}</div>
         </div>
 
@@ -35,13 +38,18 @@ export default {
             avatar: "",
             name: "",
             uid: "",
-            // group: "",
+            group: 0,
             join: "",
             bio : ''
         };
     },
     computed: {},
     methods: {},
+    filters:{
+        groupicon : function (groupid){
+            return JX3BOX.__ossMirror + 'image/group/' + groupid + '.svg'
+        }
+    },
     mounted: function() {
         this.avatar = Utils.showAvatar(User.getInfo().avatar_origin, "l");
 
@@ -49,7 +57,7 @@ export default {
         this.name = _info.name;
         this.uid = _info.uid;
         this.bio = _info.bio;
-        // this.group = JX3BOX.__userGroup[_info.group];
+        this.group = _info.group
 
         this.$axios
             .get(API + "user/info", {

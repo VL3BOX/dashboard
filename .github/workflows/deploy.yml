@@ -19,7 +19,7 @@ jobs:
 
       - name: Github Pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
-        env:
+        with:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist

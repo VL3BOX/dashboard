@@ -8,12 +8,13 @@ Vue.config.productionTip = false;
 import JX3BOX_UI from "@jx3box/jx3box-common-ui";
 Vue.use(JX3BOX_UI);
 
-const axios = require("axios");
-Vue.prototype.$http = axios;
+import failCallback from "../utils/failCallback";
+Vue.prototype.failCallback = failCallback;
 
-const { doPublish, doDraft } = require("../service/publish");
+import { doPublish, doDraft, doLoad } from "../service/publish";
 Vue.prototype.doPublish = doPublish;
 Vue.prototype.doDraft = doDraft;
+Vue.prototype.doLoad = doLoad;
 
 import router from "../router/publish";
 import store from "../store/publish";

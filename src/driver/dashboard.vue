@@ -17,7 +17,7 @@
 <script>
 import Info from "@/components/Info.vue";
 import Nav from "@/components/Nav.vue";
-const { User } = require("@jx3box/jx3box-common");
+import checkLogin from '../utils/checkLogin'
 export default {
     name: "dashboard",
     props: [],
@@ -27,12 +27,7 @@ export default {
     computed: {},
     methods: {},
     mounted: function () {
-        if(location.hostname != 'localhost'){
-            if(!User.isLogin()){
-                User.destroy()
-                User.toLogin()
-            }
-        }
+        checkLogin()
     },
     components: {
         Info,

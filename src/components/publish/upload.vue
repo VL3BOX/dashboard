@@ -95,7 +95,7 @@
 const allow_types = require("@jx3box/jx3box-common/js/conf");
 const JX3BOX = require("@jx3box/jx3box-common/js/jx3box");
 const imgtypes = ["jpg", "png", "gif", "bmp"];
-const API = JX3BOX.__server + "publish/upload"
+const API = JX3BOX.__server + "upload"
 // const API = "http://localhost:5160/" + "publish/upload";
 
 export default {

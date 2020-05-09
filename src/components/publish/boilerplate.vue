@@ -8,14 +8,14 @@
             <post_title :title="title"><slot name="title"></slot></post_title>
 
             <!-- 栏目特定字段 -->
-            <el-divider content-position="left">信息</el-divider>
-            <div class="m-publish-info">
+            <div class="m-publish-info" v-if="infoEnable">
+                <el-divider content-position="left">信息</el-divider>
                 <slot></slot>
             </div>
 
             <!-- 正文之前 -->
-            <el-divider content-position="left">正文</el-divider>
             <div class="m-publish-prepend">
+                <el-divider content-position="left">正文</el-divider>
                 <el-radio-group v-model="e_mode" class="u-editor-mode">
                     <el-radio-button label="tinymce"></el-radio-button>
                     <el-radio-button label="markdown" v-if="markdownEnable"></el-radio-button>
@@ -33,16 +33,16 @@
             </div>
 
             <!-- 正文之后 -->
-            <el-divider content-position="left" v-if="excerptEnable">附加</el-divider>
-            <div class="m-publish-append">
+            <div class="m-publish-append" v-if="excerptEnable">
+                <el-divider content-position="left">附加</el-divider>
                 <post_tag :tags="tags" v-if="tagEnable"></post_tag>
                 <post_excerpt :excerpt="excerpt"></post_excerpt>
                 <slot name="append"></slot>
             </div>
 
             <!-- 扩展功能 -->
-            <el-divider content-position="left" v-if="notifyEnable">扩展</el-divider>
-            <div class="m-publish-extend">
+            <div class="m-publish-extend" v-if="notifyEnable">
+                <el-divider content-position="left">扩展</el-divider>
                 <post_notify :notify="notify" />
                 <slot name="extend"></slot>
             </div>
@@ -81,6 +81,7 @@ export default {
         "localDraft",
         "labelPostion",
         "title",
+        "infoEnable",
 
         "mode",
         "markdownEnable",
@@ -100,7 +101,7 @@ export default {
     ],
     data: function() {
         return {
-            e_mode: this.mode,
+            e_mode: this.mode || 'tinymce',
             isAdmin : User.getInfo().group == 64
         };
     },

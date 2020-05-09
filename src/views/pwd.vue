@@ -81,10 +81,10 @@
 </template>
 
 <script>
-const { validator } = require("sterilizer");
-const { JX3BOX, User } = require("@jx3box/jx3box-common");
-const API = JX3BOX.__server
-// const API = "http://localhost:5160/";
+import { validator } from "sterilizer";
+import { JX3BOX, User } from "@jx3box/jx3box-common";
+import { updatePassword } from "../service/profile";
+
 export default {
     name: "pwd",
     props: [],
@@ -118,12 +118,11 @@ export default {
             });
         },
         done: function() {
-            this.$axios
-                .post(API + "dashboard/password/update", {
-                    uid: User.getInfo().uid,
-                    pwd1: this.pwd1,
-                    pwd2: this.pwd2,
-                })
+            updatePassword({
+                uid: User.getInfo().uid,
+                pwd1: this.pwd1,
+                pwd2: this.pwd2,
+            })
                 .then((res) => {
                     this.$message({
                         message: "密码修改成功",
@@ -131,13 +130,7 @@ export default {
                     });
                 })
                 .catch((err) => {
-                    if (err.response.data.code) {
-                        this.$message.error(
-                            `[${err.response.data.code}]${err.response.data.msg}`
-                        );
-                    } else {
-                        this.$message.error("网络请求异常");
-                    }
+                    this.failCallback(err, this);
                 });
         },
     },

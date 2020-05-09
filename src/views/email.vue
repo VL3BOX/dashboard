@@ -1,10 +1,13 @@
 <template>
     <div class="m-dashboard m-dashboard-email">
-        <img class="u-pic" svg-inline src="../assets/img/setting/email_done.svg" />
+        <img
+            class="u-pic"
+            svg-inline
+            src="../assets/img/setting/email_done.svg"
+        />
 
         <!-- 已绑定 -->
         <div v-if="status == true" class="u-done">
-
             <template v-if="verified == true">
                 <h1 class="u-title">已绑定邮箱</h1>
                 <p class="u-address">{{ address }}</p>
@@ -99,10 +102,15 @@
 </template>
 
 <script>
-const { validator } = require("sterilizer");
-const { JX3BOX, User } = require("@jx3box/jx3box-common");
-const API = JX3BOX.__server
-// const API = "http://localhost:5160/";
+import { validator } from "sterilizer";
+import { JX3BOX, User } from "@jx3box/jx3box-common";
+import {
+    sendVerifyEmail,
+    sendBindEmail,
+    checkEmailAvailable,
+    checkEmailStatus,
+} from "../service/profile";
+
 export default {
     name: "email",
     props: [],
@@ -127,12 +135,7 @@ export default {
     },
     methods: {
         verify: function() {
-            this.$axios
-                .get(API + "dashboard/email/verify", {
-                    params: {
-                        uid: this.uid,
-                    },
-                })
+            sendVerifyEmail(this.uid)
                 .then((res) => {
                     this.$message({
                         message: "邮件已发送请查收",
@@ -140,13 +143,7 @@ export default {
                     });
                 })
                 .catch((err) => {
-                    if (err.response.data.code) {
-                        this.$message.error(
-                            `[${err.response.data.code}]${err.response.data.msg}`
-                        );
-                    } else {
-                        this.$message.error("网络请求异常");
-                    }
+                    this.failCallback(err, this);
                 });
         },
         checkEmail: function() {
@@ -167,12 +164,7 @@ export default {
             if (!result) return;
 
             // 邮箱是否可用
-            this.$axios
-                .get(API + "account/has", {
-                    params: {
-                        user_login: this.email,
-                    },
-                })
+            checkEmailAvailable(this.email)
                 .then((res) => {
                     this.email_available = res.data ? false : true;
                 })
@@ -186,35 +178,23 @@ export default {
                 return;
             }
 
-            this.$axios
-                .post(API + "dashboard/email/bind", {
-                    uid: this.uid,
-                    email: this.email,
-                })
+            sendBindEmail({
+                uid: this.uid,
+                email: this.email,
+            })
                 .then((res) => {
                     this.$alert("申请提交成功,请前往邮箱验证", "消息", {
                         confirmButtonText: "确定",
                     });
                 })
                 .catch((err) => {
-                    if (err.response.data.code) {
-                        this.$message.error(
-                            `[${err.response.data.code}]${err.response.data.msg}`
-                        );
-                    } else {
-                        this.$message.error("网络请求异常");
-                    }
+                    this.failCallback(err, this);
                 });
         },
     },
     mounted: function() {
-        this.uid = User.getInfo().uid
-        this.$axios
-            .get(API + "dashboard/email/check", {
-                params: {
-                    uid: this.uid,
-                },
-            })
+        this.uid = User.getInfo().uid;
+        checkEmailStatus(this.uid)
             .then((res) => {
                 this.status = true;
                 this.address = res.data.data.email;

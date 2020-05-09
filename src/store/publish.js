@@ -19,8 +19,8 @@ let store = {
         extend: {
             feedEnable: false,
             followEnable: false,
-            weiboEnable: false,
-            tuilanEnable: false,
+            weiboEnable: false,     //TODO:格式化至微博头条
+            tuilanEnable: false,    //TODO:格式化至推栏
         },
     },
     mutations: {
@@ -41,6 +41,9 @@ let store = {
         },
         editBanner: function(state, payload) {
             state.post.post_banner = payload;
+        },
+        editPost: function(state, payload) {
+            state.post = payload;
         },
         editMeta: function(state, payload) {
             state.meta = payload;

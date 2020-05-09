@@ -20,8 +20,8 @@
 <script>
 import Editor from "@tinymce/tinymce-vue";
 const {JX3BOX} = require('@jx3box/jx3box-common');
-const API = JX3BOX.__server + "publish/upload/tinymce"
-// const API = "http://localhost:5160/" + "publish/upload/tinymce";
+const API = JX3BOX.__server + "upload/tinymce"
+// const API = "http://localhost:5160/" + "upload/tinymce";
 
 export default {
     name: "tinymce",

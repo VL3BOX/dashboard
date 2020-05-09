@@ -1,38 +1,36 @@
-const axios = require("axios");
-const JX3BOX = require("@jx3box/jx3box-common/js/jx3box");
-const $ = axios.create({
-    // baseURL : JX3BOX.__server,   //FIXME:test
-    baseURL: "http://localhost:5160/",
-    withCredentials: true,
-});
+import { $ } from "./axios";
+import { JX3BOX } from "@jx3box/jx3box-common";
+import { editIDCheck } from "../utils/editIDCheck";
 
 // 发布
 function doPublish(type, data, vm) {
-    let _data = formatData(data);
-    _data.post.post_status = "publish";
-    _data.post.post_type = type;
-    console.log(_data)
+    data.post.post_status = "publish";
+    data.post.post_type = type;
 
-    $.post(`/publish/${type}`, _data)
+    return $.post(`post/publish`, data)
         .then((res) => {
             vm.$message({
                 message: res.data.msg,
                 type: "success",
             });
-            // TODO:跳转至新页面
+
+            let pid = res.data.data.ID;
+            // TODO:跳转
+            // setTimeout(() => {
+            //     location.href = JX3BOX.__Root + "?p=" + pid;
+            // }, 500);
         })
         .catch((err) => {
-            failCallback(err);
+            vm.failCallback(vm, err);
         });
 }
 
 // 草稿
 function doDraft(type, data, vm) {
-    let _data = formatData(data);
-    _data.post_status = "draft";
-    _data.post_type = type;
+    data.post.post_status = "draft";
+    data.post.post_type = type;
 
-    $.post(`/publish/${type}`, _data)
+    return $.post(`post/publish`, data)
         .then((res) => {
             vm.$notify({
                 title: "保存成功",
@@ -41,44 +39,39 @@ function doDraft(type, data, vm) {
             });
         })
         .catch((err) => {
-            failCallback(err);
+            vm.failCallback(vm, err);
         });
 }
 
-// TODO:编辑加载
+// 编辑加载
+function doLoad(vm, arrMetaKeys) {
+    let id = (vm.post.id = editIDCheck());
 
-// 失败
-function failCallback(err) {
-    if (err.response.data.code) {
-        vm.$message.error(
-            `[${err.response.data.code}]${err.response.data.msg}`
-        );
-    } else {
-        vm.$message.error("网络请求异常");
+    if (id) {
+        return $.get(`post/query`, {
+            params: {
+                id: id,
+            },
+        })
+            .then((res) => {
+                // 主表字段处理
+                vm.post = res.data.data.post;
+
+                // 需要转为数组的meta key
+                let meta = res.data.data.meta;
+                if (arrMetaKeys && arrMetaKeys.length) {
+                    for (let key of arrMetaKeys) {
+                        meta[key] = meta[key].split(",");
+                    }
+                }
+                vm.meta = meta;
+            })
+            .catch((err) => {
+                vm.failCallback(err, vm);
+            });
+    }else{
+        return new Promise()
     }
 }
 
-// 格式化数据
-function formatData(data) {
-    let _data = {};
-    _data.post = convertData(data.post);
-    _data.meta = convertData(data.meta);
-    _data.extend = data.extend;
-
-    return _data;
-}
-
-// 数组类型值处理
-function convertData(obj) {
-    let _obj = {};
-    for (let key in obj) {
-        if (Array.isArray(obj[key])) {
-            _obj[key] = obj[key].toString();
-        } else {
-            _obj[key] = obj[key];
-        }
-    }
-    return _obj;
-}
-
-module.exports = { doPublish, doDraft };
+export { doPublish, doDraft, doLoad };

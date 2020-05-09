@@ -15,7 +15,7 @@
 
 <script>
 const { __server } = require("@jx3box/jx3box-common/js/jx3box");
-const API = __server + 'publish/upload'
+const API = __server + 'upload'
 // const API = "http://localhost:5160/" + "publish/upload";
 
 export default {

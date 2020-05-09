@@ -4,12 +4,16 @@
             <el-form-item class="u-name" label="昵称">
                 <div class="u-value">
                     {{ name }}
-                    <i
-                        class="u-edit el-icon-edit"
-                        :class="{ disabled: renaming }"
+                    <el-button
+                        class="u-edit"
+                        :disabled="renaming"
                         title="修改昵称"
                         @click="changename"
-                    ></i>
+                        type="primary"
+                        icon="el-icon-edit"
+                        size="mini"
+                        >修改昵称</el-button
+                    >
                 </div>
                 <div class="u-rename" v-show="renaming">
                     <el-input
@@ -56,9 +60,8 @@
 </template>
 
 <script>
-const { JX3BOX, User } = require("@jx3box/jx3box-common");
-const API = JX3BOX.__server
-// const API = "http://localhost:5160/";
+import { JX3BOX, User } from "@jx3box/jx3box-common";
+import { checkNickname, updateProfile } from "../service/profile";
 
 export default {
     name: "profile",
@@ -77,21 +80,12 @@ export default {
     computed: {},
     methods: {
         check() {
-            this.$axios
-                .get(API + "dashboard/nickname/check", {
-                    params: {
-                        name: this.rename,
-                    },
-                })
+            checkNickname(this.rename)
                 .then((res) => {
                     this.checkname = true;
                 })
                 .catch((err) => {
-                    if (err.response.data.code == 10029) {
-                        this.checkname = false;
-                        return;
-                    }
-                    this.$message.error("网络请求异常");
+                    this.failCallback(err, this);
                 });
         },
         changename() {
@@ -124,8 +118,7 @@ export default {
                 });
             }
 
-            this.$axios
-                .post(API + "dashboard/profile/update", data)
+            updateProfile(data)
                 .then((res) => {
                     this.name = this.rename;
                     this.bio = this.rebio;
@@ -138,13 +131,7 @@ export default {
                     });
                 })
                 .catch((err) => {
-                    if (err.response.data.code) {
-                        this.$message.error(
-                            `[${err.response.data.code}]${err.response.data.msg}`
-                        );
-                    } else {
-                        this.$message.error("网络请求异常");
-                    }
+                    this.failCallback(err, this);
                 });
         },
     },

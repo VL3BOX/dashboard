@@ -24,9 +24,9 @@
 </template>
 
 <script>
-const { JX3BOX, User, Utils } = require("@jx3box/jx3box-common");
-const API = JX3BOX.__server
-// const API = "http://localhost:5160/";
+import { JX3BOX, User, Utils } from "@jx3box/jx3box-common";
+import { updateAvatar } from "../service/profile";
+const API = JX3BOX.__server;
 
 export default {
     name: "avatar",
@@ -35,8 +35,7 @@ export default {
         return {
             avatar: "",
             bak: "",
-            upload_url: API + "dashboard/avatar/upload",
-            update_url: API + "dashboard/avatar/update",
+            upload_url: API + "upload/avatar",
             path: "",
         };
     },
@@ -57,11 +56,10 @@ export default {
             this.avatar = this.bak;
         },
         submit: function() {
-            this.$axios
-                .post(this.update_url, {
-                    uid: User.getInfo().uid,
-                    path: this.path,
-                })
+            updateAvatar({
+                uid: User.getInfo().uid,
+                path: this.path,
+            })
                 .then((res) => {
                     User.refresh("avatar", this.path);
 
@@ -71,13 +69,7 @@ export default {
                     });
                 })
                 .catch((err) => {
-                    if (err.response.data.code) {
-                        this.$message.error(
-                            `[${err.response.data.code}]${err.response.data.msg}`
-                        );
-                    } else {
-                        this.$message.error("网络请求异常");
-                    }
+                    this.failCallback(err, this);
                 });
         },
     },

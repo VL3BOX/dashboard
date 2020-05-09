@@ -1,7 +1,11 @@
 <template>
     <div class="m-dashboard m-dashboard-connect">
         <el-card class="box-card">
-            <img class="u-github" svg-inline src="../assets/img/connect/github.svg" />
+            <img
+                class="u-github"
+                svg-inline
+                src="../assets/img/connect/github.svg"
+            />
             <p class="u-status">{{ github_status ? github : "未绑定" }}</p>
             <el-button
                 class="u-button"
@@ -23,7 +27,11 @@
         </el-card>
 
         <el-card class="box-card">
-            <img class="u-weibo" svg-inline src="../assets/img/connect/weibo.svg" />
+            <img
+                class="u-weibo"
+                svg-inline
+                src="../assets/img/connect/weibo.svg"
+            />
             <p class="u-status">{{ weibo_status ? weibo : "未绑定" }}</p>
             <el-button
                 class="u-button"
@@ -36,9 +44,9 @@
 </template>
 
 <script>
-const { JX3BOX, User, OAuth } = require("@jx3box/jx3box-common");
-const API = JX3BOX.__server
-// const API = "http://localhost:5160/";
+import { JX3BOX, User, OAuth } from "@jx3box/jx3box-common";
+import { unbindOAuth, checkOAuth } from "../service/profile";
+
 export default {
     name: "connect",
     props: [],
@@ -76,11 +84,10 @@ export default {
             location.href = this[type + "_url"];
         },
         unbind: function(type) {
-            this.$axios
-                .post(API + "dashboard/oauth/unbind", {
-                    uid: this.uid,
-                    type: type,
-                })
+            unbindOAuth({
+                uid: this.uid,
+                type: type,
+            })
                 .then((res) => {
                     this[type] = null;
                     this.$message({
@@ -104,25 +111,17 @@ export default {
         },
     },
     mounted: function() {
-        this.uid = User.getInfo().uid
-
-        this.$axios
-            .post(API + "dashboard/oauth/check", {
-                uid: this.uid,
-            })
+        this.uid = User.getInfo().uid;
+        checkOAuth({
+            uid: this.uid,
+        })
             .then((res) => {
                 this.github = res.data.data.github || "";
                 this.qq = res.data.data.qq || "";
                 this.weibo = res.data.data.weibo || "";
             })
             .catch((err) => {
-                if (err.response.data.code) {
-                    this.$message.error(
-                        `[${err.response.data.code}]${err.response.data.msg}`
-                    );
-                } else {
-                    this.$message.error("网络请求异常");
-                }
+                this.failCallback(err, this);
             });
     },
 };

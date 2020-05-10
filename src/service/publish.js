@@ -70,7 +70,9 @@ function doLoad(vm, arrMetaKeys) {
                 vm.failCallback(err, vm);
             });
     }else{
-        return new Promise()
+        return new Promise((resolve,reject)=>{
+            resolve(location.href)
+        })
     }
 }
 

@@ -22,15 +22,16 @@
                     @click="clear"
                     >清空</el-button
                 >
-                <el-table :data="tableData" style="width: 100%">
+                <el-table :data="tableData" class="m-publish-store-list">
                     <el-table-column type="expand">
                         <template slot-scope="props">
-                            {{ props.row.content }}
+                            <h2>{{ props.row.title }}</h2>
+                            <p>{{ props.row.content }}</p>
                         </template>
                     </el-table-column>
                     <el-table-column label="缓存标识" prop="key">
                     </el-table-column>
-                    <el-table-column label="操作" class="u-action">
+                    <el-table-column label="操作">
                         <template slot-scope="scope">
                             <el-button
                                 size="mini"
@@ -61,7 +62,7 @@
 </template>
 
 <script>
-const { DB , savePost } = require("../../utils/autoSave");
+import { DB, savePost } from "../../utils/autoSave";
 
 export default {
     name: "pubheader",
@@ -96,10 +97,16 @@ export default {
             this.dialogVisible = false;
         },
         loadDrafts: function() {
-            this.tableData = []
+            this.tableData = [];
+            //当草稿超过50篇时,自动清空
+            DB.length().then((len) => {
+                if(len > 50) DB.clear()
+            })
+
             DB.iterate((val, key, i) => {
                 this.tableData.push({
                     key: key,
+                    title: val.post.post_title,
                     content: val.post.post_content,
                 });
             })
@@ -121,7 +128,7 @@ export default {
         },
         useDraft: function(i, key) {
             DB.getItem(key).then((data) => {
-                this.$store.replaceState(data)
+                this.$store.replaceState(data);
                 this.closeDraftBox();
             });
         },
@@ -142,14 +149,22 @@ export default {
     .clearfix;
 }
 .m-publish-store {
-    .pa;.rt(0);
+    .pa;
+    .rt(0);
     .u-clear {
         .pa;
         .lt(100px, 16px);
     }
-    .el-table__body{
-        td:last-child .cell{
-            .fr;
+    .m-publish-store-list {
+        .el-table__header-wrapper {
+            tr th:nth-child(3) {
+                .x(right);
+            }
+        }
+        .el-table__body {
+            td:last-child .cell {
+                .fr;
+            }
         }
     }
 }

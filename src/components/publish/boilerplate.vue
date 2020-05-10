@@ -48,9 +48,9 @@
             </div>
 
             <!-- 管理功能 -->
-            <div class="m-publish-admin" v-if="isAdmin && bannerEnable"> 
+            <div class="m-publish-admin" v-if="isAdmin"> 
                 <el-divider content-position="left">管理</el-divider>
-                <post_banner :banner="banner" />
+                <post_banner :banner="banner" v-if="bannerEnable"/>
             </div>
          
             <!-- 按钮 -->
@@ -72,12 +72,14 @@ import post_excerpt from "./post_excerpt.vue";
 import post_tag from "./post_tag.vue";
 import post_notify from "./post_notify.vue";
 import post_banner from "./post_banner.vue";
-const User = require('@jx3box/jx3box-common/js/user');
+import { autoSavePost } from "@/utils/autoSave";
+import User from '@jx3box/jx3box-common/js/user';
 
 export default {
     name: "boilerplate",
     props: [
         "name",
+        "type",
         "localDraft",
         "labelPostion",
         "title",
@@ -97,29 +99,62 @@ export default {
         "notify",
         
         "bannerEnable",
-        "banner"
+        "banner",
+
+        "publishDefault"
     ],
     data: function() {
         return {
             e_mode: this.mode || 'tinymce',
-            isAdmin : User.getInfo().group == 64
+            draft_key : '',
+            isAdmin : User.getInfo().group > 30,
         };
     },
+    computed: {
+        // 引用store
+        dbdata: function() {
+            return this.$store.state;
+        },
+    },
     watch : {
+        // 反向监听store全部内容受组件影响时,更新本地草稿
+        dbdata: {
+            handler: function(data) {
+                autoSavePost(this.draft_key, data);
+            },
+            deep: true,
+        },
         e_mode : function (val){
             this.$store.commit('changeMode',val)
-        }
+        },
     },
-    computed: {},
     methods: {
         publish : function (){
+            // 检查标题长度
+            let title = this.$store.state.post.post_title.trim()
+            if(!title.length){
+                this.$message.error('标题不能为空');
+                return
+            }
+            // 使用默认发布接口
+            if(this.publishDefault){
+                this.doPublish(this.type, this.$store.state, this);
+            }
+
             this.$emit('publish')
         },
         draft : function (){
+            // 使用默认发布接口
+            if(this.publishDefault){
+                this.doDraft(this.type, this.$store.state, this);
+            }
+
             this.$emit('draft')
         }
     },
-    mounted: function() {},
+    mounted: function() {
+        this.draft_key = new Date().toUTCString();
+    },
     components: {
         pubheader,
         upload,

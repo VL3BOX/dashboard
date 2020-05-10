@@ -1,14 +1,16 @@
 <template>
     <div class="c-upload">
-
         <!-- 上传触发按钮 -->
         <el-button type="primary" @click="dialogVisible = true"
             ><i class="el-icon-upload el-icon--right"></i> 上传附件</el-button
         >
 
         <!-- 弹出界面 -->
-        <el-dialog class="c-large-dialog" title="上传" :visible.sync="dialogVisible">
-
+        <el-dialog
+            class="c-large-dialog"
+            title="上传"
+            :visible.sync="dialogVisible"
+        >
             <!-- 清空按钮 -->
             <el-button
                 class="u-upload-clear"
@@ -85,34 +87,32 @@
                     buttonTXT
                 }}</el-button>
             </span>
-
         </el-dialog>
-        
     </div>
 </template>
 
 <script>
-const allow_types = require("@jx3box/jx3box-common/js/conf");
-const JX3BOX = require("@jx3box/jx3box-common/js/jx3box");
+import allow_types from "@jx3box/jx3box-common/js/conf";
+import { JX3BOX } from "@jx3box/jx3box-common";
+import axios from "axios";
 const imgtypes = ["jpg", "png", "gif", "bmp"];
-const API = JX3BOX.__server + "upload"
+const API = JX3BOX.__server + "upload";
 // const API = "http://localhost:5160/" + "publish/upload";
 
 export default {
     name: "upload",
     data: function() {
         return {
-
             API: API,
             dialogVisible: false,
-            tip:"一次最多同时上传10个文件（不超过5M），格式限常见的图片、文档、数据表及压缩包",
+            tip:
+                "一次最多同时上传10个文件（不超过5M），格式限常见的图片、文档、数据表及压缩包",
 
             fileList: [],
             selectedCount: 0,
 
             accept: allow_types.accept,
             sizeLimit: allow_types.sizeLimit,
-            
         };
     },
     computed: {
@@ -135,9 +135,7 @@ export default {
     },
     methods: {
         change: function(file, fileList) {
-
             if (file.status != "success") {
-
                 // 判断大小
                 if (file.size > this.sizeLimit) {
                     this.$message.error("文件超出大小限制");
@@ -150,7 +148,7 @@ export default {
                 fdata.append("file", file.raw);
 
                 // 异步上传
-                this.$axios
+                axios
                     .post(API, fdata, {
                         headers: { "Content-Type": "multipart/form-data" },
                         withCredentials: true,
@@ -195,14 +193,12 @@ export default {
             }
         },
         insert: function() {
-
             this.dialogVisible = false;
 
             //为空不执行插入
-            if(!this.insertList) return
-            
+            if (!this.insertList) return;
 
-            if (this.$store.state.mode == "tinymce") {
+            if (this.$store.state.post.post_mode == "tinymce") {
                 tinyMCE.editors["tinymce"].insertContent(this.insertList);
             } else {
                 // TODO:markdown
@@ -233,7 +229,7 @@ export default {
 </script>
 
 <style lang="less">
-@import '../../assets/css/components/large-dialog.less';
+@import "../../assets/css/components/large-dialog.less";
 
 .c-upload {
     .u-upload-clear {
@@ -314,7 +310,5 @@ export default {
             transform: rotate(-45deg);
         }
     }
-
 }
-
 </style>

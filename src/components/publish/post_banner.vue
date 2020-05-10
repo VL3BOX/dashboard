@@ -14,8 +14,8 @@
 </template>
 
 <script>
-const { __server } = require("@jx3box/jx3box-common/js/jx3box");
-const API = __server + 'upload'
+import { JX3BOX } from "@jx3box/jx3box-common";
+const API = JX3BOX.__server + 'upload'
 // const API = "http://localhost:5160/" + "publish/upload";
 
 export default {

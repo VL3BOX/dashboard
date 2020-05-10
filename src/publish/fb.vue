@@ -1,8 +1,19 @@
 <template>
     <div class="m-publish-fb">
         <!-- 💛 预设选项 -->
+        <!-- 
+            localDraft : 是否显示本地草稿按钮
+            infoEnable : 是否包含自定义字段
+            markdownEnable : 是否开启markdown编辑器
+            excerptEnable : 是否开启摘要
+            tagEnable : 是否开启标签
+            notifyEnable : 是否开启通知等扩展功能
+            bannerEnable : 是否开启头条图功能,开启后仍旧需要签约作者及管理员才可见
+            publishDefault : 是否启用默认发布接口
+         -->
         <boilerplate
             :name="name"
+            :type="type"
             :localDraft="true"
             labelPostion="left"
             :title="post.title"
@@ -18,22 +29,22 @@
             :notify="extend"
             :bannerEnable="true"
             :banner="post.banner"
+            :publishDefault="true"
             @publish="toPublish"
             @draft="toDraft"
         >
             <!-- 💛 栏目字段 -->
-            <template v-if="options.list.length">
+            <template v-if="ready">
 
                 <!-- 1.选择资料片 -->
                 <el-form-item label="资料片">
                     <el-radio
-                        v-for="(devide, i) in zlp_list"
-                        :label="devide.devide_name"
+                        v-for="(zlp, i) in zlp_list"
+                        :label="zlp"
                         border
                         :key="i"
-                        @change="selectLevel1(i)"
                         v-model="meta.fb_zlp"
-                        >{{ devide.devide_name }}</el-radio
+                        >{{ zlp }}</el-radio
                     >
                 </el-form-item>
 
@@ -41,14 +52,13 @@
                 <el-form-item label="副本名称">
                     <el-radio
                         class="u-fb-thumbnail"
-                        v-for="(fb, i) in fb_list"
-                        :label="fb.name"
-                        :key="i"
-                        @change="selectLevel2(i, fb.cat_id)"
+                        v-for="(fb, key) in fb_list"
+                        :label="key"
+                        :key="key"
                         v-model="meta.fb_name"
                     >
-                        <img :src="fb.icon | thumbnail(fb.icon)" :alt="fb.name" />
-                        <span>{{ fb.name }}</span>
+                        <img :src="fb.icon | thumbnail(fb.icon)" :alt="key" />
+                        <span>{{ key }}</span>
                     </el-radio>
                 </el-form-item>
 
@@ -58,8 +68,7 @@
                         <el-checkbox-button
                             v-for="(boss, i) in boss_list"
                             :label="boss.name"
-                            :key="boss.name"
-                            @change="selectLevel3(i, boss.name)"
+                            :key="i"
                             >{{ boss.name }}</el-checkbox-button
                         >
                     </el-checkbox-group>
@@ -85,33 +94,25 @@
 <script>
 import boilerplate from "../components/publish/boilerplate";
 
-// 依赖
-import { LoadFBList, LoadFBDetails } from "../service/fb";
-
-// 依赖 TODO:改为一个全局使用cdn图片路径的方法
+// 本地依赖
+import { LoadFBList } from "../service/fb";
 import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box";
-
-// 快捷方法 TODO:改为模板内置
-const { autoSavePost } = require("../utils/autoSave");
 
 export default {
     name: "fb",
     props: [],
     data: function() {
         return {
+            //基本 - 类型设置
             type: "fb",
             name: "副本攻略",
 
-            //选项
+            //选项 - 加载可选项
             options: {
-                list: [],
-                detail: [],
-                level1:0,
-                level2:0,
-                level3:'fanyangyebian'
+                map: {},
             },
 
-            //字段
+            //字段 - meta表数据,可设置默认值
             meta: {
                 fb_zlp: "世外蓬莱",
                 fb_name: "范阳夜变",
@@ -119,46 +120,43 @@ export default {
                 fb_level: [],
             },
 
-            //文章
+            //文章 - 主表数据
             post: {
-                id: "",
-                mode: "tinymce",
-                title: "",
-                content: "",
-                excerpt: "",
-                tags: [],
-                banner: "",
+                id: "",                 //文章ID
+                mode: "tinymce",        //编辑模式(会影响文章详情页渲染规则)
+                title: "",              //标题
+                content: "",            //主表内容字段,由后端接口配置是否双存储至meta表
+                excerpt: "",            //主表摘要
+                tags: [],               //标签列表
+                banner: "",             //头条图,管理员可见
             },
 
-            //扩展
-            //TODO:目前请勿启用，接口未做处理，且部分栏目文章不应启用该功能
+            //扩展 - 部分栏目文章不应启用该功能
             extend: {
-                feedEnable: false,
-                followEnable: false,
-                weiboEnable: false,
-                tuilanEnable: false,
+                feedEnable: false,      //是否通知订阅用户,由后端接口实现
+                followEnable: false,    //是否通知粉丝,由后端接口实现
+                weiboEnable: false,     //前端发起请求
+                tuilanEnable: false,    //前端发起请求
             },
         };
     },
     computed: {
-        // 引用store
-        dbdata: function() {
-            return this.$store.state;
+        // 是否选项加载就绪
+        ready:function (){
+            return Object.keys(this.options.map).length
         },
-        // 字段
         zlp_list :function (){
-            return this.options.list
+            return Object.keys(this.options.map)
         },
         fb_list : function (){
-            return this.options.list[this.options.level1]['dungeon_infos']
+            return this.options.map[this.meta.fb_zlp]['dungeon']
         },
         boss_list : function (){
-            return this.options.detail
+            return this.fb_list[this.meta.fb_name]['detail']['boss_infos']
         },
         level_list : function (){
-            return this.options.list[this.options.level1]['dungeon_infos'][this.options.level2]['maps']
+            return this.fb_list[this.meta.fb_name]['maps']
         }
-
     },
     watch: {
         // 通过编辑模式进行加载时
@@ -175,58 +173,36 @@ export default {
             },
             deep: true,
         },
-        // 反向监听store全部内容受组件影响时,更新本地草稿
-        dbdata: {
-            handler: function(data) {
-                autoSavePost(name, data);
-            },
-            deep: true,
-        },
     },
     methods: {
         // 发布
         toPublish: function() {
-            this.doPublish(this.type, this.$store.state, this);
+            // 如使用默认发布接口publishDefault="true"时，可不执行任何操作
         },
         // 草稿
         toDraft: function() {
-            this.doDraft(this.type, this.$store.state, this);
+            // 如使用默认发布接口publishDefault="true"时，可不执行任何操作
         },
-        // 加载(编辑模式需加载原内容)
+        // 加载
         init: function() {
+            // 编辑模式时需加载原内容 ?edit=id
+            // toLoad参数2为需要格式化为数组的meta_key
             return this.doLoad(this, ["fb_boss", "fb_level"]);
         },
-        // 初始化选项数据 //TODO:自动关联加载数据的索引
+        // 初始化选项数据
         optionsInit: function() {
-            LoadFBList().then((res) => {
-                this.options.list = res.data;
+            return LoadFBList().then((res) => {
+                this.options.map = res.data
             });
-            LoadFBDetails(this.options.level3).then((res) => {
-                this.options.detail = res.data.data.info.boss_infos;
-            });
-        },
-
-        // 本地操作方法
-        selectLevel1: function(i) {
-            this.options.level1 = i;
-            this.options.level2 = 0; //重置为0
-        },
-        selectLevel2: function(i, cat_id) {
-            this.options.level2 = i;
-            this.options.level3 = cat_id;
-            LoadFBDetails(cat_id).then((res) => {
-                this.options.detail = res.data.data.info.boss_infos;
-            });
-        },
-        selectLevel3: function(i, boss) {
-            this.options.level3 = i;
         },
     },
     mounted: function() {
-        // 初始化默认文章数据
-        this.init().then(() => {
-            // 初始化选项数据
-            this.optionsInit();
+        // 初始化选项数据
+        this.optionsInit().then(() => {
+            // 初始化默认文章数据
+            this.init().then(() => {
+                console.log(this.post,this.meta)
+            })
         })
     },
     filters: {

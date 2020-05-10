@@ -39,7 +39,7 @@ function doDraft(data, vm) {
 
 // 编辑加载
 function doLoad(vm, arrMetaKeys) {
-    let id = (vm.post.id = editIDCheck());
+    let id = (vm.post.ID = editIDCheck());
 
     if (id) {
         return $.get(`post/query`, {

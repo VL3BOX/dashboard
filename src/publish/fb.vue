@@ -14,21 +14,16 @@
         <boilerplate
             :name="name"
             :type="type"
+            :post="post"
+            :meta="meta"
+            :extend="extend"
             :localDraft="true"
-            labelPostion="left"
-            :title="post.post_title"
             :infoEnable="true"
-            :mode="post.post_mode"
             :markdownEnable="false"
-            :content="post.post_content"
             :excerptEnable="true"
-            :excerpt="post.post_excerpt"
             :tagEnable="false"
-            :tags="post.post_tags"
             :notifyEnable="true"
-            :notify="extend"
             :bannerEnable="true"
-            :banner="post.post_banner"
             :publishDefault="true"
             @publish="toPublish"
             @draft="toDraft"
@@ -157,22 +152,6 @@ export default {
         level_list : function (){
             return this.fb_list[this.meta.fb_name]['maps']
         }
-    },
-    watch: {
-        // 通过编辑模式进行加载时
-        post: {
-            handler: function(val) {
-                this.$store.commit("editPost", val);
-            },
-            deep: true,
-        },
-        // 修改自定义字段时
-        meta: {
-            handler: function(val) {
-                this.$store.commit("editMeta", val);
-            },
-            deep: true,
-        },
     },
     methods: {
         // 发布

@@ -14,21 +14,16 @@
         <boilerplate
             :name="name"
             :type="type"
+            :post="post"
+            :meta="meta"
+            :extend="extend"
             :localDraft="true"
-            labelPostion="left"
-            :title="post.post_title"
             :infoEnable="true"
-            :mode="post.post_mode"
             :markdownEnable="false"
-            :content="post.post_content"
             :excerptEnable="false"
-            :excerpt="post.post_excerpt"
             :tagEnable="false"
-            :tags="post.post_tags"
-            :notifyEnable="true"
-            :notify="extend"
+            :notifyEnable="false"
             :bannerEnable="false"
-            :banner="post.post_banner"
             :publishDefault="false"
             @publish="toPublish"
             @draft="toDraft"
@@ -37,7 +32,7 @@
             <el-form-item label="综合难度">
                 <el-select
                     class="u-achievement_id"
-                    v-model="post.achievement_id"
+                    v-model="meta.achievement_id"
                     filterable
                     remote
                     reserve-keyword
@@ -85,7 +80,7 @@ import {axios as $http} from '../service/axios'
 import { JX3BOX } from "@jx3box/jx3box-common";
 
 export default {
-    name: "demo",
+    name: "cj",
     props: [],
     data: function() {
         return {
@@ -103,6 +98,7 @@ export default {
             meta :{
                 level: 3,
                 remark: "",
+                achievement_id:""
             },
 
             //文章 - 主表数据
@@ -127,22 +123,6 @@ export default {
         };
     },
     computed: {},
-    watch: {
-        // 通过编辑模式进行加载时
-        post: {
-            handler: function(val) {
-                this.$store.commit("editPost", val);
-            },
-            deep: true,
-        },
-        // 修改自定义字段时
-        meta: {
-            handler: function(val) {
-                this.$store.commit("editMeta", val);
-            },
-            deep: true,
-        },
-    },
     methods: {
         toPublish: function() {
             console.log(this.$store.state);

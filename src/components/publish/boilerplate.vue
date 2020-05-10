@@ -3,9 +3,9 @@
         <!-- 头部 -->
         <pubheader :name="name" :localDraft="localDraft"><slot name="header"></slot></pubheader>
 
-        <el-form :label-position="labelPostion" label-width="80px">
+        <el-form label-position="left" label-width="80px">
             <!-- 标题 -->
-            <post_title :title="title"><slot name="title"></slot></post_title>
+            <post_title :title="post.post_title"><slot name="title"></slot></post_title>
 
             <!-- 栏目特定字段 -->
             <div class="m-publish-info" v-if="infoEnable">
@@ -16,7 +16,7 @@
             <!-- 正文之前 -->
             <div class="m-publish-prepend">
                 <el-divider content-position="left">正文</el-divider>
-                <el-radio-group v-model="e_mode" class="u-editor-mode">
+                <el-radio-group v-model="mode" class="u-editor-mode">
                     <el-radio-button label="tinymce"></el-radio-button>
                     <el-radio-button label="markdown" v-if="markdownEnable"></el-radio-button>
                 </el-radio-group>
@@ -28,29 +28,29 @@
 
             <!-- 正文区域 -->
             <div class="m-publish-content">
-                <tinymce :content="content" v-show="e_mode == 'tinymce'" />
-                <markdown v-if="markdownEnable" :content="content" v-show="e_mode == 'markdown'" />
+                <tinymce :content="post.post_content" v-show="mode == 'tinymce'" />
+                <markdown v-if="markdownEnable" :content="post.post_content" v-show="mode == 'markdown'" />
             </div>
 
             <!-- 正文之后 -->
             <div class="m-publish-append" v-if="excerptEnable">
                 <el-divider content-position="left">附加</el-divider>
-                <post_tag :tags="tags" v-if="tagEnable"></post_tag>
-                <post_excerpt :excerpt="excerpt"></post_excerpt>
+                <post_tag :tags="post.post_tags" v-if="tagEnable"></post_tag>
+                <post_excerpt :excerpt="post.post_excerpt"></post_excerpt>
                 <slot name="append"></slot>
             </div>
 
             <!-- 扩展功能 -->
             <div class="m-publish-extend" v-if="notifyEnable">
                 <el-divider content-position="left">扩展</el-divider>
-                <post_notify :notify="notify" />
+                <post_notify :notify="extend" />
                 <slot name="extend"></slot>
             </div>
 
             <!-- 管理功能 -->
             <div class="m-publish-admin" v-if="isAdmin"> 
                 <el-divider content-position="left">管理</el-divider>
-                <post_banner :banner="banner" v-if="bannerEnable"/>
+                <post_banner :banner="post.post_banner" v-if="bannerEnable"/>
             </div>
          
             <!-- 按钮 -->
@@ -80,32 +80,22 @@ export default {
     props: [
         "name",
         "type",
+        "post",
+        "meta",
+        "extend",
+
         "localDraft",
-        "labelPostion",
-        "title",
         "infoEnable",
-
-        "mode",
         "markdownEnable",
-        "content",
-
         "excerptEnable",
-        "excerpt",
-
         "tagEnable",
-        "tags",
-
         "notifyEnable",
-        "notify",
-        
         "bannerEnable",
-        "banner",
-
         "publishDefault"
     ],
     data: function() {
         return {
-            e_mode: this.mode || 'tinymce',
+            mode: this.post.post_mode || 'tinymce',
             draft_key : '',
             isAdmin : User.getInfo().group > 30,
         };
@@ -124,7 +114,22 @@ export default {
             },
             deep: true,
         },
-        e_mode : function (val){
+        // 通过编辑模式进行加载时
+        post: {
+            handler: function(val) {
+                this.$store.commit("editPost", val);
+            },
+            deep: true,
+        },
+        // 修改自定义字段时
+        meta: {
+            handler: function(val) {
+                this.$store.commit("editMeta", val);
+            },
+            deep: true,
+        },
+        // 编辑模式切换
+        mode : function (val){
             this.$store.commit('changeMode',val)
         },
     },

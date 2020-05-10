@@ -3,10 +3,7 @@ import { JX3BOX } from "@jx3box/jx3box-common";
 import { editIDCheck } from "../utils/editIDCheck";
 
 // 发布
-function doPublish(type, data, vm) {
-    data.post.post_status = "publish";
-    data.post.post_type = type;
-
+function doPublish(data, vm) {
     return $.post(`post/publish`, data)
         .then((res) => {
             vm.$message({
@@ -21,15 +18,12 @@ function doPublish(type, data, vm) {
             // }, 500);
         })
         .catch((err) => {
-            vm.failCallback(vm, err);
+            vm.failCallback(err,vm);
         });
 }
 
 // 草稿
-function doDraft(type, data, vm) {
-    data.post.post_status = "draft";
-    data.post.post_type = type;
-
+function doDraft(data, vm) {
     return $.post(`post/publish`, data)
         .then((res) => {
             vm.$notify({
@@ -39,7 +33,7 @@ function doDraft(type, data, vm) {
             });
         })
         .catch((err) => {
-            vm.failCallback(vm, err);
+            vm.failCallback(err,vm);
         });
 }
 

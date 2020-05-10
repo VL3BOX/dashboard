@@ -11,9 +11,9 @@ let store = {
             post_content: "",
             post_excerpt: "",
             post_banner: "",
+            post_tags: [],
             post_status : 'publish',
-            post_type : ''
-            // tags: [],
+            post_type : '',
         },
         meta : {},
         extend: {
@@ -24,8 +24,11 @@ let store = {
         },
     },
     mutations: {
-        changeID : function (state,payload){
-            state.post.ID = payload
+        changeType : function (state, payload){
+            state.post.post_type = payload;
+        },
+        changeStatus : function (state, payload){
+            state.post.post_status = payload;
         },
         changeMode: function(state, payload) {
             state.post.post_mode = payload;

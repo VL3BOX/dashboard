@@ -16,19 +16,19 @@
             :type="type"
             :localDraft="true"
             labelPostion="left"
-            :title="post.title"
+            :title="post.post_title"
             :infoEnable="true"
-            :mode="post.mode"
+            :mode="post.post_mode"
             :markdownEnable="false"
-            :content="post.content"
+            :content="post.post_content"
             :excerptEnable="true"
-            :excerpt="post.excerpt"
+            :excerpt="post.post_excerpt"
             :tagEnable="false"
-            :tags="post.tags"
+            :tags="post.post_tags"
             :notifyEnable="true"
             :notify="extend"
             :bannerEnable="true"
-            :banner="post.banner"
+            :banner="post.post_banner"
             :publishDefault="true"
             @publish="toPublish"
             @draft="toDraft"
@@ -122,13 +122,13 @@ export default {
 
             //文章 - 主表数据
             post: {
-                id: "",                 //文章ID
-                mode: "tinymce",        //编辑模式(会影响文章详情页渲染规则)
-                title: "",              //标题
-                content: "",            //主表内容字段,由后端接口配置是否双存储至meta表
-                excerpt: "",            //主表摘要
-                tags: [],               //标签列表
-                banner: "",             //头条图,管理员可见
+                ID: "",                      //文章ID
+                post_mode: "tinymce",        //编辑模式(会影响文章详情页渲染规则)
+                post_title: "",              //标题
+                post_content: "",            //主表内容字段,由后端接口配置是否双存储至meta表
+                post_excerpt: "",            //主表摘要
+                post_tags: [],               //标签列表
+                post_banner: "",             //头条图,管理员可见
             },
 
             //扩展 - 部分栏目文章不应启用该功能
@@ -177,10 +177,12 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
+            console.log(this.$store.state)
             // 如使用默认发布接口publishDefault="true"时，可不执行任何操作
         },
         // 草稿
         toDraft: function() {
+            console.log(this.$store.state)
             // 如使用默认发布接口publishDefault="true"时，可不执行任何操作
         },
         // 加载

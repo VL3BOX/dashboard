@@ -130,23 +130,21 @@ export default {
     },
     methods: {
         publish : function (){
-            // 检查标题长度
-            let title = this.$store.state.post.post_title.trim()
-            if(!title.length){
-                this.$message.error('标题不能为空');
-                return
-            }
+            this.$store.commit('changeStatus','publish')
+
             // 使用默认发布接口
             if(this.publishDefault){
-                this.doPublish(this.type, this.$store.state, this);
+                this.doPublish(this.$store.state, this);
             }
 
             this.$emit('publish')
         },
         draft : function (){
+            this.$store.commit('changeStatus','draft')
+
             // 使用默认发布接口
             if(this.publishDefault){
-                this.doDraft(this.type, this.$store.state, this);
+                this.doDraft(this.$store.state, this);
             }
 
             this.$emit('draft')
@@ -154,6 +152,7 @@ export default {
     },
     mounted: function() {
         this.draft_key = new Date().toUTCString();
+        this.$store.commit('changeType',this.type)
     },
     components: {
         pubheader,

@@ -32,19 +32,20 @@
             <template v-if="ready">
 
                 <!-- 1.选择资料片 -->
-                <el-form-item label="资料片">
+                <el-form-item label="资料片" v-if="zlp_list">
                     <el-radio
                         v-for="(zlp, i) in zlp_list"
                         :label="zlp"
                         border
                         :key="i"
                         v-model="meta.fb_zlp"
+                        @change="optionChange(zlp)"
                         >{{ zlp }}</el-radio
                     >
                 </el-form-item>
 
                 <!-- 2.选择副本名称 -->
-                <el-form-item label="副本名称">
+                <el-form-item label="副本名称" v-if="fb_list">
                     <el-radio
                         class="u-fb-thumbnail"
                         v-for="(fb, key) in fb_list"
@@ -58,7 +59,7 @@
                 </el-form-item>
 
                 <!-- 选择BOSS -->
-                <el-form-item label="首领名称">
+                <el-form-item label="首领名称" v-if="boss_list">
                     <el-checkbox-group v-model="meta.fb_boss">
                         <el-checkbox-button
                             v-for="(boss, i) in boss_list"
@@ -70,7 +71,7 @@
                 </el-form-item>
 
                 <!-- 选择难度模式 -->
-                <el-form-item label="难度模式">
+                <el-form-item label="难度模式" v-if="level_list">
                     <el-checkbox-group v-model="meta.fb_level">
                         <el-checkbox
                             v-for="(level, i) in level_list"
@@ -147,11 +148,11 @@ export default {
             return this.options.map[this.meta.fb_zlp]['dungeon']
         },
         boss_list : function (){
-            return this.fb_list[this.meta.fb_name]['detail']['boss_infos']
+            return this.fb_list[this.meta.fb_name] && this.fb_list[this.meta.fb_name]['detail']['boss_infos']
         },
         level_list : function (){
-            return this.fb_list[this.meta.fb_name]['maps']
-        }
+            return this.fb_list[this.meta.fb_name] && this.fb_list[this.meta.fb_name]['maps']
+        },
     },
     methods: {
         // 发布
@@ -176,6 +177,11 @@ export default {
                 this.options.map = res.data
             });
         },
+        // 当切换资料片时
+        optionChange : function (zlp){
+            let first = Object.keys(this.options.map[zlp]['dungeon'])[0]
+            this.meta.fb_name = first
+        }
     },
     mounted: function() {
         // 初始化选项数据
@@ -188,7 +194,7 @@ export default {
     },
     filters: {
         thumbnail: function(url) {
-            return __ossMirror + url;
+            return __ossMirror + url + '?v20200510';
         },
     },
     components: {

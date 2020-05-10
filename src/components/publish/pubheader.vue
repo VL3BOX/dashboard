@@ -98,9 +98,9 @@ export default {
         },
         loadDrafts: function() {
             this.tableData = [];
-            //当草稿超过50篇时,自动清空
+            //当草稿超过n篇时,自动清空
             DB.length().then((len) => {
-                if(len > 50) DB.clear()
+                if(len > 20) DB.clear()
             })
 
             DB.iterate((val, key, i) => {

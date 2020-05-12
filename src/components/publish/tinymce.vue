@@ -37,7 +37,7 @@ export default {
                 language: "zh_CN",
                 
                 // 样式 
-                content_css: JX3BOX.__staticPath + `jx3box-article-ui@0d2d4f9/css/article.css`, //TODO:修改版本
+                content_css: 'https://cdn.jsdelivr.net/gh/JX3BOX/article@0.0.2/css/article.css', //TODO:修改版本
                 // content_css: `http://localhost:1024/css/article.css`,
                 body_class: "c-article",
                 height: 800,

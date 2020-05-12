@@ -51,7 +51,7 @@ export default {
                     "link anchor autolink",
                     "hr lists advlist table codesample checklist foldtext ",
                     "image emoticons media videox",
-                    "autosave code fullscreen wordcount pagebreak powerpaste template",
+                    "autosave code fullscreen wordcount pagebreak powerpaste",//template
                 ],
                 toolbar: [
                     "undo | formatselect | fontsizeselect | forecolor backcolor | bold italic underline strikethrough superscript subscript | link unlink anchor | restoredraft code fullscreen",

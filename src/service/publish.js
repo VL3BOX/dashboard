@@ -13,11 +13,12 @@ function doPublish(data, vm) {
 
             let pid = res.data.data.ID;
             // TODO:跳转
-            // setTimeout(() => {
-            //     location.href = JX3BOX.__Root + "?p=" + pid;
-            // }, 500);
+            setTimeout(() => {
+                location.href = JX3BOX.__Root + "?p=" + pid;
+            }, 500);
         })
         .catch((err) => {
+            console.log(err)
             vm.failCallback(err,vm);
         });
 }
@@ -33,6 +34,7 @@ function doDraft(data, vm) {
             });
         })
         .catch((err) => {
+            console.log(err)
             vm.failCallback(err,vm);
         });
 }
@@ -55,12 +57,13 @@ function doLoad(vm, arrMetaKeys) {
                 let meta = res.data.data.meta;
                 if (arrMetaKeys && arrMetaKeys.length) {
                     for (let key of arrMetaKeys) {
-                        meta[key] = meta[key].split(",");
+                        meta[key] = meta[key] && meta[key].split(",");
                     }
                 }
                 vm.meta = meta;
             })
             .catch((err) => {
+                console.log(err)
                 vm.failCallback(err, vm);
             });
     }else{
@@ -69,5 +72,11 @@ function doLoad(vm, arrMetaKeys) {
         })
     }
 }
+
+// feedEnable: false,          //TODO:发布至订阅接口
+// followEnable: false,        //TODO:发布至关注接口
+// tencentEnable: false,     //TODO:格式化至腾讯文档
+// weiboEnable: false,     //TODO:格式化至微博头条
+// tuilanEnable: false,    //TODO:格式化至推栏
 
 export { doPublish, doDraft, doLoad };

@@ -17,10 +17,11 @@ let store = {
         },
         meta : {},
         extend: {
-            feedEnable: false,
+            feedEnable: false, 
             followEnable: false,
-            weiboEnable: false,     //TODO:格式化至微博头条
-            tuilanEnable: false,    //TODO:格式化至推栏
+            tencentEnable: false,
+            weiboEnable: false,
+            tuilanEnable: false,
         },
     },
     mutations: {

@@ -17,10 +17,18 @@
         >
         </el-switch>
         <el-switch
+            v-model="notify.tencentEnable"
+            active-color="#0366d6"
+            inactive-color="#999"
+            active-text="同步至腾讯文档"
+            disabled
+        >
+        </el-switch>
+        <el-switch
             v-model="notify.weiboEnable"
             active-color="#0366d6"
             inactive-color="#999"
-            active-text="同步至微博文章"
+            active-text="同步至微博头条文章"
             disabled
         >
         </el-switch>

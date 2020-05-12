@@ -114,10 +114,11 @@ export default {
 
             // 扩展 - 部分栏目文章不应启用该功能
             extend: {
-                feedEnable: false,
-                followEnable: false,
-                weiboEnable: false,
-                tuilanEnable: false,
+                feedEnable: false,           //是否通知订阅用户
+                followEnable: false,         //是否通知粉丝
+                tencentEnable: false,        //是否同步至腾讯文档
+                weiboEnable: false,          //是否同步至微博头条文章
+                tuilanEnable: false,         //是否同步至推栏
             },
             
         };

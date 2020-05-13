@@ -15,7 +15,7 @@
         <h5 class="u-title">账号设置</h5>
         <div class="m-nav-group">
             <router-link to="/profile"><img class="u-user" svg-inline src="../assets/img/nav/user.svg" /><span>资料修改</span></router-link>
-            <router-link to="/avatar"><img class="u-avatar" svg-inline src="../assets/img/nav/avatar.svg" /><span>修改头像</span></router-link>
+            <router-link to="/avatar"><img class="u-avatar" svg-inline src="../assets/img/nav/avatar.svg" /><span>定制头像</span></router-link>
             <router-link to="/pwd"><img class="u-pass" svg-inline src="../assets/img/nav/pass.svg" /><span>修改密码</span></router-link>
             <router-link to="/email"><img class="u-mail" svg-inline src="../assets/img/nav/mail.svg" /><span>绑定邮箱</span></router-link>
             <router-link to="/connect"><img class="u-link" svg-inline src="../assets/img/nav/link.svg" /><span>绑定账号</span></router-link>

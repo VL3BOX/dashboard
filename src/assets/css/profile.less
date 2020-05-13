@@ -1,12 +1,21 @@
 .m-dashboard-profile {
+    max-width:800px;
+    .auto(x);
     .u-name {
         .u-value {
             .bold;
         }
+        .mb(5px);
     }
 
     .u-rename {
         .pr;
+        padding:0 5px;
+        .mb(10px);
+
+        .u-rename-input{
+            .mb(10px);
+        }
 
         .el-icons-status {
             .pa;
@@ -20,7 +29,7 @@
         }
 
         .el-alert {
-            .mt(10px);
+            .mb(10px);
             padding: 0 5px 0 10px;
             line-height: 2.5;
         }
@@ -40,5 +49,23 @@
     .el-form-item__label {
         .x(left);
         // .w(60px) !important;
+    }
+}
+
+.m-profile-name{
+    .u-tip{
+        .mb(10px);
+    }
+    .mb(40px);
+}
+
+.m-profile-other.disabled{
+    .tm(0.4);
+}
+
+.m-profile-btns{
+    .mt(10px);
+    .el-button{
+        .w(160px);
     }
 }

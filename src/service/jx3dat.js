@@ -16,4 +16,21 @@ function uploadData(formdata){
     return $.post('upload/data',formdata)
 }
 
-export { uploadHub ,uploadData};
+// TODO:同时发布到只读hub redis
+function publishToRedis(user,data){
+    let mergedData = transferForRedis(user,data)
+    console.log(JSON.stringify(mergedData))
+    // 返回promise
+}
+
+function transferForRedis(user,data){
+    let _ = {
+        author : user.name,
+        user_id : user.uid,
+        post_id : data.ID,
+        data : data.post_meta.data
+    }
+    return _
+}
+
+export { uploadHub ,uploadData,publishToRedis};

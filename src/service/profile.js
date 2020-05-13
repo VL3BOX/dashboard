@@ -9,7 +9,7 @@ function getUserInfo(uid){
     })
 }
 
-// 个人资料
+// 昵称
 function checkNickname(name) {
     return $.get("dashboard/nickname/check", {
         params: {
@@ -17,7 +17,10 @@ function checkNickname(name) {
         },
     });
 }
-
+function updateNickname(data) {
+    return $.post("dashboard/nickname/update", {name:data});
+}
+// 资料
 function updateProfile(data) {
     return $.post("dashboard/profile/update", data);
 }
@@ -73,6 +76,7 @@ function checkOAuth(data) {
 export {
     getUserInfo,
     checkNickname,
+    updateNickname,
     updateProfile,
     updateAvatar,
     updatePassword,

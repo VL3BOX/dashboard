@@ -47,7 +47,8 @@
                     <!-- TODO:云数据ID -->
 
                     <!-- 数据列表 -->
-                    <el-alert class="u-data-tips"
+                    <el-alert
+                        class="u-data-tips"
                         title="设置不公开后,仍然可以通过订阅名下载,仅不做展示,可告知亲友通过隐藏订阅名下载"
                         type="warning"
                         description="不指定版本时,默认下载第一个主版本,目前最多可设置5个版本"
@@ -202,7 +203,7 @@
 <script>
 import boilerplate from "../components/publish/boilerplate";
 
-import { uploadHub, uploadData } from "../service/jx3dat.js";
+import { uploadHub, uploadData, publishToRedis } from "../service/jx3dat.js";
 import { User } from "@jx3box/jx3box-common";
 import { jx3dat_types, jx3dat_tags } from "@jx3box/jx3box-common/js/types";
 
@@ -281,19 +282,35 @@ export default {
             // 检测当为团控数据时，数据状态不能为否
             if (this.post.post_meta.type == 1) {
                 for (let val of this.post.post_meta.data) {
-                    console.log(val.file);
                     if (!val.file) {
                         this.$message.error(val.name + "数据不能为空!");
                         return;
                     }
                 }
             }
-            this.doPublish(this.$store.state, this);
+            this.doPublish(this.$store.state, this).then((res) => {
+                let pid = res.data.data.ID;
+                console.log(res.data.data)
+
+                publishToRedis(this.user,res.data.data).then((res) => {
+                    this.$message({
+                        message: res.data.msg,
+                        type: "success",
+                    });
+
+                    // setTimeout(() => {
+                    //     // TODO:后续应修改路径
+                    //     location.href =
+                    //         JX3BOX.__v2 + data.post.post_type + "/?pid=" + pid;
+                    // }, 500);
+                });
+                
+            });
             console.log(this.$store.state);
         },
         // 草稿
         toDraft: function() {
-            this.doPublish(this.$store.state, this);
+            this.doDraft(this.$store.state, this).then(() => {});
             console.log(this.$store.state);
         },
         // 加载

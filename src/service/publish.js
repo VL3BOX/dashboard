@@ -1,26 +1,14 @@
 import { $ } from "./axios";
 import { JX3BOX } from "@jx3box/jx3box-common";
 import { editIDCheck } from "../utils/editIDCheck";
-import lodash from 'lodash'
+import lodash from "lodash";
 
 // 发布
 function doPublish(data, vm) {
-    return $.post(`post/publish`, data)
-        .then((res) => {
-            vm.$message({
-                message: res.data.msg,
-                type: "success",
-            });
-
-            let pid = res.data.data.ID;
-            setTimeout(() => {
-                location.href = JX3BOX.__v2 + data.post.post_type + "/?pid=" + pid;
-            }, 500);
-        })
-        .catch((err) => {
-            console.log(err)
-            vm.failCallback(err,vm);
-        });
+    return $.post(`post/publish`, data).catch((err) => {
+        console.log(err);
+        vm.failCallback(err, vm);
+    });
 }
 
 // 草稿
@@ -34,8 +22,8 @@ function doDraft(data, vm) {
             });
         })
         .catch((err) => {
-            console.log(err)
-            vm.failCallback(err,vm);
+            console.log(err);
+            vm.failCallback(err, vm);
         });
 }
 
@@ -51,34 +39,33 @@ function doLoad(vm, oldMetaKeys) {
         })
             .then((res) => {
                 // 主表字段处理（没有的字段使用默认字段）
-                lodash.merge(vm.post,res.data.data.post)
-                console.log(vm.post)
+                lodash.merge(vm.post, res.data.data.post);
 
                 // 需要处理的旧meta
                 let meta = res.data.data.meta;
                 if (oldMetaKeys && oldMetaKeys.length) {
                     for (let key of oldMetaKeys) {
-                        if(meta[key].indexOf(',')){
+                        if (meta[key].indexOf(",")) {
                             meta[key] = meta[key].split(",");
-                        }else{
-                            meta[key] = meta[key]
+                        } else {
+                            meta[key] = meta[key];
                         }
                     }
                     vm.meta = meta;
                 }
 
                 // 修改store
-                this.$store.state.post = res.data.data.post
-                this.$store.state.meta = res.data.data.meta
+                this.$store.state.post = res.data.data.post;
+                this.$store.state.meta = res.data.data.meta;
             })
             .catch((err) => {
-                console.log(err)
+                console.log(err);
                 vm.failCallback(err, vm);
             });
-    }else{
-        return new Promise((resolve,reject)=>{
-            resolve(location.href)
-        })
+    } else {
+        return new Promise((resolve, reject) => {
+            resolve(location.href);
+        });
     }
 }
 

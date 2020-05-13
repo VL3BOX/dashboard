@@ -1,5 +1,5 @@
 <template>
-    <div class="m-publish-fb">
+    <div class="m-publish-jx3dat">
         <!-- 💛 预设选项 -->
         <!-- 
             localDraft : 是否显示本地草稿按钮
@@ -47,6 +47,13 @@
                     <!-- TODO:云数据ID -->
 
                     <!-- 数据列表 -->
+                    <el-alert class="u-data-tips"
+                        title="设置不公开后,仍然可以通过订阅名下载,仅不做展示,可告知亲友通过隐藏订阅名下载"
+                        type="warning"
+                        description="不指定版本时,默认下载第一个主版本,目前最多可设置5个版本"
+                        show-icon
+                    >
+                    </el-alert>
                     <el-form-item label="站内数据">
                         <div class="m-jx3dat-upload-wrapper">
                             <el-row class="u-thead">
@@ -54,75 +61,87 @@
                                 <el-col :span="4">订阅地址</el-col>
                                 <el-col :span="8">数据说明</el-col>
                                 <el-col :span="2">是否公开</el-col>
-                                <el-col :span="6">操作</el-col>
+                                <el-col :span="3">数据</el-col>
+                                <el-col :span="3">操作</el-col>
                             </el-row>
                             <div class="u-tbody">
-                            <el-row
-                                class="u-tr"
-                                v-for="(data, i) in post.post_meta.data"
-                                :key="i"
-                            >
-                                <el-col :span="4"
-                                    ><el-input
-                                        v-model="data.name"
-                                        placeholder="请输入版本名"
-                                    ></el-input
-                                ></el-col>
-
-                                <el-col :span="4" class="u-feed u-feed-first" v-if="i==0">{{
-                                    user.name + "@jx3box"
-                                }}</el-col>
-                                <el-col :span="4" class="u-feed" v-else>{{
-                                    user.name + "@jx3box@" + data.name
-                                }}</el-col>
-
-                                <el-col :span="8"
-                                    ><el-input
-                                        v-model="data.desc"
-                                        placeholder="请输入数据说明"
-                                    ></el-input
-                                ></el-col>
-                                <el-col :span="2"
-                                    ><el-switch
-                                        v-model="data.status"
-                                        active-color="#13ce66"
-                                        inactive-color="#ff4949"
-                                    >
-                                    </el-switch>
-                                </el-col>
-                                <el-col :span="6">
-                                    <!-- 上传 -->
-                                    <input
-                                        class="u-data-input"
-                                        type="file"
-                                        :id="'jx3dat_' + i"
-                                        @change="uploadDBM($event, data)"
-                                    />
-                                    <el-button
-                                        size="small"
-                                        type="primary"
-                                        @click="selectDBM(i)"
-                                        >上传</el-button
-                                    >
-
-                                    <!-- 删除 -->
-                                    <el-button
-                                        size="small"
-                                        type="danger"
-                                        v-if="i !== 0"
-                                        @click="delDBM(i)"
-                                        >删除</el-button
-                                    >
-
-                                    <!-- 增加 -->
-                                    <el-button
-                                        size="small"
-                                        plain
-                                        @click="addDBM(i)"
-                                        >增加</el-button
-                                    ></el-col
+                                <el-row
+                                    class="u-tr"
+                                    v-for="(data, i) in post.post_meta.data"
+                                    :key="i"
                                 >
-                            </el-row>
+                                    <el-col :span="4"
+                                        ><el-input
+                                            v-model="data.name"
+                                            placeholder="版本名，例：团长版"
+                                        ></el-input
+                                    ></el-col>
+
+                                    <el-col
+                                        :span="4"
+                                        class="u-feed u-feed-first"
+                                        v-if="i == 0"
+                                        >{{ user.name + "@jx3box" }}</el-col
+                                    >
+                                    <el-col :span="4" class="u-feed" v-else>{{
+                                        user.name + "@jx3box@" + data.name
+                                    }}</el-col>
+
+                                    <el-col :span="8"
+                                        ><el-input
+                                            v-model="data.desc"
+                                            placeholder="请输入数据说明，例：监控全团扶摇"
+                                        ></el-input
+                                    ></el-col>
+                                    <el-col :span="2"
+                                        ><el-switch
+                                            v-model="data.status"
+                                            active-color="#13ce66"
+                                            inactive-color="#ff4949"
+                                        >
+                                        </el-switch>
+                                    </el-col>
+                                    <el-col :span="3">
+                                        <!-- 上传 -->
+                                        <input
+                                            class="u-data-input"
+                                            type="file"
+                                            :id="'jx3dat_' + i"
+                                            @change="uploadDBM($event, data)"
+                                        />
+                                        <el-button
+                                            size="small"
+                                            type="primary"
+                                            @click="selectDBM(i)"
+                                            >上传</el-button
+                                        >
+                                        <span
+                                            class="u-data-ready"
+                                            v-if="!!data.file"
+                                        >
+                                            <i class="el-icon-success"></i>
+                                            已上传
+                                        </span>
+                                    </el-col>
+                                    <el-col :span="3">
+                                        <!-- 增加 -->
+                                        <el-button
+                                            size="small"
+                                            plain
+                                            @click="addDBM(i)"
+                                            >增加</el-button
+                                        >
+
+                                        <!-- 删除 -->
+                                        <el-button
+                                            size="small"
+                                            type="danger"
+                                            v-if="i !== 0"
+                                            @click="delDBM(i)"
+                                            >删除</el-button
+                                        >
+                                    </el-col>
+                                </el-row>
                             </div>
                         </div>
                     </el-form-item>
@@ -144,7 +163,7 @@
                     </el-form-item>
 
                     <!-- 标签 -->
-                    <el-form-item label="标签">
+                    <el-form-item label="标签子类">
                         <el-checkbox-group v-model="post.post_meta.tag">
                             <el-checkbox
                                 v-for="(item, i) in options.tag_list"
@@ -156,7 +175,11 @@
                 </template>
 
                 <!-- 3.其它类型上传字段 -->
-                <el-form-item label="上传数据" v-else>
+                <el-form-item label="其它数据">
+                    <span class="u-data-name" v-if="post.post_meta.down">
+                        <i class="el-icon-success"></i>
+                        {{ post.post_meta.down.split("/").pop() }}
+                    </span>
                     <input
                         class="u-data-input"
                         type="file"
@@ -164,14 +187,12 @@
                         @change="uploadDat($event)"
                     />
                     <el-button
-                        type="success"
+                        type="primary"
+                        plain
                         size="medium"
                         @click="selectDat($event)"
                         >点击上传<i class="el-icon-upload el-icon--right"></i
                     ></el-button>
-                    <span class="u-data-name" v-if="tempname">
-                        <i class="el-icon-success"></i> {{ tempname }}
-                    </span>
                 </el-form-item>
             </template>
         </boilerplate>
@@ -183,6 +204,7 @@ import boilerplate from "../components/publish/boilerplate";
 
 import { uploadHub, uploadData } from "../service/jx3dat.js";
 import { User } from "@jx3box/jx3box-common";
+import { jx3dat_types, jx3dat_tags } from "@jx3box/jx3box-common/js/types";
 
 export default {
     name: "jx3dat",
@@ -195,22 +217,8 @@ export default {
 
             //选项 - 加载可选项
             options: {
-                type_map: {
-                    "1": "团队监控数据",
-                    "2": "目标监控数据",
-                    "3": "团队面板buff数据",
-                    "4": "团队面板UI皮肤",
-                    "5": "其它",
-                },
-                tag_list: [
-                    "PVE",
-                    "PVP",
-                    "抓马",
-                    "宠物",
-                    "奇遇",
-                    "浪客行",
-                    "其它",
-                ],
+                type_map: jx3dat_types,
+                tag_list: jx3dat_tags,
             },
 
             //字段 - meta表数据,可设置默认值
@@ -237,7 +245,7 @@ export default {
                     github: "",
                     gitee: "",
                     aliyun: "",
-                    other: "",
+                    down: "",
                 },
                 post_excerpt: "", //主表摘要
                 post_tags: [], //标签列表
@@ -259,22 +267,38 @@ export default {
         };
     },
     computed: {},
+    watch: {
+        "post.post_meta": {
+            handler: function(val) {
+                this.$store.commit("editMeta", val);
+            },
+            deep: true,
+        },
+    },
     methods: {
         // 发布
         toPublish: function() {
+            // 检测当为团控数据时，数据状态不能为否
+            if (this.post.post_meta.type == 1) {
+                for (let val of this.post.post_meta.data) {
+                    console.log(val.file);
+                    if (!val.file) {
+                        this.$message.error(val.name + "数据不能为空!");
+                        return;
+                    }
+                }
+            }
+            this.doPublish(this.$store.state, this);
             console.log(this.$store.state);
-            // 如使用默认发布接口publishDefault="true"时，可不执行任何操作
         },
         // 草稿
         toDraft: function() {
+            this.doPublish(this.$store.state, this);
             console.log(this.$store.state);
-            // 如使用默认发布接口publishDefault="true"时，可不执行任何操作
         },
         // 加载
         init: function() {
-            // 编辑模式时需加载原内容 ?edit=id
-            // toLoad参数2为需要格式化为数组的meta_key
-            // return this.doLoad(this, ["fb_boss", "fb_level"]);
+            return this.doLoad(this);
         },
         // 上传DBM
         selectDBM: function(i) {
@@ -286,7 +310,7 @@ export default {
             let file = e.target.files[0];
             formdata.append("jx3dat", file, "data.jx3dat");
             uploadHub(formdata).then((res) => {
-                console.log(res);
+                item.file = res.download_url;
             });
         },
         // 添加行
@@ -317,7 +341,7 @@ export default {
             let file = e.target.files[0];
             formdata.append("file", file, "data.jx3dat");
             uploadData(formdata).then((res) => {
-                this.post.post_meta.other = res.data.data.list[0];
+                this.post.post_meta.down = res.data.data.list[0];
 
                 this.$message({
                     message: res.data.msg,
@@ -330,9 +354,9 @@ export default {
     },
     mounted: function() {
         // 初始化默认文章数据
-        // this.init().then(() => {
-        //     console.log(this.post,this.meta)
-        // })
+        this.init().then(() => {
+            console.log(this.post);
+        });
         this.user = User.getInfo();
     },
     filters: {},

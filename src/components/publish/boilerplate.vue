@@ -115,19 +115,19 @@ export default {
             deep: true,
         },
         // 通过编辑模式进行加载时
-        post: {
-            handler: function(val) {
-                this.$store.commit("editPost", val);
-            },
-            deep: true,
-        },
+        // post: {
+        //     handler: function(val) {
+        //         this.$store.commit("editPost", val);
+        //     },
+        //     deep: true,
+        // },
         // 修改自定义字段时
-        meta: {
-            handler: function(val) {
-                this.$store.commit("editMeta", val);
-            },
-            deep: true,
-        },
+        // meta: {
+        //     handler: function(val) {
+        //         this.$store.commit("editInfo", val);
+        //     },
+        //     deep: true,
+        // },
         // 编辑模式切换
         mode : function (val){
             this.$store.commit('changeMode',val)
@@ -138,9 +138,9 @@ export default {
             this.$store.commit('changeStatus','publish')
 
             // 使用默认发布接口
-            if(this.publishDefault){
-                this.doPublish(this.$store.state, this);
-            }
+            // if(this.publishDefault){
+            //     this.doPublish(this.$store.state, this);
+            // }
 
             this.$emit('publish')
         },
@@ -148,9 +148,9 @@ export default {
             this.$store.commit('changeStatus','draft')
 
             // 使用默认发布接口
-            if(this.publishDefault){
-                this.doDraft(this.$store.state, this);
-            }
+            // if(this.publishDefault){
+            //     this.doDraft(this.$store.state, this);
+            // }
 
             this.$emit('draft')
         }

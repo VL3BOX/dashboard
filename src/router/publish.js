@@ -2,6 +2,7 @@ import VueRouter from "vue-router";
 
 import index from "../publish/index.vue";
 
+import jx3dat from "../publish/jx3dat.vue";
 import fb from "../publish/fb.vue";
 import cj from "../publish/cj.vue";
 import house from "../publish/house.vue";
@@ -18,6 +19,10 @@ const routes = [
     {
         path: "/cj",
         component: cj,
+    },
+    {
+        path: "/jx3dat",
+        component: jx3dat,
     },
     {
         path: "/house",

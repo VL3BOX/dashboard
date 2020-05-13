@@ -14,7 +14,7 @@
                         ></el-card
                     ></el-col
                 > -->
-                <!-- <el-col :span="4"
+                <el-col :span="4"
                     ><el-card
                         ><router-link to="/jx3dat"
                             ><img
@@ -23,7 +23,7 @@
                             /><span>插件数据</span></router-link
                         ></el-card
                     ></el-col
-                > -->
+                >
                 <el-col :span="4"
                     ><el-card
                         ><router-link to="/fb"

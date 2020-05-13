@@ -25,7 +25,7 @@ export default {
     },
     computed: {
         home: function() {
-            return JX3BOX.__Links.author + this.uid;
+            return JX3BOX.__Links.author + '?uid=' + this.uid;
         },
     },
     methods: {},

@@ -9,7 +9,6 @@
             tagEnable : 是否开启标签
             notifyEnable : 是否开启通知等扩展功能
             bannerEnable : 是否开启头条图功能,开启后仍旧需要签约作者及管理员才可见
-            publishDefault : 是否启用默认发布接口
          -->
         <boilerplate
             :name="name"
@@ -24,7 +23,6 @@
             :tagEnable="false"
             :notifyEnable="true"
             :bannerEnable="true"
-            :publishDefault="true"
             @publish="toPublish"
             @draft="toDraft"
         >
@@ -268,14 +266,6 @@ export default {
         };
     },
     computed: {},
-    watch: {
-        "post.post_meta": {
-            handler: function(val) {
-                this.$store.commit("editMeta", val);
-            },
-            deep: true,
-        },
-    },
     methods: {
         // 发布
         toPublish: function() {
@@ -310,7 +300,7 @@ export default {
         },
         // 草稿
         toDraft: function() {
-            this.doDraft(this.$store.state, this).then(() => {});
+            this.doDraft(this.$store.state, this)
             console.log(this.$store.state);
         },
         // 加载

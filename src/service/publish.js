@@ -1,5 +1,4 @@
 import { $ } from "./axios";
-import { JX3BOX } from "@jx3box/jx3box-common";
 import { editIDCheck } from "../utils/editIDCheck";
 import lodash from "lodash";
 

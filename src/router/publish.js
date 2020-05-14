@@ -17,7 +17,7 @@ const routes = [
         component: fb,
     },
     {
-        path: "/cj",
+        path: "/cj/:achievement_id(\\d+)?",
         component: cj,
     },
     {

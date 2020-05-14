@@ -100,22 +100,24 @@ export default {
             this.tableData = [];
             //当草稿超过n篇时,自动清空
             DB.length().then((len) => {
-                if(len > 20) DB.clear()
-            })
-
-            DB.iterate((val, key, i) => {
-                this.tableData.push({
-                    key: key,
-                    title: val.post.post_title,
-                    content: val.post.post_content,
-                });
-            })
-                .then(function() {
-                    console.log("[IDB] Iteration has completed");
-                })
-                .catch(function(err) {
-                    console.log(err);
-                });
+                if (len > 20) {
+                    DB.clear();
+                } else {
+                    DB.iterate((val, key, i) => {
+                        this.tableData.push({
+                            key: key,
+                            title: val.post.post_title,
+                            content: val.post.post_content,
+                        });
+                    })
+                        .then(function() {
+                            console.log("[IDB] Iteration has completed");
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
+                }
+            });
         },
         clear: function() {
             this.$alert("确认清除全部缓存归档么", "信息", {

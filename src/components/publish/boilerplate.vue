@@ -91,7 +91,6 @@ export default {
         "tagEnable",
         "notifyEnable",
         "bannerEnable",
-        "publishDefault"
     ],
     data: function() {
         return {
@@ -114,17 +113,16 @@ export default {
             },
             deep: true,
         },
-        // 通过编辑模式进行加载时
-        post: {
+        // 修改自定义字段时
+        "post.post_meta": {
             handler: function(val) {
-                this.$store.commit("editPost", val);
+                this.$store.commit("editMeta", val);
             },
             deep: true,
         },
-        // 修改自定义字段时
         meta: {
             handler: function(val) {
-                this.$store.commit("editMeta", val);
+                this.$store.commit("editInfo", val);
             },
             deep: true,
         },
@@ -138,9 +136,9 @@ export default {
             this.$store.commit('changeStatus','publish')
 
             // 使用默认发布接口
-            if(this.publishDefault){
-                this.doPublish(this.$store.state, this);
-            }
+            // if(this.publishDefault){
+            //     this.doPublish(this.$store.state, this);
+            // }
 
             this.$emit('publish')
         },
@@ -148,9 +146,9 @@ export default {
             this.$store.commit('changeStatus','draft')
 
             // 使用默认发布接口
-            if(this.publishDefault){
-                this.doDraft(this.$store.state, this);
-            }
+            // if(this.publishDefault){
+            //     this.doDraft(this.$store.state, this);
+            // }
 
             this.$emit('draft')
         }

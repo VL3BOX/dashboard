@@ -9,7 +9,6 @@
             tagEnable : 是否开启标签
             notifyEnable : 是否开启通知等扩展功能
             bannerEnable : 是否开启头条图功能,开启后仍旧需要签约作者及管理员才可见
-            publishDefault : 是否启用默认发布接口
          -->
         <boilerplate
             :name="name"
@@ -38,7 +37,7 @@
                         :label="zlp"
                         border
                         :key="i"
-                        v-model="meta.fb_zlp"
+                        v-model="post.post_meta.fb_zlp"
                         @change="optionChange(zlp)"
                         >{{ zlp }}</el-radio
                     >
@@ -51,7 +50,7 @@
                         v-for="(fb, key) in fb_list"
                         :label="key"
                         :key="key"
-                        v-model="meta.fb_name"
+                        v-model="post.post_meta.fb_name"
                     >
                         <img :src="fb.icon | thumbnail(fb.icon)" :alt="key" />
                         <span>{{ key }}</span>
@@ -60,7 +59,7 @@
 
                 <!-- 选择BOSS -->
                 <el-form-item label="首领名称" v-if="boss_list">
-                    <el-checkbox-group v-model="meta.fb_boss">
+                    <el-checkbox-group v-model="post.post_meta.fb_boss">
                         <el-checkbox-button
                             v-for="(boss, i) in boss_list"
                             :label="boss.name"
@@ -72,7 +71,7 @@
 
                 <!-- 选择难度模式 -->
                 <el-form-item label="难度模式" v-if="level_list">
-                    <el-checkbox-group v-model="meta.fb_level">
+                    <el-checkbox-group v-model="post.post_meta.fb_level">
                         <el-checkbox
                             v-for="(level, i) in level_list"
                             :label="level.mode"
@@ -92,7 +91,7 @@ import boilerplate from "../components/publish/boilerplate";
 
 // 本地依赖
 import { LoadFBList } from "../service/fb";
-import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box";
+import { __imgPath } from "@jx3box/jx3box-common/js/jx3box";
 
 export default {
     name: "fb",
@@ -109,12 +108,7 @@ export default {
             },
 
             //字段 - meta表数据,可设置默认值
-            meta: {
-                fb_zlp: "世外蓬莱",
-                fb_name: "范阳夜变",
-                fb_boss: [],
-                fb_level: [],
-            },
+            meta: {},
 
             //文章 - 主表数据
             post: {
@@ -122,6 +116,12 @@ export default {
                 post_mode: "tinymce",        //编辑模式(会影响文章详情页渲染规则)
                 post_title: "",              //标题
                 post_content: "",            //主表内容字段,由后端接口配置是否双存储至meta表
+                post_meta: {
+                    fb_zlp: "世外蓬莱",
+                    fb_name: "范阳夜变",
+                    fb_boss: [],
+                    fb_level: [],
+                },
                 post_excerpt: "",            //主表摘要
                 post_tags: [],               //标签列表
                 post_banner: "",             //头条图,管理员可见
@@ -146,31 +146,29 @@ export default {
             return Object.keys(this.options.map)
         },
         fb_list : function (){
-            return this.options.map[this.meta.fb_zlp]['dungeon']
+            return this.options.map[this.post.post_meta.fb_zlp]['dungeon']
         },
         boss_list : function (){
-            return this.fb_list[this.meta.fb_name] && this.fb_list[this.meta.fb_name]['detail']['boss_infos']
+            return this.fb_list[this.post.post_meta.fb_name] && this.fb_list[this.post.post_meta.fb_name]['detail']['boss_infos']
         },
         level_list : function (){
-            return this.fb_list[this.meta.fb_name] && this.fb_list[this.meta.fb_name]['maps']
+            return this.fb_list[this.post.post_meta.fb_name] && this.fb_list[this.post.post_meta.fb_name]['maps']
         },
     },
     methods: {
         // 发布
         toPublish: function() {
+            this.doPublish(this.$store.state, this)
             console.log(this.$store.state)
-            // 如使用默认发布接口publishDefault="true"时，可不执行任何操作
         },
         // 草稿
         toDraft: function() {
+            this.doDraft(this.$store.state, this)
             console.log(this.$store.state)
-            // 如使用默认发布接口publishDefault="true"时，可不执行任何操作
         },
         // 加载
         init: function() {
-            // 编辑模式时需加载原内容 ?edit=id
-            // toLoad参数2为需要格式化为数组的meta_key
-            return this.doLoad(this, ["fb_boss", "fb_level"]);
+            return this.doLoad(this);
         },
         // 初始化选项数据
         optionsInit: function() {
@@ -181,7 +179,7 @@ export default {
         // 当切换资料片时
         optionChange : function (zlp){
             let first = Object.keys(this.options.map[zlp]['dungeon'])[0]
-            this.meta.fb_name = first
+            this.post.post_meta.fb_name = first
         }
     },
     mounted: function() {
@@ -189,13 +187,13 @@ export default {
         this.optionsInit().then(() => {
             // 初始化默认文章数据
             this.init().then(() => {
-                console.log(this.post,this.meta)
+                console.log(this.post)
             })
         })
     },
     filters: {
         thumbnail: function(url) {
-            return __ossMirror + url + '?v20200510';
+            return __imgPath + url + '?v20200510';
         },
     },
     components: {

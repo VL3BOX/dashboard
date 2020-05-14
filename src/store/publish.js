@@ -9,6 +9,7 @@ let store = {
             post_mode: "tinymce",
             post_title: "",
             post_content: "",
+            post_meta: {},
             post_excerpt: "",
             post_banner: "",
             post_tags: [],
@@ -40,6 +41,9 @@ let store = {
         editContent: function(state, payload) {
             state.post.post_content = payload;
         },
+        editMeta: function(state, payload) {
+            state.post.post_meta = payload;
+        },
         editExcerpt: function(state, payload) {
             state.post.post_excerpt = payload;
         },
@@ -49,7 +53,7 @@ let store = {
         editPost: function(state, payload) {
             state.post = payload;
         },
-        editMeta: function(state, payload) {
+        editInfo: function(state, payload) {
             state.meta = payload;
         },
     },

@@ -9,23 +9,21 @@
             tagEnable : 是否开启标签
             notifyEnable : 是否开启通知等扩展功能
             bannerEnable : 是否开启头条图功能,开启后仍旧需要签约作者及管理员才可见
-            publishDefault : 是否启用默认发布接口
          -->
         <boilerplate
-                :name="name"
-                :type="type"
-                :post="post"
-                :extend="extend"
-                :localDraft="true"
-                :infoEnable="true"
-                :markdownEnable="false"
-                :excerptEnable="false"
-                :tagEnable="false"
-                :notifyEnable="false"
-                :bannerEnable="false"
-                :publishDefault="false"
-                @publish="toPublish"
-                @draft="toDraft"
+            :name="name"
+            :type="type"
+            :post="post"
+            :extend="extend"
+            :localDraft="true"
+            :infoEnable="true"
+            :markdownEnable="false"
+            :excerptEnable="false"
+            :tagEnable="false"
+            :notifyEnable="false"
+            :bannerEnable="false"
+            @publish="toPublish"
+            @draft="toDraft"
         >
             <!-- 💛 栏目字段 -->
             <el-form-item label="成就选择">

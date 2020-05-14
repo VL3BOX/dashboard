@@ -3,7 +3,7 @@
         <el-divider content-position="left">标题</el-divider>
             <el-input
                 v-model="post_title"
-                maxlength="30"
+                maxlength="50"
                 minlength="2"
                 show-word-limit
                 required

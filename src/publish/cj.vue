@@ -248,7 +248,10 @@
                         // 富文本框赋值
                         let _interval = setInterval(() => {
                             this.post.post_content = '';
+                            this.$store.state.post.post_content = '';
                             this.post.post_content = post.content;
+                            this.$store.state.post.post_content = post.content;
+
                             if (!post.content || tinyMCE.activeEditor.getContent()) clearInterval(_interval);
                         }, 200);
 
@@ -267,7 +270,6 @@
                         this.post.achievement_id = parseInt(post.achievement_id);
                         this.post.level = post.level || 1;
                         this.post.remark = '';
-                        console.log(5555555, this.post.achievement_id);
                     }
                 }
             }

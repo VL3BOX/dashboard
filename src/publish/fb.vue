@@ -90,8 +90,9 @@
 import boilerplate from "../components/publish/boilerplate";
 
 // 本地依赖
-import { LoadFBList } from "../service/fb";
+// import { LoadFBList } from "../service/fb";
 import { __imgPath } from "@jx3box/jx3box-common/js/jx3box";
+import fbmap from '@jx3box/jx3box-data/data/fb/fb_map.json'
 
 export default {
     name: "fb",
@@ -104,7 +105,7 @@ export default {
 
             //选项 - 加载可选项
             options: {
-                map: {},
+                map: fbmap,
             },
 
             //字段 - meta表数据,可设置默认值
@@ -171,11 +172,11 @@ export default {
             return this.doLoad(this);
         },
         // 初始化选项数据
-        optionsInit: function() {
-            return LoadFBList().then((res) => {
-                this.options.map = res.data
-            });
-        },
+        // optionsInit: function() {
+        //     return LoadFBList().then((res) => {
+        //         this.options.map = res.data
+        //     });
+        // },
         // 当切换资料片时
         optionChange : function (zlp){
             let first = Object.keys(this.options.map[zlp]['dungeon'])[0]
@@ -184,12 +185,12 @@ export default {
     },
     mounted: function() {
         // 初始化选项数据
-        this.optionsInit().then(() => {
+        // this.optionsInit().then(() => {
             // 初始化默认文章数据
             this.init().then(() => {
                 console.log(this.post)
             })
-        })
+        // })
     },
     filters: {
         thumbnail: function(url) {

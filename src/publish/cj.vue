@@ -260,7 +260,7 @@
                         }, 200);
                     } else {
                         // 数据填充
-                        this.post.achievement_id = parseInt(this.post.achievement_id);
+                        this.post.achievement_id = this.post.achievement_id ? parseInt(this.post.achievement_id) : '';
                         this.post.level = 3;
                         this.post.remark = '';
                         this.$store.state.post.post_content = '';

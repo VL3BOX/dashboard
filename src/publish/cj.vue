@@ -244,6 +244,7 @@
                 async handler() {
                     let data = await this.get_achievement_newest_post(this.post.achievement_id);
                     let post = data.post;
+                    let achievement = data.achievement;
                     if (post) {
                         // 富文本框赋值
                         let _interval = setInterval(() => {
@@ -255,21 +256,23 @@
                             if (!post.content || tinyMCE.activeEditor.getContent()) clearInterval(_interval);
                         }, 200);
 
-                        // 将选择项恢复至下拉框
-                        let exist = false;
-                        this.options.achievements = this.options.achievements || [];
-                        for (let index in this.options.achievements) {
-                            if (this.options.achievements[index].ID == post.achievement_id) {
-                                exist = true;
-                                break;
-                            }
-                        }
-                        if (!exist) this.options.achievements.push(post.achievement);
-
                         // 数据填充
                         this.post.achievement_id = parseInt(post.achievement_id);
                         this.post.level = post.level || 1;
                         this.post.remark = '';
+                    }
+
+                    if (achievement) {
+                        // 将选择项恢复至下拉框
+                        let exist = false;
+                        this.options.achievements = this.options.achievements || [];
+                        for (let index in this.options.achievements) {
+                            if (this.options.achievements[index].ID == this.post.achievement_id) {
+                                exist = true;
+                                break;
+                            }
+                        }
+                        if (!exist) this.options.achievements.push(achievement);
                     }
                 }
             }

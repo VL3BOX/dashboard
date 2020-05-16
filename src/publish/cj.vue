@@ -11,19 +11,19 @@
             bannerEnable : 是否开启头条图功能,开启后仍旧需要签约作者及管理员才可见
          -->
         <boilerplate
-            :name="name"
-            :type="type"
-            :post="post"
-            :extend="extend"
-            :localDraft="true"
-            :infoEnable="true"
-            :markdownEnable="false"
-            :excerptEnable="false"
-            :tagEnable="false"
-            :notifyEnable="false"
-            :bannerEnable="false"
-            @publish="toPublish"
-            @draft="toDraft"
+                :name="name"
+                :type="type"
+                :post="post"
+                :extend="extend"
+                :localDraft="true"
+                :infoEnable="true"
+                :markdownEnable="false"
+                :excerptEnable="false"
+                :tagEnable="false"
+                :notifyEnable="false"
+                :bannerEnable="false"
+                @publish="toPublish"
+                @draft="toDraft"
         >
             <!-- 💛 栏目字段 -->
             <el-form-item label="成就选择">
@@ -101,7 +101,7 @@
                     ID: "",                      //文章ID
                     post_mode: "tinymce",        //编辑模式(会影响文章详情页渲染规则)
                     // post_title: "",              //标题
-                    post_content: "",            //主表内容字段,由后端接口配置是否双存储至meta表
+                    // post_content: "",            //主表内容字段,由后端接口配置是否双存储至meta表
                     achievement_id: "",
                     level: 3,
                     remark: "",
@@ -130,7 +130,7 @@
                     return;
                 }
 
-                if (!this.post.post_content) {
+                if (!this.$store.state.post.post_content) {
                     this.$message({message: '要编写攻略正文哦', type: 'warning'});
                     return;
                 }
@@ -140,10 +140,6 @@
                     return;
                 }
 
-                let cj = lodash.merge(this.$store.state.post,this.post)
-                console.log(cj)
-                return 
-
                 $http({
                     method: "POST",
                     url: `${JX3BOX.__helperUrl}api/achievement/${this.post.achievement_id}/post`,
@@ -152,7 +148,7 @@
                         post: {
                             level: this.post.level,
                             user_nickname: User.getInfo().name,
-                            content: this.post.post_content,
+                            content: this.$store.state.post.post_content,
                             remark: this.post.remark,
                         },
                     }),
@@ -251,20 +247,23 @@
                     let post = data.post;
                     let achievement = data.achievement;
                     if (post) {
-                        // 富文本框赋值
-                        let _interval = setInterval(() => {
-                            this.post.post_content = '';
-                            this.$store.state.post.post_content = '';
-                            this.post.post_content = post.content;
-                            this.$store.state.post.post_content = post.content;
-
-                            if (!post.content || tinyMCE.activeEditor.getContent()) clearInterval(_interval);
-                        }, 200);
-
                         // 数据填充
                         this.post.achievement_id = parseInt(post.achievement_id);
                         this.post.level = post.level || 1;
                         this.post.remark = '';
+
+                        // 富文本框赋值
+                        let _interval = setInterval(() => {
+                            this.$store.state.post.post_content = '';
+                            this.$store.state.post.post_content = post.content;
+                            if (!post.content || tinyMCE.activeEditor.getContent()) clearInterval(_interval);
+                        }, 200);
+                    } else {
+                        // 数据填充
+                        this.post.achievement_id = parseInt(this.post.achievement_id);
+                        this.post.level = 3;
+                        this.post.remark = '';
+                        this.$store.state.post.post_content = '';
                     }
 
                     if (achievement) {

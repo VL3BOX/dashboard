@@ -1,3 +1,4 @@
+import Vue from "vue";
 import bucket from "../views/bucket.vue";
 
 Vue.use(VueRouter);

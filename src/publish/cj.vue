@@ -79,6 +79,7 @@
 
     const {User} = require('@jx3box/jx3box-common');
     const qs = require("qs");
+    const lodash = require('lodash');
 
     export default {
         name: "cj",
@@ -138,6 +139,10 @@
                     this.$message({message: '请简单描述本次修订说明', type: 'warning'});
                     return;
                 }
+
+                let cj = lodash.merge(this.$store.state.post,this.post)
+                console.log(cj)
+                return 
 
                 $http({
                     method: "POST",

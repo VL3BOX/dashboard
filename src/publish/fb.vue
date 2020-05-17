@@ -74,10 +74,9 @@
                 <el-form-item label="难度模式" v-if="level_list">
                     <el-checkbox-group v-model="post.post_meta.fb_level">
                         <el-checkbox
-                            v-for="(level, i) in level_list"
+                            v-for="level in level_list"
                             :label="level.mode"
-                            :key="i"
-                            :title="'地图ID : ' + level.map_id"
+                            :key="level.mode + level.map_id"
                         ></el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
@@ -163,7 +162,10 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            // this.doPublish(this.$store.state, this)
+            // TODO:默认跳转
+            this.doPublish(this.$store.state, this,false).then((res) => {
+                
+            })
             console.log(this.$store.state)
         },
         // 草稿
@@ -188,7 +190,7 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then(() => {
-            console.log(this.post)
+            console.log('Init Post:',this.post)
         })
 },
     filters: {

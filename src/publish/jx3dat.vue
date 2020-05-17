@@ -278,21 +278,13 @@ export default {
                     }
                 }
             }
-            this.doPublish(this.$store.state, this).then((res) => {
+            this.doPublish(this.$store.state, this,false).then((res) => {
                 let pid = res.data.data.ID;
-                console.log(res.data.data)
 
+                // TODO:弹窗提示正在更新订阅数据
                 publishToRedis(this.user,res.data.data).then((res) => {
-                    this.$message({
-                        message: res.data.msg,
-                        type: "success",
-                    });
-
-                    // setTimeout(() => {
-                    //     // TODO:后续应修改路径
-                    //     location.href =
-                    //         JX3BOX.__v2 + data.post.post_type + "/?pid=" + pid;
-                    // }, 500);
+                    
+                    
                 });
                 
             });

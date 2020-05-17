@@ -1,13 +1,27 @@
 import { $ } from "./axios";
-// import { editIDCheck } from "../utils/editIDCheck";
 import lodash from "lodash";
 
 // 发布
-function doPublish(data, vm) {
-    return $.post(`post/publish`, data).catch((err) => {
-        console.log(err);
-        vm.failCallback(err, vm);
-    });
+function doPublish(data, vm,skip=true) {
+    return $.post(`post/publish`, data)
+        .then((res) => {
+            this.$message({
+                message: res.data.msg,
+                type: "success",
+            });
+
+            if(skip){
+                setTimeout(() => {
+                    location.href = '/' + data.post.post_type + "/?pid=" +  res.data.data.ID;
+                }, 500);
+            }
+
+            return res;
+        })
+        .catch((err) => {
+            console.log(err);
+            vm.failCallback(err, vm);
+        });
 }
 
 // 草稿
@@ -28,8 +42,7 @@ function doDraft(data, vm) {
 
 // 编辑加载
 function doLoad(vm, oldMetaKeys) {
-    // let id = (vm.post.ID = editIDCheck());
-    let id = vm.$route.params.id
+    let id = vm.$route.params.id;
 
     if (id) {
         return $.get(`post/query`, {
@@ -39,9 +52,9 @@ function doLoad(vm, oldMetaKeys) {
         })
             .then((res) => {
                 // 主表字段处理（没有的字段使用默认字段）
-                lodash.merge(vm.post, res.data.data.post);
+                vm.post = lodash.merge(vm.post, res.data.data.post);
 
-                // 需要处理的旧meta
+                // 废弃·需要处理的旧meta
                 let meta = res.data.data.meta;
                 if (oldMetaKeys && oldMetaKeys.length) {
                     for (let key of oldMetaKeys) {

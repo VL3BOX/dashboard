@@ -11,22 +11,31 @@ import house from "../publish/house.vue";
 Vue.use(VueRouter);
 
 const routes = [
+
+    // 发布索引
     { path: "/", component: index },
 
-    {
-        path: "/fb",
-        component: fb,
-    },
+    // 成就发布
     {
         path: "/cj/:achievement_id(\\d+)?",
         component: cj,
     },
+
+    // 副本发布
     {
-        path: "/jx3dat",
+        path: "/fb/:id?",
+        component: fb,
+    },
+
+    // 插件数据发布
+    {
+        path: "/jx3dat/:id?",
         component: jx3dat,
     },
+
+    // 家园发布
     {
-        path: "/house",
+        path: "/house/:id?",
         component: house,
     },
 ];

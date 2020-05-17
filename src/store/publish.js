@@ -7,15 +7,16 @@ let store = {
     state: {
         post : {
             ID : '',
-            post_mode: "tinymce",
+            post_type : '',
+            post_subtype : '',
             post_title: "",
             post_content: "",
             post_meta: {},
             post_excerpt: "",
+            post_mode: "tinymce",
             post_banner: "",
-            post_tags: [],
             post_status : 'publish',
-            post_type : '',
+            // post_tags: [],
         },
         meta : {},
         extend: {
@@ -30,11 +31,8 @@ let store = {
         changeType : function (state, payload){
             state.post.post_type = payload;
         },
-        changeStatus : function (state, payload){
-            state.post.post_status = payload;
-        },
-        changeMode: function(state, payload) {
-            state.post.post_mode = payload;
+        changeSubtype : function (state,payload){
+            state.post.post_subtype = payload
         },
         editTitle: function(state, payload) {
             state.post.post_title = payload;
@@ -42,19 +40,22 @@ let store = {
         editContent: function(state, payload) {
             state.post.post_content = payload;
         },
-        editMeta: function(state, payload) {
-            state.post.post_meta = payload;
-        },
         editExcerpt: function(state, payload) {
             state.post.post_excerpt = payload;
+        },
+        changeMode: function(state, payload) {
+            state.post.post_mode = payload;
         },
         editBanner: function(state, payload) {
             state.post.post_banner = payload;
         },
-        editPost: function(state, payload) {
-            state.post = payload;
+        changeStatus : function (state, payload){
+            state.post.post_status = payload;
         },
-        editInfo: function(state, payload) {
+        editPostMeta: function(state, payload) {
+            state.post.post_meta = payload;
+        },
+        editMeta: function(state, payload) {
             state.meta = payload;
         },
     },

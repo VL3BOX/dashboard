@@ -51,6 +51,7 @@
                         :label="key"
                         :key="key"
                         v-model="post.post_meta.fb_name"
+                        @change="changeSubtype(key)"
                     >
                         <img :src="fb.icon | thumbnail(fb.icon)" :alt="key" />
                         <span>{{ key }}</span>
@@ -90,7 +91,6 @@
 import boilerplate from "../components/publish/boilerplate";
 
 // 本地依赖
-// import { LoadFBList } from "../service/fb";
 import { __imgPath } from "@jx3box/jx3box-common/js/jx3box";
 import fbmap from '@jx3box/jx3box-data/data/fb/fb_map.json'
 
@@ -114,18 +114,22 @@ export default {
             //文章 - 主表数据
             post: {
                 ID: "",                      //文章ID
-                post_mode: "tinymce",        //编辑模式(会影响文章详情页渲染规则)
+                // post_author               //无需设置,由token自动获取
+                // post_type:"",             //类型(默认由boilerplate托管)
+                post_subtype:"",             //子类型(过滤查询用)
                 post_title: "",              //标题
                 post_content: "",            //主表内容字段,由后端接口配置是否双存储至meta表
-                post_meta: {
+                post_meta: {                 //json格式
                     fb_zlp: "世外蓬莱",
                     fb_name: "范阳夜变",
                     fb_boss: [],
                     fb_level: [],
                 },
-                post_excerpt: "",            //主表摘要
-                post_tags: [],               //标签列表
+                post_excerpt: "",            //摘要
+                post_mode: "tinymce",        //编辑模式(会影响文章详情页渲染规则)
                 post_banner: "",             //头条图,管理员可见
+                post_status: "",             //由发布按钮、草稿按钮决定
+                // post_tags: [],            //标签列表
             },
 
             //扩展 - 部分栏目文章不应启用该功能
@@ -159,39 +163,34 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            this.doPublish(this.$store.state, this)
+            // this.doPublish(this.$store.state, this)
             console.log(this.$store.state)
         },
         // 草稿
         toDraft: function() {
-            this.doDraft(this.$store.state, this)
+            // this.doDraft(this.$store.state, this)
             console.log(this.$store.state)
         },
         // 加载
         init: function() {
             return this.doLoad(this);
         },
-        // 初始化选项数据
-        // optionsInit: function() {
-        //     return LoadFBList().then((res) => {
-        //         this.options.map = res.data
-        //     });
-        // },
         // 当切换资料片时
         optionChange : function (zlp){
             let first = Object.keys(this.options.map[zlp]['dungeon'])[0]
             this.post.post_meta.fb_name = first
+        },
+        // 当副本切换时
+        changeSubtype : function (subtype){
+            this.$store.commit('changeSubtype',subtype)
         }
     },
     mounted: function() {
-        // 初始化选项数据
-        // this.optionsInit().then(() => {
-            // 初始化默认文章数据
-            this.init().then(() => {
-                console.log(this.post)
-            })
-        // })
-    },
+        // 初始化默认文章数据
+        this.init().then(() => {
+            console.log(this.post)
+        })
+},
     filters: {
         thumbnail: function(url) {
             return __imgPath + url + '?v20200510';

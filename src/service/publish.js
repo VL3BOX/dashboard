@@ -1,5 +1,5 @@
 import { $ } from "./axios";
-import { editIDCheck } from "../utils/editIDCheck";
+// import { editIDCheck } from "../utils/editIDCheck";
 import lodash from "lodash";
 
 // 发布
@@ -28,7 +28,8 @@ function doDraft(data, vm) {
 
 // 编辑加载
 function doLoad(vm, oldMetaKeys) {
-    let id = (vm.post.ID = editIDCheck());
+    // let id = (vm.post.ID = editIDCheck());
+    let id = vm.$route.params.id
 
     if (id) {
         return $.get(`post/query`, {

@@ -113,16 +113,16 @@ export default {
             },
             deep: true,
         },
-        // 修改自定义字段时
-        "post.post_meta": {
+        // 修改本地字段时
+        'post.post_meta': {
             handler: function(val) {
-                this.$store.commit("editMeta", val);
+                this.$store.commit("editPostMeta", val);
             },
             deep: true,
         },
         meta: {
             handler: function(val) {
-                this.$store.commit("editInfo", val);
+                this.$store.commit("editMeta", val);
             },
             deep: true,
         },
@@ -134,22 +134,10 @@ export default {
     methods: {
         publish : function (){
             this.$store.commit('changeStatus','publish')
-
-            // 使用默认发布接口
-            // if(this.publishDefault){
-            //     this.doPublish(this.$store.state, this);
-            // }
-
             this.$emit('publish')
         },
         draft : function (){
             this.$store.commit('changeStatus','draft')
-
-            // 使用默认发布接口
-            // if(this.publishDefault){
-            //     this.doDraft(this.$store.state, this);
-            // }
-
             this.$emit('draft')
         }
     },

@@ -26,7 +26,7 @@ export default {
     },
     computed: {},
     methods: {},
-    mounted: function () {
+    created: function () {
         checkLogin()
     },
     components: {

@@ -2,8 +2,8 @@
     <div class="m-publish-index">
         <div class="u-nav">
             
-            <el-divider content-position="left">PVE / PVP</el-divider>
-            <el-row :gutter="20">
+            <!-- <el-divider content-position="left">PVE / PVP</el-divider>
+            <el-row :gutter="20"> -->
                 <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/macro"
@@ -14,7 +14,7 @@
                         ></el-card
                     ></el-col
                 > -->
-                <el-col :span="4"
+                <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/jx3dat"
                             ><img
@@ -33,7 +33,7 @@
                             /><span>副本攻略</span></router-link
                         ></el-card
                     ></el-col
-                >
+                > -->
                 <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/bps"
@@ -44,7 +44,7 @@
                         ></el-card
                     ></el-col
                 > -->
-            </el-row>
+            <!-- </el-row> -->
 
             <!-- <el-divider content-position="left">PVE / PVP / PVX</el-divider>
             <el-row :gutter="20">

@@ -51,11 +51,11 @@ export default {
                     "link anchor autolink",
                     "hr lists advlist table codesample checklist foldtext ",
                     "image emoticons media videox",
-                    "autosave code fullscreen wordcount pagebreak powerpaste",//template
+                    "autosave code fullscreen wordcount powerpaste",//template  pagebreak 
                 ],
                 toolbar: [
                     "undo | formatselect | fontsizeselect | forecolor backcolor | bold italic underline strikethrough superscript subscript | link unlink anchor | restoredraft code fullscreen",
-                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codesample | emoticons image media videox template pagebreak ",
+                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote  | emoticons image media videox ",//template pagebreak foldtext codesample
                 ],
                 mobile: {
                     toolbar_drawer: true,

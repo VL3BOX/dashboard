@@ -39,7 +39,7 @@ export default {
                 // 样式 
                 // content_css: 'https://cdn.jsdelivr.net/gh/JX3BOX/article@0.0.2/css/article.css', //TODO:修改版本
                 content_css: `http://localhost:1024/css/article.css`,
-                body_class: "c-article",
+                body_class: "c-article c-article-editor",
                 height: 800,
 
                 // UI
@@ -50,12 +50,12 @@ export default {
                 plugins: [
                     "link anchor autolink",
                     "hr lists advlist table codesample checklist foldtext ",
-                    "image emoticons media videox",
-                    "autosave code fullscreen wordcount powerpaste",//template  pagebreak 
+                    "image emoticons media videox macro qixue",
+                    "autosave code fullscreen wordcount powerpaste ",//pagebreak template  
                 ],
                 toolbar: [
                     "undo | formatselect | fontsizeselect | forecolor backcolor | bold italic underline strikethrough superscript subscript | link unlink anchor | restoredraft code fullscreen",
-                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote  | emoticons image media videox ",//template pagebreak foldtext codesample
+                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codesample | emoticons image media videox | macro qixue",//pagebreak template   
                 ],
                 mobile: {
                     toolbar_drawer: true,

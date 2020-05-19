@@ -29,7 +29,7 @@
                             src="../assets/img/works/draft.svg"
                         />
                     </i>
-                    <a class="u-title" href="">{{ item.post.post_title }}</a>
+                    <a class="u-title" :href="postLink(item.post.post_type,item.post.ID)">{{ item.post.post_title }}</a>
                     <time class="u-time"
                         >{{ item.post.post_modified }} |
                         {{ item.post.post_date }}</time
@@ -85,6 +85,7 @@
 <script>
 import { getWorks, delPost, hidePost } from "../service/work";
 import { editLink } from "@jx3box/jx3box-common/js/utils";
+import {__v2} from '@jx3box/jx3box-common/js/jx3box'
 export default {
     name: "work",
     props: [],
@@ -148,6 +149,9 @@ export default {
                     this.failCallback(err, this);
                 });
         },
+        postLink : function (type,id){
+            return __v2 + type + '/?pid=' + id 
+        }
     },
     mounted: function() {
         this.changePage();

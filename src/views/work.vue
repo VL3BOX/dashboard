@@ -29,7 +29,12 @@
                             src="../assets/img/works/draft.svg"
                         />
                     </i>
-                    <a class="u-title" :href="postLink(item.post.post_type,item.post.ID)">{{ item.post.post_title }}</a>
+                    <a
+                        class="u-title"
+                        target="_blank"
+                        :href="postLink(item.post.post_type, item.post.ID)"
+                        >{{ item.post.post_title || "无标题" }}</a
+                    >
                     <time class="u-time"
                         >{{ item.post.post_modified }} |
                         {{ item.post.post_date }}</time
@@ -47,7 +52,7 @@
                             size="mini"
                             icon="el-icon-lock"
                             title="设为草稿"
-                            @click="draft(item.post.ID,i)"
+                            @click="draft(item.post.ID, i)"
                         ></el-button>
                         <el-button
                             type="primary"
@@ -85,7 +90,8 @@
 <script>
 import { getWorks, delPost, hidePost } from "../service/work";
 import { editLink } from "@jx3box/jx3box-common/js/utils";
-import {__v2} from '@jx3box/jx3box-common/js/jx3box'
+import { __v2, __Root } from "@jx3box/jx3box-common/js/jx3box";
+
 export default {
     name: "work",
     props: [],
@@ -136,22 +142,30 @@ export default {
                 },
             });
         },
-        draft: function(id,i) {
+        draft: function(id, i) {
             hidePost(id)
                 .then((res) => {
                     this.$message({
                         type: "success",
                         message: `操作成功`,
                     });
-                    this.data[i].post.post_status = 'draft'
+                    this.data[i].post.post_status = "draft";
                 })
                 .catch((err) => {
                     this.failCallback(err, this);
                 });
         },
-        postLink : function (type,id){
-            return __v2 + type + '/?pid=' + id 
-        }
+        postLink: function(type, id) {
+            // TODO:临时区分新旧版
+            const newlist = ["fb"];
+            if (type == "cj") {
+                return __v2 + "cj/#/view/" + id;
+            } else if (newlist.includes(type)) {
+                return __v2 + type + "/?pid=" + id;
+            } else {
+                return __Root + type + "/" + id;
+            }
+        },
     },
     mounted: function() {
         this.changePage();

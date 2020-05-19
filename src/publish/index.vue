@@ -1,29 +1,37 @@
 <template>
     <div class="m-publish-index">
         <div class="u-nav">
-            
+            <el-alert title="部分栏目发布系统尚在重构中,仍需前往老版发布中心发布,可能需要在老版登陆系统进行二次登陆,请知晓" type="warning" show-icon>
+            </el-alert>
+
             <el-divider content-position="left">PVE / PVP</el-divider>
             <el-row :gutter="20">
-                <!-- <el-col :span="4"
+                <el-col :span="4"
                     ><el-card
-                        ><router-link to="/macro"
+                        ><router-link
+                            to="/macro"
+                            href="https://www.jx3box.com/post/?pt=macro"
+                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/macro.svg"
                             /><span>剑三宏</span></router-link
                         ></el-card
                     ></el-col
-                > -->
-                <!-- <el-col :span="4"
+                >
+                <el-col :span="4"
                     ><el-card
-                        ><router-link to="/jx3dat"
+                        ><router-link
+                            to="/jx3dat"
+                            href="https://www.jx3box.com/post/?pt=jx3dat"
+                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/jx3dat.svg"
                             /><span>插件数据</span></router-link
                         ></el-card
                     ></el-col
-                > -->
+                >
                 <el-col :span="4"
                     ><el-card
                         ><router-link to="/fb"
@@ -34,21 +42,24 @@
                         ></el-card
                     ></el-col
                 >
-                <!-- <el-col :span="4"
+                <el-col :span="4"
                     ><el-card
-                        ><router-link to="/bps"
+                        ><router-link
+                            to="/bps"
+                            href="https://www.jx3box.com/post/?pt=bps"
+                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/bps.svg"
                             /><span>职业攻略</span></router-link
                         ></el-card
                     ></el-col
-                > -->
+                >
             </el-row>
 
-            <!-- <el-divider content-position="left">PVE / PVP / PVX</el-divider>
+            <el-divider content-position="left">PVE / PVP / PVX</el-divider>
             <el-row :gutter="20">
-                <el-col :span="4"
+                <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/wiki"
                             ><img
@@ -57,10 +68,13 @@
                             /><span>百科词条</span></router-link
                         ></el-card
                     ></el-col
-                >
+                > -->
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/tool"
+                        ><router-link
+                            to="/tool"
+                            href="https://www.jx3box.com/post/?pt=tool"
+                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/bps.svg"
@@ -70,7 +84,10 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/tool"
+                        ><router-link
+                            to="/tool"
+                            href="https://www.jx3box.com/post/?pt=tool"
+                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/tool.svg"
@@ -78,7 +95,7 @@
                         ></el-card
                     ></el-col
                 >
-            </el-row> -->
+            </el-row>
 
             <el-divider content-position="left">PVX</el-divider>
             <el-row :gutter="20">
@@ -92,16 +109,19 @@
                         ></el-card
                     ></el-col
                 >
-                <!-- <el-col :span="4"
+                <el-col :span="4"
                     ><el-card
-                        ><router-link to="/share"
+                        ><router-link
+                            to="/share"
+                            href="https://www.jx3box.com/post/?pt=share"
+                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/share.svg"
                             /><span>捏脸分享</span></router-link
                         ></el-card
                     ></el-col
-                > -->
+                >
                 <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/house"
@@ -124,11 +144,14 @@
                 > -->
             </el-row>
 
-            <!-- <el-divider content-position="left">PVN</el-divider>
+            <el-divider content-position="left">PVN</el-divider>
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/fb"
+                        ><router-link
+                            to="/fb"
+                            href="https://www.jx3box.com/post/?pt=bbs"
+                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/fb.svg"
@@ -138,7 +161,10 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/bbs"
+                        ><router-link
+                            to="/bbs"
+                            href="https://www.jx3box.com/post/?pt=bbs"
+                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/post.svg"
@@ -146,7 +172,7 @@
                         ></el-card
                     ></el-col
                 >
-            </el-row> -->
+            </el-row>
         </div>
     </div>
 </template>

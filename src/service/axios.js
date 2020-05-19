@@ -1,12 +1,12 @@
 import axios from "axios";
-import { JX3BOX } from "@jx3box/jx3box-common";
-// const $ = axios.create({
-//     baseURL: JX3BOX.__server,
-//     withCredentials: true,
-// });
+import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
 const $ = axios.create({
-    baseURL: 'http://localhost:5160/',
+    baseURL: __server,
     withCredentials: true,
 });
+// const $ = axios.create({
+//     baseURL: 'http://localhost:5160/',  //TODO:
+//     withCredentials: true,
+// });
 
 export { $, axios };

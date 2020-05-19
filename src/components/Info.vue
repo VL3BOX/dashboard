@@ -39,6 +39,8 @@ export default {
     .u-channel-logo {
         box-sizing: border-box;
         padding:5px;
+        position: relative;
+        top: -2px;
     }
     .u-desc{
         .fz(12px);

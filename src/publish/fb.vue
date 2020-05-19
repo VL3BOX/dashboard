@@ -162,16 +162,13 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            // TODO:默认跳转
-            this.doPublish(this.$store.state, this,false).then((res) => {
-                
-            })
-            console.log(this.$store.state)
+            this.doPublish(this.$store.state, this)
+            // console.log(this.$store.state)
         },
         // 草稿
         toDraft: function() {
-            // this.doDraft(this.$store.state, this)
-            console.log(this.$store.state)
+            this.doDraft(this.$store.state, this)
+            // console.log(this.$store.state)
         },
         // 加载
         init: function() {

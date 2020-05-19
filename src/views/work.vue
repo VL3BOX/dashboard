@@ -155,6 +155,6 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 @import "../assets/css/work.less";
 </style>

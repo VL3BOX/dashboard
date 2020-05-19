@@ -5,7 +5,7 @@ function getWorks(query) {
 
     let _ = {
         status: "all",
-        author: 2, //TODO: User.getInfo().uid
+        author: User.getInfo().uid,
         page : 1
     }
 

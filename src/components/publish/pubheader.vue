@@ -83,7 +83,8 @@ export default {
                 {
                     confirmButtonText: "确定",
                     callback: (action) => {
-                        savePost(this.name, this.$store.state);
+                        let draft_key = new Date().toUTCString();
+                        savePost(draft_key, this.$store.state);
                         this.$root.$router.push("/");
                     },
                 }
@@ -100,9 +101,9 @@ export default {
             this.tableData = [];
             //当草稿超过n篇时,自动清空
             DB.length().then((len) => {
-                if (len > 20) {
-                    DB.clear();
-                } else {
+                // if (len > 20) {
+                    // DB.clear();
+                // } else {
                     DB.iterate((val, key, i) => {
                         this.tableData.push({
                             key: key,
@@ -116,7 +117,7 @@ export default {
                         .catch(function(err) {
                             console.log(err);
                         });
-                }
+                // }
             });
         },
         clear: function() {

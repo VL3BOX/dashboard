@@ -1,12 +1,12 @@
-import {$} from "./axios";
+import { $ } from "./axios";
 
 // 信息
-function getUserInfo(uid){
+function getUserInfo(uid) {
     return $.get("user/info", {
         params: {
             uid: uid,
         },
-    })
+    });
 }
 
 // 昵称
@@ -18,7 +18,7 @@ function checkNickname(name) {
     });
 }
 function updateNickname(data) {
-    return $.post("dashboard/nickname/update", {name:data});
+    return $.post("dashboard/nickname/update", { name: data });
 }
 // 资料
 function updateProfile(data) {

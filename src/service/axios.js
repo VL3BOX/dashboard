@@ -5,7 +5,7 @@ import { JX3BOX } from "@jx3box/jx3box-common";
 //     withCredentials: true,
 // });
 const $ = axios.create({
-    baseURL: 'http://localhost:5160/',  //TODO:
+    baseURL: 'http://localhost:5160/',
     withCredentials: true,
 });
 

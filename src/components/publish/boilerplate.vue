@@ -101,18 +101,18 @@ export default {
     },
     computed: {
         // 引用store
-        dbdata: function() {
-            return this.$store.state;
-        },
+        // dbdata: function() {
+        //     return this.$store.state;
+        // },
     },
     watch : {
         // 反向监听store全部内容受组件影响时,更新本地草稿
-        dbdata: {
-            handler: function(data) {
-                autoSavePost(this.draft_key, data);
-            },
-            deep: true,
-        },
+        // dbdata: {
+        //     handler: function(data) {
+        //         autoSavePost(this.draft_key, data);
+        //     },
+        //     deep: true,
+        // },
         // 修改本地字段时
         'post.post_meta': {
             handler: function(val) {
@@ -142,7 +142,7 @@ export default {
         }
     },
     mounted: function() {
-        this.draft_key = new Date().toUTCString();
+        // this.draft_key = new Date().toUTCString();
         this.$store.commit('changeType',this.type)
     },
     components: {

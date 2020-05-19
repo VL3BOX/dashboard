@@ -37,8 +37,7 @@ export default {
                 language: "zh_CN",
                 
                 // 样式 
-                // content_css: 'https://cdn.jsdelivr.net/gh/JX3BOX/article@0.0.2/css/article.css', //TODO:修改版本
-                content_css: `http://localhost:1024/css/article.css`,
+                // content_css: `http://localhost:1024/css/article.css`,
                 body_class: "c-article c-article-editor",
                 height: 800,
 
@@ -51,11 +50,11 @@ export default {
                     "link anchor autolink",
                     "hr lists advlist table codesample checklist foldtext ",
                     "image emoticons media videox macro qixue",
-                    "autosave code fullscreen wordcount powerpaste ",//pagebreak template  
+                    "autosave code fullscreen wordcount powerpaste pagebreak",// template jx3icon
                 ],
                 toolbar: [
                     "undo | formatselect | fontsizeselect | forecolor backcolor | bold italic underline strikethrough superscript subscript | link unlink anchor | restoredraft code fullscreen",
-                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codesample | emoticons image media videox | macro qixue",//pagebreak template   
+                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codesample | emoticons image media videox | macro qixue pagebreak",// template jx3icon
                 ],
                 mobile: {
                     toolbar_drawer: true,

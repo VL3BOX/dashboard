@@ -74,7 +74,7 @@
     import boilerplate from "../components/publish/boilerplate";
 
     // 本地依赖
-    import {axios as $http} from '../service/axios'
+    import {$ as $http} from '../service/axios'
     import {JX3BOX} from "@jx3box/jx3box-common";
 
     const {User} = require('@jx3box/jx3box-common');

@@ -28,7 +28,7 @@
             @draft="toDraft"
         >
             <!-- 💛 栏目字段 -->
-            <template v-if="ready">
+            <template v-if="ready && !loading" v-loading="loading">
 
                 <!-- 1.选择资料片 -->
                 <el-form-item label="资料片" v-if="zlp_list">
@@ -92,6 +92,7 @@ import boilerplate from "../components/publish/boilerplate";
 // 本地依赖
 import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box";
 import fbmap from '@jx3box/jx3box-data/data/fb/fb_map.json'
+import lodash from 'lodash'
 
 export default {
     name: "fb",
@@ -101,6 +102,7 @@ export default {
             //基本 - 类型设置
             type: "fb",
             name: "副本攻略",
+            loading : true,
 
             //选项 - 加载可选项
             options: {
@@ -153,10 +155,10 @@ export default {
             return this.options.map[this.post.post_meta.fb_zlp]['dungeon']
         },
         boss_list : function (){
-            return this.fb_list[this.post.post_meta.fb_name] && this.fb_list[this.post.post_meta.fb_name]['detail']['boss_infos']
+            return this.fb_list[this.post.post_meta.fb_name]['detail']['boss_infos']
         },
         level_list : function (){
-            return this.fb_list[this.post.post_meta.fb_name] && this.fb_list[this.post.post_meta.fb_name]['maps']
+            return this.fb_list[this.post.post_meta.fb_name]['maps']
         },
     },
     methods: {
@@ -187,6 +189,7 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then(() => {
+            this.loading = false
             console.log('Init Post:',this.post)
         })
 },

@@ -26,7 +26,7 @@
             >
         </el-card>
 
-        <el-card class="box-card">
+        <!-- <el-card class="box-card">
             <img
                 class="u-weibo"
                 svg-inline
@@ -39,7 +39,7 @@
                 @click="!weibo_status ? bind('weibo') : unbind('weibo')"
                 >{{ !weibo_status ? "绑定" : "解除绑定" }}</el-button
             >
-        </el-card>
+        </el-card> -->
     </div>
 </template>
 

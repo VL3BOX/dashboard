@@ -164,8 +164,8 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            // this.doPublish(this.$store.state, this)
-            console.log(this.$store.state)
+            this.doPublish(this.$store.state, this)
+            // console.log(this.$store.state)
         },
         // 草稿
         toDraft: function() {

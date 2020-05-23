@@ -89,7 +89,7 @@
 <script>
 import { getWorks, delPost, hidePost } from "../service/work";
 import { editLink } from "@jx3box/jx3box-common/js/utils";
-import { __v2, __Root } from "@jx3box/jx3box-common/js/jx3box";
+import { __v2, __Root ,__Links} from "@jx3box/jx3box-common/js/jx3box";
 import dateFormat from "../utils/dateFormat";
 
 export default {
@@ -122,7 +122,16 @@ export default {
             });
         },
         edit: function(type, id) {
-            location.href = editLink(type, id);
+            // TODO:临时区分新旧版
+            const newlist = ["fb"];
+            let editLink = ''
+            if (newlist.includes(type)) {
+                editLink =  __Links.dashboard.publish + "#/" + type + "/" + id;
+            } else {
+                editLink = __Root + '/edit/?pid=' + id
+            }
+            location.href = editLink
+            // location.href = editLink(type, id);
         },
         del: function(id) {
             this.$alert("确定要删除吗？", "确认信息", {

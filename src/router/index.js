@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import index from "../views/index.vue";
 
 import work from "../views/work.vue";
+import wiki from "../views/wiki.vue";
 import msg from "../views/msg.vue";
 import feed from "../views/feed.vue";
 import fav from "../views/fav.vue";

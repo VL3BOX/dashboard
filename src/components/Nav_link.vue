@@ -6,10 +6,12 @@
         <h5 class="u-title">写作台</h5>
         <div class="m-nav-group">
             <a href="../#/work"><img svg-inline src="../assets/img/nav/repo.svg" /><span>我的作品</span></a>
+            <!-- <a href="../#/wiki"><img svg-inline src="../assets/img/nav/repo.svg" /><span>百科贡献</span></a> -->
             <a href="../#/msg"><img svg-inline src="../assets/img/nav/msg.svg" /><span>我的消息</span></a>
-            <!-- <a href="../#/feed"><img svg-inline src="../assets/img/nav/feed.svg" /><span>我的订阅</span></a>
+            <!-- <a href="../#/feed"><img svg-inline src="../assets/img/nav/feed.svg" /><span>我的订阅</span></a> -->
             <a href="../#/fav"><img class="u-fav" svg-inline src="../assets/img/nav/fav.svg" /><span>我的收藏</span></a>
-            <a href="../#/setting"><img class="u-setting" svg-inline src="../assets/img/nav/setting.svg" /><span>消息通知</span></a> -->
+            <!-- <a href="../#/setting"><img class="u-setting" svg-inline src="../assets/img/nav/setting.svg" /><span>消息通知</span></a> -->
+            
         </div>
 
         <h5 class="u-title">账号设置</h5>

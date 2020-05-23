@@ -93,7 +93,7 @@ import { __v2, __Root } from "@jx3box/jx3box-common/js/jx3box";
 import dateFormat from "../utils/dateFormat";
 
 export default {
-    name: "work",
+    name: "wiki",
     props: [],
     data: function() {
         return {

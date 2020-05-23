@@ -1,18 +1,9 @@
 import { $ } from "./axios";
-import User from "@jx3box/jx3box-common/js/user";
 
 function getWorks(query) {
 
-    let _ = {
-        status: "all",
-        author: User.getInfo().uid,
-        page : 1
-    }
-
-    _ = Object.assign(_,query)
-
-    return $.get("post/list", {
-        params: _
+    return $.get("post/mywork", {
+        params: query
     });
 }
 

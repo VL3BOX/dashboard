@@ -144,6 +144,7 @@ export default {
     mounted: function() {
         // this.draft_key = new Date().toUTCString();
         this.$store.commit('changeType',this.type)
+        this.$store.commit('changeSubtype',this.post.post_subtype)
     },
     components: {
         pubheader,

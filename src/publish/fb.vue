@@ -117,7 +117,7 @@ export default {
                 ID: "",                      //文章ID
                 // post_author               //无需设置,由token自动获取
                 // post_type:"",             //类型(默认由boilerplate托管)
-                post_subtype:"",             //子类型(过滤查询用)
+                post_subtype:"范阳夜变",      //子类型(过滤查询用)
                 post_title: "",              //标题
                 post_content: "",            //主表内容字段,由后端接口配置是否双存储至meta表
                 post_meta: {                 //json格式
@@ -164,8 +164,8 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            this.doPublish(this.$store.state, this)
-            // console.log(this.$store.state)
+            // this.doPublish(this.$store.state, this)
+            console.log(this.$store.state)
         },
         // 草稿
         toDraft: function() {

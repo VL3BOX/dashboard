@@ -55,21 +55,21 @@ function doLoad(vm, oldMetaKeys) {
                 vm.post = lodash.merge(vm.post, res.data.data.post);
 
                 // 废弃·需要处理的旧meta
-                let meta = res.data.data.meta;
-                if (oldMetaKeys && oldMetaKeys.length) {
-                    for (let key of oldMetaKeys) {
-                        if (meta[key].indexOf(",")) {
-                            meta[key] = meta[key].split(",");
-                        } else {
-                            meta[key] = meta[key];
-                        }
-                    }
-                    vm.meta = meta;
-                }
+                // let meta = res.data.data.meta;
+                // if (oldMetaKeys && oldMetaKeys.length) {
+                //     for (let key of oldMetaKeys) {
+                //         if (meta[key].indexOf(",")) {
+                //             meta[key] = meta[key].split(",");
+                //         } else {
+                //             meta[key] = meta[key];
+                //         }
+                //     }
+                //     vm.meta = meta;
+                // }
 
                 // 修改store
                 this.$store.state.post = res.data.data.post;
-                this.$store.state.meta = res.data.data.meta;
+                // this.$store.state.meta = res.data.data.meta;
             })
             .catch((err) => {
                 console.log(err);

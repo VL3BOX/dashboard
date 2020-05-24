@@ -110,6 +110,12 @@ export default {
         },
         check() {
             this.rename = this.rename.trim();
+            
+            // 禁用@符号
+            if(this.rename.includes('@')){
+                this.rename = this.rename.replace(/@/g,'')
+            }
+
             checkNickname(this.rename)
                 .then((res) => {
                     this.checkname = true;

@@ -158,7 +158,7 @@ export default {
                         type: "success",
                         message: `操作成功`,
                     });
-                    this.data[i].post.post_status = "draft";
+                    this.data[i].post_status = "draft";
                 })
                 .catch((err) => {
                     this.failCallback(err, this);

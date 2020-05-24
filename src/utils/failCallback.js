@@ -6,6 +6,7 @@ function failCallback(err,vm){
     } else {
         vm.$message.error("网络请求异常");
     }
+    console.log(err)
 }
 
 export default failCallback

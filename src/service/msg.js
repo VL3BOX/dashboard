@@ -1,5 +1,6 @@
 import {$} from "./axios";
 import {__helperUrl} from '@jx3box/jx3box-common/js/jx3box.json'
+
 const API = __helperUrl + 'api/messages';
 const qs = require('qs');
 
@@ -14,9 +15,10 @@ function getMsgs(i = 1) {
 }
 
 function readMsg(ids) {
-    return $.put(`${API}/read`, qs.stringify({
-        ids: ids
-    }), {
+    let data = {};
+    if (ids) data.ids = ids;
+
+    return $.put(`${API}/read`, qs.stringify(data), {
         headers: {Accept: 'application/prs.helper.v2+json'},
     })
 }

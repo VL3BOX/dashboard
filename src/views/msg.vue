@@ -3,6 +3,10 @@
         <div class="m-dashboard-box">
             <div class="m-dashboard-box-header">
                 <h4 class="u-title">消息列表</h4>
+                <el-button class="u-read-all" type="primary" size="mini" @click="read(null)" :disabled="read_all_disabled">
+                    <i class="el-icon el-icon-check"></i>
+                    <span v-text="'全部设为已读'"></span>
+                </el-button>
             </div>
             <ul class="m-dashboard-box-list" v-if="data.length">
                 <li v-for="(item, i) in data" :key="i" :class="{on : item.read == 1}" v-show="item.deleted==0">
@@ -67,7 +71,15 @@ export default {
             page: 1,
         };
     },
-    computed: {},
+    computed: {
+        read_all_disabled(){
+            let disabled = true;
+            for(let index in this.data){
+                disabled = this.data[index].read == 1;
+            }
+            return disabled;
+        }
+    },
     methods: {
         changePage: function(i = 1) {
             getMsgs(i).then((res) => {
@@ -76,9 +88,16 @@ export default {
             });
         },
         read(item){
-            readMsg([item.ID]).then((res) => {
+            readMsg(item ? [item.ID] : null).then((res) => {
                 if(res.data.code === 200) {
-                    item.read = 1;
+                    if(item) {
+                        item.read = 1;
+                    } else {
+                        this.read_all_disabled = true;
+                        for(let index in this.data){
+                            this.data[index].read = 1;
+                        }
+                    }
                 } else {
                     this.$notify.error({title: res.data.message});
                 }

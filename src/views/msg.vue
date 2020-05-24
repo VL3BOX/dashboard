@@ -6,11 +6,13 @@
             </div>
             <ul class="m-dashboard-box-list" v-if="data.length">
                 <li v-for="(item, i) in data" :key="i" :class="{on : item.read == 1}" v-show="item.deleted==0">
-                    <span class="u-content" v-html="item.content">
-                    </span>
-                    <time class="u-time"
-                        >{{ dateFormat(~~item.created) }}</time
-                    >
+                    <div class="u-primary">
+                        <span class="u-content" v-html="item.content">
+                        </span>
+                        <time class="u-time"
+                            >{{ dateFormat(~~item.created) }}</time
+                        >
+                    </div>
                     <el-button-group class="u-action">
                         <el-button
                             type="primary"

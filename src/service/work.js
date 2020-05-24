@@ -20,5 +20,12 @@ function hidePost(id){
     })
 }
 
+function publishPost(id){
+    return $.post('post/status',{
+        pid : id,
+        status : 'publish'
+    })
+}
 
-export { getWorks,delPost,hidePost };
+
+export { getWorks,delPost,hidePost,publishPost };

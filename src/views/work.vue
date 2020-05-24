@@ -36,7 +36,8 @@
                         >{{ item.post_title || "无标题" }}</a
                     >
                     <time class="u-time"
-                        >发布于: {{ item.post_date | dateFormat}} | 最后更新: {{ item.post_modified | dateFormat}}</time
+                        >发布于: {{ item.post_date | dateFormat }} | 最后更新:
+                        {{ item.post_modified | dateFormat }}</time
                     >
                     <el-button-group class="u-action">
                         <el-button
@@ -47,11 +48,20 @@
                             @click="edit(item.post_type, item.ID)"
                         ></el-button>
                         <el-button
+                            v-if="item.post_status == 'publish'"
                             type="primary"
                             size="mini"
                             icon="el-icon-lock"
                             title="设为草稿"
                             @click="draft(item.ID, i)"
+                        ></el-button>
+                        <el-button
+                            v-else
+                            type="primary"
+                            size="mini"
+                            icon="el-icon-check"
+                            title="设为草稿"
+                            @click="publish(item.ID, i)"
                         ></el-button>
                         <el-button
                             type="primary"
@@ -87,9 +97,9 @@
 </template>
 
 <script>
-import { getWorks, delPost, hidePost } from "../service/work";
+import { getWorks, delPost, hidePost, publishPost } from "../service/work";
 import { editLink } from "@jx3box/jx3box-common/js/utils";
-import { __v2, __Root ,__Links} from "@jx3box/jx3box-common/js/jx3box";
+import { __v2, __Root, __Links } from "@jx3box/jx3box-common/js/jx3box";
 import dateFormat from "../utils/dateFormat";
 
 export default {
@@ -124,13 +134,13 @@ export default {
         edit: function(type, id) {
             // TODO:临时区分新旧版
             const newlist = ["fb"];
-            let editLink = ''
+            let editLink = "";
             if (newlist.includes(type)) {
-                editLink =  __Links.dashboard.publish + "#/" + type + "/" + id;
+                editLink = __Links.dashboard.publish + "#/" + type + "/" + id;
             } else {
-                editLink = __Root + '/edit/?pid=' + id
+                editLink = __Root + "/edit/?pid=" + id;
             }
-            location.href = editLink
+            location.href = editLink;
             // location.href = editLink(type, id);
         },
         del: function(id) {
@@ -164,6 +174,19 @@ export default {
                     this.failCallback(err, this);
                 });
         },
+        publish: function(id, i) {
+            publishPost(id)
+                .then((res) => {
+                    this.$message({
+                        type: "success",
+                        message: `操作成功`,
+                    });
+                    this.data[i].post_status = "publish";
+                })
+                .catch((err) => {
+                    this.failCallback(err, this);
+                });
+        },
         postLink: function(type, id) {
             // TODO:临时区分新旧版
             const newlist = ["fb"];
@@ -174,10 +197,10 @@ export default {
             }
         },
     },
-    filters:{
-        dateFormat : function (val){
-            return dateFormat(new Date(val))
-        }
+    filters: {
+        dateFormat: function(val) {
+            return dateFormat(new Date(val));
+        },
     },
     mounted: function() {
         this.changePage();

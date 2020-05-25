@@ -60,7 +60,7 @@
                             type="primary"
                             size="mini"
                             icon="el-icon-check"
-                            title="设为草稿"
+                            title="设为公开"
                             @click="publish(item.ID, i)"
                         ></el-button>
                         <el-button

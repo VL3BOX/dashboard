@@ -2,7 +2,7 @@ import { $, axios } from "./axios";
 import { __hub } from "@jx3box/jx3box-common/js/jx3box.json";
 function uploadHub(formdata, vm) {
     return axios
-        .post("/api/plugins/my-team-mon", formdata, {
+        .post(__hub + "api/plugins/my-team-mon", formdata, {
             withCredentials: true,
         })
         .catch((err) => {

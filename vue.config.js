@@ -95,15 +95,15 @@ module.exports = {
 
     },
 
-    devServer: {
-        proxy: {
-            "/hub": {
-                "target": process.env["DEV_SERVER"] == "true" ? "http://localhost:51818" : "https://hub.jx3box.com",
-                "onProxyReq": function (request) {
-                    request.setHeader("origin", "");
-                }
-            }
-        }
-    }
+    // devServer: {
+    //     proxy: {
+    //         "/hub": {
+    //             "target": process.env["DEV_SERVER"] == "true" ? "http://localhost:51818" : "https://hub.jx3box.com",
+    //             "onProxyReq": function (request) {
+    //                 request.setHeader("origin", "");
+    //             }
+    //         }
+    //     }
+    // }
 
 };

@@ -113,7 +113,7 @@
                                         class="u-data-input"
                                         type="file"
                                         :id="'jx3dat_' + i"
-                                        @change="uploadDBM($event, data)"
+                                        @change="uploadDBM($event, data,i)"
                                     />
                                     <el-button
                                         size="small"
@@ -123,7 +123,7 @@
                                     >
                                     <span
                                         class="u-data-ready"
-                                        v-if="!!data.file"
+                                        v-show="data.file"
                                     >
                                         <i class="el-icon-success"></i>
                                         已上传
@@ -311,13 +311,17 @@ export default {
             let fileInput = document.getElementById("jx3dat_" + i);
             fileInput.dispatchEvent(new MouseEvent("click"));
         },
-        uploadDBM: function(e, item) {
+        uploadDBM: function(e, item,i) {
             let formdata = new FormData();
             let file = e.target.files[0];
             formdata.append("jx3dat", file, "data.jx3dat");
             uploadHub(formdata,this).then((res) => {
                 if(res){
-                    item.file = res.download_url;
+                    item.file = res.data.download_url;
+                    this.$message({
+                        message: '数据上传成功',
+                        type: 'success'
+                    });
                 }
             })
         },

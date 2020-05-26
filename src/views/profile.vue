@@ -110,6 +110,10 @@ export default {
         },
         check() {
             this.rename = this.rename.trim();
+            if(this.rename < 4 || this.rename.length > 12){
+                this.$message.error("昵称长度限制为4~12个字符");
+                return 
+            }
             
             // 禁用@符号
             if(this.rename.includes('@')){

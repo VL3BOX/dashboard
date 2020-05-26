@@ -23,7 +23,6 @@
             :tagEnable="false"
             :notifyEnable="true"
             :bannerEnable="true"
-            :publishDefault="true"
             @publish="toPublish"
             @draft="toDraft"
         >

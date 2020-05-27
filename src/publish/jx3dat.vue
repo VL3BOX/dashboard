@@ -79,6 +79,7 @@
                                 <el-col :span="4" v-else
                                     ><el-input
                                         v-model="data.name"
+                                        maxlength="10"
                                         placeholder="版本名，例：团长版"
                                     ></el-input
                                 ></el-col>
@@ -97,6 +98,7 @@
                                     ><el-input
                                         v-model="data.desc"
                                         placeholder="请输入数据说明"
+                                        maxlength="20"
                                     ></el-input
                                 ></el-col>
                                 <el-col :span="2"  class="u-status"
@@ -155,15 +157,15 @@
                     <el-form-item label="站外数据" class="m-jx3dat-otherfeed">
                         <el-input
                             v-model="post.post_meta.github"
-                            placeholder="Github订阅号 (非必填)"
+                            placeholder="Github订阅号 (非必填,无需后缀)"
                         ></el-input>
                         <el-input
                             v-model="post.post_meta.gitee"
-                            placeholder="Gitee订阅号 (非必填)"
+                            placeholder="Gitee订阅号 (非必填,无需后缀)"
                         ></el-input>
                         <el-input
                             v-model="post.post_meta.aliyun"
-                            placeholder="Aliyun订阅号 (非必填)"
+                            placeholder="Aliyun订阅号 (非必填,无需后缀)"
                         ></el-input>
                     </el-form-item>
 
@@ -242,7 +244,7 @@ export default {
                     type: "1",
                     data: [
                         {
-                            name: "",
+                            name: "默认版",
                             desc: "",
                             status: true,
                             file: "",
@@ -291,12 +293,12 @@ export default {
             this.doPublish(this.$store.state, this,false).then((res) => {
                 let pid = res.data.data.ID;
             });
-            console.log(this.$store.state);
+            // console.log(this.$store.state);
         },
         // 草稿
         toDraft: function() {
             this.doDraft(this.$store.state, this);
-            console.log(this.$store.state);
+            // console.log(this.$store.state);
         },
         // 加载
         init: function() {

@@ -23,8 +23,6 @@
                     ><el-card
                         ><router-link
                             to="/jx3dat"
-                            href="https://www.jx3box.com/post/?pt=jx3dat"
-                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/jx3dat.svg"

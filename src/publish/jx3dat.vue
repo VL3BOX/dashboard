@@ -55,101 +55,103 @@
                     >
                     </el-alert>
                     <div class="m-jx3dat-upload-wrapper">
-                        <el-row class="u-thead">
-                            <el-col :span="4">版本名称</el-col>
-                            <el-col :span="4">订阅地址</el-col>
-                            <el-col :span="8">数据说明</el-col>
-                            <el-col :span="2">公开</el-col>
-                            <el-col :span="3">数据</el-col>
-                            <el-col :span="3">操作</el-col>
-                        </el-row>
-                        <div class="u-tbody">
-                            <el-row
-                                class="u-tr"
-                                v-for="(data, i) in post.post_meta.data"
-                                :key="i"
-                            >
-                                <el-col :span="4" v-if="i == 0"
-                                    ><el-input
-                                        v-model="data.name"
-                                        placeholder="默认版"
-                                        disabled
-                                    ></el-input
-                                ></el-col>
-                                <el-col :span="4" v-else
-                                    ><el-input
-                                        v-model="data.name"
-                                        maxlength="10"
-                                        placeholder="版本名，例：团长版"
-                                    ></el-input
-                                ></el-col>
-
-                                <el-col
-                                    :span="4"
-                                    class="u-feed u-feed-first"
-                                    v-if="i == 0"
-                                    >{{ user.name + "@jx3box" }}</el-col
-                                >
-                                <el-col :span="4" class="u-feed" v-else>{{
-                                    user.name + "@jx3box@" + data.name
-                                }}</el-col>
-
-                                <el-col :span="8"
-                                    ><el-input
-                                        v-model="data.desc"
-                                        placeholder="请输入数据说明"
-                                        maxlength="20"
-                                    ></el-input
-                                ></el-col>
-                                <el-col :span="2"  class="u-status"
-                                    ><el-switch
-                                        v-model="data.status"
-                                        active-color="#13ce66"
-                                        inactive-color="#ff4949"
-                                    >
-                                    </el-switch>
-                                </el-col>
-                                <el-col :span="3" class="u-action">
-                                    <!-- 上传 -->
-                                    <input
-                                        class="u-data-input"
-                                        type="file"
-                                        :id="'jx3dat_' + i"
-                                        @change="uploadDBM($event, data,i)"
-                                    />
-                                    <el-button
-                                        size="small"
-                                        type="primary"
-                                        @click="selectDBM(i)"
-                                        >上传</el-button
-                                    >
-                                    <span
-                                        class="u-data-ready"
-                                        v-show="data.file"
-                                    >
-                                        <i class="el-icon-success"></i>
-                                        已上传
-                                    </span>
-                                </el-col>
-                                <el-col :span="3" class="u-action">
-                                    <!-- 增加 -->
-                                    <el-button
-                                        size="small"
-                                        plain
-                                        @click="addDBM(i)"
-                                        >增加</el-button
-                                    >
-
-                                    <!-- 删除 -->
-                                    <el-button
-                                        size="small"
-                                        type="danger"
-                                        v-if="i !== 0"
-                                        @click="delDBM(i)"
-                                        >删除</el-button
-                                    >
-                                </el-col>
+                        <div class="u-wrapper">
+                            <el-row class="u-thead">
+                                <el-col :span="4">版本名称</el-col>
+                                <el-col :span="4">订阅地址</el-col>
+                                <el-col :span="6">数据说明</el-col>
+                                <el-col :span="2">公开</el-col>
+                                <el-col :span="3">数据</el-col>
+                                <el-col :span="5">操作</el-col>
                             </el-row>
+                            <div class="u-tbody">
+                                <el-row
+                                    class="u-tr"
+                                    v-for="(data, i) in post.post_meta.data"
+                                    :key="i"
+                                >
+                                    <el-col :span="4" v-if="i == 0"
+                                        ><el-input
+                                            v-model="data.name"
+                                            placeholder="默认版"
+                                            disabled
+                                        ></el-input
+                                    ></el-col>
+                                    <el-col :span="4" v-else
+                                        ><el-input
+                                            v-model="data.name"
+                                            maxlength="10"
+                                            placeholder="版本名，例：团长版"
+                                        ></el-input
+                                    ></el-col>
+
+                                    <el-col
+                                        :span="4"
+                                        class="u-feed u-feed-first"
+                                        v-if="i == 0"
+                                        >{{ user.name + "@jx3box" }}</el-col
+                                    >
+                                    <el-col :span="4" class="u-feed" v-else>{{
+                                        user.name + "@jx3box@" + data.name
+                                    }}</el-col>
+
+                                    <el-col :span="6"
+                                        ><el-input
+                                            v-model="data.desc"
+                                            placeholder="请输入数据说明"
+                                            maxlength="20"
+                                        ></el-input
+                                    ></el-col>
+                                    <el-col :span="2"  class="u-status"
+                                        ><el-switch
+                                            v-model="data.status"
+                                            active-color="#13ce66"
+                                            inactive-color="#ff4949"
+                                        >
+                                        </el-switch>
+                                    </el-col>
+                                    <el-col :span="3" class="u-action">
+                                        <!-- 上传 -->
+                                        <input
+                                            class="u-data-input"
+                                            type="file"
+                                            :id="'jx3dat_' + i"
+                                            @change="uploadDBM($event, data,i)"
+                                        />
+                                        <el-button
+                                            size="small"
+                                            type="primary"
+                                            @click="selectDBM(i)"
+                                            >上传</el-button
+                                        >
+                                        <span
+                                            class="u-data-ready"
+                                            v-show="data.file"
+                                        >
+                                            <i class="el-icon-success"></i>
+                                            已上传
+                                        </span>
+                                    </el-col>
+                                    <el-col :span="5" class="u-action">
+                                        <!-- 增加 -->
+                                        <el-button
+                                            size="small"
+                                            plain
+                                            @click="addDBM(i)"
+                                            >增加</el-button
+                                        >
+
+                                        <!-- 删除 -->
+                                        <el-button
+                                            size="small"
+                                            type="danger"
+                                            v-if="i !== 0"
+                                            @click="delDBM(i)"
+                                            >删除</el-button
+                                        >
+                                    </el-col>
+                                </el-row>
+                            </div>
                         </div>
                     </div>
 

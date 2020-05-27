@@ -13,18 +13,21 @@
 .m-jx3dat-upload-wrapper{
     width:100%;
     border-collapse: collapse;
-    min-width:660px;
     overflow-x: auto;
     background-color:#fafbfc;
     .r(3px);
     .mb(20px);
+
+    .u-wrapper{
+        min-width:660px;
+    }
 
     .el-row{
         padding:0 10px;
     }
     
     .u-thead{
-        background-color:@primary;
+        background-color:@color;
         color:#fff;
         font-size: 14px;
         line-height: 3;
@@ -92,5 +95,16 @@
     .el-input {
         .fl;.w(25%);
         .mr(20px);
+    }
+}
+
+@media screen and (max-width:@mininote){
+    .m-jx3dat-upload-wrapper .u-feed{
+        .fz(14px);
+    }
+}
+@media screen and (max-width:@ipad){
+    .m-jx3dat-upload-wrapper .u-feed{
+        .fz(12px);
     }
 }

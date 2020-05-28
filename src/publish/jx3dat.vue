@@ -302,7 +302,7 @@ export default {
                         type: "success",
                     });
                     setTimeout(() => {
-                        location.href = '/' + data.post.post_type + "/?pid=" +  res.data.data.ID;
+                        location.href = '/' + this.type + "/?pid=" +  res.data.data.ID;
                     }, 500);
                 })
             });

@@ -87,6 +87,7 @@ import {
     updateNickname,
     updateProfile,
 } from "../service/profile";
+import { sterilizer } from "sterilizer/index.js";
 
 export default {
     name: "profile",
@@ -114,11 +115,9 @@ export default {
                 this.$message.error("昵称长度限制为4~12个字符");
                 return 
             }
-            
-            // 禁用@符号
-            if(this.rename.includes('@')){
-                this.rename = this.rename.replace(/@/g,'')
-            }
+            // 禁用符号
+            this.rename = sterilizer(this.rename).kill()
+            this.rename = sterilizer(this.rename).removeSpace()
 
             checkNickname(this.rename)
                 .then((res) => {
@@ -130,11 +129,11 @@ export default {
                 });
         },
         submitChangeName() {
-            if (this.renaming == true && !this.checkname) {
-                this.$alert("用户名已被使用", "提交失败", {
+            if (!this.checkname) {
+                this.$alert("昵称不合法", "提交失败", {
                     confirmButtonText: "确定",
                     callback: (action) => {
-                        this.$message.error("用户名已被使用");
+                        this.$message.error("用户名已被使用或包含禁用字符");
                     },
                 });
                 return;

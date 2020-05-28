@@ -82,6 +82,7 @@
                                             v-model="data.name"
                                             maxlength="10"
                                             placeholder="版本名，例：团长版"
+                                            @change="checkDataName(data)"
                                         ></el-input
                                     ></el-col>
 
@@ -89,10 +90,10 @@
                                         :span="4"
                                         class="u-feed u-feed-first"
                                         v-if="i == 0"
-                                        >{{ user.name + "@jx3box" }}</el-col
+                                        >{{ user.name }}</el-col
                                     >
                                     <el-col :span="4" class="u-feed" v-else>{{
-                                        user.name + "@jx3box@" + data.name
+                                        user.name + "#" + data.name
                                     }}</el-col>
 
                                     <el-col :span="6"
@@ -102,7 +103,7 @@
                                             maxlength="20"
                                         ></el-input
                                     ></el-col>
-                                    <el-col :span="2"  class="u-status"
+                                    <el-col :span="2" class="u-status"
                                         ><el-switch
                                             v-model="data.status"
                                             active-color="#13ce66"
@@ -116,7 +117,7 @@
                                             class="u-data-input"
                                             type="file"
                                             :id="'jx3dat_' + i"
-                                            @change="uploadDBM($event, data,i)"
+                                            @change="uploadDBM($event, data, i)"
                                         />
                                         <el-button
                                             size="small"
@@ -214,6 +215,7 @@ import boilerplate from "../components/publish/boilerplate";
 import { uploadHub, uploadData, publishToRedis } from "../service/jx3dat.js";
 import User from "@jx3box/jx3box-common/js/user";
 import { jx3dat_types, jx3dat_tags } from "@jx3box/jx3box-common/js/types";
+import { sterilizer } from "sterilizer/index.js";
 
 export default {
     name: "jx3dat",
@@ -292,7 +294,7 @@ export default {
                     }
                 }
             }
-            this.doPublish(this.$store.state, this,false).then((res) => {
+            this.doPublish(this.$store.state, this, false).then((res) => {
                 let pid = res.data.data.ID;
             });
             // console.log(this.$store.state);
@@ -307,27 +309,33 @@ export default {
             return this.doLoad(this);
         },
         // 子类型
-        changeSubtype:function (subtype){
-            this.$store.commit('changeSubtype',subtype)
+        changeSubtype: function(subtype) {
+            this.$store.commit("changeSubtype", subtype);
+        },
+        // 检查版本名
+        checkDataName : function (data){
+            let name = sterilizer(data.name).removeSpace()
+            name = sterilizer(name).kill()
+            this.$set(data,'name',name)
         },
         // 上传DBM
         selectDBM: function(i) {
             let fileInput = document.getElementById("jx3dat_" + i);
             fileInput.dispatchEvent(new MouseEvent("click"));
         },
-        uploadDBM: function(e, item,i) {
+        uploadDBM: function(e, item, i) {
             let formdata = new FormData();
             let file = e.target.files[0];
             formdata.append("jx3dat", file, "data.jx3dat");
-            uploadHub(formdata,this).then((res) => {
-                if(res){
+            uploadHub(formdata, this).then((res) => {
+                if (res) {
                     item.file = res.data.download_url;
                     this.$message({
-                        message: '数据上传成功',
-                        type: 'success'
+                        message: "数据上传成功",
+                        type: "success",
                     });
                 }
-            })
+            });
         },
         // 添加行
         addDBM: function(i) {
@@ -356,7 +364,7 @@ export default {
             let formdata = new FormData();
             let file = e.target.files[0];
             formdata.append("file", file, "data.jx3dat");
-            uploadData(formdata,this).then((res) => {
+            uploadData(formdata, this).then((res) => {
                 this.post.post_meta.down = res.data.data.list[0];
 
                 this.$message({
@@ -375,7 +383,9 @@ export default {
         });
         this.user = User.getInfo();
     },
-    filters: {},
+    filters: {
+        
+    },
     components: {
         boilerplate,
     },

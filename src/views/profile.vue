@@ -29,7 +29,8 @@
                 <el-input
                     class="u-rename-input"
                     v-model="rename"
-                    maxlength="20"
+                    minlength="2"
+                    maxlength="12"
                     @change="check"
                     show-word-limit
                 ></el-input>
@@ -111,8 +112,8 @@ export default {
         },
         check() {
             this.rename = this.rename.trim();
-            if(this.rename < 4 || this.rename.length > 12){
-                this.$message.error("昵称长度限制为4~12个字符");
+            if(this.rename < 2 || this.rename.length > 12){
+                this.$message.error("昵称长度限制为2~12个字符");
                 return 
             }
             // 禁用符号

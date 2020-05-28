@@ -1,5 +1,6 @@
 import { $, axios } from "./axios";
-import { __hub } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __hub, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
+import User from "@jx3box/jx3box-common/js/user";
 function uploadHub(formdata, vm) {
     return axios
         .post(__hub + "api/plugins/my-team-mon", formdata, {
@@ -16,18 +17,43 @@ function uploadData(formdata, vm) {
     });
 }
 
-function publishToRedis(user, data) {
-    let mergedData = transferForRedis(user, data);
+function syncRedis(data,vm) {
+    let redisData = transferForRedis(data);
+    console.log(redisData)
+    return axios
+        .post(__hub + "api/plugins/jx3dat/publish", redisData, {
+            withCredentials: true,
+        })
+        .catch((err) => {
+            vm.failCallback(err, vm);
+        });
 }
 
-function transferForRedis(user, data) {
+function transferForRedis(data) {
+    let author = User.getInfo().name;
+    let pid = data.ID;
+
     let _ = {
-        author: user.name,
-        user_id: user.uid,
-        post_id: data.ID,
-        data: data.post_meta.data,
+        author: author,
+        user_id: User.getInfo().uid,
+        post_id: pid,
+        data: [],
     };
+
+    data.post_meta.data.forEach((item, i) => {
+        _.data.push({
+            author: author,
+            key: item.name,
+
+            name: item.desc,
+            version: Date.now(),
+
+            data_url: item.file,
+            about: __Root + "jx3dat/" + pid,
+        });
+    });
+
     return _;
 }
 
-export { uploadHub, uploadData, publishToRedis };
+export { uploadHub, uploadData, syncRedis };

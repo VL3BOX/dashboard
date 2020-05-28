@@ -212,7 +212,7 @@
 <script>
 import boilerplate from "../components/publish/boilerplate";
 
-import { uploadHub, uploadData, publishToRedis } from "../service/jx3dat.js";
+import { uploadHub, uploadData, syncRedis } from "../service/jx3dat.js";
 import User from "@jx3box/jx3box-common/js/user";
 import { jx3dat_types, jx3dat_tags } from "@jx3box/jx3box-common/js/types";
 import { sterilizer } from "sterilizer/index.js";
@@ -295,7 +295,16 @@ export default {
                 }
             }
             this.doPublish(this.$store.state, this, false).then((res) => {
-                let pid = res.data.data.ID;
+                let data = res.data.data
+                syncRedis(data,this).then((res) => {
+                    this.$message({
+                        message: res.data.msg,
+                        type: "success",
+                    });
+                    setTimeout(() => {
+                        location.href = '/' + data.post.post_type + "/?pid=" +  res.data.data.ID;
+                    }, 500);
+                })
             });
             // console.log(this.$store.state);
         },

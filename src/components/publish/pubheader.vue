@@ -83,9 +83,11 @@ export default {
                 {
                     confirmButtonText: "确定",
                     callback: (action) => {
-                        let draft_key = new Date().toUTCString();
-                        savePost(draft_key, this.$store.state);
-                        this.$root.$router.push("/");
+                        if (action !== "cancel") {
+                            let draft_key = new Date().toUTCString();
+                            savePost(draft_key, this.$store.state);
+                            this.$root.$router.push("/");
+                        }
                     },
                 }
             );
@@ -102,21 +104,21 @@ export default {
             //当草稿超过n篇时,自动清空
             DB.length().then((len) => {
                 // if (len > 20) {
-                    // DB.clear();
+                // DB.clear();
                 // } else {
-                    DB.iterate((val, key, i) => {
-                        this.tableData.push({
-                            key: key,
-                            title: val.post.post_title,
-                            content: val.post.post_content,
-                        });
+                DB.iterate((val, key, i) => {
+                    this.tableData.push({
+                        key: key,
+                        title: val.post.post_title,
+                        content: val.post.post_content,
+                    });
+                })
+                    .then(function() {
+                        console.log("[IDB] Iteration has completed");
                     })
-                        .then(function() {
-                            console.log("[IDB] Iteration has completed");
-                        })
-                        .catch(function(err) {
-                            console.log(err);
-                        });
+                    .catch(function(err) {
+                        console.log(err);
+                    });
                 // }
             });
         },

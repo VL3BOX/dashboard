@@ -22,353 +22,169 @@
             :excerptEnable="false"
             :tagEnable="false"
             :notifyEnable="false"
-            :bannerEnable="true"
-            :publishDefault="true"
+            :bannerEnable="false"
             @publish="toPublish"
             @draft="toDraft"
         >
             <!-- 💛 栏目字段 -->
-            <template v-if="ready">
-                <!-- 1.选择全屋还是局部蓝图 -->
-                <el-form-item label="蓝图类型">
-                    <el-radio label="house" border key="house" v-model="post.post_meta.house_blueprint_type">全屋蓝图</el-radio>
-                    <el-radio label="partial" border key="partial" v-model="post.post_meta.house_blueprint_type">局部蓝图</el-radio>
+            <template>
+                <!-- 1.选择坐标 -->
+                <el-form-item label="府邸坐标" class="m-house-coord">
+                    <el-row :gutter="20">
+                        <el-col :span="8"
+                            ><el-input
+                                v-model="meta.server"
+                                placeholder="服务器名"
+                            ></el-input
+                        ></el-col>
+                        <el-col :span="8"
+                            ><el-input
+                                v-model="meta.area"
+                                placeholder="所在分线"
+                                ><template slot="append">线</template></el-input
+                            ></el-col
+                        >
+                        <el-col :span="8"
+                            ><el-input v-model="meta.num" placeholder="所在房号"
+                                ><template slot="append">号</template></el-input
+                            ></el-col
+                        >
+                    </el-row>
                 </el-form-item>
 
-                <!-- 2.选择房子 -->
-                <el-form-item label="选择房型">
-                    <el-cascader
-                        v-model="post.post_meta.house_type"
-                        :options="houseNumberFilterOptions"
-                        :props="{ expandTrigger: 'hover', value: 'id' }"
-                        placeholder="请选择"
-                        clearable
-                        :show-all-levels="true"
-                        @visible-change="handleClickShowCascader"
-                        @change="handleChangeSelectedItem"
-                        @expand-change="handleChangeSelectedItem"
-                        ref="cascader"
-                    >
-                        <template slot-scope="{ node, data }">
-                            <span style="float: left">{{ data.name ? data.name : data.label }}</span>
-                            <span v-if="node.isLeaf" style="float: right; color: #8492a6; font-size: 13px">#{{ data.id }}</span>
-                        </template>
-                    </el-cascader>
+                <!-- 2.家园图片 -->
+                <el-form-item label="家园图赏">
+                    <album @albumChange=updateAlbum></album>
                 </el-form-item>
 
-                <!-- 3.选择家园等级 -->
-                <el-form-item label="家园等级" class="form-item-level">
-                    <el-slider
-                        v-model="post.post_meta.house_level"
-                        show-stops
-                        :show-tooltip="false"
-                        :min="1"
-                        :max="4"
-                        label="家园等级滑块"
-                        :marks="levelFilterSliderMarks"
-                    ></el-slider>
+                <!-- 3.蓝图分享 -->
+                <el-form-item label="蓝图分享">
+                    <el-switch v-model="hasData"></el-switch>
                 </el-form-item>
+                <div class="m-publish-datalist" v-if="hasData">
+                    <div class="u-wrapper">
+                        <el-row class="u-thead">
+                            <el-col :span="6">类型</el-col>
+                            <el-col :span="6">说明</el-col>
+                            <el-col :span="6">数据</el-col>
+                            <el-col :span="6">操作</el-col>
+                        </el-row>
+                        <div class="u-tbody">
+                            <el-row
+                                class="u-tr"
+                                v-for="(data, i) in meta.blueprint"
+                                :key="i"
+                            >
+                                <el-col :span="6">
+                                    <el-radio-group v-model="data.type">
+                                        <el-radio-button
+                                            label="整园蓝图"
+                                        ></el-radio-button>
+                                        <el-radio-button
+                                            label="局部蓝图"
+                                        ></el-radio-button>
+                                    </el-radio-group>
+                                </el-col>
 
-                <!-- 4.上传封面图（可选） -->
-                <el-form-item label="封面图" class="form-item-cover">
-                    <el-upload
-                        class="cover-uploader"
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :show-file-list="false"
-                        :on-success="handleCoverSuccess"
-                        :before-upload="beforeCoverUpload"
-                    >
-                        <img v-if="post.post_meta.house_cover_url" :src="post.post_meta.house_cover_url" class="cover" />
-                        <i v-else class="el-icon-plus cover-uploader-icon"></i>
-                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2MB。建议上传16:9的图片。不上传默认选择正文第一张图片作为封面。</div>
-                    </el-upload>
-                </el-form-item>
+                                <el-col :span="6"
+                                    ><el-input
+                                        v-model="data.desc"
+                                        placeholder="蓝图说明"
+                                    ></el-input
+                                ></el-col>
+
+                                <el-col :span="6" class="u-action">
+                                    <!-- 上传 -->
+                                    <input
+                                        class="u-data-input"
+                                        type="file"
+                                        :id="'data_' + i"
+                                        @change="uploadData($event, data, i)"
+                                    />
+                                    <el-button
+                                        type="primary"
+                                        @click="selectData(i)"
+                                        >上传</el-button
+                                    >
+                                    <span
+                                        class="u-data-ready"
+                                        v-show="data.file"
+                                    >
+                                        <i class="el-icon-success"></i>
+                                        已上传
+                                    </span>
+                                </el-col>
+
+                                <el-col :span="6" class="u-action">
+                                    <!-- 增加 -->
+                                    <el-button plain @click="addData(i)"
+                                        >增加</el-button
+                                    >
+
+                                    <!-- 删除 -->
+                                    <el-button
+                                        type="danger"
+                                        v-if="i !== 0"
+                                        @click="delData(i)"
+                                        >删除</el-button
+                                    >
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </div>
+                </div>
             </template>
         </boilerplate>
     </div>
 </template>
 
 <script>
-import boilerplate from '../components/publish/boilerplate';
+import boilerplate from "@/components/publish/boilerplate";
+import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
+const API = __server + "upload";
+import { uploadData, postHouse, getHouse } from "../service/house";
+import album from "@/components/publish/album.vue";
+
 export default {
-    name: 'house',
+    name: "house",
     props: [],
     data: function() {
         return {
             //基本 - 类型设置
-            type: 'house',
-            name: '家园蓝图',
-            //选项 - 加载可选项
-            
-            cascaderShowScroll: false,
-            houseNumberFilterOptions: [
-                {
-                    id: '0',
-                    label: '广陵邑',
-                    children: [
-                        {
-                            id: 'size1200',
-                            label: '1200m²',
-                            children: [
-                                { id: '5', cityid: '455', label: '挂剑里四邻' },
-                                { id: '15', cityid: '455', label: '清茨里一邻' },
-                                { id: '24', cityid: '455', label: '吴亭里五邻' },
-                                { id: '26', cityid: '455', label: '吴亭里七邻' },
-                                { id: '27', cityid: '455', label: '襟江里一邻' },
-                                { id: '32', cityid: '455', label: '襟江里六邻' }
-                            ]
-                        },
-                        {
-                            id: 'size2080',
-                            label: '2080m²',
-                            children: [
-                                { id: '2', cityid: '455', label: '挂剑里一邻' },
-                                { id: '4', cityid: '455', label: '挂剑里三邻' },
-                                { id: '7', cityid: '455', label: '通寰里二邻' },
-                                { id: '8', cityid: '455', label: '通寰里三邻' },
-                                { id: '9', cityid: '455', label: '通寰里四邻' },
-                                { id: '10', cityid: '455', label: '通寰里五邻' },
-                                { id: '12', cityid: '455', label: '观桥里二邻' },
-                                { id: '13', cityid: '455', label: '观桥里三邻' },
-                                { id: '14', cityid: '455', label: '观桥里四邻' },
-                                { id: '16', cityid: '455', label: '清茨里二邻' },
-                                { id: '17', cityid: '455', label: '鱼雁里一邻' },
-                                { id: '18', cityid: '455', label: '鱼雁里二邻' },
-                                { id: '20', cityid: '455', label: '吴亭里一邻' },
-                                { id: '22', cityid: '455', label: '吴亭里三邻' },
-                                { id: '23', cityid: '455', label: '吴亭里四邻' },
-                                { id: '25', cityid: '455', label: '吴亭里六邻' },
-                                { id: '28', cityid: '455', label: '襟江里二邻' },
-                                { id: '30', cityid: '455', label: '襟江里四邻' },
-                                { id: '31', cityid: '455', label: '襟江里五邻' },
-                                { id: '33', cityid: '455', label: '襟江里七邻' }
-                            ]
-                        },
-                        {
-                            id: 'size3640',
-                            label: '3640m²',
-                            children: [
-                                { id: '3', cityid: '455', label: '挂剑里二保' },
-                                { id: '6', cityid: '455', label: '通寰里一保' },
-                                { id: '11', cityid: '455', label: '观桥里一保' },
-                                { id: '19', cityid: '455', label: '鱼雁里三保' },
-                                { id: '21', cityid: '455', label: '吴亭里二保' },
-                                { id: '29', cityid: '455', label: '襟江里三保' }
-                            ]
-                        },
-                        {
-                            id: 'size7000',
-                            label: '7000m²',
-                            children: [{ id: '1', cityid: '455', label: '句容里一保' }]
-                        }
-                    ]
-                },
-                {
-                    id: '1',
-                    label: '望扬镇',
-                    children: [
-                        {
-                            id: 'size1200',
-                            label: '1200m²',
-                            children: [
-                                { id: '5', cityid: '455', label: '挂剑里四邻' },
-                                { id: '15', cityid: '455', label: '清茨里一邻' },
-                                { id: '24', cityid: '455', label: '吴亭里五邻' },
-                                { id: '26', cityid: '455', label: '吴亭里七邻' },
-                                { id: '27', cityid: '455', label: '襟江里一邻' },
-                                { id: '32', cityid: '455', label: '襟江里六邻' }
-                            ]
-                        },
-                        {
-                            id: 'size2080',
-                            label: '2080m²',
-                            children: [
-                                { id: '2', cityid: '455', label: '挂剑里一邻' },
-                                { id: '4', cityid: '455', label: '挂剑里三邻' },
-                                { id: '7', cityid: '455', label: '通寰里二邻' },
-                                { id: '8', cityid: '455', label: '通寰里三邻' },
-                                { id: '9', cityid: '455', label: '通寰里四邻' },
-                                { id: '10', cityid: '455', label: '通寰里五邻' },
-                                { id: '12', cityid: '455', label: '观桥里二邻' },
-                                { id: '13', cityid: '455', label: '观桥里三邻' },
-                                { id: '14', cityid: '455', label: '观桥里四邻' },
-                                { id: '16', cityid: '455', label: '清茨里二邻' },
-                                { id: '17', cityid: '455', label: '鱼雁里一邻' },
-                                { id: '18', cityid: '455', label: '鱼雁里二邻' },
-                                { id: '20', cityid: '455', label: '吴亭里一邻' },
-                                { id: '22', cityid: '455', label: '吴亭里三邻' },
-                                { id: '23', cityid: '455', label: '吴亭里四邻' },
-                                { id: '25', cityid: '455', label: '吴亭里六邻' },
-                                { id: '28', cityid: '455', label: '襟江里二邻' },
-                                { id: '30', cityid: '455', label: '襟江里四邻' },
-                                { id: '31', cityid: '455', label: '襟江里五邻' },
-                                { id: '33', cityid: '455', label: '襟江里七邻' }
-                            ]
-                        },
-                        {
-                            id: 'size3640',
-                            label: '3640m²',
-                            children: [
-                                { id: '3', cityid: '455', label: '挂剑里二保' },
-                                { id: '6', cityid: '455', label: '通寰里一保' },
-                                { id: '11', cityid: '455', label: '观桥里一保' },
-                                { id: '19', cityid: '455', label: '鱼雁里三保' },
-                                { id: '21', cityid: '455', label: '吴亭里二保' },
-                                { id: '29', cityid: '455', label: '襟江里三保' }
-                            ]
-                        },
-                        {
-                            id: 'size7000',
-                            label: '7000m²',
-                            children: [{ id: '1', cityid: '455', label: '句容里一保' }]
-                        }
-                    ]
-                },
-                {
-                    id: '2',
-                    label: '九寨沟',
-                    children: [
-                        {
-                            id: 'size1200',
-                            label: '1200m²',
-                            children: [
-                                { id: '5', cityid: '455', label: '挂剑里四邻' },
-                                { id: '15', cityid: '455', label: '清茨里一邻' },
-                                { id: '24', cityid: '455', label: '吴亭里五邻' },
-                                { id: '26', cityid: '455', label: '吴亭里七邻' },
-                                { id: '27', cityid: '455', label: '襟江里一邻' },
-                                { id: '32', cityid: '455', label: '襟江里六邻' }
-                            ]
-                        },
-                        {
-                            id: 'size2080',
-                            label: '2080m²',
-                            children: [
-                                { id: '2', cityid: '455', label: '挂剑里一邻' },
-                                { id: '4', cityid: '455', label: '挂剑里三邻' },
-                                { id: '7', cityid: '455', label: '通寰里二邻' },
-                                { id: '8', cityid: '455', label: '通寰里三邻' },
-                                { id: '9', cityid: '455', label: '通寰里四邻' },
-                                { id: '10', cityid: '455', label: '通寰里五邻' },
-                                { id: '12', cityid: '455', label: '观桥里二邻' },
-                                { id: '13', cityid: '455', label: '观桥里三邻' },
-                                { id: '14', cityid: '455', label: '观桥里四邻' },
-                                { id: '16', cityid: '455', label: '清茨里二邻' },
-                                { id: '17', cityid: '455', label: '鱼雁里一邻' },
-                                { id: '18', cityid: '455', label: '鱼雁里二邻' },
-                                { id: '20', cityid: '455', label: '吴亭里一邻' },
-                                { id: '22', cityid: '455', label: '吴亭里三邻' },
-                                { id: '23', cityid: '455', label: '吴亭里四邻' },
-                                { id: '25', cityid: '455', label: '吴亭里六邻' },
-                                { id: '28', cityid: '455', label: '襟江里二邻' },
-                                { id: '30', cityid: '455', label: '襟江里四邻' },
-                                { id: '31', cityid: '455', label: '襟江里五邻' },
-                                { id: '33', cityid: '455', label: '襟江里七邻' }
-                            ]
-                        },
-                        {
-                            id: 'size3640',
-                            label: '3640m²',
-                            children: [
-                                { id: '3', cityid: '455', label: '挂剑里二保' },
-                                { id: '6', cityid: '455', label: '通寰里一保' },
-                                { id: '11', cityid: '455', label: '观桥里一保' },
-                                { id: '19', cityid: '455', label: '鱼雁里三保' },
-                                { id: '21', cityid: '455', label: '吴亭里二保' },
-                                { id: '29', cityid: '455', label: '襟江里三保' }
-                            ]
-                        },
-                        {
-                            id: 'size7000',
-                            label: '7000m²',
-                            children: [{ id: '1', cityid: '455', label: '句容里一保' }]
-                        }
-                    ]
-                },
-                {
-                    id: '3',
-                    label: '七秀',
-                    children: [
-                        {
-                            id: 'size1200',
-                            label: '1200m²',
-                            children: [
-                                { id: '5', cityid: '455', label: '挂剑里四邻' },
-                                { id: '15', cityid: '455', label: '清茨里一邻' },
-                                { id: '24', cityid: '455', label: '吴亭里五邻' },
-                                { id: '26', cityid: '455', label: '吴亭里七邻' },
-                                { id: '27', cityid: '455', label: '襟江里一邻' },
-                                { id: '32', cityid: '455', label: '襟江里六邻' }
-                            ]
-                        },
-                        {
-                            id: 'size2080',
-                            label: '2080m²',
-                            children: [
-                                { id: '2', cityid: '455', label: '挂剑里一邻' },
-                                { id: '4', cityid: '455', label: '挂剑里三邻' },
-                                { id: '7', cityid: '455', label: '通寰里二邻' },
-                                { id: '8', cityid: '455', label: '通寰里三邻' },
-                                { id: '9', cityid: '455', label: '通寰里四邻' },
-                                { id: '10', cityid: '455', label: '通寰里五邻' },
-                                { id: '12', cityid: '455', label: '观桥里二邻' },
-                                { id: '13', cityid: '455', label: '观桥里三邻' },
-                                { id: '14', cityid: '455', label: '观桥里四邻' },
-                                { id: '16', cityid: '455', label: '清茨里二邻' },
-                                { id: '17', cityid: '455', label: '鱼雁里一邻' },
-                                { id: '18', cityid: '455', label: '鱼雁里二邻' },
-                                { id: '20', cityid: '455', label: '吴亭里一邻' },
-                                { id: '22', cityid: '455', label: '吴亭里三邻' },
-                                { id: '23', cityid: '455', label: '吴亭里四邻' },
-                                { id: '25', cityid: '455', label: '吴亭里六邻' },
-                                { id: '28', cityid: '455', label: '襟江里二邻' },
-                                { id: '30', cityid: '455', label: '襟江里四邻' },
-                                { id: '31', cityid: '455', label: '襟江里五邻' },
-                                { id: '33', cityid: '455', label: '襟江里七邻' }
-                            ]
-                        },
-                        {
-                            id: 'size3640',
-                            label: '3640m²',
-                            children: [
-                                { id: '3', cityid: '455', label: '挂剑里二保' },
-                                { id: '6', cityid: '455', label: '通寰里一保' },
-                                { id: '11', cityid: '455', label: '观桥里一保' },
-                                { id: '19', cityid: '455', label: '鱼雁里三保' },
-                                { id: '21', cityid: '455', label: '吴亭里二保' },
-                                { id: '29', cityid: '455', label: '襟江里三保' }
-                            ]
-                        },
-                        {
-                            id: 'size7000',
-                            label: '7000m²',
-                            children: [{ id: '1', cityid: '455', label: '句容里一保' }]
-                        }
-                    ]
-                }
-            ],
-            levelFilterSliderMarks: { 1: '1', 2: '2', 3: '3', 4: '4' },
+            type: "house",
+            name: "家园分享",
+
             //字段 - meta表数据,可设置默认值
-            meta: {},
+            upload_url: API,
+            hasData: true,
+            meta: {
+                server: "", //服务器
+                area: "", //分线
+                num: "", //房号
+                map: "广陵邑", //地图
+                pics: [], //图册
+                blueprint: [
+                    {
+                        type: "整园蓝图",
+                        desc: "",
+                        file: "",
+                    },
+                ], //蓝图
+            },
 
             //文章 - 主表数据
             post: {
-                ID: '', //文章ID
+                ID: "", //文章ID
                 // post_author               //无需设置,由token自动获取
                 // post_type:"",             //类型(默认由boilerplate托管)
-                post_subtype: '', //子类型(过滤查询用)
-                post_title: '', //标题
-                post_content: '', //主表内容字段,由后端接口配置是否双存储至meta表
-                post_meta: {
-                    house_blueprint_type: 'house', // house或partial
-                    house_type: '',
-                    house_level: 1,
-                    house_cover_url: ''
-                },
-                post_excerpt: '', //主表摘要
-                post_mode: 'tinymce', //编辑模式(会影响文章详情页渲染规则)
-                post_banner: '', //头条图,管理员可见
-                post_status: '' //由发布按钮、草稿按钮决定
+                post_subtype: "", //子类型(过滤查询用)
+                post_title: "", //标题
+                post_content: "", //主表内容字段,由后端接口配置是否双存储至meta表
+                post_meta: {},
+                post_excerpt: "", //主表摘要
+                post_mode: "tinymce", //编辑模式(会影响文章详情页渲染规则)
+                post_banner: "", //头条图,管理员可见
+                post_status: "", //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
             },
 
@@ -378,87 +194,82 @@ export default {
                 followEnable: false, //是否通知粉丝
                 tencentEnable: false, //是否同步至腾讯文档
                 weiboEnable: false, //是否同步至微博头条文章
-                tuilanEnable: false //是否同步至推栏
+                tuilanEnable: false, //是否同步至推栏
             },
 
-            // 测试用数据
-            ready: true
+            // 临时
+            dialogImageUrl: "",
+            dialogVisible: false,
         };
     },
-    computed: {
-        // 是否选项加载就绪
-        // ready: function() {
-        //     return Object.keys(this.options.map).length;
-        // },
-    },
+    computed: {},
     methods: {
         // 发布
         toPublish: function() {
-            // TODO:默认跳转
-            this.doPublish(this.$store.state, this, false).then(res => {});
             console.log(this.$store.state);
+            postHouse(this.$store.state, this);
         },
         // 草稿
         toDraft: function() {
-            // this.doDraft(this.$store.state, this)
             console.log(this.$store.state);
+            postHouse(this.$store.state, this);
         },
         // 加载
         init: function() {
-            return this.doLoad(this);
+            return getHouse(this)
         },
-        handleCoverSuccess(res, file) {
-            this.post.post_meta.house_cover_url = URL.createObjectURL(file.raw);
-        },
-        beforeCoverUpload(file) {
-            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-            const isLt2M = file.size / 1024 / 1024 < 2;
 
-            if (!isJPG) {
-                this.$message.error('上传的封面图只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传的封面图图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
+        // 蓝图
+        selectData: function(i) {
+            let fileInput = document.getElementById("data_" + i);
+            fileInput.dispatchEvent(new MouseEvent("click"));
         },
-        handleClickShowCascader(value) {
-            let popper = this.$refs.cascader.$refs.popper
-            if (value) {
-                this.$nextTick(() => {
-                    let popperWidth = popper.clientWidth
-                    if (popperWidth > window.innerWidth - 5) {
-                        // console.log('超过啦')
-                        popper.classList.add('cascader-show-scroll')
-                    }
+        uploadData: function(e, item, i) {
+            let formdata = new FormData();
+            let file = e.target.files[0];
+            formdata.append("file", file);
+            uploadData(formdata, this).then((res) => {
+                item.file = res.data.data.list[0];
+                this.$message({
+                    message: res.data.msg,
+                    type: "success",
+                });
+            });
+        },
+        // 添加行
+        addData: function(i) {
+            // 目前设置最多10个版本
+            if (this.meta.blueprint.length > 10) {
+                this.$message.error("默认上限10个");
+                return;
+            }
+            this.meta.blueprint.push({
+                type: "整园蓝图",
+                desc: "",
+                file: "",
+            });
+        },
+        // 删除行
+        delData: function(i) {
+            this.meta.blueprint.splice(i, 1);
+        },
+
+        // 图集
+        updateAlbum : function (filelist){
+            let imglist = []
+            filelist.forEach((img) => {
+                imglist.push({
+                    name : img.name,
+                    url : img.url
                 })
-            } else {
-                popper.classList.remove('cascader-show-scroll')
-            }
-        },
-        handleChangeSelectedItem(value) {
-            let popper = this.$refs.cascader.$refs.popper
-            popper.classList.remove('cascader-show-scroll')
-            this.$nextTick(() => {
-                let popperWidth = popper.clientWidth
-                if (popperWidth > window.innerWidth - 5) {
-                    // console.log('超过啦')
-                    popper.classList.add('cascader-show-scroll')
-                }
             })
-            
-        },
-        // 初始化选项数据
-        // optionsInit: function() {
-        //     return LoadFBList().then((res) => {
-        //         this.options.map = res.data
-        //     });
-        // },
+            this.meta.pics = imglist
+        }
     },
     mounted: function() {
         // 初始化默认文章数据
         this.init().then(() => {
-            console.log('Init Post:',this.post)
+            console.log("Init Post:", this.post);
         });
     },
     filters: {
@@ -467,11 +278,12 @@ export default {
         // }
     },
     components: {
-        boilerplate
-    }
+        boilerplate,
+        album
+    },
 };
 </script>
 
 <style lang="less">
-@import '../assets/css/publish/house.less';
+@import "../assets/css/publish/house.less";
 </style>

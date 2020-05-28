@@ -5,12 +5,13 @@ import lodash from "lodash";
 function doPublish(data, vm,skip=true) {
     return $.post(`post/publish`, data)
         .then((res) => {
-            this.$message({
-                message: res.data.msg,
-                type: "success",
-            });
-
+            
             if(skip){
+                this.$message({
+                    message: res.data.msg,
+                    type: "success",
+                });
+
                 setTimeout(() => {
                     location.href = '/' + data.post.post_type + "/?pid=" +  res.data.data.ID;
                 }, 500);

@@ -55,28 +55,38 @@
                 >
             </el-row>
 
-            <el-divider content-position="left">PVE / PVP / PVX</el-divider>
+            <el-divider content-position="left">PVX / PVN</el-divider>
             <el-row :gutter="20">
-                <!-- <el-col :span="4"
+                <el-col :span="4"
                     ><el-card
-                        ><router-link to="/wiki"
+                        ><router-link to="/cj"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/wiki.svg"
-                            /><span>百科词条</span></router-link
+                                src="../assets/img/channel/cj.svg"
+                            /><span>成就攻略</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+                <!-- <el-col :span="4"
+                    ><el-card
+                        ><router-link to="/house"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/house.svg"
+                            /><span>家园分享</span></router-link
                         ></el-card
                     ></el-col
                 > -->
                 <el-col :span="4"
                     ><el-card
                         ><router-link
-                            to="/tool"
-                            href="https://www.jx3box.com/post/?pt=tool"
+                            to="/share"
+                            href="https://www.jx3box.com/post/?pt=share"
                             target="_blank"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/bps.svg"
-                            /><span>干货教程</span></router-link
+                                src="../assets/img/channel/share.svg"
+                            /><span>捏脸分享</span></router-link
                         ></el-card
                     ></el-col
                 >
@@ -95,38 +105,15 @@
                 >
             </el-row>
 
-            <el-divider content-position="left">PVX</el-divider>
+            <el-divider content-position="left">PVBB</el-divider>
             <el-row :gutter="20">
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link to="/cj"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/cj.svg"
-                            /><span>成就攻略</span></router-link
-                        ></el-card
-                    ></el-col
-                >
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link
-                            to="/share"
-                            href="https://www.jx3box.com/post/?pt=share"
-                            target="_blank"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/share.svg"
-                            /><span>捏脸分享</span></router-link
-                        ></el-card
-                    ></el-col
-                >
                 <!-- <el-col :span="4"
                     ><el-card
-                        ><router-link to="/house"
+                        ><router-link to="/wiki"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/house.svg"
-                            /><span>家园蓝图</span></router-link
+                                src="../assets/img/channel/wiki.svg"
+                            /><span>百科词条</span></router-link
                         ></el-card
                     ></el-col
                 > -->
@@ -140,10 +127,6 @@
                         ></el-card
                     ></el-col
                 > -->
-            </el-row>
-
-            <el-divider content-position="left">PVN</el-divider>
-            <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
                         ><router-link
@@ -171,6 +154,36 @@
                     ></el-col
                 >
             </el-row>
+
+            <!-- <el-divider content-position="left">JX3BOX</el-divider>
+            <el-row :gutter="20">
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link
+                            to="/bbs"
+                            href="https://www.jx3box.com/post/?pt=bbs"
+                            target="_blank"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/post.svg"
+                            /><span>系统公告</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link
+                            to="/bbs"
+                            href="https://www.jx3box.com/post/?pt=bbs"
+                            target="_blank"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/post.svg"
+                            /><span>帮助手册</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+            </el-row> -->
         </div>
     </div>
 </template>

@@ -11,6 +11,7 @@
             bannerEnable : 是否开启头条图功能,开启后仍旧需要签约作者及管理员才可见
          -->
         <boilerplate
+            v-if="loaded"
             :name="name"
             :type="type"
             :post="post"
@@ -70,32 +71,31 @@
                                     v-for="(data, i) in post.post_meta.data"
                                     :key="i"
                                 >
-                                    <el-col :span="4" v-if="i == 0"
+                                    <!-- 版本名 -->
+                                    <el-col :span="4"
                                         ><el-input
                                             v-model="data.name"
-                                            placeholder="默认版"
-                                            disabled
-                                        ></el-input
-                                    ></el-col>
-                                    <el-col :span="4" v-else
-                                        ><el-input
-                                            v-model="data.name"
-                                            maxlength="10"
-                                            placeholder="版本名，例：团长版"
+                                            :placeholder="
+                                                i == 0 ? '默认版' : '版本名称'
+                                            "
+                                            :disabled="i == 0"
                                             @change="checkDataName(data)"
                                         ></el-input
                                     ></el-col>
 
+                                    <!-- 版本名展示 -->
                                     <el-col
                                         :span="4"
-                                        class="u-feed u-feed-first"
-                                        v-if="i == 0"
-                                        >{{ user.name }}</el-col
+                                        class="u-feed"
+                                        :class="{ 'u-feed-first': i == 0 }"
+                                        >{{
+                                            i == 0
+                                                ? user.name
+                                                : user.name + "#" + data.name
+                                        }}</el-col
                                     >
-                                    <el-col :span="4" class="u-feed" v-else>{{
-                                        user.name + "#" + data.name
-                                    }}</el-col>
 
+                                    <!-- 版本描述 -->
                                     <el-col :span="6"
                                         ><el-input
                                             v-model="data.desc"
@@ -103,6 +103,8 @@
                                             maxlength="20"
                                         ></el-input
                                     ></el-col>
+
+                                    <!-- 是否公开 -->
                                     <el-col :span="2" class="u-status"
                                         ><el-switch
                                             v-model="data.status"
@@ -111,8 +113,9 @@
                                         >
                                         </el-switch>
                                     </el-col>
+
+                                    <!-- 数据 -->
                                     <el-col :span="3" class="u-action">
-                                        <!-- 上传 -->
                                         <input
                                             class="u-data-input"
                                             type="file"
@@ -133,6 +136,8 @@
                                             已上传
                                         </span>
                                     </el-col>
+
+                                    <!-- 操作 -->
                                     <el-col :span="5" class="u-action">
                                         <!-- 增加 -->
                                         <el-button
@@ -228,6 +233,7 @@ export default {
             //基本 - 类型设置
             type: "jx3dat",
             name: "插件数据",
+            loaded: false,
 
             //选项 - 加载可选项
             options: {
@@ -394,25 +400,6 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then((data) => {
-            console.log()
-            if (!this.post.post_meta) {
-                this.post.post_meta = {
-                    type: "1",
-                    data: [
-                        {
-                            name: "默认版",
-                            desc: "",
-                            status: true,
-                            file: "",
-                        },
-                    ],
-                    tag: [],
-                    github: "",
-                    gitee: "",
-                    aliyun: "",
-                    down: "",
-                };
-            }
         });
         this.user = User.getInfo();
     },

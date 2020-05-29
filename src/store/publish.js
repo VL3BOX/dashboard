@@ -58,6 +58,9 @@ let store = {
         editMeta: function(state, payload) {
             state.meta = payload;
         },
+        loadPost : function (state,payload){
+            state.post = payload
+        },
     },
     getters: {},
     actions: {},

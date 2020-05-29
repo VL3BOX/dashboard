@@ -11,6 +11,7 @@
             bannerEnable : 是否开启头条图功能,开启后仍旧需要签约作者及管理员才可见
          -->
         <boilerplate
+            v-if="loaded"
             :name="name"
             :type="type"
             :post="post"
@@ -153,6 +154,7 @@ export default {
             //基本 - 类型设置
             type: "house",
             name: "家园分享",
+            loaded : false,
 
             //字段 - meta表数据,可设置默认值
             upload_url: API,

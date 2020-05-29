@@ -11,6 +11,7 @@
             bannerEnable : 是否开启头条图功能,开启后仍旧需要签约作者及管理员才可见
          -->
         <boilerplate
+            v-if="loaded"
             :name="name"
             :type="type"
             :post="post"
@@ -102,6 +103,7 @@ export default {
             type: "fb",
             name: "副本攻略",
             loading : true,
+            loaded : false,
 
             //选项 - 加载可选项
             options: {

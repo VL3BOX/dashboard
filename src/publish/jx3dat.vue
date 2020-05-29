@@ -173,12 +173,12 @@
                     </el-form-item>
 
                     <!-- 标签 -->
-                    <el-form-item label="标签子类">
+                    <el-form-item label="标签子类" v-if="options.tag_list.length">
                         <el-checkbox-group v-model="post.post_meta.tag">
                             <el-checkbox
-                                v-for="(item, i) in options.tag_list"
+                                v-for="(item) in options.tag_list"
                                 :label="item"
-                                :key="item + i"
+                                :key="item"
                             ></el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>
@@ -295,6 +295,7 @@ export default {
                 }
             }
             this.doPublish(this.$store.state, this, false).then((res) => {
+                let data = res.data.data
                 let msg = res.data.msg
                 let id = res.data.data.ID
                 let type = this.type
@@ -374,7 +375,7 @@ export default {
         uploadDat: function(e) {
             let formdata = new FormData();
             let file = e.target.files[0];
-            formdata.append("file", file, "data.jx3dat");
+            formdata.append("file", file);
             uploadData(formdata, this).then((res) => {
                 this.post.post_meta.down = res.data.data.list[0];
 

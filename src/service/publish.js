@@ -53,7 +53,10 @@ function doLoad(vm, oldMetaKeys) {
         })
             .then((res) => {
                 // 主表字段处理（没有的字段使用默认字段）
-                vm.post = lodash.merge(vm.post, res.data.data.post);
+                let merged = lodash.merge(vm.post, res.data.data.post);
+                vm.$set(vm,'post',merged)
+                vm.$store.state.post = merged;
+                vm.$forceUpdate()
 
                 // 废弃·需要处理的旧meta
                 // let meta = res.data.data.meta;
@@ -67,10 +70,7 @@ function doLoad(vm, oldMetaKeys) {
                 //     }
                 //     vm.meta = meta;
                 // }
-
-                // 修改store
-                this.$store.state.post = res.data.data.post;
-                // this.$store.state.meta = res.data.data.meta;
+                // vm.$store.state.meta = res.data.data.meta;
             })
             .catch((err) => {
                 console.log(err);

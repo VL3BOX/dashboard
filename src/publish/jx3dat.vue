@@ -319,7 +319,38 @@ export default {
         },
         // 加载
         init: function() {
-            return this.doLoad(this);
+            return this.doLoad(this).then((data) => {
+                if(!data.post_meta){
+                    this.$set(this.post,'post_meta',{
+                        //新版,字段表合并至主表,减少数据库查询次数
+                        type: "1",
+                        data: [
+                            {
+                                name: "默认版",
+                                desc: "",
+                                status: true,
+                                file: "",
+                            },
+                        ],
+                        tag: [],
+                        github: "",
+                        gitee: "",
+                        aliyun: "",
+                        down: "",
+                    })
+                }
+                if(!data.post_meta.data || !data.post_meta.data.length){
+                    this.$set(this.post.post_meta,'data',[
+                            {
+                                name: "默认版",
+                                desc: "",
+                                status: true,
+                                file: "",
+                            },
+                        ]
+                    )
+                }
+            })
         },
         // 子类型
         changeSubtype: function(subtype) {

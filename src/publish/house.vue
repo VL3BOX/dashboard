@@ -34,19 +34,19 @@
                     <el-row :gutter="20">
                         <el-col :span="8"
                             ><el-input
-                                v-model="meta.server"
+                                v-model="post.post_meta.server"
                                 placeholder="服务器名"
                             ></el-input
                         ></el-col>
                         <el-col :span="8"
                             ><el-input
-                                v-model="meta.area"
+                                v-model="post.post_meta.area"
                                 placeholder="所在分线"
                                 ><template slot="append">线</template></el-input
                             ></el-col
                         >
                         <el-col :span="8"
-                            ><el-input v-model="meta.num" placeholder="所在房号"
+                            ><el-input v-model="post.post_meta.num" placeholder="所在房号"
                                 ><template slot="append">号</template></el-input
                             ></el-col
                         >
@@ -55,14 +55,14 @@
 
                 <!-- 2.家园图片 -->
                 <el-form-item label="家园图赏">
-                    <album @albumChange=updateAlbum></album>
+                    <album :imgList="post.post_meta.pics" @albumChange="updateAlbum"></album>
                 </el-form-item>
 
                 <!-- 3.蓝图分享 -->
                 <el-form-item label="蓝图分享">
-                    <el-switch v-model="hasData"></el-switch>
+                    <el-switch v-model="post.post_meta.hasData"></el-switch>
                 </el-form-item>
-                <div class="m-publish-datalist" v-if="hasData">
+                <div class="m-publish-datalist" v-if="post.post_meta.hasData">
                     <div class="u-wrapper">
                         <el-row class="u-thead">
                             <el-col :span="6">类型</el-col>
@@ -73,7 +73,7 @@
                         <div class="u-tbody">
                             <el-row
                                 class="u-tr"
-                                v-for="(data, i) in meta.blueprint"
+                                v-for="(data, i) in post.post_meta.blueprint"
                                 :key="i"
                             >
                                 <el-col :span="6">
@@ -143,7 +143,7 @@
 import boilerplate from "@/components/publish/boilerplate";
 import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
 const API = __server + "upload";
-import { uploadData, postHouse, getHouse } from "../service/house";
+import { uploadData } from "../service/house";
 import album from "@/components/publish/album.vue";
 
 export default {
@@ -154,35 +154,35 @@ export default {
             //基本 - 类型设置
             type: "house",
             name: "家园分享",
-            loaded : false,
+            loaded: false,
 
             //字段 - meta表数据,可设置默认值
-            upload_url: API,
-            hasData: true,
-            meta: {
-                server: "", //服务器
-                area: "", //分线
-                num: "", //房号
-                map: "广陵邑", //地图
-                pics: [], //图册
-                blueprint: [
-                    {
-                        type: "整园蓝图",
-                        desc: "",
-                        file: "",
-                    },
-                ], //蓝图
-            },
+
+            meta: {},
 
             //文章 - 主表数据
             post: {
                 ID: "", //文章ID
                 // post_author               //无需设置,由token自动获取
                 // post_type:"",             //类型(默认由boilerplate托管)
-                post_subtype: "", //子类型(过滤查询用)
+                post_subtype: "广陵邑", //子类型(过滤查询用)
                 post_title: "", //标题
                 post_content: "", //主表内容字段,由后端接口配置是否双存储至meta表
-                post_meta: {},
+                post_meta: {
+                    server: "", //服务器
+                    area: "", //分线
+                    num: "", //房号
+                    map: "广陵邑", //地图
+                    pics: [], //图册
+                    hasData: true,
+                    blueprint: [
+                        {
+                            type: "整园蓝图",
+                            desc: "",
+                            file: "",
+                        },
+                    ], //蓝图
+                },
                 post_excerpt: "", //主表摘要
                 post_mode: "tinymce", //编辑模式(会影响文章详情页渲染规则)
                 post_banner: "", //头条图,管理员可见
@@ -202,23 +202,24 @@ export default {
             // 临时
             dialogImageUrl: "",
             dialogVisible: false,
+            upload_url: API,
         };
     },
     computed: {},
     methods: {
         // 发布
         toPublish: function() {
+            this.doPublish(this.$store.state, this,false)
             console.log(this.$store.state);
-            postHouse(this.$store.state, this);
         },
         // 草稿
         toDraft: function() {
+            // this.doDraft(this.$store.state, this);
             console.log(this.$store.state);
-            postHouse(this.$store.state, this);
         },
         // 加载
         init: function() {
-            return getHouse(this)
+            return this.doLoad(this);
         },
 
         // 蓝图
@@ -241,11 +242,11 @@ export default {
         // 添加行
         addData: function(i) {
             // 目前设置最多10个版本
-            if (this.meta.blueprint.length > 10) {
+            if (this.post.post_meta.blueprint.length > 10) {
                 this.$message.error("默认上限10个");
                 return;
             }
-            this.meta.blueprint.push({
+            this.post.post_meta.blueprint.push({
                 type: "整园蓝图",
                 desc: "",
                 file: "",
@@ -253,20 +254,20 @@ export default {
         },
         // 删除行
         delData: function(i) {
-            this.meta.blueprint.splice(i, 1);
+            this.post.post_meta.blueprint.splice(i, 1);
         },
 
         // 图集
-        updateAlbum : function (filelist){
-            let imglist = []
+        updateAlbum: function(filelist) {
+            let imglist = [];
             filelist.forEach((img) => {
                 imglist.push({
-                    name : img.name,
-                    url : img.url
-                })
-            })
-            this.meta.pics = imglist
-        }
+                    name: img.name,
+                    url: img.url,
+                });
+            });
+            this.post.post_meta.pics = imglist;
+        },
     },
     mounted: function() {
         // 初始化默认文章数据
@@ -281,7 +282,7 @@ export default {
     },
     components: {
         boilerplate,
-        album
+        album,
     },
 };
 </script>

@@ -31,7 +31,7 @@ const imgtypes = ["jpg", "png", "gif", "bmp"];
 const API = __server + "upload";
 export default {
     name: "album",
-    props: ['imgList'],
+    props: ["imgList"],
     data: function() {
         return {
             API,
@@ -84,7 +84,7 @@ export default {
                         // 修改状态加入仓库
                         file.status = "success";
                         this.fileList.push(file);
-                        this.$emit('albumChange',this.fileList)
+                        this.$emit("albumChange", this.fileList);
                     })
                     .catch((err) => {
                         if (err.response.data.code) {
@@ -98,7 +98,8 @@ export default {
             }
         },
         handleRemove(file, fileList) {
-            this.$emit('albumChange',this.fileList)
+            this.fileList = fileList;
+            this.$emit("albumChange", this.fileList);
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;

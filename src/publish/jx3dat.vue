@@ -394,11 +394,9 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then((data) => {
-            console.log(this.post.post_meta)
+            console.log()
             if (!this.post.post_meta) {
-                console.log(111)
                 this.post.post_meta = {
-                    //新版,字段表合并至主表,减少数据库查询次数
                     type: "1",
                     data: [
                         {

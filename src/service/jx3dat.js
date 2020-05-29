@@ -35,7 +35,7 @@ function transferForRedis(data) {
 
     let _ = {
         author: author,
-        user_id: User.getInfo().uid,
+        user_id: ~~(User.getInfo().uid),
         post_id: pid,
         data: {},
     };

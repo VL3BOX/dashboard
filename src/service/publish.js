@@ -55,7 +55,8 @@ function doLoad(vm, oldMetaKeys) {
                 // 主表字段处理（没有的字段使用默认字段）
                 let merged = lodash.merge(vm.post, res.data.data.post);
                 vm.$store.state.post = merged;
-                // vm.$forceUpdate()
+                vm.post.post_meta = merged.post_meta
+                vm.$forceUpdate()
 
                 return merged
 

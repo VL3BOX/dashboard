@@ -37,11 +37,11 @@ function transferForRedis(data) {
         author: author,
         user_id: User.getInfo().uid,
         post_id: pid,
-        data: [],
+        data: {},
     };
 
     data.post_meta.data.forEach((item, i) => {
-        _.data.push({
+        _.data[item.name] = {
             author: author,
             key: item.name,
 
@@ -50,7 +50,7 @@ function transferForRedis(data) {
 
             data_url: item.file,
             about: __Root + "jx3dat/" + pid,
-        });
+        };
     });
 
     return _;

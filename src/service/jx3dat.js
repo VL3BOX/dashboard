@@ -19,7 +19,7 @@ function uploadData(formdata, vm) {
 
 function syncRedis(data,vm) {
     let redisData = transferForRedis(data);
-    console.log(redisData)
+    console.log('正在执行redis同步作业:',redisData)
     return axios
         .post(__hub + "api/plugins/jx3dat/publish", redisData, {
             withCredentials: true,

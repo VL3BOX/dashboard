@@ -167,10 +167,10 @@ export default {
     },
     methods: {
         setup: function(editor) {
-            console.log("ID为: " + editor.id + " 的编辑器即将初始化.");
+            // console.log("ID为: " + editor.id + " 的编辑器即将初始化.");
         },
         ready: function(editor) {
-            console.log("ID为: " + editor.id + " 的编辑器已初始化完成.");
+            // console.log("ID为: " + editor.id + " 的编辑器已初始化完成.");
         },
     },
     mounted: function() {},

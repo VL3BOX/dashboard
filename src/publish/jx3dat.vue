@@ -173,10 +173,13 @@
                     </el-form-item>
 
                     <!-- 标签 -->
-                    <el-form-item label="标签子类" v-if="options.tag_list.length">
+                    <el-form-item
+                        label="标签子类"
+                        v-if="options.tag_list.length"
+                    >
                         <el-checkbox-group v-model="post.post_meta.tag">
                             <el-checkbox
-                                v-for="(item) in options.tag_list"
+                                v-for="item in options.tag_list"
                                 :label="item"
                                 :key="item"
                             ></el-checkbox>
@@ -185,7 +188,7 @@
                 </template>
 
                 <!-- 3.其它类型上传字段 -->
-                <el-form-item label="其它数据">
+                <el-form-item v-else label="其它数据">
                     <span class="u-data-name" v-if="post.post_meta.down">
                         <i class="el-icon-success"></i>
                         {{ post.post_meta.down.split("/").pop() }}
@@ -295,19 +298,19 @@ export default {
                 }
             }
             this.doPublish(this.$store.state, this, false).then((res) => {
-                let data = res.data.data
-                let msg = res.data.msg
-                let id = res.data.data.ID
-                let type = this.type
-                syncRedis(data,this).then((res) => {
+                let data = res.data.data;
+                let msg = res.data.msg;
+                let id = res.data.data.ID;
+                let type = this.type;
+                syncRedis(data, this).then((res) => {
                     this.$message({
                         message: msg,
                         type: "success",
                     });
                     setTimeout(() => {
-                        location.href = '/' + type + "/?pid=" +  id;
+                        location.href = "/" + type + "/?pid=" + id;
                     }, 500);
-                })
+                });
             });
             // console.log(this.$store.state);
         },
@@ -325,10 +328,10 @@ export default {
             this.$store.commit("changeSubtype", subtype);
         },
         // 检查版本名
-        checkDataName : function (data){
-            let name = sterilizer(data.name).removeSpace()
-            name = sterilizer(name).kill()
-            this.$set(data,'name',name)
+        checkDataName: function(data) {
+            let name = sterilizer(data.name).removeSpace();
+            name = sterilizer(name).kill();
+            this.$set(data, "name", name);
         },
         // 上传DBM
         selectDBM: function(i) {
@@ -390,14 +393,32 @@ export default {
     },
     mounted: function() {
         // 初始化默认文章数据
-        this.init().then(() => {
-            console.log(this.post);
+        this.init().then((data) => {
+            console.log(this.post.post_meta)
+            if (!this.post.post_meta) {
+                console.log(111)
+                this.post.post_meta = {
+                    //新版,字段表合并至主表,减少数据库查询次数
+                    type: "1",
+                    data: [
+                        {
+                            name: "默认版",
+                            desc: "",
+                            status: true,
+                            file: "",
+                        },
+                    ],
+                    tag: [],
+                    github: "",
+                    gitee: "",
+                    aliyun: "",
+                    down: "",
+                };
+            }
         });
         this.user = User.getInfo();
     },
-    filters: {
-        
-    },
+    filters: {},
     components: {
         boilerplate,
     },

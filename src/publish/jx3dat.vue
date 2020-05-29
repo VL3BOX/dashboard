@@ -100,7 +100,7 @@
                                         ><el-input
                                             v-model="data.desc"
                                             placeholder="请输入数据说明"
-                                            maxlength="20"
+                                            maxlength="50"
                                         ></el-input
                                     ></el-col>
 

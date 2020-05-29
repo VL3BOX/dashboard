@@ -295,14 +295,16 @@ export default {
                 }
             }
             this.doPublish(this.$store.state, this, false).then((res) => {
-                let data = res.data.data
+                let msg = res.data.msg
+                let id = res.data.data.ID
+                let type = this.type
                 syncRedis(data,this).then((res) => {
                     this.$message({
-                        message: res.data.msg,
+                        message: msg,
                         type: "success",
                     });
                     setTimeout(() => {
-                        location.href = '/' + this.type + "/?pid=" +  res.data.data.ID;
+                        location.href = '/' + type + "/?pid=" +  id;
                     }, 500);
                 })
             });

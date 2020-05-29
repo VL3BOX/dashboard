@@ -92,7 +92,7 @@
                                         >{{
                                             i == 0
                                                 ? user.name
-                                                : user.name + "-" + data.name
+                                                : user.name + "#" + data.name
                                         }}</el-col
                                     >
 

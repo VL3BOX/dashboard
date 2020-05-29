@@ -53,6 +53,7 @@ function doLoad(vm, oldMetaKeys) {
         })
             .then((res) => {
                 let data = res.data.data.post
+                vm.$store.commit('loadPost',data)
                 vm.$set(vm,'post',data)
                 vm.loaded = true
                 vm.$forceUpdate()

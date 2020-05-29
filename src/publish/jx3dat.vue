@@ -294,21 +294,21 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            // this.doPublish(this.$store.state, this, false).then((res) => {
-            //     let data = res.data.data;
-            //     let msg = res.data.msg;
-            //     let id = res.data.data.ID;
-            //     let type = this.type;
-            //     syncRedis(data, this).then((res) => {
-            //         this.$message({
-            //             message: msg,
-            //             type: "success",
-            //         });
-            //         setTimeout(() => {
-            //             location.href = "/" + type + "/?pid=" + id;
-            //         }, 500);
-            //     });
-            // });
+            this.doPublish(this.$store.state, this, false).then((res) => {
+                let data = res.data.data;
+                let msg = res.data.msg;
+                let id = res.data.data.ID;
+                let type = this.type;
+                syncRedis(data, this).then((res) => {
+                    this.$message({
+                        message: msg,
+                        type: "success",
+                    });
+                    setTimeout(() => {
+                        location.href = "/" + type + "/?pid=" + id;
+                    }, 500);
+                });
+            });
             console.log(this.$store.state);
         },
         // 草稿

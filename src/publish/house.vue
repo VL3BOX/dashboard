@@ -209,12 +209,12 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            this.doPublish(this.$store.state, this,false)
+            this.doPublish(this.$store.state, this)
             console.log(this.$store.state);
         },
         // 草稿
         toDraft: function() {
-            // this.doDraft(this.$store.state, this);
+            this.doDraft(this.$store.state, this);
             console.log(this.$store.state);
         },
         // 加载

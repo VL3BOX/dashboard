@@ -79,6 +79,7 @@
                                                 i == 0 ? '默认版' : '版本名称'
                                             "
                                             :disabled="i == 0"
+                                            maxlength="20"
                                             @change="checkDataName(data)"
                                         ></el-input
                                     ></el-col>

@@ -178,7 +178,7 @@
                             <el-checkbox
                                 v-for="(item, i) in options.tag_list"
                                 :label="item"
-                                :key="i"
+                                :key="item + i"
                             ></el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>

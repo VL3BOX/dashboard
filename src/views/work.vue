@@ -133,7 +133,7 @@ export default {
         },
         edit: function(type, id) {
             // TODO:临时区分新旧版
-            const newlist = ["fb"];
+            const newlist = ["fb","jx3dat","house"];
             let editLink = "";
             if (newlist.includes(type)) {
                 editLink = __Links.dashboard.publish + "#/" + type + "/" + id;
@@ -189,7 +189,7 @@ export default {
         },
         postLink: function(type, id) {
             // TODO:临时区分新旧版
-            const newlist = ["fb"];
+            const newlist = ["fb","jx3dat","house"];
             if (newlist.includes(type)) {
                 return __v2 + type + "/?pid=" + id;
             } else {

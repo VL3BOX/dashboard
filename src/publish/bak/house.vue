@@ -835,7 +835,6 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            // TODO:默认跳转
             this.doPublish(this.$store.state, this, false).then((res) => {});
             console.log(this.$store.state);
         },

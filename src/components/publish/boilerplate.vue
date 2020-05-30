@@ -1,11 +1,15 @@
 <template>
     <div class="m-publish-box">
         <!-- 头部 -->
-        <pubheader :name="name" :localDraft="localDraft"><slot name="header"></slot></pubheader>
+        <pubheader :name="name" :localDraft="localDraft"
+            ><slot name="header"></slot
+        ></pubheader>
 
         <el-form label-position="left" label-width="80px">
             <!-- 标题 -->
-            <post_title :title="post.post_title"><slot name="title"></slot></post_title>
+            <post_title :title="post.post_title"
+                ><slot name="title"></slot
+            ></post_title>
 
             <!-- 栏目特定字段 -->
             <div class="m-publish-info" v-if="infoEnable">
@@ -18,18 +22,28 @@
                 <el-divider content-position="left">正文</el-divider>
                 <el-radio-group v-model="mode" class="u-editor-mode">
                     <el-radio-button label="tinymce"></el-radio-button>
-                    <el-radio-button label="markdown" v-if="markdownEnable"></el-radio-button>
+                    <el-radio-button
+                        label="markdown"
+                        v-if="markdownEnable"
+                    ></el-radio-button>
                 </el-radio-group>
 
-                <upload class="u-editor-upload"/>
+                <upload class="u-editor-upload" />
 
                 <slot name="prepend"></slot>
             </div>
 
             <!-- 正文区域 -->
             <div class="m-publish-content">
-                <tinymce :content="post.post_content" v-show="mode == 'tinymce'" />
-                <markdown v-if="markdownEnable" :content="post.post_content" v-show="mode == 'markdown'" />
+                <tinymce
+                    :content="post.post_content"
+                    v-show="mode == 'tinymce'"
+                />
+                <markdown
+                    v-if="markdownEnable"
+                    :content="post.post_content"
+                    v-show="mode == 'markdown'"
+                />
             </div>
 
             <!-- 正文之后 -->
@@ -48,14 +62,16 @@
             </div>
 
             <!-- 管理功能 -->
-            <div class="m-publish-admin" v-if="isAdmin"> 
+            <div class="m-publish-admin" v-if="isAdmin">
                 <el-divider content-position="left">管理</el-divider>
-                <post_banner :banner="post.post_banner" v-if="bannerEnable"/>
+                <post_banner :banner="post.post_banner" v-if="bannerEnable" />
             </div>
-         
+
             <!-- 按钮 -->
             <div class="m-publish-buttons">
-                <el-button type="primary" @click="publish">发 &nbsp;&nbsp; 布</el-button>
+                <el-button type="primary" @click="publish"
+                    >发 &nbsp;&nbsp; 布</el-button
+                >
                 <el-button type="plain" @click="draft">保存为草稿</el-button>
             </div>
         </el-form>
@@ -73,7 +89,7 @@ import post_tag from "./post_tag.vue";
 import post_notify from "./post_notify.vue";
 import post_banner from "./post_banner.vue";
 import { autoSavePost } from "@/utils/autoSave";
-import User from '@jx3box/jx3box-common/js/user';
+import User from "@jx3box/jx3box-common/js/user";
 
 export default {
     name: "boilerplate",
@@ -94,9 +110,9 @@ export default {
     ],
     data: function() {
         return {
-            mode: this.post.post_mode || 'tinymce',
-            draft_key : '',
-            isAdmin : User.getInfo().group > 30,
+            mode: this.post.post_mode || "tinymce",
+            draft_key: "",
+            isAdmin: User.getInfo().group > 30,
         };
     },
     computed: {
@@ -105,7 +121,7 @@ export default {
         //     return this.$store.state;
         // },
     },
-    watch : {
+    watch: {
         // 反向监听store全部内容受组件影响时,更新本地草稿
         // dbdata: {
         //     handler: function(data) {
@@ -114,7 +130,7 @@ export default {
         //     deep: true,
         // },
         // 修改本地字段时
-        'post.post_meta': {
+        "post.post_meta": {
             handler: function(val) {
                 this.$store.commit("editPostMeta", val);
             },
@@ -127,24 +143,24 @@ export default {
             deep: true,
         },
         // 编辑模式切换
-        mode : function (val){
-            this.$store.commit('changeMode',val)
+        mode: function(val) {
+            this.$store.commit("changeMode", val);
         },
     },
     methods: {
-        publish : function (){
-            this.$store.commit('changeStatus','publish')
-            this.$emit('publish')
+        publish: function() {
+            this.$store.commit("changeStatus", "publish");
+            this.$emit("publish");
         },
-        draft : function (){
-            this.$store.commit('changeStatus','draft')
-            this.$emit('draft')
-        }
+        draft: function() {
+            this.$store.commit("changeStatus", "draft");
+            this.$emit("draft");
+        },
     },
     mounted: function() {
         // this.draft_key = new Date().toUTCString();
-        this.$store.commit('changeType',this.type)
-        this.$store.commit('changeSubtype',this.post.post_subtype)
+        this.$store.commit("changeType", this.type);
+        this.$store.commit("changeSubtype", this.post.post_subtype);
     },
     components: {
         pubheader,
@@ -162,24 +178,24 @@ export default {
 
 <style lang="less">
 .m-publish-box {
-    padding:30px 40px;
+    padding: 30px 40px;
     .el-divider__text {
         color: #888;
         font-weight: 300;
     }
 }
-@media screen and (max-width:@ipad){
+@media screen and (max-width: @ipad) {
     .m-publish-box {
-        padding:20px;
+        padding: 20px;
     }
 }
 
-@media screen and (max-width:@phone){
-    .el-form-item__label{
-        float:none;
+@media screen and (max-width: @phone) {
+    .el-form-item__label {
+        float: none;
     }
-    .el-form-item__content{
-        margin-left:0 !important;
+    .el-form-item__content {
+        margin-left: 0 !important;
     }
 }
 
@@ -191,23 +207,21 @@ export default {
     }
     .clearfix;
 }
-@media screen and (max-width:@ip5){
-    .m-publish-prepend{
-        .u-editor-mode{
-            float:none;
+@media screen and (max-width: @ip5) {
+    .m-publish-prepend {
+        .u-editor-mode {
+            float: none;
             .mb(10px);
         }
     }
 }
 
-.m-publish-buttons{
-    padding:40px 0;
+.m-publish-buttons {
+    padding: 40px 0;
     .x;
 
-    button{
+    button {
         .w(120px);
     }
 }
-
-
 </style>

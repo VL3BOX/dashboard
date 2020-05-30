@@ -125,13 +125,7 @@ export default {
             });
         },
         postLink: function(type, id) {
-            // TODO:临时区分新旧版
-            const newlist = ["fb"];
-            if (newlist.includes(type)) {
-                return __v2 + type + "/?pid=" + id;
-            } else {
-                return __Root + type + "/" + id;
-            }
+            return __Root + type + "/" + id;
         },
     },
     filters:{

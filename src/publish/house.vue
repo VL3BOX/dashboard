@@ -46,7 +46,9 @@
                             ></el-col
                         >
                         <el-col :span="8"
-                            ><el-input v-model="post.post_meta.num" placeholder="所在房号"
+                            ><el-input
+                                v-model="post.post_meta.num"
+                                placeholder="所在房号"
                                 ><template slot="append">号</template></el-input
                             ></el-col
                         >
@@ -55,12 +57,18 @@
 
                 <!-- 2.家园图片 -->
                 <el-form-item label="家园图赏">
-                    <album :imgList="post.post_meta.pics" @albumChange="updateAlbum"></album>
+                    <album
+                        :imgList="post.post_meta.pics"
+                        @albumChange="updateAlbum"
+                    ></album>
                 </el-form-item>
 
                 <!-- 3.蓝图分享 -->
                 <el-form-item label="蓝图分享">
-                    <el-switch v-model="post.post_meta.hasData"></el-switch>
+                    <el-switch
+                        v-model="post.post_meta.hasData"
+                        active-color="#13ce66"
+                    ></el-switch>
                 </el-form-item>
                 <div class="m-publish-datalist" v-if="post.post_meta.hasData">
                     <div class="u-wrapper">
@@ -76,15 +84,9 @@
                                 v-for="(data, i) in post.post_meta.blueprint"
                                 :key="i"
                             >
-                                <el-col :span="6">
-                                    <el-radio-group v-model="data.type">
-                                        <el-radio-button
-                                            label="整园蓝图"
-                                        ></el-radio-button>
-                                        <el-radio-button
-                                            label="局部蓝图"
-                                        ></el-radio-button>
-                                    </el-radio-group>
+                                <el-col class="u-type" :span="6">
+                                    <el-radio v-model="data.type" label="整园蓝图">整园蓝图</el-radio>
+                                    <el-radio v-model="data.type" label="局部蓝图">局部蓝图</el-radio>
                                 </el-col>
 
                                 <el-col :span="6"
@@ -209,7 +211,7 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            this.doPublish(this.$store.state, this)
+            this.doPublish(this.$store.state, this);
             console.log(this.$store.state);
         },
         // 草稿

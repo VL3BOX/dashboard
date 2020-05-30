@@ -4,9 +4,5 @@ const $ = axios.create({
     baseURL: __server,
     withCredentials: true,
 });
-// const $ = axios.create({
-//     baseURL: 'http://localhost:5160/',  //TODO:
-//     withCredentials: true,
-// });
 
 export { $, axios };

@@ -40,6 +40,7 @@ export default {
                 // content_css: `http://localhost:1024/css/article.css`,
                 body_class: "c-article c-article-editor",
                 height: 800,
+                autosave_ask_before_unload: false,
 
                 // UI
                 icons: "custom",

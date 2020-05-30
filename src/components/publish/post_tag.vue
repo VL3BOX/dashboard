@@ -27,7 +27,6 @@
 </template>
 
 <script>
-// TODO:接口数据表都没写，先不要用
 export default {
     name: "post_tag",
     props: ['tags'],

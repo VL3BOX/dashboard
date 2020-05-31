@@ -21,11 +21,11 @@
             <div class="m-publish-prepend">
                 <el-divider content-position="left">正文</el-divider>
                 <el-radio-group v-model="mode" class="u-editor-mode">
-                    <el-radio-button label="tinymce"></el-radio-button>
+                    <!-- <el-radio-button label="tinymce"></el-radio-button>
                     <el-radio-button
                         label="markdown"
                         v-if="markdownEnable"
-                    ></el-radio-button>
+                    ></el-radio-button> -->
                 </el-radio-group>
 
                 <upload class="u-editor-upload" />

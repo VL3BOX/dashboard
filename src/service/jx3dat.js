@@ -46,7 +46,7 @@ function transferForRedis(data) {
             key: item.name,
 
             name: item.desc,
-            version: Date.now(),
+            version: item.version || Date.now(),
 
             data_url: item.file,
             about: __Root + "jx3dat/" + pid,

@@ -262,6 +262,7 @@ export default {
                             desc: "",
                             status: true,
                             file: "",
+                            version : ""
                         },
                     ],
                     tag: [],
@@ -300,15 +301,18 @@ export default {
                 let msg = res.data.msg;
                 let id = res.data.data.ID;
                 let type = this.type;
-                syncRedis(data, this).then((res) => {
-                    this.$message({
-                        message: msg,
-                        type: "success",
+
+                if(this.post.post_subtype == 1){
+                    syncRedis(data, this).then((res) => {
+                        this.$message({
+                            message: msg,
+                            type: "success",
+                        });
+                        setTimeout(() => {
+                            location.href = "/" + type + "/?pid=" + id;
+                        }, 500);
                     });
-                    setTimeout(() => {
-                        location.href = "/" + type + "/?pid=" + id;
-                    }, 500);
-                });
+                }
             });
             console.log(this.$store.state);
         },
@@ -378,6 +382,7 @@ export default {
                         message: "数据上传成功",
                         type: "success",
                     });
+                    item.version = Date.now()
                 }
             });
         },

@@ -379,7 +379,7 @@ export default {
         uploadDBM: function(e, item, i) {
             let formdata = new FormData();
             let file = e.target.files[0];
-            formdata.append("jx3dat", file, "data.jx3dat");
+            formdata.append("jx3dat", file);
             uploadHub(formdata, this).then((res) => {
                 if (res) {
                     item.file = res.data.download_url;

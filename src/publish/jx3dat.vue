@@ -304,17 +304,22 @@ export default {
 
                 if(this.post.post_subtype == 1){
                     syncRedis(data, this).then((res) => {
-                        this.$message({
-                            message: msg,
-                            type: "success",
-                        });
-                        setTimeout(() => {
-                            location.href = "/" + type + "/?pid=" + id;
-                        }, 500);
+                       this.finish()
                     });
+                }else{
+                    this.finish()
                 }
             });
             console.log(this.$store.state);
+        },
+        finish:function (){
+            this.$message({
+                message: msg,
+                type: "success",
+            });
+            setTimeout(() => {
+                location.href = "/" + type + "/?pid=" + id;
+            }, 500);
         },
         // 草稿
         toDraft: function() {

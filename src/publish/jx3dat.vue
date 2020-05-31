@@ -298,22 +298,21 @@ export default {
         toPublish: function() {
             this.doPublish(this.$store.state, this, false).then((res) => {
                 let data = res.data.data;
+                let msg = res.data.msg;
+                let id = res.data.data.ID;
+                let type = this.type;
 
                 if(this.post.post_subtype == 1){
                     syncRedis(data, this).then((res) => {
-                       this.finish(res)
+                       this.finish(msg,id,type)
                     });
                 }else{
-                    this.finish(res)
+                    this.finish(msg,id,type)
                 }
             });
             console.log(this.$store.state);
         },
-        finish:function (res){
-            let msg = res.data.msg;
-            let id = res.data.data.ID;
-            let type = this.type;
-
+        finish:function (msg,id,type){
             this.$message({
                 message: msg,
                 type: "success",

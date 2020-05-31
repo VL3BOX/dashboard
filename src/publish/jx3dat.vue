@@ -304,15 +304,15 @@ export default {
 
                 if(this.post.post_subtype == 1){
                     syncRedis(data, this).then((res) => {
-                       this.finish()
+                       this.finish(msg)
                     });
                 }else{
-                    this.finish()
+                    this.finish(msg)
                 }
             });
             console.log(this.$store.state);
         },
-        finish:function (){
+        finish:function (msg){
             this.$message({
                 message: msg,
                 type: "success",

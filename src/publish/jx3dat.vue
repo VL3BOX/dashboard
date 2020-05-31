@@ -309,7 +309,7 @@ export default {
             });
             console.log(this.$store.state);
         },
-        finish:function (msg){
+        finish:function (res){
             let msg = res.data.msg;
             let id = res.data.data.ID;
             let type = this.type;

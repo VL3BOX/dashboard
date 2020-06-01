@@ -119,19 +119,6 @@ export default {
         buttonTXT: function() {
             return this.selectedCount ? "插 入" : "确 定";
         },
-        insertList: function() {
-            let list = [];
-            this.fileList.forEach((file) => {
-                if (file.selected) {
-                    file.is_img
-                        ? list.push(`<img src="${file.url}" />`)
-                        : list.push(
-                              `<a target="_blank" href="${file.url}">${file.name}</a>`
-                          );
-                }
-            });
-            return list.join(" \n");
-        },
     },
     methods: {
         change: function(file, fileList) {
@@ -169,11 +156,12 @@ export default {
 
                         // 额外赋值
                         file.is_img = is_img;
-                        file.selected = false;
+                        file.selected = true;
 
                         // 修改状态加入仓库
                         file.status = "success";
                         this.fileList.push(file);
+                        this.selectedCount++
                     })
                     .catch((err) => {
                         if (err.response.data.code) {
@@ -188,7 +176,7 @@ export default {
         },
         select: function(file) {
             if (file.status == "success") {
-                file.selected = !file.selected;
+                this.$set(file,'selected',!file.selected)
                 file.selected ? this.selectedCount++ : this.selectedCount--;
             }
         },
@@ -196,24 +184,27 @@ export default {
             this.dialogVisible = false;
 
             //为空不执行插入
-            if (!this.insertList) return;
+            if (!this.selectedCount) return;
 
             if (this.$store.state.post.post_mode == "tinymce") {
-                tinyMCE.editors["tinymce"].insertContent(this.insertList);
+                tinyMCE.editors["tinymce"].insertContent(this.insertList());
             } else {
                 // TODO:markdown
             }
 
             //移除所有选择状态
             this.resetSelectStatus();
+            
         },
         resetSelectStatus: function() {
-            this.fileList.forEach((file) => {
-                file.selected = false;
+            this.fileList.forEach((file,i) => {
+                this.$set(this.fileList[i],'selected',false)
             });
+            this.selectedCount = 0
         },
         clear: function() {
             this.$refs.uploadbox.clearFiles();
+            this.fileList = []
         },
         removeFile: function(fileList, uid) {
             fileList.forEach((file, i) => {
@@ -221,6 +212,19 @@ export default {
                     fileList.splice(i, 1);
                 }
             });
+        },
+        insertList: function() {
+            let list = [];
+            this.fileList.forEach((file) => {
+                if (file.selected) {
+                    file.is_img
+                        ? list.push(`<img src="${file.url}" />`)
+                        : list.push(
+                              `<a target="_blank" href="${file.url}">${file.name}</a>`
+                          );
+                }
+            });
+            return list.join(" \n");
         },
     },
     mounted: function() {},

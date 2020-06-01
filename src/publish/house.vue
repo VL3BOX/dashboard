@@ -32,12 +32,22 @@
                 <!-- 1.选择坐标 -->
                 <el-form-item label="府邸坐标" class="m-house-coord">
                     <el-row :gutter="20">
-                        <el-col :span="8"
-                            ><el-input
+                        <el-col :span="8">
+                            <el-select
+                                class="m-flower-rec-select"
                                 v-model="post.post_meta.server"
+                                filterable
                                 placeholder="服务器名"
-                            ></el-input
-                        ></el-col>
+                            >
+                                <el-option
+                                    v-for="item in servers"
+                                    :key="item"
+                                    :label="item"
+                                    :value="item"
+                                >
+                                </el-option>
+                            </el-select>
+                        </el-col>
                         <el-col :span="8"
                             ><el-input
                                 v-model="post.post_meta.area"
@@ -85,8 +95,16 @@
                                 :key="i"
                             >
                                 <el-col class="u-type" :span="6">
-                                    <el-radio v-model="data.type" label="整园蓝图">整园蓝图</el-radio>
-                                    <el-radio v-model="data.type" label="局部蓝图">局部蓝图</el-radio>
+                                    <el-radio
+                                        v-model="data.type"
+                                        label="全局设计图"
+                                        >全局设计图</el-radio
+                                    >
+                                    <el-radio
+                                        v-model="data.type"
+                                        label="局部设计图"
+                                        >局部设计图</el-radio
+                                    >
                                 </el-col>
 
                                 <el-col :span="6"
@@ -147,6 +165,7 @@ import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
 const API = __server + "upload";
 import { uploadData } from "../service/house";
 import album from "@/components/publish/album.vue";
+import servers from "@jx3box/jx3box-data/data/server/server_list.json";
 
 export default {
     name: "house",
@@ -159,7 +178,7 @@ export default {
             loaded: false,
 
             //字段 - meta表数据,可设置默认值
-
+            servers,
             meta: {},
 
             //文章 - 主表数据
@@ -179,7 +198,7 @@ export default {
                     hasData: true,
                     blueprint: [
                         {
-                            type: "整园蓝图",
+                            type: "全局设计图",
                             desc: "",
                             file: "",
                         },
@@ -249,7 +268,7 @@ export default {
                 return;
             }
             this.post.post_meta.blueprint.push({
-                type: "整园蓝图",
+                type: "全局设计图",
                 desc: "",
                 file: "",
             });

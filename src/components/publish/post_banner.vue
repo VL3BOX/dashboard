@@ -6,6 +6,7 @@
             :show-file-list="false"
             :on-success="done"
             :on-error="fail"
+            with-credentials
         >
             <img v-if="post_banner" :src="post_banner" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>

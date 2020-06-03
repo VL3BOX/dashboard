@@ -27,9 +27,11 @@
                     <span v-if="post.checked==1" class="u-mark">✔ 审核通过</span>
                     <span v-if="post.checked==2" class="u-mark reject">❌ 审核驳回</span>
                     <time class="u-time">
+                        <span v-if="post.checked==2&&post.check_remark" class="u-check_remark" v-html="`驳回理由：${post.check_remark}&nbsp;&nbsp;|&nbsp;&nbsp;`"></span>
                         发布于: {{ new Date(post.created*1000) | dateFormat}} | 最后更新: {{ new Date(post.updated*1000) |
                         dateFormat}}
                     </time>
+
                     <el-button-group class="u-action">
                         <el-button
                                 type="primary"
@@ -175,6 +177,10 @@
             &.reject {
                 background-color: #F0787A;
             }
+        }
+
+        .u-check_remark{
+            color: #F0787A;
         }
     }
 </style>

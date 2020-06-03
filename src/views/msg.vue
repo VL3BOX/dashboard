@@ -3,7 +3,7 @@
         <div class="m-dashboard-box">
             <div class="m-dashboard-box-header">
                 <h4 class="u-title">消息列表</h4>
-                <el-button class="u-read-all" type="primary" size="mini" @click="read(null)" :disabled="read_all_disabled">
+                <el-button class="u-read-all" type="primary" size="mini" @click="read(null)" :disabled="!unread_total">
                     <i class="el-icon el-icon-check"></i>
                     <span v-text="'全部设为已读'"></span>
                 </el-button>
@@ -69,22 +69,16 @@ export default {
     data: function() {
         return {
             data: [],
+            unread_total: 0,
             total: 1,
             page: 1,
         };
     },
-    computed: {
-        read_all_disabled(){
-            let disabled = true;
-            for(let index in this.data){
-                disabled = this.data[index].read == 1;
-            }
-            return disabled;
-        }
-    },
     methods: {
         changePage: function(i = 1) {
+            this.page = i;
             getMsgs(i).then((res) => {
+                this.unread_total = res.data.data.unread_count;
                 this.total = res.data.data.total;
                 this.data = res.data.data.messages;
             });
@@ -95,10 +89,7 @@ export default {
                     if(item) {
                         item.read = 1;
                     } else {
-                        this.read_all_disabled = true;
-                        for(let index in this.data){
-                            this.data[index].read = 1;
-                        }
+                        this.changePage(this.page);
                     }
                 } else {
                     this.$notify.error({title: res.data.message});

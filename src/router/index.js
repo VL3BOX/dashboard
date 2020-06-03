@@ -23,6 +23,7 @@ const routes = [
     { path: "/", component: index },
 
     { path: "/work", component: work },
+    { path: "/wiki", component: wiki },
     { path: "/msg", component: msg },
     { path: "/feed", component: feed },
     { path: "/fav", component: fav },

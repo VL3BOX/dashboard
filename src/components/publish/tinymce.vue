@@ -1,7 +1,9 @@
 <template>
     <div class="c-editor-tinymce">
         <el-alert class="u-tutorial" type="warning" show-icon
-            >进入特殊区域（代码块，折叠块等等）脱离或使用工具栏触发后，请使用键盘方向 → ↓ 键进行脱离，回车只是正常在区块内换行。去掉样式点击第二行第一个&lt;清除格式&gt;即可复位。<a
+            >进入特殊区域（代码块，折叠块等等）脱离或使用工具栏触发后，请使用键盘方向
+            → ↓
+            键进行脱离，回车只是正常在区块内换行。去掉样式点击第二行第一个&lt;清除格式&gt;即可复位。<a
                 href="https://www.jx3box.com/help/219/"
                 target="_blank"
                 >更多帮助</a
@@ -19,8 +21,8 @@
 
 <script>
 import Editor from "@tinymce/tinymce-vue";
-import {JX3BOX} from '@jx3box/jx3box-common';
-const API = JX3BOX.__server + "upload/tinymce"
+import { JX3BOX } from "@jx3box/jx3box-common";
+const API = JX3BOX.__server + "upload/tinymce";
 // const API = "http://localhost:5160/" + "upload/tinymce";
 
 export default {
@@ -35,8 +37,8 @@ export default {
 
                 // 语言
                 language: "zh_CN",
-                
-                // 样式 
+
+                // 样式
                 // content_css: `http://localhost:1024/css/article.css`,
                 body_class: "c-article c-article-editor",
                 height: 800,
@@ -49,13 +51,13 @@ export default {
                 contextmenu: "",
                 plugins: [
                     "link anchor autolink",
-                    "hr lists advlist table codesample checklist foldtext ",
+                    "hr lists advlist table codesample checklist foldtext mathjax",
                     "image emoticons media videox macro qixue",
-                    "autosave code fullscreen wordcount powerpaste pagebreak",// template jx3icon
+                    "autosave code fullscreen wordcount powerpaste pagebreak ", // template jx3icon
                 ],
                 toolbar: [
                     "undo | formatselect | fontsizeselect | forecolor backcolor | bold italic underline strikethrough superscript subscript | link unlink anchor | restoredraft code fullscreen",
-                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codesample | emoticons image media videox | macro qixue pagebreak",// template jx3icon
+                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codesample mathjax | emoticons image media videox | macro qixue pagebreak", // template jx3icon
                 ],
                 mobile: {
                     toolbar_drawer: true,
@@ -121,6 +123,14 @@ export default {
                     "000000",
                     "黑色",
                 ],
+                mathjax: {
+                    lib:
+                        "https://oss.jx3box.com/static/tinymce/plugins/mathjax/tex-mml-chtml.js", //required path to mathjax
+                    //symbols: {start: '\\(', end: '\\)'}, //optional: mathjax symbols
+                    className: "math-tex", //optional: mathjax element class
+                    configUrl:
+                        "https://oss.jx3box.com/static/tinymce/plugins/mathjax/config.js", //optional: mathjax config js
+                },
 
                 // Image
                 image_advtab: true,
@@ -160,7 +170,7 @@ export default {
     },
     watch: {
         data(val) {
-            this.$store.commit('editContent',val)
+            this.$store.commit("editContent", val);
         },
         store: function(val) {
             this.data = val;
@@ -202,9 +212,9 @@ export default {
     }
 }
 
-@media screen and (max-width:@phone){
-    .c-editor-tinymce{
-        .u-tutorial{
+@media screen and (max-width: @phone) {
+    .c-editor-tinymce {
+        .u-tutorial {
             .none;
         }
     }

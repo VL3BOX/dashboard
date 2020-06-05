@@ -24,6 +24,11 @@ function updateNickname(data) {
 function updateProfile(data) {
     return $.post("dashboard/profile/update", data);
 }
+function getProfile(){
+    return $.get("user/profile").then((res) => {
+        return res.data.data
+    })
+}
 
 // 头像
 function updateAvatar(data) {
@@ -78,6 +83,7 @@ export {
     checkNickname,
     updateNickname,
     updateProfile,
+    getProfile,
     updateAvatar,
     updatePassword,
     sendVerifyEmail,

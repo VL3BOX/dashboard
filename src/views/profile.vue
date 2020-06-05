@@ -61,6 +61,22 @@
             label-width="80px"
             :class="{ disabled: renaming }"
         >
+            <el-divider content-position="left">常驻服务器</el-divider>
+            <el-select
+                class="u-server"
+                v-model="server"
+                filterable
+                placeholder="请输入服务器"
+            >
+                <el-option
+                    v-for="item in servers"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                >
+                </el-option>
+            </el-select>
+
             <el-divider content-position="left">签名</el-divider>
             <el-input
                 type="textarea"
@@ -87,8 +103,10 @@ import {
     checkNickname,
     updateNickname,
     updateProfile,
+    getProfile
 } from "../service/profile";
 import { sterilizer } from "sterilizer/index.js";
+import servers from "@jx3box/jx3box-data/data/server/server_list.json";
 
 export default {
     name: "profile",
@@ -102,6 +120,9 @@ export default {
 
             bio: "",
             rebio: "",
+
+            server : '',
+            servers
         };
     },
     computed: {},
@@ -112,13 +133,13 @@ export default {
         },
         check() {
             this.rename = this.rename.trim();
-            if(this.rename < 2 || this.rename.length > 12){
+            if (this.rename < 2 || this.rename.length > 12) {
                 this.$message.error("昵称长度限制为2~12个字符");
-                return 
+                return;
             }
             // 禁用符号
-            this.rename = sterilizer(this.rename).kill()
-            this.rename = sterilizer(this.rename).removeSpace()
+            this.rename = sterilizer(this.rename).kill();
+            this.rename = sterilizer(this.rename).removeSpace();
 
             checkNickname(this.rename)
                 .then((res) => {
@@ -166,10 +187,11 @@ export default {
             this.rename = this.name;
             this.rebio = this.bio;
         },
-        // 其它
+        // 提交资料
         submitChangeProfile() {
             let data = {
                 bio: this.rebio,
+                server : this.server
             };
 
             updateProfile(data)
@@ -186,10 +208,17 @@ export default {
                     this.failCallback(err, this);
                 });
         },
+        // 获取资料
+        getUserProfile(){
+            getProfile().then((data) => {
+                this.server = data.server
+            })
+        }
     },
     mounted: function() {
         this.name = this.rename = User.getInfo().name;
         this.bio = this.rebio = User.getInfo().bio;
+        this.getUserProfile()
     },
 };
 </script>

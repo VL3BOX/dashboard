@@ -32,7 +32,22 @@
                 <!-- 1.选择坐标 -->
                 <el-form-item label="府邸坐标" class="m-house-coord">
                     <el-row :gutter="20">
-                        <el-col :span="8">
+                        <el-col :span="4">
+                            <el-select
+                                v-model="post.post_subtype"
+                                filterable
+                                placeholder="地图"
+                            >
+                                <el-option
+                                    v-for="item in maps"
+                                    :key="item"
+                                    :label="item"
+                                    :value="item"
+                                >
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col :span="4">
                             <el-select
                                 class="m-flower-rec-select"
                                 v-model="post.post_meta.server"
@@ -48,18 +63,26 @@
                                 </el-option>
                             </el-select>
                         </el-col>
-                        <el-col :span="8"
+                        <el-col :span="4"
                             ><el-input
-                                v-model="post.post_meta.area"
+                                v-model="post.post_meta.line"
                                 placeholder="所在分线"
                                 ><template slot="append">线</template></el-input
                             ></el-col
                         >
-                        <el-col :span="8"
+                        <el-col :span="4"
                             ><el-input
                                 v-model="post.post_meta.num"
                                 placeholder="所在房号"
+                                @change="computeArea(post.post_meta.num)"
                                 ><template slot="append">号</template></el-input
+                            ></el-col
+                        >
+                        <el-col :span="4"
+                            ><el-input
+                                v-model="post.post_meta.area"
+                                placeholder="面积"
+                                ><template slot="append">平米</template></el-input
                             ></el-col
                         >
                     </el-row>
@@ -166,6 +189,8 @@ const API = __server + "upload";
 import { uploadData } from "../service/house";
 import album from "@/components/publish/album.vue";
 import servers from "@jx3box/jx3box-data/data/server/server_list.json";
+import areas from '@jx3box/jx3box-data/data/house/area.json'
+import lodash from 'lodash'
 
 export default {
     name: "house",
@@ -179,6 +204,7 @@ export default {
 
             //字段 - meta表数据,可设置默认值
             servers,
+            maps:['广陵邑'],
             meta: {},
 
             //文章 - 主表数据
@@ -191,9 +217,9 @@ export default {
                 post_content: "", //主表内容字段,由后端接口配置是否双存储至meta表
                 post_meta: {
                     server: "", //服务器
-                    area: "", //分线
+                    line: "", //分线
                     num: "", //房号
-                    map: "广陵邑", //地图
+                    area : "",//面积
                     pics: [], //图册
                     hasData: true,
                     blueprint: [
@@ -226,21 +252,32 @@ export default {
             upload_url: API,
         };
     },
-    computed: {},
+    computed: {
+        
+    },
     methods: {
         // 发布
         toPublish: function() {
-            this.doPublish(this.$store.state, this);
-            console.log(this.$store.state);
+            // console.log(this.build())
+            this.doPublish(this.build(), this);
+            // console.log(this.$store.state);
         },
         // 草稿
         toDraft: function() {
-            this.doDraft(this.$store.state, this);
-            console.log(this.$store.state);
+            this.doDraft(this.build(), this);
+            // console.log(this.$store.state);
         },
         // 加载
         init: function() {
             return this.doLoad(this);
+        },
+        // 设置检索meta
+        build : function (){
+            let data = this.$store.state
+            data.post.meta_1 = data.post.post_meta.num  //房号
+            data.post.meta_2 = data.post.post_meta.area //面积
+            data.post.meta_3 = data.post.post_meta.hasData //是否有蓝图
+            return data
         },
 
         // 蓝图
@@ -288,6 +325,14 @@ export default {
                 });
             });
             this.post.post_meta.pics = imglist;
+        },
+
+        // 面积
+        computeArea : function (num){
+            if(num){
+                let area = lodash.get(areas[this.post.post_subtype][num],'area')
+                this.post.post_meta.area = area
+            }
         },
     },
     mounted: function() {

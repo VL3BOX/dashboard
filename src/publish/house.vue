@@ -330,7 +330,7 @@ export default {
         // 面积
         computeArea : function (num){
             if(num){
-                let area = lodash.get(areas[this.post.post_subtype][num],'area')
+                let area = lodash.get(areas[this.post.post_subtype][~~num - 1],'area')
                 this.post.post_meta.area = area
             }
         },

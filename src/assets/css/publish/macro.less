@@ -56,6 +56,26 @@
     .m-macro-docs{
         .fr;
     }
+    .m-macro-tip{
+        // .fz(14px);
+        // .ml(10px);
+        // color:#888;
+    }
+    .m-macro-item{
+        .mb(20px);
+    }
+
+    h5{
+        margin:12px 0;
+        .fz(14px,18px);
+        font-weight:normal;
+        em{
+            color:#ccc;
+            .ml(10px);
+            .fz(12px);
+        }
+    }
+
     .el-tabs{
         .is-active{
             // background-color:@color !important;
@@ -64,9 +84,19 @@
         }
         user-select: none;
     }
+
+    .el-form-item__label{
+        float:none;
+        .w(auto);
+    }
+    .el-form-item__content{
+        margin:0 !important;
+    }
+    
 }
 
 .m-macro-name{
+    // .mb(10px);
     .u-feed{
         // color:#f30;
         .bold;
@@ -78,8 +108,12 @@
             color:@primary;
         }
     }
+    i{
+        font-size:18px;
+    }
 }
 .m-macro-talent {
+    // .mb(10px);
     .u-get{
         color:@primary;
         &:hover{
@@ -91,6 +125,11 @@
         &:hover{
             color:@primary;
         }
+    }
+    .u-icon-talent{
+        .size(18px);
+        fill:@color;
+        .y(-3px);
     }
 }
 @media screen and (max-width:@phone){

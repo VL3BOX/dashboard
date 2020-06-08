@@ -66,34 +66,43 @@
 
                 <!-- 3.宏区域 -->
                 <div class="m-macro-box">
-                    <el-button
-                        class="m-macro-addbutton"
-                        icon="el-icon-circle-plus-outline"
-                        type="primary"
-                        @click="addMacro"
-                        >添加宏</el-button
-                    >
-                    <a
-                        class="m-macro-docs el-button el-button--success"
-                        target="_blank"
-                        href="https://www.jx3box.com/tool/265/"
-                        ><i class="el-icon-s-management"></i>
-                        宏命令完整参考手册</a
-                    >
+                    <div class="m-macro-header">
+                        <el-button
+                            class="m-macro-addbutton"
+                            icon="el-icon-circle-plus-outline"
+                            type="primary"
+                            @click="addMacro"
+                            >添加宏</el-button
+                        >
+                        <a class="m-macro-tip el-button el-button--success is-plain el-button--small">
+                            <i class="el-icon-info"></i> 点击查看发布帮助
+                        </a>
+                        <a
+                            class="m-macro-docs el-button el-button--primary is-plain el-button--small"
+                            target="_blank"
+                            href="https://www.jx3box.com/tool/265/"
+                            ><i class="el-icon-s-management"></i>
+                            宏命令完整参考手册</a
+                        >
+                    </div>
 
                     <el-tabs
                         v-model="activeMacroIndex"
-                        type="border-card"
+                        type="card"
                         closable
                         @tab-remove="removeMacro"
                     >
                         <el-tab-pane
                             v-for="(item, i) in post.post_meta.data"
                             :key="i"
-                            :label="i + 1 + '-' + item.name"
+                            :label="i + 1 + '号位-' + item.name"
                             :name="i + 1 + ''"
                         >
-                            <el-form-item label="名称" class="m-macro-name">
+                            <div class="m-macro-name m-macro-item">
+                                <h5 class="u-title">
+                                    <!-- <i class="el-icon-upload"></i>  -->
+                                    云端宏名称
+                                </h5>
                                 <el-input
                                     v-model="item.name"
                                     placeholder="每个宏名称请使用自己名下唯一命名"
@@ -101,41 +110,47 @@
                                     :maxlength="20"
                                     show-word-limit
                                     @change="checkDataName(item)"
-                                    ><template slot="prepend"
+                                    >
+                                    <template slot="append"
                                         ><b class="u-feed"
                                             >{{ nickname }}#{{ item.name }}</b
                                         ></template
-                                    ><template slot="append"
+                                    >
+                                    <!-- <template slot="append"
                                         ><a class="u-help" href=""
                                             ><i class="el-icon-info"></i>
                                             更多帮助</a
                                         ></template
-                                    ></el-input
+                                    > -->
+                                    </el-input
                                 >
-                            </el-form-item>
-                            <el-form-item label="奇穴" class="m-macro-talent">
+                            </div>
+                            <div class="m-macro-talent m-macro-item">
+                                <h5 class="u-title">
+                                    <!-- <img class="u-icon-talent" svg-inline src="../assets/img/publish/talent.svg" />  -->
+                                    奇穴方案
+                                </h5>
                                 <el-input
-                                    class="u-talent"
                                     v-model="item.talent"
                                     placeholder="奇穴方案编码"
                                     @change="checkTalent(item)"
-                                    ><template slot="prepend"
-                                        ><a class="u-get" href=""
+                                    ><template slot="append"
+                                        ><a
+                                            class="u-get"
+                                            href="https://www.jx3box.com/app/qx-simulator/"
                                             ><i class="el-icon-warning"></i>
                                             获取编码</a
                                         ></template
-                                    ><template slot="append"
-                                        ><a class="u-help" href=""
-                                            ><i class="el-icon-info"></i>
-                                            更多帮助</a
-                                        ></template
                                     ></el-input
                                 >
-                            </el-form-item>
-                            <el-form-item label="宏" class="m-macro-macro">
+                            </div>
+                            <div class="m-macro-macro">
+                                <h5 class="u-title">
+                                    宏内容
+                                </h5>
                                 <el-input
                                     v-model="item.macro"
-                                    placeholder="宏内容,注释请写在说明中,勿写在宏内部"
+                                    placeholder="注释请写在说明中,勿写在宏内部"
                                     :minlength="1"
                                     :maxlength="128"
                                     show-word-limit
@@ -143,7 +158,7 @@
                                     :rows="12"
                                 >
                                 </el-input>
-                            </el-form-item>
+                            </div>
                             <el-form-item label="其它" class="m-macro-misc">
                                 <el-row>
                                     <el-col :span="8" class="u-speed"
@@ -222,7 +237,7 @@ export default {
                     zlp: "结庐江湖",
                     data: [
                         {
-                            name: "宏名称",
+                            name: "",
                             talent: "",
                             macro: "",
                             speed: "",
@@ -305,7 +320,7 @@ export default {
 
             let index = this.post.post_meta.data.length + 1 + "";
             this.post.post_meta.data.push({
-                name: "宏名称",
+                name: "",
                 talent: "",
                 macro: "",
                 speed: "",
@@ -335,6 +350,13 @@ export default {
         // 检查版本名
         checkDataName: function(data) {
             let name = sterilizer(data.name).removeSpace();
+            if (!name) {
+                this.$notify.error({
+                    title: "错误",
+                    message: "宏名称不能为空",
+                });
+                return;
+            }
             name = sterilizer(name).kill();
             this.$set(data, "name", name);
         },

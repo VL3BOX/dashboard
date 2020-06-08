@@ -1,7 +1,7 @@
 import { $, axios } from "./axios";
 import { __hub, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
-import dateFormat from '../utils/moment'
+import dateFormat from '../utils/dateFormat'
 
 function syncRedis(data, vm) {
     let redisData = transferForRedis(data);
@@ -43,15 +43,16 @@ function transferForRedis(data) {
 
         // 时间
         desc += '\n【最后更新于】'
-        desc += dateFormat(Date.now())
+        desc += dateFormat(new Date())
 
         // 来源
-        desc += '【来源】JX3BOX'
+        desc += '\n【来源】JX3BOX'
 
         _.data[item.name] = {
             author: author,
             key: item.name,
             version: Date.now(),
+            icon:~~item.icon || 13,
 
             data : item.macro,
             desc: desc,

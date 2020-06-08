@@ -95,35 +95,56 @@
                         <el-tab-pane
                             v-for="(item, i) in post.post_meta.data"
                             :key="i"
-                            :label="i + 1 + '号位-' + item.name"
                             :name="i + 1 + ''"
                         >
-                            <div class="m-macro-name m-macro-item">
+                            <span slot="label"><img class="u-tabicon" :src="icon(item)">{{i + 1 + '号位-' + item.name}}</span>
+                            <div class="m-macro-cloud m-macro-item">
                                 <h5 class="u-title">
-                                    <!-- <i class="el-icon-upload"></i>  -->
-                                    云端宏名称
+                                    云端宏图标/名称
                                 </h5>
-                                <el-input
-                                    v-model="item.name"
-                                    placeholder="每个宏名称请使用自己名下唯一命名"
-                                    :minlength="1"
-                                    :maxlength="20"
-                                    show-word-limit
-                                    @change="checkDataName(item)"
-                                    >
-                                    <template slot="append"
-                                        ><b class="u-feed"
-                                            >{{ nickname }}#{{ item.name }}</b
-                                        ></template
-                                    >
-                                    <!-- <template slot="append"
+                                <div class="u-group">
+                                    <div class="u-subblock m-macro-icon">
+                                        <el-input
+                                            v-model="item.icon"
+                                            placeholder="图标ID"
+                                            :minlength="1"
+                                            :maxlength="10"
+                                            :max="30000"
+                                            :min="0"
+                                        >
+                                            <template slot="prepend">
+                                                <img
+                                                    class="u-icon"
+                                                    :src="icon(item)"
+                                                />
+                                            </template>
+                                        </el-input>
+                                    </div>
+                                    <div class="u-subblock m-macro-name">
+                                        <el-input
+                                            v-model="item.name"
+                                            placeholder="每个宏名称请使用自己名下唯一命名"
+                                            :minlength="1"
+                                            :maxlength="20"
+                                            show-word-limit
+                                            @change="checkDataName(item)"
+                                        >
+                                            <template slot="prepend"
+                                                ><b class="u-feed"
+                                                    >{{ nickname }}#{{
+                                                        item.name
+                                                    }}</b
+                                                ></template
+                                            >
+                                            <!-- <template slot="append"
                                         ><a class="u-help" href=""
                                             ><i class="el-icon-info"></i>
                                             更多帮助</a
                                         ></template
                                     > -->
-                                    </el-input
-                                >
+                                        </el-input>
+                                    </div>
+                                </div>
                             </div>
                             <div class="m-macro-talent m-macro-item">
                                 <h5 class="u-title">
@@ -134,7 +155,7 @@
                                     v-model="item.talent"
                                     placeholder="奇穴方案编码"
                                     @change="checkTalent(item)"
-                                    ><template slot="append"
+                                    ><template slot="prepend"
                                         ><a
                                             class="u-get"
                                             href="https://www.jx3box.com/app/qx-simulator/"
@@ -238,6 +259,7 @@ export default {
                     data: [
                         {
                             name: "",
+                            icon: 13,
                             talent: "",
                             macro: "",
                             speed: "",
@@ -282,7 +304,6 @@ export default {
                     this.finish(msg, id, type);
                 });
             });
-            // console.log(this.$store.state);
         },
         finish: function(msg, id, type) {
             this.$message({
@@ -296,7 +317,6 @@ export default {
         // 草稿
         toDraft: function() {
             this.doDraft(this.build(), this);
-            // console.log(this.$store.state);
         },
         // 加载
         init: function() {
@@ -306,6 +326,7 @@ export default {
         build: function() {
             let data = this.$store.state;
             data.post.meta_1 = data.post.post_meta.zlp; //资料片
+            data.post.meta_2 = ~~xfmap[data.post.post_subtype]['id'] //心法id
             return data;
         },
 
@@ -321,6 +342,7 @@ export default {
             let index = this.post.post_meta.data.length + 1 + "";
             this.post.post_meta.data.push({
                 name: "",
+                icon: 13,
                 talent: "",
                 macro: "",
                 speed: "",
@@ -338,13 +360,18 @@ export default {
                 return;
             }
 
-            // 删除
-            let i = ~~name - 1;
-            this.post.post_meta.data.splice(i, 1);
+            this.$alert("确定删除这个宏吗，删除后无法找回", "消息", {
+                confirmButtonText: "确定",
+                callback: (action) => {
+                    // 删除
+                    let i = ~~name - 1;
+                    this.post.post_meta.data.splice(i, 1);
 
-            // 调整focus位置
-            let current = ~~this.activeMacroIndex - 1;
-            this.activeMacroIndex = current + "";
+                    // 调整focus位置
+                    let current = ~~this.activeMacroIndex - 1;
+                    this.activeMacroIndex = current + "";
+                },
+            });
         },
 
         // 检查版本名
@@ -369,6 +396,12 @@ export default {
                     message: "奇穴编码格式错误",
                 });
             }
+        },
+        icon: function(item) {
+            let id = isNaN(item.icon) ? 13 : ~~item.icon
+            id = Math.max(0,Math.min(id,30000))
+            this.$set(item,'icon',id)
+            return __ossMirror + "icon/" + id + ".png";
         },
     },
     mounted: function() {

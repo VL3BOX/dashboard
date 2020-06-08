@@ -74,9 +74,9 @@
                             @click="addMacro"
                             >添加宏</el-button
                         >
-                        <a class="m-macro-tip el-button el-button--success is-plain el-button--small">
+                        <!-- <a class="m-macro-tip el-button el-button--success is-plain el-button--small">
                             <i class="el-icon-info"></i> 点击查看发布帮助
-                        </a>
+                        </a> -->
                         <a
                             class="m-macro-docs el-button el-button--primary is-plain el-button--small"
                             target="_blank"

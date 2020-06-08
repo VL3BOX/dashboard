@@ -7,6 +7,7 @@ import jx3dat from "../publish/jx3dat.vue";
 import fb from "../publish/fb.vue";
 import cj from "../publish/cj.vue";
 import house from "../publish/house.vue";
+import macro from "../publish/macro.vue";
 
 Vue.use(VueRouter);
 
@@ -37,6 +38,12 @@ const routes = [
     {
         path: "/house/:id?",
         component: house,
+    },
+
+    // 宏发布
+    {
+        path: "/macro/:id?",
+        component: macro,
     },
 ];
 

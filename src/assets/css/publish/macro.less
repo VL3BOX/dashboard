@@ -1,0 +1,116 @@
+@media screen and (max-width:@phone){
+    .m-macro-zlp{
+        .db;
+    }
+}
+
+.m-macro-xf{
+    .u-pic{
+        .db;
+        .size(48px);
+        background-color:@bg-black;
+        .r(4px);
+        transition: .1s ease-in;
+        .tm(0.4);
+        box-sizing: border-box;
+    }
+    .u-txt{
+        .db;
+        .x;
+        .fz(14px,2);
+        white-space: nowrap;
+        overflow: hidden;
+        .w(48px);
+    }
+
+    .el-radio{
+        .ml(0);
+        .mr(15px);
+    }
+    .el-radio__input{
+        .none;
+    }
+    .el-radio__label{
+        .db;
+        padding-left:0;
+    }
+
+    .is-checked{
+        .u-pic{
+            border:3px solid @primary;
+            // filter: saturate(120%)  brightness(120%);
+            .tm(1);
+        }
+        .u-txt{
+            .bold;
+        }
+    }
+    
+}
+
+.m-macro-box{
+    .m-macro-addbutton{
+        .mb(10px);
+        .w(120px);
+    }
+    .m-macro-docs{
+        .fr;
+    }
+    .el-tabs{
+        .is-active{
+            // background-color:@color !important;
+            // color:#fff !important;
+            .bold;
+        }
+        user-select: none;
+    }
+}
+
+.m-macro-name{
+    .u-feed{
+        // color:#f30;
+        .bold;
+        color:@color;
+    }
+    .u-help{
+        color:#888;
+        &:hover{
+            color:@primary;
+        }
+    }
+}
+.m-macro-talent {
+    .u-get{
+        color:@primary;
+        &:hover{
+            color:#49c10f;
+        }
+    }
+    .u-help{
+        color:#888;
+        &:hover{
+            color:@primary;
+        }
+    }
+}
+@media screen and (max-width:@phone){
+    .m-macro-name,.m-macro-talent{
+        .el-input-group__append,.el-input__suffix{
+            .none;
+        }
+    }
+}
+
+.m-macro-misc{
+    .u-speed{
+        .mr(20px);
+    }
+}
+@media screen and (max-width:@phone){
+    .m-macro-misc{
+        .el-col{
+            .w(100%);
+            .mb(10px);
+        }
+    }
+}

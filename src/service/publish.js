@@ -52,13 +52,23 @@ function doLoad(vm, oldMetaKeys) {
             },
         })
             .then((res) => {
-                let data = res.data.data.post
-                vm.$store.commit('loadPost',data)
-                vm.$set(vm,'post',data)
+                // 远程数据
+                let post = res.data.data.post
+                let meta = res.data.data.meta
+                if(!post.post_meta) post.post_meta = vm.post.post_meta  //旧异常数据处理
+
+                // 加载到store
+                vm.$store.commit('loadPost',post)
+                vm.$store.commit('editMeta',meta)
+
+                // 本地覆盖
+                vm.$set(vm,'post',post)
+                vm.$set(vm,'meta',meta)
+
                 vm.loaded = true
                 vm.$forceUpdate()
 
-                return data
+                return res.data.data
 
                 // 废弃·需要处理的旧meta
                 // let meta = res.data.data.meta;
@@ -80,8 +90,18 @@ function doLoad(vm, oldMetaKeys) {
             });
     } else {
         return new Promise((resolve, reject) => {
+            // 将默认结构添加到$store
+            vm.$store.commit('loadPost',vm.post)
+            vm.$store.commit('editMeta',vm.meta)
+
             vm.loaded = true
-            resolve(location.href);
+            vm.$forceUpdate()
+
+            vm.loaded = true
+            resolve({
+                post : vm.post,
+                meta : vm.meta
+            })
         });
     }
 }

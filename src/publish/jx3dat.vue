@@ -296,7 +296,7 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            this.doPublish(this.$store.state, this, false).then((res) => {
+            this.doPublish(this.build(), this, false).then((res) => {
                 let data = res.data.data;
                 let msg = res.data.msg;
                 let id = res.data.data.ID;
@@ -310,7 +310,7 @@ export default {
                     this.finish(msg,id,type)
                 }
             });
-            console.log(this.$store.state);
+            // console.log(this.$store.state);
         },
         finish:function (msg,id,type){
             this.$message({
@@ -323,44 +323,52 @@ export default {
         },
         // 草稿
         toDraft: function() {
-            this.doDraft(this.$store.state, this);
+            this.doDraft(this.build(), this);
             // console.log(this.$store.state);
         },
         // 加载
         init: function() {
             return this.doLoad(this).then((data) => {
-                if(!data.post_meta){
-                    this.$set(this.post,'post_meta',{
-                        //新版,字段表合并至主表,减少数据库查询次数
-                        type: "1",
-                        data: [
-                            {
-                                name: "默认版",
-                                desc: "",
-                                status: true,
-                                file: "",
-                            },
-                        ],
-                        tag: [],
-                        github: "",
-                        gitee: "",
-                        aliyun: "",
-                        down: "",
-                    })
-                }
-                if(!data.post_meta.data || !data.post_meta.data.length){
-                    this.$set(this.post.post_meta,'data',[
-                            {
-                                name: "默认版",
-                                desc: "",
-                                status: true,
-                                file: "",
-                            },
-                        ]
-                    )
-                }
+                // if(!data.post.post_meta){
+                //     this.$set(this.post,'post_meta',{
+                //         //新版,字段表合并至主表,减少数据库查询次数
+                //         type: "1",
+                //         data: [
+                //             {
+                //                 name: "默认版",
+                //                 desc: "",
+                //                 status: true,
+                //                 file: "",
+                //             },
+                //         ],
+                //         tag: [],
+                //         github: "",
+                //         gitee: "",
+                //         aliyun: "",
+                //         down: "",
+                //     })
+                // }
+                // if(!data.post.post_meta.data || !data.post.post_meta.data.length){
+                //     this.$set(this.post.post_meta,'data',[
+                //             {
+                //                 name: "默认版",
+                //                 desc: "",
+                //                 status: true,
+                //                 file: "",
+                //             },
+                //         ]
+                //     )
+                // }
             })
         },
+
+        // 设置检索meta
+        build: function() {
+            let data = this.$store.state;
+            data.post.meta_1 = data.post.post_meta.tag; //标签
+            return data;
+        },
+
         // 子类型
         changeSubtype: function(subtype) {
             this.$store.commit("changeSubtype", subtype);

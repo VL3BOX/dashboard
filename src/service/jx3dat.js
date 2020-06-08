@@ -49,7 +49,7 @@ function transferForRedis(data) {
             version: item.version || Date.now(),
 
             data_url: item.file,
-            about: __Root + "jx3dat/" + pid,
+            about: __Root + "jx3dat/?pid=" + pid,
         };
     });
 

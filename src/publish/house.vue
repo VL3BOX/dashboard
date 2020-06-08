@@ -341,11 +341,6 @@ export default {
             console.log("Init Post:", this.post);
         });
     },
-    filters: {
-        // thumbnail: function(url) {
-        //     return __imgPath + url + '?v20200510';
-        // }
-    },
     components: {
         boilerplate,
         album,

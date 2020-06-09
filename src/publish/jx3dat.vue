@@ -317,9 +317,9 @@ export default {
                 message: msg,
                 type: "success",
             });
-            setTimeout(() => {
-                location.href = "/" + type + "/?pid=" + id;
-            }, 500);
+            // setTimeout(() => {
+            //     location.href = "/" + type + "/?pid=" + id;
+            // }, 500);
         },
         // 草稿
         toDraft: function() {
@@ -365,7 +365,7 @@ export default {
         // 设置检索meta
         build: function() {
             let data = this.$store.state;
-            data.post.meta_1 = data.post.post_meta.tag; //标签
+            data.post.meta_1 = data.post.post_meta.tag.toString(); //标签
             return data;
         },
 

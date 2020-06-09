@@ -227,6 +227,7 @@ import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { syncRedis } from "../service/macro.js";
 import { sterilizer } from "sterilizer/index.js";
+import lodash from 'lodash'
 export default {
     name: "macro",
     props: [],
@@ -326,7 +327,7 @@ export default {
         build: function() {
             let data = this.$store.state;
             data.post.meta_1 = data.post.post_meta.zlp; //资料片
-            data.post.meta_2 = ~~xfmap[data.post.post_subtype]['id'] //心法id
+            data.post.meta_2 = ~~lodash.get(xfmap[data.post.post_subtype],'id') //心法id
             return data;
         },
 

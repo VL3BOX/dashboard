@@ -317,9 +317,9 @@ export default {
                 message: msg,
                 type: "success",
             });
-            // setTimeout(() => {
-            //     location.href = "/" + type + "/?pid=" + id;
-            // }, 500);
+            setTimeout(() => {
+                location.href = "/" + type + "/?pid=" + id;
+            }, 500);
         },
         // 草稿
         toDraft: function() {

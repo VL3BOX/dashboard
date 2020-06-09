@@ -2,6 +2,7 @@ import { $, axios } from "./axios";
 import { __hub, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import dateFormat from '../utils/dateFormat'
+import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
 
 function syncRedis(data, vm) {
     let redisData = transferForRedis(data);
@@ -26,7 +27,7 @@ function transferForRedis(data) {
         data: {},
     };
 
-    // TODO:心法ID
+    let xf = xfmap[data.post_subtype]['id']
 
     data.post_meta.data.forEach((item, i) => {
 
@@ -50,11 +51,14 @@ function transferForRedis(data) {
         // 来源
         desc += '\n【来源】JX3BOX'
 
+        if(!item.name) item.name = Date.now()
+
         _.data[item.name] = {
             author: author,
             key: item.name,
             version: Date.now(),
             icon:~~item.icon || 13,
+            xf:xf || 0,
 
             data : item.macro,
             desc: desc,
@@ -63,6 +67,8 @@ function transferForRedis(data) {
         };
 
     });
+
+    console.log(_)
 
     return _;
 }

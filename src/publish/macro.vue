@@ -100,7 +100,7 @@
                             <span slot="label"><img class="u-tabicon" :src="icon(item)">{{i + 1 + '号位-' + item.name}}</span>
                             <div class="m-macro-cloud m-macro-item">
                                 <h5 class="u-title">
-                                    云端宏图标/名称
+                                    云端宏图标/名称 <a class="u-icon-links" href="https://v2.jx3box.com/app/icons" target="_blank"><i class="el-icon-question"></i> 图标大全</a>
                                 </h5>
                                 <div class="u-group">
                                     <div class="u-subblock m-macro-icon">
@@ -118,6 +118,9 @@
                                                     :src="icon(item)"
                                                 />
                                             </template>
+                                            <!-- <template slot="append">
+                                                
+                                            </template> -->
                                         </el-input>
                                     </div>
                                     <div class="u-subblock m-macro-name">
@@ -136,12 +139,6 @@
                                                     }}</b
                                                 ></template
                                             >
-                                            <!-- <template slot="append"
-                                        ><a class="u-help" href=""
-                                            ><i class="el-icon-info"></i>
-                                            更多帮助</a
-                                        ></template
-                                    > -->
                                         </el-input>
                                     </div>
                                 </div>
@@ -240,7 +237,7 @@ export default {
 
             //选项
             options: {
-                zlps: ["结庐江湖", "凌雪藏锋", "怒海争锋"],
+                zlps: ["结庐在江湖", "凌雪藏锋", "怒海争锋"],
                 xfmap: xfmap,
             },
 
@@ -256,7 +253,7 @@ export default {
                 post_title: "", //标题
                 post_content: "", //主表内容字段,由后端接口配置是否双存储至meta表
                 post_meta: {
-                    zlp: "结庐江湖",
+                    zlp: "结庐在江湖",
                     data: [
                         {
                             name: "",

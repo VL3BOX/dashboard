@@ -26,6 +26,8 @@ function transferForRedis(data) {
         data: {},
     };
 
+    // TODO:心法ID
+
     data.post_meta.data.forEach((item, i) => {
 
         // 描述处理

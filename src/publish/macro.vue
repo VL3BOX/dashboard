@@ -164,7 +164,7 @@
                                     @change="checkTalent(item)"
                                     ><template slot="prepend"
                                         ><a
-                                            class="u-get"
+                                            class="u-get" target="_blank"
                                             href="https://v2.jx3box.com/app/talent"
                                             ><i class="el-icon-warning"></i>
                                             获取编码</a

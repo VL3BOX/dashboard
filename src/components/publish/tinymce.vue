@@ -145,21 +145,15 @@ export default {
                 init_instance_callback: this.ready,
 
                 // Template
-                // TODO:量太大，容我缓缓
-                templates: [
-                    {
-                        title: "剑三宏",
-                        description: "",
-                        content: `
-                            <pre class="e-jx3macro-area w-jx3macro">/cast 自绝经脉</pre>
-                        `,
-                    },
-                    // {
-                    //     title: "奇穴方案",
-                    //     description: "",
-                    //     url: "My content",
-                    // },
-                ],
+                // templates: [
+                //     {
+                //         title: "剑三宏",
+                //         description: "",
+                //         content: `
+                //             <pre class="e-jx3macro-area w-jx3macro">/cast 自绝经脉</pre>
+                //         `,
+                //     },
+                // ],
             },
         };
     },

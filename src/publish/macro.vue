@@ -97,10 +97,21 @@
                             :key="i"
                             :name="i + 1 + ''"
                         >
-                            <span slot="label"><img class="u-tabicon" :src="icon(item)">{{i + 1 + '号位-' + item.name}}</span>
+                            <span slot="label"
+                                ><img class="u-tabicon" :src="icon(item)" />{{
+                                    i + 1 + "号位-" + item.name
+                                }}</span
+                            >
                             <div class="m-macro-cloud m-macro-item">
                                 <h5 class="u-title">
-                                    云端宏图标/名称 <a class="u-icon-links" href="https://v2.jx3box.com/app/icons" target="_blank"><i class="el-icon-question"></i> 图标大全</a>
+                                    云端宏图标/名称
+                                    <a
+                                        class="u-icon-links"
+                                        href="https://v2.jx3box.com/app/icons"
+                                        target="_blank"
+                                        ><i class="el-icon-question"></i>
+                                        图标大全</a
+                                    >
                                 </h5>
                                 <div class="u-group">
                                     <div class="u-subblock m-macro-icon">
@@ -118,9 +129,6 @@
                                                     :src="icon(item)"
                                                 />
                                             </template>
-                                            <!-- <template slot="append">
-                                                
-                                            </template> -->
                                         </el-input>
                                     </div>
                                     <div class="u-subblock m-macro-name">
@@ -145,9 +153,11 @@
                             </div>
                             <div class="m-macro-talent m-macro-item">
                                 <h5 class="u-title">
-                                    <!-- <img class="u-icon-talent" svg-inline src="../assets/img/publish/talent.svg" />  -->
                                     奇穴方案
                                 </h5>
+                                <div class="m-macro-talent-simulator">
+                                    <div class="qx-container"></div>
+                                </div>
                                 <el-input
                                     v-model="item.talent"
                                     placeholder="奇穴方案编码"
@@ -155,7 +165,7 @@
                                     ><template slot="prepend"
                                         ><a
                                             class="u-get"
-                                            href="https://www.jx3box.com/app/qx-simulator/"
+                                            href="https://v2.jx3box.com/app/talent"
                                             ><i class="el-icon-warning"></i>
                                             获取编码</a
                                         ></template
@@ -224,7 +234,10 @@ import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { syncRedis } from "../service/macro.js";
 import { sterilizer } from "sterilizer/index.js";
-import lodash from 'lodash'
+import lodash from "lodash";
+// import JX3_QIXUE from "@jx3box/jx3box-talent";
+// import $ from "jquery";
+
 export default {
     name: "macro",
     props: [],
@@ -285,6 +298,13 @@ export default {
             // 其它
             activeMacroIndex: "1",
             nickname: User.getInfo().name,
+
+            // 奇穴
+            // version: "v20200522",
+            // xf: "其它",
+            // sq: "1,1,1,1,1,1,1,1,1,1,1,1",
+            // talentInstance: "",
+            // code: "",
         };
     },
     computed: {},
@@ -324,7 +344,10 @@ export default {
         build: function() {
             let data = this.$store.state;
             data.post.meta_1 = data.post.post_meta.zlp; //资料片
-            data.post.meta_2 = ~~lodash.get(xfmap[data.post.post_subtype],'id') //心法id
+            data.post.meta_2 = ~~lodash.get(
+                xfmap[data.post.post_subtype],
+                "id"
+            ); //心法id
             return data;
         },
 
@@ -396,10 +419,15 @@ export default {
             }
         },
         icon: function(item) {
-            let id = isNaN(item.icon) ? 13 : ~~item.icon
-            id = Math.max(0,Math.min(id,30000))
-            this.$set(item,'icon',id)
+            let id = isNaN(item.icon) ? 13 : ~~item.icon;
+            id = Math.max(0, Math.min(id, 30000));
+            this.$set(item, "icon", id);
             return __ossMirror + "icon/" + id + ".png";
+        },
+    },
+    filters: {
+        xficon: function(id) {
+            return __ossMirror + "image/xf/" + id + ".png";
         },
     },
     mounted: function() {
@@ -407,11 +435,6 @@ export default {
         this.init().then(() => {
             console.log("Init Post:", this.post);
         });
-    },
-    filters: {
-        xficon: function(id) {
-            return __ossMirror + "image/xf/" + id + ".png";
-        },
     },
     components: {
         boilerplate,

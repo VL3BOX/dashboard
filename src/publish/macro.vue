@@ -54,6 +54,7 @@
                         v-model="post.post_subtype"
                         :label="item.name"
                         :key="i"
+                        @change="changeSubtype"
                     >
                         <img
                             class="u-pic"
@@ -299,12 +300,6 @@ export default {
             activeMacroIndex: "1",
             nickname: User.getInfo().name,
 
-            // 奇穴
-            // version: "v20200522",
-            // xf: "其它",
-            // sq: "1,1,1,1,1,1,1,1,1,1,1,1",
-            // talentInstance: "",
-            // code: "",
         };
     },
     computed: {},
@@ -418,12 +413,18 @@ export default {
                 });
             }
         },
+
+        // 图标
         icon: function(item) {
             let id = isNaN(item.icon) ? 13 : ~~item.icon;
             id = Math.max(0, Math.min(id, 30000));
             this.$set(item, "icon", id);
             return __ossMirror + "icon/" + id + ".png";
         },
+        changeSubtype:function (){
+            let iconid = xfmap[this.post.post_subtype]['icon']
+            this.$set(this.post.post_meta.data[0],'icon',iconid)
+        }
     },
     filters: {
         xficon: function(id) {

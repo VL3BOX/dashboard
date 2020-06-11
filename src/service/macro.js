@@ -1,5 +1,5 @@
 import { $, axios } from "./axios";
-import { __hub, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __next, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import dateFormat from '../utils/dateFormat'
 import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
@@ -8,7 +8,7 @@ function syncRedis(data, vm) {
     let redisData = transferForRedis(data);
     console.log("正在执行redis同步作业:", redisData);
     return axios
-        .post(__hub + "api/plugins/macro/publish", redisData, {
+        .post(__next + "api/macro/publish", redisData, {
             withCredentials: true,
         })
         .catch((err) => {

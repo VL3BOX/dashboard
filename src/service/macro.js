@@ -17,12 +17,13 @@ function syncRedis(data, vm) {
 }
 
 function transferForRedis(data) {
-    let author = User.getInfo().name;
+    let author = data.author;
     let pid = data.ID;
+    // console.log(data)
 
     let _ = {
         author: author,
-        user_id: ~~User.getInfo().uid,
+        user_id: ~~data.post_author || 0,
         post_id: pid,
         data: {},
     };

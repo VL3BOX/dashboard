@@ -42,8 +42,6 @@
                     ><el-card
                         ><router-link
                             to="/bps"
-                            href="https://www.jx3box.com/post/?pt=bps"
-                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/bps.svg"

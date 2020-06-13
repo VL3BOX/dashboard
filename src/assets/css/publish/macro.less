@@ -1,59 +1,11 @@
-@media screen and (max-width:@phone){
-    .m-macro-zlp{
-        .db;
-    }
-}
-
-.m-macro-xf{
-    .u-pic{
-        .db;
-        .size(48px);
-        background-color:@bg-black;
-        .r(4px);
-        transition: .1s ease-in;
-        .tm(0.4);
-        box-sizing: border-box;
-    }
-    .u-txt{
-        .db;
-        .x;
-        .fz(14px,2);
-        white-space: nowrap;
-        overflow: hidden;
-        .w(48px);
-    }
-
-    .el-radio{
-        .ml(0);
-        .mr(15px);
-    }
-    .el-radio__input{
-        .none;
-    }
-    .el-radio__label{
-        .db;
-        padding-left:0;
-    }
-
-    .is-checked{
-        .u-pic{
-            border:3px solid @primary;
-            // filter: saturate(120%)  brightness(120%);
-            .tm(1);
-        }
-        .u-txt{
-            .bold;
-        }
-    }
-    
-}
+@import './common.less';
 
 .m-macro-box{
     .m-macro-addbutton{
         .mb(10px);
         .w(120px);
     }
-    .m-macro-docs{
+    .m-macro-docs,.m-macro-help{
         .fr;
     }
     .m-macro-tip{
@@ -118,6 +70,11 @@
         
     // }
     
+}
+@media screen and (max-width:@phone){
+    .m-macro-help{
+        .none;
+    }
 }
 
 .m-macro-cloud{

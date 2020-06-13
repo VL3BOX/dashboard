@@ -32,7 +32,7 @@
                 <!-- 1.选择资料片 -->
                 <el-form-item label="资料片">
                     <el-select
-                        class="m-macro-zlp"
+                        class="m-publish-zlp m-macro-zlp"
                         v-model="post.post_meta.zlp"
                         filterable
                         placeholder="资料片"
@@ -48,7 +48,7 @@
                 </el-form-item>
 
                 <!-- 2.选择心法 -->
-                <el-form-item label="心法" class="m-macro-xf">
+                <el-form-item label="心法" class="m-publish-xf m-macro-xf">
                     <el-radio
                         v-for="(item, i) in options.xfmap"
                         v-model="post.post_subtype"
@@ -66,6 +66,7 @@
                 </el-form-item>
 
                 <!-- 3.宏区域 -->
+                <el-divider content-position="left">宏</el-divider>
                 <div class="m-macro-box">
                     <div class="m-macro-header">
                         <el-button
@@ -75,9 +76,6 @@
                             @click="addMacro"
                             >添加宏</el-button
                         >
-                        <!-- <a class="m-macro-tip el-button el-button--success is-plain el-button--small">
-                            <i class="el-icon-info"></i> 点击查看发布帮助
-                        </a> -->
                         <a
                             class="m-macro-docs el-button el-button--primary is-plain el-button--small"
                             target="_blank"
@@ -85,6 +83,9 @@
                             ><i class="el-icon-s-management"></i>
                             宏命令完整参考手册</a
                         >
+                        <a class="m-macro-help el-button el-button--success is-plain el-button--small" href="https://www.jx3box.com/tool/14671/" target="_blank">
+                            <i class="el-icon-info"></i> 点击查看发布帮助
+                        </a>
                     </div>
 
                     <el-tabs
@@ -236,8 +237,7 @@ import User from "@jx3box/jx3box-common/js/user";
 import { syncRedis } from "../service/macro.js";
 import { sterilizer } from "sterilizer/index.js";
 import lodash from "lodash";
-// import JX3_QIXUE from "@jx3box/jx3box-talent";
-// import $ from "jquery";
+import zlps from '../assets/data/zlps.json'
 
 export default {
     name: "macro",
@@ -246,12 +246,12 @@ export default {
         return {
             //基本 - 类型设置
             type: "macro",
-            name: "剑三宏",
+            name: "云端宏",
             loaded: false,
 
             //选项
             options: {
-                zlps: ["结庐在江湖", "凌雪藏锋", "怒海争锋"],
+                zlps: zlps,
                 xfmap: xfmap,
             },
 
@@ -267,7 +267,7 @@ export default {
                 post_title: "", //标题
                 post_content: "", //主表内容字段,由后端接口配置是否双存储至meta表
                 post_meta: {
-                    zlp: "结庐在江湖",
+                    zlp: zlps[0],
                     data: [
                         {
                             name: "",

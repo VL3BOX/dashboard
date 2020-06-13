@@ -29,11 +29,17 @@ function doPublish(data, vm,skip=true) {
 function doDraft(data, vm) {
     return $.post(`post/publish`, data)
         .then((res) => {
+
+            if(!this.$route.params.id){
+                vm.$router.push({ params: { id: res.data.data.ID }})
+            }
+
             vm.$notify({
                 title: "保存成功",
-                message: res.data.msg,
+                message: '文章保存成功',
                 type: "success",
             });
+
         })
         .catch((err) => {
             console.log(err);

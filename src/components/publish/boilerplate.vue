@@ -69,9 +69,7 @@
 
             <!-- 按钮 -->
             <div class="m-publish-buttons">
-                <el-button type="primary" @click="publish"
-                    >发 &nbsp;&nbsp; 布</el-button
-                >
+                <el-button type="primary" @click="publish" :disabled="processing">发 &nbsp;&nbsp; 布</el-button>
                 <el-button type="plain" @click="draft">保存为草稿</el-button>
             </div>
         </el-form>
@@ -113,6 +111,7 @@ export default {
             mode: this.post.post_mode || "tinymce",
             draft_key: "",
             isAdmin: User.getInfo().group > 30,
+            processing : false
         };
     },
     computed: {
@@ -151,6 +150,7 @@ export default {
         publish: function() {
             this.$store.commit("changeStatus", "publish");
             this.$emit("publish");
+            this.processing = true
         },
         draft: function() {
             this.$store.commit("changeStatus", "draft");

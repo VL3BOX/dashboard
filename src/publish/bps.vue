@@ -76,7 +76,7 @@
                 </el-form-item>
 
                 <!-- 4.内容要点 -->
-                <el-form-item label="要点" class="m-bps-points">
+                <!-- <el-form-item label="要点" class="m-bps-points">
                     <el-checkbox-group v-model="post.post_meta.points">
                         <el-checkbox
                             :label="item"
@@ -84,7 +84,7 @@
                             :key="item"
                         ></el-checkbox>
                     </el-checkbox-group>
-                </el-form-item>
+                </el-form-item> -->
             </template>
         </boilerplate>
     </div>
@@ -97,7 +97,7 @@ import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import lodash from "lodash";
 import zlps from "../assets/data/zlps.json";
-import { points } from "../assets/data/bps.json";
+// import { points } from "../assets/data/bps.json";
 
 export default {
     name: "bps",
@@ -114,7 +114,7 @@ export default {
                 zlps: zlps,
                 xfmap: xfmap,
                 pvmode: ["PVE", "PVP", "PVX", "ALL"],
-                points: points,
+                // points: points,
             },
 
             //字段
@@ -131,7 +131,7 @@ export default {
                 post_meta: {
                     zlp: zlps[0],
                     pvmode: "",
-                    points: [],
+                    // points: [],
                 },
                 post_excerpt: "", //主表摘要
                 post_mode: "tinymce", //编辑模式(会影响文章详情页渲染规则)

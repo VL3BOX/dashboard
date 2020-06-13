@@ -10,8 +10,6 @@
                     ><el-card
                         ><router-link
                             to="/macro"
-                            href="https://www.jx3box.com/post/?pt=macro"
-                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/macro.svg"
@@ -44,8 +42,6 @@
                     ><el-card
                         ><router-link
                             to="/bps"
-                            href="https://www.jx3box.com/post/?pt=bps"
-                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/bps.svg"

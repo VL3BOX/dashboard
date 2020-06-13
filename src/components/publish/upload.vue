@@ -36,7 +36,6 @@
                 :action="API"
                 list-type="picture-card"
                 :auto-upload="false"
-                :accept="accept"
                 :limit="10"
                 multiple
                 with-credentials
@@ -44,6 +43,7 @@
                 :on-change="change"
                 ref="uploadbox"
             >
+            <!-- :accept="accept" -->
                 <i slot="default" class="el-icon-plus"></i>
 
                 <!-- 文件项 -->
@@ -111,8 +111,8 @@ export default {
             fileList: [],
             selectedCount: 0,
 
-            accept: allow_types.accept,
-            sizeLimit: allow_types.sizeLimit,
+            // accept: allow_types.accept,
+            // sizeLimit: allow_types.sizeLimit,
         };
     },
     computed: {
@@ -124,11 +124,11 @@ export default {
         change: function(file, fileList) {
             if (file.status != "success") {
                 // 判断大小
-                if (file.size > this.sizeLimit) {
-                    this.$message.error("文件超出大小限制");
-                    this.removeFile(fileList, file.uid);
-                    return;
-                }
+                // if (file.size > this.sizeLimit) {
+                //     this.$message.error("文件超出大小限制");
+                //     this.removeFile(fileList, file.uid);
+                //     return;
+                // }
 
                 // 构建数据
                 let fdata = new FormData();

@@ -8,6 +8,7 @@ import fb from "../publish/fb.vue";
 import cj from "../publish/cj.vue";
 import house from "../publish/house.vue";
 import macro from "../publish/macro.vue";
+import bps from "../publish/bps.vue";
 
 Vue.use(VueRouter);
 
@@ -44,6 +45,12 @@ const routes = [
     {
         path: "/macro/:id?",
         component: macro,
+    },
+
+    // 职业发布
+    {
+        path: "/bps/:id?",
+        component: bps,
     },
 ];
 

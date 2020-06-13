@@ -32,7 +32,7 @@
                 <!-- 1.选择资料片 -->
                 <el-form-item label="资料片">
                     <el-select
-                        class="m-macro-zlp"
+                        class="m-publish-zlp m-macro-zlp"
                         v-model="post.post_meta.zlp"
                         filterable
                         placeholder="资料片"
@@ -48,12 +48,13 @@
                 </el-form-item>
 
                 <!-- 2.选择心法 -->
-                <el-form-item label="心法" class="m-macro-xf">
+                <el-form-item label="心法" class="m-publish-xf m-macro-xf">
                     <el-radio
                         v-for="(item, i) in options.xfmap"
                         v-model="post.post_subtype"
                         :label="item.name"
                         :key="i"
+                        @change="changeSubtype"
                     >
                         <img
                             class="u-pic"
@@ -65,6 +66,7 @@
                 </el-form-item>
 
                 <!-- 3.宏区域 -->
+                <el-divider content-position="left">宏</el-divider>
                 <div class="m-macro-box">
                     <div class="m-macro-header">
                         <el-button
@@ -74,9 +76,6 @@
                             @click="addMacro"
                             >添加宏</el-button
                         >
-                        <!-- <a class="m-macro-tip el-button el-button--success is-plain el-button--small">
-                            <i class="el-icon-info"></i> 点击查看发布帮助
-                        </a> -->
                         <a
                             class="m-macro-docs el-button el-button--primary is-plain el-button--small"
                             target="_blank"
@@ -84,6 +83,9 @@
                             ><i class="el-icon-s-management"></i>
                             宏命令完整参考手册</a
                         >
+                        <a class="m-macro-help el-button el-button--success is-plain el-button--small" href="https://www.jx3box.com/tool/14671/" target="_blank">
+                            <i class="el-icon-info"></i> 点击查看发布帮助
+                        </a>
                     </div>
 
                     <el-tabs
@@ -95,49 +97,77 @@
                         <el-tab-pane
                             v-for="(item, i) in post.post_meta.data"
                             :key="i"
-                            :label="i + 1 + '号位-' + item.name"
                             :name="i + 1 + ''"
                         >
-                            <div class="m-macro-name m-macro-item">
+                            <span slot="label"
+                                ><img class="u-tabicon" :src="icon(item)" />{{
+                                    i + 1 + "号位-" + item.name
+                                }}</span
+                            >
+                            <div class="m-macro-cloud m-macro-item">
                                 <h5 class="u-title">
-                                    <!-- <i class="el-icon-upload"></i>  -->
-                                    云端宏名称
+                                    云端宏图标/名称
+                                    <a
+                                        class="u-icon-links"
+                                        href="https://v2.jx3box.com/app/icons"
+                                        target="_blank"
+                                        ><i class="el-icon-question"></i>
+                                        图标大全</a
+                                    >
                                 </h5>
-                                <el-input
-                                    v-model="item.name"
-                                    placeholder="每个宏名称请使用自己名下唯一命名"
-                                    :minlength="1"
-                                    :maxlength="20"
-                                    show-word-limit
-                                    @change="checkDataName(item)"
-                                    >
-                                    <template slot="append"
-                                        ><b class="u-feed"
-                                            >{{ nickname }}#{{ item.name }}</b
-                                        ></template
-                                    >
-                                    <!-- <template slot="append"
-                                        ><a class="u-help" href=""
-                                            ><i class="el-icon-info"></i>
-                                            更多帮助</a
-                                        ></template
-                                    > -->
-                                    </el-input
-                                >
+                                <div class="u-group">
+                                    <div class="u-subblock m-macro-icon">
+                                        <el-input
+                                            v-model="item.icon"
+                                            placeholder="图标ID"
+                                            :minlength="1"
+                                            :maxlength="10"
+                                            :max="30000"
+                                            :min="0"
+                                        >
+                                            <template slot="prepend">
+                                                <img
+                                                    class="u-icon"
+                                                    :src="icon(item)"
+                                                />
+                                            </template>
+                                        </el-input>
+                                    </div>
+                                    <div class="u-subblock m-macro-name">
+                                        <el-input
+                                            v-model="item.name"
+                                            placeholder="每个宏名称请使用自己名下唯一命名"
+                                            :minlength="1"
+                                            :maxlength="20"
+                                            show-word-limit
+                                            @change="checkDataName(item)"
+                                        >
+                                            <template slot="prepend"
+                                                ><b class="u-feed"
+                                                    >{{ nickname }}#{{
+                                                        item.name
+                                                    }}</b
+                                                ></template
+                                            >
+                                        </el-input>
+                                    </div>
+                                </div>
                             </div>
                             <div class="m-macro-talent m-macro-item">
                                 <h5 class="u-title">
-                                    <!-- <img class="u-icon-talent" svg-inline src="../assets/img/publish/talent.svg" />  -->
                                     奇穴方案
                                 </h5>
+                                <div class="m-macro-talent-simulator">
+                                    <div class="qx-container"></div>
+                                </div>
                                 <el-input
                                     v-model="item.talent"
                                     placeholder="奇穴方案编码"
                                     @change="checkTalent(item)"
-                                    ><template slot="append"
+                                    ><template slot="prepend"
                                         ><a
-                                            class="u-get"
-                                            href="https://www.jx3box.com/app/qx-simulator/"
+                                            class="u-get" target="_blank"
+                                            href="https://v2.jx3box.com/app/talent"
                                             ><i class="el-icon-warning"></i>
                                             获取编码</a
                                         ></template
@@ -206,6 +236,9 @@ import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { syncRedis } from "../service/macro.js";
 import { sterilizer } from "sterilizer/index.js";
+import lodash from "lodash";
+import zlps from '../assets/data/zlps.json'
+
 export default {
     name: "macro",
     props: [],
@@ -213,12 +246,12 @@ export default {
         return {
             //基本 - 类型设置
             type: "macro",
-            name: "剑三宏",
+            name: "云端宏",
             loaded: false,
 
             //选项
             options: {
-                zlps: ["结庐江湖", "凌雪藏锋", "怒海争锋"],
+                zlps: zlps,
                 xfmap: xfmap,
             },
 
@@ -234,10 +267,11 @@ export default {
                 post_title: "", //标题
                 post_content: "", //主表内容字段,由后端接口配置是否双存储至meta表
                 post_meta: {
-                    zlp: "结庐江湖",
+                    zlp: zlps[0],
                     data: [
                         {
                             name: "",
+                            icon: 13,
                             talent: "",
                             macro: "",
                             speed: "",
@@ -265,6 +299,7 @@ export default {
             // 其它
             activeMacroIndex: "1",
             nickname: User.getInfo().name,
+
         };
     },
     computed: {},
@@ -282,7 +317,6 @@ export default {
                     this.finish(msg, id, type);
                 });
             });
-            // console.log(this.$store.state);
         },
         finish: function(msg, id, type) {
             this.$message({
@@ -296,7 +330,6 @@ export default {
         // 草稿
         toDraft: function() {
             this.doDraft(this.build(), this);
-            // console.log(this.$store.state);
         },
         // 加载
         init: function() {
@@ -306,6 +339,10 @@ export default {
         build: function() {
             let data = this.$store.state;
             data.post.meta_1 = data.post.post_meta.zlp; //资料片
+            data.post.meta_2 = ~~lodash.get(
+                xfmap[data.post.post_subtype],
+                "id"
+            ); //心法id
             return data;
         },
 
@@ -321,6 +358,7 @@ export default {
             let index = this.post.post_meta.data.length + 1 + "";
             this.post.post_meta.data.push({
                 name: "",
+                icon: 13,
                 talent: "",
                 macro: "",
                 speed: "",
@@ -338,13 +376,18 @@ export default {
                 return;
             }
 
-            // 删除
-            let i = ~~name - 1;
-            this.post.post_meta.data.splice(i, 1);
+            this.$alert("确定删除这个宏吗，删除后无法找回", "消息", {
+                confirmButtonText: "确定",
+                callback: (action) => {
+                    // 删除
+                    let i = ~~name - 1;
+                    this.post.post_meta.data.splice(i, 1);
 
-            // 调整focus位置
-            let current = ~~this.activeMacroIndex - 1;
-            this.activeMacroIndex = current + "";
+                    // 调整focus位置
+                    let current = ~~this.activeMacroIndex - 1;
+                    this.activeMacroIndex = current + "";
+                },
+            });
         },
 
         // 检查版本名
@@ -370,17 +413,29 @@ export default {
                 });
             }
         },
+
+        // 图标
+        icon: function(item) {
+            let id = isNaN(item.icon) ? 13 : ~~item.icon;
+            id = Math.max(0, Math.min(id, 30000));
+            this.$set(item, "icon", id);
+            return __ossMirror + "icon/" + id + ".png";
+        },
+        changeSubtype:function (){
+            let iconid = xfmap[this.post.post_subtype]['icon']
+            this.$set(this.post.post_meta.data[0],'icon',iconid)
+        }
+    },
+    filters: {
+        xficon: function(id) {
+            return __ossMirror + "image/xf/" + id + ".png";
+        },
     },
     mounted: function() {
         // 初始化默认文章数据
         this.init().then(() => {
             console.log("Init Post:", this.post);
         });
-    },
-    filters: {
-        xficon: function(id) {
-            return __ossMirror + "image/xf/" + id + ".png";
-        },
     },
     components: {
         boilerplate,

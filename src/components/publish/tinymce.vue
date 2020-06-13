@@ -53,11 +53,11 @@ export default {
                     "link anchor autolink",
                     "hr lists advlist table codesample checklist foldtext mathjax",
                     "image emoticons media videox macro qixue",
-                    "autosave code fullscreen wordcount powerpaste pagebreak ", // template jx3icon
+                    "autosave code fullscreen wordcount powerpaste pagebreak jx3icon", // template 
                 ],
                 toolbar: [
                     "undo | formatselect | fontsizeselect | forecolor backcolor | bold italic underline strikethrough superscript subscript | link unlink anchor | restoredraft code fullscreen",
-                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codesample mathjax | emoticons image media videox | macro qixue pagebreak", // template jx3icon
+                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codesample mathjax | emoticons image media videox | macro qixue jx3icon pagebreak", // template 
                 ],
                 mobile: {
                     toolbar_drawer: true,
@@ -145,21 +145,15 @@ export default {
                 init_instance_callback: this.ready,
 
                 // Template
-                // TODO:量太大，容我缓缓
-                templates: [
-                    {
-                        title: "剑三宏",
-                        description: "",
-                        content: `
-                            <pre class="e-jx3macro-area w-jx3macro">/cast 自绝经脉</pre>
-                        `,
-                    },
-                    // {
-                    //     title: "奇穴方案",
-                    //     description: "",
-                    //     url: "My content",
-                    // },
-                ],
+                // templates: [
+                //     {
+                //         title: "剑三宏",
+                //         description: "",
+                //         content: `
+                //             <pre class="e-jx3macro-area w-jx3macro">/cast 自绝经脉</pre>
+                //         `,
+                //     },
+                // ],
             },
         };
     },

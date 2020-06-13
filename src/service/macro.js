@@ -1,13 +1,14 @@
 import { $, axios } from "./axios";
-import { __hub, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __next, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
-import dateFormat from '../utils/moment'
+import dateFormat from '../utils/dateFormat'
+import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
 
 function syncRedis(data, vm) {
     let redisData = transferForRedis(data);
     console.log("正在执行redis同步作业:", redisData);
     return axios
-        .post(__hub + "api/plugins/macro/publish", redisData, {
+        .post(__next + "api/macro/publish", redisData, {
             withCredentials: true,
         })
         .catch((err) => {
@@ -16,15 +17,18 @@ function syncRedis(data, vm) {
 }
 
 function transferForRedis(data) {
-    let author = User.getInfo().name;
+    let author = data.author;
     let pid = data.ID;
+    // console.log(data)
 
     let _ = {
         author: author,
-        user_id: ~~User.getInfo().uid,
+        user_id: ~~data.post_author || 0,
         post_id: pid,
         data: {},
     };
+
+    let xf = xfmap[data.post_subtype]['id']
 
     data.post_meta.data.forEach((item, i) => {
 
@@ -43,15 +47,19 @@ function transferForRedis(data) {
 
         // 时间
         desc += '\n【最后更新于】'
-        desc += dateFormat(Date.now())
+        desc += dateFormat(new Date())
 
         // 来源
-        desc += '【来源】JX3BOX'
+        desc += '\n【来源】JX3BOX'
+
+        if(!item.name) item.name = Date.now()
 
         _.data[item.name] = {
             author: author,
             key: item.name,
             version: Date.now(),
+            icon:~~item.icon || 13,
+            xf:xf || 0,
 
             data : item.macro,
             desc: desc,
@@ -60,6 +68,8 @@ function transferForRedis(data) {
         };
 
     });
+
+    console.log(_)
 
     return _;
 }

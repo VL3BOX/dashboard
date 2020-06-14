@@ -23,7 +23,7 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist
-          CLEAN: false
+          CLEAN: true
           # CLEAN_EXCLUDE: '["css", "js"]'
 
       - name: OSS

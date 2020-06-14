@@ -69,7 +69,7 @@
                     <el-radio-group v-model="post.post_meta.pvmode">
                         <el-radio
                             v-for="(item, i) in options.pvmode"
-                            :label="item"
+                            :label="item ? item : '全部'"
                             :key="i"
                         ></el-radio>
                     </el-radio-group>
@@ -113,7 +113,7 @@ export default {
             options: {
                 zlps: zlps,
                 xfmap: xfmap,
-                pvmode: ["PVE", "PVP", "PVX", "ALL"],
+                pvmode: ["PVE", "PVP", "PVX", ""],
                 // points: points,
             },
 

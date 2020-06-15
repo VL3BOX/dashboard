@@ -69,8 +69,8 @@
 
             <!-- 按钮 -->
             <div class="m-publish-buttons">
-                <el-button type="primary" @click="publish" :disabled="processing">发 &nbsp;&nbsp; 布</el-button>
-                <el-button type="plain" @click="draft">保存为草稿</el-button>
+                <el-button type="primary" @click="publish" :disabled="processing">{{publish_text || '发 &nbsp;&nbsp; 布'}}</el-button>
+                <el-button type="plain" @click="draft">{{draft_text || '保存为草稿'}}</el-button>
             </div>
         </el-form>
     </div>
@@ -105,6 +105,9 @@ export default {
         "tagEnable",
         "notifyEnable",
         "bannerEnable",
+
+        "publish_text",
+        "draft_text"
     ],
     data: function() {
         return {

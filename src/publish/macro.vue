@@ -25,7 +25,9 @@
             :notifyEnable="true"
             :bannerEnable="true"
             @publish="toPublish"
+            publish_text="发布为公开"
             @draft="toDraft"
+            draft_text="发布为私有"
         >
             <!-- 💛 栏目字段 -->
             <template>

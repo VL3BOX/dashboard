@@ -36,7 +36,7 @@ function doDraft(data, vm) {
 
             vm.$notify({
                 title: "保存成功",
-                message: '文章保存成功',
+                message: '作品保存成功，请前往我的作品查看',
                 type: "success",
             });
 

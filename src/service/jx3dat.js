@@ -1,9 +1,9 @@
 import { $, axios } from "./axios";
-import { __next, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __hub, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 function uploadHub(formdata, vm) {
     return axios
-        .post(__next + "api/plugins/my-team-mon", formdata, {
+        .post(__hub + "api/plugins/my-team-mon", formdata, {
             withCredentials: true,
         })
         .catch((err) => {
@@ -21,7 +21,7 @@ function syncRedis(data,vm) {
     let redisData = transferForRedis(data);
     console.log('正在执行redis同步作业:',redisData)
     return axios
-        .post(__next + "api/plugins/jx3dat/publish", redisData, {
+        .post(__hub + "api/plugins/jx3dat/publish", redisData, {
             withCredentials: true,
         })
         .catch((err) => {

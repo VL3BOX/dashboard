@@ -221,6 +221,10 @@ export default {
         },
     },
     mounted: function() {
+        let route_type = this.$route.params.type
+        if(route_type){
+            this.searchType = route_type
+        }
         this.loadPosts()
     },
 };

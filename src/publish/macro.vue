@@ -314,13 +314,17 @@ export default {
         toPublish: function() {
             // console.log(this.build());
             this.doPublish(this.build(), this, false).then((res) => {
-                syncRedis(res.data.data, this)
-                    .then((redis_result) => {
-                        this.finish(res.data.msg, res.data.data.ID, this.type);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
+                syncRedis(res.data.data, this).then((redis_result) => {
+                    this.finish(res.data.msg, res.data.data.ID, this.type);
+                });
+            });
+        },
+        // 草稿
+        toDraft: function() {
+            this.doDraft(this.build(), this, false).then((res) => {
+                syncRedis(res.data.data, this).then((redis_result) => {
+                    this.finish(res.data.msg, res.data.data.ID, this.type);
+                });
             });
         },
         finish: function(msg, id, type) {
@@ -331,16 +335,6 @@ export default {
             setTimeout(() => {
                 location.href = "/" + type + "/?pid=" + id;
             }, 500);
-        },
-        // 草稿
-        toDraft: function() {
-            this.doDraft(this.build(), this).then((res) => {
-                syncRedis(res.data.data, this)
-                    .then((redis_result) => {})
-                    .catch((err) => {
-                        console.log(err);
-                    });
-            });
         },
         // 加载
         init: function() {

@@ -40,6 +40,8 @@ function doDraft(data, vm) {
                 type: "success",
             });
 
+            return res
+
         })
         .catch((err) => {
             console.log(err);

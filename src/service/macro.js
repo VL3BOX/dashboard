@@ -25,6 +25,7 @@ function transferForRedis(data) {
         author: author,
         user_id: ~~data.post_author || 0,
         post_id: pid,
+        post_status : data.post_status,
         data: {},
     };
 

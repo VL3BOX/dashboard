@@ -29,7 +29,7 @@ function transferForRedis(data) {
         data: {},
     };
 
-    let xf = xfmap[data.post_subtype]['id']
+    let xf = xfmap[data.post_subtype]['id'] + ''
 
     data.post_meta.data.forEach((item, i) => {
 

@@ -3,12 +3,14 @@ import { __next, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import dateFormat from '../utils/dateFormat'
 import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
+const API = __next + "api/macro/publish"
+// const API = '/api/macro/publish'
 
 function syncRedis(data, vm) {
     let redisData = transferForRedis(data);
     console.log("正在执行redis同步作业:", redisData);
     return axios
-        .post(__next + "api/macro/publish", redisData, {
+        .post(API, redisData, {
             withCredentials: true,
         })
         .catch((err) => {
@@ -19,7 +21,6 @@ function syncRedis(data, vm) {
 function transferForRedis(data) {
     let author = data.author;
     let pid = data.ID;
-    // console.log(data)
 
     let _ = {
         author: author,
@@ -69,8 +70,6 @@ function transferForRedis(data) {
         };
 
     });
-
-    console.log(_)
 
     return _;
 }

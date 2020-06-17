@@ -315,6 +315,8 @@ export default {
                     syncRedis(res.data.data, this).then((redis_result) => {
                         this.finish(res.data.msg, res.data.data.ID, this.type);
                     });
+                } else {
+                    this.finish(res.data.msg, res.data.data.ID, this.type);
                 }
             });
             // console.log(this.$store.state);

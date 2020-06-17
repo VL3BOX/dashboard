@@ -1,6 +1,7 @@
 import { $, axios } from "./axios";
 import { __hub, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
+
 function uploadHub(formdata, vm) {
     return axios
         .post(__hub + "api/plugins/my-team-mon", formdata, {

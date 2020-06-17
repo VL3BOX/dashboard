@@ -5,6 +5,17 @@ const { JX3BOX, SEO } = require("@jx3box/jx3box-common");
 
 module.exports = {
 
+    devServer: {
+        proxy: {
+            "/api": {
+                target: "https://next.jx3box.com",
+                onProxyReq: function(request) {
+                    request.setHeader("origin", "");
+                },
+            },
+        },
+    },
+
     //❤️ Multiple pages ~
     pages:{
         index : {

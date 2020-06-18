@@ -157,7 +157,7 @@ export default {
         },
         edit: function(type, id) {
             // TODO:临时区分新旧版
-            const newlist = ["macro", "jx3dat", "fb", "house", "bps"];
+            const newlist = ["macro", "jx3dat", "fb", "bps","tool","house"];
             let editLink = "";
             if (newlist.includes(type)) {
                 editLink = __Links.dashboard.publish + "#/" + type + "/" + id;

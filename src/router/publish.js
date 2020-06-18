@@ -9,6 +9,7 @@ import cj from "../publish/cj.vue";
 import house from "../publish/house.vue";
 import macro from "../publish/macro.vue";
 import bps from "../publish/bps.vue";
+import tool from "../publish/tool.vue";
 
 Vue.use(VueRouter);
 
@@ -51,6 +52,12 @@ const routes = [
     {
         path: "/bps/:id?",
         component: bps,
+    },
+
+    // 工具发布
+    {
+        path: "/tool/:id?",
+        component: tool,
     },
 ];
 

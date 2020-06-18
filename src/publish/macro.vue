@@ -23,7 +23,7 @@
             :excerptEnable="true"
             :tagEnable="false"
             :notifyEnable="true"
-            :bannerEnable="true"
+            :bannerEnable="false"
             @publish="toPublish"
             publish_text="发布为公开"
             @draft="toDraft"

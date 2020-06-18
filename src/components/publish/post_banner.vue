@@ -1,5 +1,6 @@
 <template>
     <div class="m-publish-banner">
+        <el-alert title="图片尺寸180*100像素，非必选，部分栏目不会展示海报" type="info" show-icon> </el-alert>
         <el-upload
             class="avatar-uploader"
             :action="url"
@@ -16,7 +17,7 @@
 
 <script>
 import { JX3BOX } from "@jx3box/jx3box-common";
-const API = JX3BOX.__server + 'upload'
+const API = JX3BOX.__server + "upload";
 // const API = "http://localhost:5160/" + "publish/upload";
 
 export default {
@@ -33,16 +34,14 @@ export default {
             this.post_banner = res.data.list[0];
             this.$store.commit("editBanner", this.post_banner);
         },
-        fail(err, file, fileList){
-            try{
-                let response = JSON.parse(err.message)
-                this.$message.error(
-                    `[${response.code}]${response.msg}`
-                );
-            }catch{
+        fail(err, file, fileList) {
+            try {
+                let response = JSON.parse(err.message);
+                this.$message.error(`[${response.code}]${response.msg}`);
+            } catch {
                 this.$message.error("网络请求异常");
             }
-        }
+        },
     },
 };
 </script>
@@ -51,6 +50,9 @@ export default {
 .m-publish-banner {
     img {
         max-width: 100%;
+    }
+    .avatar-uploader{
+        .mt(10px);
     }
     .avatar-uploader .el-upload {
         border: 1px dashed #d9d9d9;
@@ -65,9 +67,9 @@ export default {
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
-        width: 178px;
-        height: 178px;
-        line-height: 178px;
+        width: 180px;
+        height: 100px;
+        line-height: 100px;
         text-align: center;
     }
 }

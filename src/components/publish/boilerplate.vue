@@ -61,10 +61,10 @@
                 <slot name="extend"></slot>
             </div>
 
-            <!-- 管理功能 -->
-            <div class="m-publish-admin" v-if="isAdmin">
-                <el-divider content-position="left">管理</el-divider>
-                <post_banner :banner="post.post_banner" v-if="bannerEnable" />
+            <!-- 海报 -->
+            <div class="m-publish-admin" v-if="bannerEnable">
+                <el-divider content-position="left">海报</el-divider>
+                <post_banner :banner="post.post_banner" />
             </div>
 
             <!-- 按钮 -->

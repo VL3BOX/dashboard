@@ -90,12 +90,10 @@
                     ><el-card
                         ><router-link
                             to="/tool"
-                            href="https://www.jx3box.com/post/?pt=tool"
-                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/tool.svg"
-                            /><span>工具资源</span></router-link
+                            /><span>教程工具</span></router-link
                         ></el-card
                     ></el-col
                 >

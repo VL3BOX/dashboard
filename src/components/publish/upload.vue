@@ -186,10 +186,10 @@ export default {
             //为空不执行插入
             if (!this.selectedCount) return;
 
-            if (this.$store.state.post.post_mode == "tinymce") {
-                tinyMCE.editors["tinymce"].insertContent(this.insertList());
+            if (this.$store.state.post.post_mode == "markdown") {
+                // tinymce
             } else {
-                // TODO:markdown
+                tinyMCE.editors["tinymce"].insertContent(this.insertList());
             }
 
             //移除所有选择状态

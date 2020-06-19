@@ -99,16 +99,29 @@ export default {
         // 发布
         toPublish: function() {
             // console.log(this.build());
-            this.doPublish(this.build(), this).then((res) => {});
+            this.doPublish(this.build(), this,false).then((res) => {
+                this.finish(res.data.msg, res.data.data.ID, this.type);
+            });
         },
         // 草稿
         toDraft: function() {
-            this.doDraft(this.build(), this).then((res) => {});
+            this.doDraft(this.build(), this,false).then((res) => {
+                this.finish(res.data.msg, res.data.data.ID, this.type);
+            });
         },
         // 设置检索meta
         build: function() {
             let data = this.$store.state;
             return data;
+        },
+        finish: function(msg, id, type) {
+            this.$message({
+                message: msg,
+                type: "success",
+            });
+            setTimeout(() => {
+                location.href = "/" + 'bbs' + "/?pid=" + id;
+            }, 500);
         },
         // 加载
         init: function() {

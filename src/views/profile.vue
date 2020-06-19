@@ -164,21 +164,23 @@ export default {
             this.$alert(`确定修改为 ${this.rename} 吗`, "消息", {
                 confirmButtonText: "确定",
                 callback: (action) => {
-                    updateNickname(this.rename)
-                        .then((res) => {
-                            this.name = this.rename;
-                            User.refresh("name", this.rename);
+                    if(action == 'confirm'){
+                        updateNickname(this.rename)
+                            .then((res) => {
+                                this.name = this.rename;
+                                User.refresh("name", this.rename);
 
-                            this.renaming = false;
-                            this.$message({
-                                message: "资料修改成功",
-                                type: "success",
+                                this.renaming = false;
+                                this.$message({
+                                    message: "资料修改成功",
+                                    type: "success",
+                                });
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                                this.failCallback(err, this);
                             });
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                            this.failCallback(err, this);
-                        });
+                    }
                 },
             });
         },

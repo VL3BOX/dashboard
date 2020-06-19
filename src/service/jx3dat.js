@@ -1,9 +1,13 @@
 import { $, axios } from "./axios";
-import { __hub, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
-import User from "@jx3box/jx3box-common/js/user";
+import { __next, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
+const plugins = __next + "api/plugins/my-team-mon"   //TODO:
+// const plugins = "/api/plugins/my-team-mon"
+const feed = __next + "api/plugins/jx3dat/publish"  //TODO:
+// const feed = "/api/plugins/jx3dat/publish"
+
 function uploadHub(formdata, vm) {
     return axios
-        .post(__hub + "api/plugins/my-team-mon", formdata, {
+        .post(plugins, formdata, {
             withCredentials: true,
         })
         .catch((err) => {
@@ -21,7 +25,7 @@ function syncRedis(data,vm) {
     let redisData = transferForRedis(data);
     console.log('正在执行redis同步作业:',redisData)
     return axios
-        .post(__hub + "api/plugins/jx3dat/publish", redisData, {
+        .post(feed, redisData, {
             withCredentials: true,
         })
         .catch((err) => {
@@ -37,6 +41,7 @@ function transferForRedis(data) {
         author: author,
         user_id: ~~data.post_author || 0,
         post_id: pid,
+        post_status : data.post_status,
         data: {},
     };
 
@@ -50,6 +55,7 @@ function transferForRedis(data) {
 
             data_url: item.file,
             about: __Root + "jx3dat/?pid=" + pid,
+            status : item.status
         };
     });
 

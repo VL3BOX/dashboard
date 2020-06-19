@@ -25,7 +25,9 @@
             :notifyEnable="true"
             :bannerEnable="true"
             @publish="toPublish"
+            publish_text="发布为公开"
             @draft="toDraft"
+            draft_text="发布为私有"
         >
             <!-- 💛 栏目字段 -->
             <template>
@@ -262,7 +264,7 @@ export default {
                             desc: "",
                             status: true,
                             file: "",
-                            version : ""
+                            version: "",
                         },
                     ],
                     tag: [],
@@ -297,22 +299,29 @@ export default {
         // 发布
         toPublish: function() {
             this.doPublish(this.build(), this, false).then((res) => {
-                let data = res.data.data;
-                let msg = res.data.msg;
-                let id = res.data.data.ID;
-                let type = this.type;
-
-                if(this.post.post_subtype == 1){
-                    syncRedis(data, this).then((res) => {
-                       this.finish(msg,id,type)
+                if (this.post.post_subtype == 1) {
+                    syncRedis(res.data.data, this).then((redis_result) => {
+                        this.finish(res.data.msg, res.data.data.ID, this.type);
                     });
-                }else{
-                    this.finish(msg,id,type)
+                } else {
+                    this.finish(res.data.msg, res.data.data.ID, this.type);
+                }
+            });
+        },
+        // 草稿
+        toDraft: function() {
+            this.doDraft(this.build(), this, false).then((res) => {
+                if (this.post.post_subtype == 1) {
+                    syncRedis(res.data.data, this).then((redis_result) => {
+                        this.finish(res.data.msg, res.data.data.ID, this.type);
+                    });
+                } else {
+                    this.finish(res.data.msg, res.data.data.ID, this.type);
                 }
             });
             // console.log(this.$store.state);
         },
-        finish:function (msg,id,type){
+        finish: function(msg, id, type) {
             this.$message({
                 message: msg,
                 type: "success",
@@ -320,11 +329,6 @@ export default {
             setTimeout(() => {
                 location.href = "/" + type + "/?pid=" + id;
             }, 500);
-        },
-        // 草稿
-        toDraft: function() {
-            this.doDraft(this.build(), this);
-            // console.log(this.$store.state);
         },
         // 加载
         init: function() {
@@ -359,7 +363,7 @@ export default {
                 //         ]
                 //     )
                 // }
-            })
+            });
         },
 
         // 设置检索meta
@@ -395,7 +399,7 @@ export default {
                         message: "数据上传成功",
                         type: "success",
                     });
-                    item.version = Date.now()
+                    item.version = Date.now();
                 }
             });
         },
@@ -440,8 +444,7 @@ export default {
     },
     mounted: function() {
         // 初始化默认文章数据
-        this.init().then((data) => {
-        });
+        this.init().then((data) => {});
         this.user = User.getInfo();
     },
     filters: {},

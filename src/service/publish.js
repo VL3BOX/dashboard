@@ -26,19 +26,32 @@ function doPublish(data, vm,skip=true) {
 }
 
 // 草稿
-function doDraft(data, vm) {
+function doDraft(data, vm,skip=true) {
     return $.post(`post/publish`, data)
         .then((res) => {
 
-            if(!this.$route.params.id){
-                vm.$router.push({ params: { id: res.data.data.ID }})
-            }
+            if(skip){
+                this.$message({
+                    message: res.data.msg,
+                    type: "success",
+                });
 
-            vm.$notify({
-                title: "保存成功",
-                message: '文章保存成功',
-                type: "success",
-            });
+                setTimeout(() => {
+                    location.href = '/' + data.post.post_type + "/?pid=" +  res.data.data.ID;
+                }, 500);
+            }
+            
+            // if(!this.$route.params.id){
+            //     vm.$router.push({ params: { id: res.data.data.ID }})
+
+            //     vm.$notify({
+            //         title: "保存成功",
+            //         message: '作品保存成功，请前往我的作品查看',
+            //         type: "success",
+            //     });
+            // }
+
+            return res
 
         })
         .catch((err) => {

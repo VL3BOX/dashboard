@@ -1,6 +1,6 @@
 <template>
     <nav class="m-nav">
-        <router-link class="m-nav-publish el-button el-button--primary" to="/"><i class="el-icon-edit"></i><span>发布</span></router-link>
+        <router-link class="m-nav-publish el-button el-button--primary" to="/"><i class="el-icon-edit-outline"></i><span>发布中心</span></router-link>
         <!-- <a class="m-nav-bucket el-button el-button--primary is-plain"  href="../bucket"><img class="u-bucket" svg-inline src="../assets/img/nav/bucket.svg" /> <span>仓库</span></a> -->
 
         <h5 class="u-title">写作台</h5>

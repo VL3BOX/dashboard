@@ -23,9 +23,11 @@
             :excerptEnable="true"
             :tagEnable="false"
             :notifyEnable="true"
-            :bannerEnable="true"
+            :bannerEnable="false"
             @publish="toPublish"
+            publish_text="发布为公开"
             @draft="toDraft"
+            draft_text="发布为私有"
         >
             <!-- 💛 栏目字段 -->
             <template>
@@ -83,7 +85,11 @@
                             ><i class="el-icon-s-management"></i>
                             宏命令完整参考手册</a
                         >
-                        <a class="m-macro-help el-button el-button--success is-plain el-button--small" href="https://www.jx3box.com/tool/14671/" target="_blank">
+                        <a
+                            class="m-macro-help el-button el-button--success is-plain el-button--small"
+                            href="https://www.jx3box.com/tool/14671/"
+                            target="_blank"
+                        >
                             <i class="el-icon-info"></i> 点击查看发布帮助
                         </a>
                     </div>
@@ -166,7 +172,8 @@
                                     @change="checkTalent(item)"
                                     ><template slot="prepend"
                                         ><a
-                                            class="u-get" target="_blank"
+                                            class="u-get"
+                                            target="_blank"
                                             href="https://v2.jx3box.com/app/talent"
                                             ><i class="el-icon-warning"></i>
                                             获取编码</a
@@ -237,7 +244,7 @@ import User from "@jx3box/jx3box-common/js/user";
 import { syncRedis } from "../service/macro.js";
 import { sterilizer } from "sterilizer/index.js";
 import lodash from "lodash";
-import zlps from '../assets/data/zlps.json'
+import zlps from "../assets/data/zlps.json";
 
 export default {
     name: "macro",
@@ -299,7 +306,6 @@ export default {
             // 其它
             activeMacroIndex: "1",
             nickname: User.getInfo().name,
-
         };
     },
     computed: {},
@@ -308,13 +314,16 @@ export default {
         toPublish: function() {
             // console.log(this.build());
             this.doPublish(this.build(), this, false).then((res) => {
-                let data = res.data.data;
-                let msg = res.data.msg;
-                let id = res.data.data.ID;
-                let type = this.type;
-
-                syncRedis(data, this).then((res) => {
-                    this.finish(msg, id, type);
+                syncRedis(res.data.data, this).then((redis_result) => {
+                    this.finish(res.data.msg, res.data.data.ID, this.type);
+                });
+            });
+        },
+        // 草稿
+        toDraft: function() {
+            this.doDraft(this.build(), this, false).then((res) => {
+                syncRedis(res.data.data, this).then((redis_result) => {
+                    this.finish(res.data.msg, res.data.data.ID, this.type);
                 });
             });
         },
@@ -326,10 +335,6 @@ export default {
             setTimeout(() => {
                 location.href = "/" + type + "/?pid=" + id;
             }, 500);
-        },
-        // 草稿
-        toDraft: function() {
-            this.doDraft(this.build(), this);
         },
         // 加载
         init: function() {
@@ -421,10 +426,10 @@ export default {
             this.$set(item, "icon", id);
             return __ossMirror + "icon/" + id + ".png";
         },
-        changeSubtype:function (){
-            let iconid = xfmap[this.post.post_subtype]['icon']
-            this.$set(this.post.post_meta.data[0],'icon',iconid)
-        }
+        changeSubtype: function() {
+            let iconid = xfmap[this.post.post_subtype]["icon"];
+            this.$set(this.post.post_meta.data[0], "icon", iconid);
+        },
     },
     filters: {
         xficon: function(id) {

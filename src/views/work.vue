@@ -6,7 +6,21 @@
             v-model="search"
             @change="searchPost"
         >
-            <template slot="prepend">我的作品</template>
+            <el-select
+                class="u-select"
+                v-model="searchType"
+                slot="prepend"
+                placeholder="请选择"
+                @change="searchPost"
+            >
+                <el-option label="全部" value=""></el-option>
+                <el-option
+                    :label="item"
+                    :value="key"
+                    v-for="(item, key) in types"
+                    :key="key"
+                ></el-option>
+            </el-select>
             <el-button
                 slot="append"
                 icon="el-icon-search"
@@ -52,7 +66,7 @@
                             type="primary"
                             size="mini"
                             icon="el-icon-lock"
-                            title="设为草稿"
+                            title="设为私有"
                             @click="draft(item.ID, i)"
                         ></el-button>
                         <el-button
@@ -85,9 +99,10 @@
             <el-pagination
                 class="m-dashboard-box-pages"
                 background
+                :page-size="per"
                 :hide-on-single-page="true"
                 @current-change="changePage"
-                :current-page="page"
+                :current-page.sync="page"
                 layout="total, prev, pager, next, jumper"
                 :total="total"
             >
@@ -99,7 +114,12 @@
 <script>
 import { getWorks, delPost, hidePost, publishPost } from "../service/work";
 import { editLink } from "@jx3box/jx3box-common/js/utils";
-import { __v2, __Root, __Links } from "@jx3box/jx3box-common/js/jx3box";
+import {
+    __v2,
+    __Root,
+    __Links,
+    __cmsType,
+} from "@jx3box/jx3box-common/js/jx3box";
 import dateFormat from "../utils/dateFormat";
 
 export default {
@@ -110,36 +130,39 @@ export default {
             data: [],
             total: 1,
             page: 1,
+            per : 10,
             search: "",
+            searchType: "",
+            types: __cmsType,
         };
     },
     computed: {},
     methods: {
-        changePage: function(i = 1) {
+        loadPosts : function (i=1){
             getWorks({
                 page: i,
+                title: this.search,
+                type: this.searchType,
+                per : this.per
             }).then((res) => {
                 this.data = res.data.data.list;
                 this.total = res.data.data.total;
             });
         },
-        searchPost: function() {
-            getWorks({
-                title: this.search,
-            }).then((res) => {
-                this.data = res.data.data.list;
-                this.total = res.data.data.total;
-            });
+        changePage: function(i = 1) {
+            this.loadPosts(i)
+        },
+        searchPost: function(i=1) {
+            this.loadPosts(i)
         },
         edit: function(type, id) {
-            // TODO:临时区分新旧版
-            const newlist = ["macro","jx3dat","fb","house"];
+            // const newlist = ["macro", "jx3dat", "fb", "bps","tool","house"];
             let editLink = "";
-            if (newlist.includes(type)) {
+            // if (newlist.includes(type)) {
                 editLink = __Links.dashboard.publish + "#/" + type + "/" + id;
-            } else {
-                editLink = __Root + "/edit/?pid=" + id;
-            }
+            // } else {
+                // editLink = __Root + "/edit/?pid=" + id;
+            // }
             location.href = editLink;
             // location.href = editLink(type, id);
         },
@@ -197,7 +220,11 @@ export default {
         },
     },
     mounted: function() {
-        this.changePage();
+        let route_type = this.$route.params.type
+        if(route_type){
+            this.searchType = route_type
+        }
+        this.loadPosts()
     },
 };
 </script>

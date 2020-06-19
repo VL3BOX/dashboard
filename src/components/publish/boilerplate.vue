@@ -61,16 +61,16 @@
                 <slot name="extend"></slot>
             </div>
 
-            <!-- 管理功能 -->
-            <div class="m-publish-admin" v-if="isAdmin">
-                <el-divider content-position="left">管理</el-divider>
-                <post_banner :banner="post.post_banner" v-if="bannerEnable" />
+            <!-- 海报 -->
+            <div class="m-publish-admin" v-if="bannerEnable">
+                <el-divider content-position="left">海报</el-divider>
+                <post_banner :banner="post.post_banner" />
             </div>
 
             <!-- 按钮 -->
             <div class="m-publish-buttons">
-                <el-button type="primary" @click="publish" :disabled="processing">发 &nbsp;&nbsp; 布</el-button>
-                <el-button type="plain" @click="draft">保存为草稿</el-button>
+                <el-button type="primary" @click="publish" :disabled="processing">{{publish_text || '发 &nbsp;&nbsp; 布'}}</el-button>
+                <el-button type="plain" @click="draft">{{draft_text || '保存为草稿'}}</el-button>
             </div>
         </el-form>
     </div>
@@ -105,6 +105,9 @@ export default {
         "tagEnable",
         "notifyEnable",
         "bannerEnable",
+
+        "publish_text",
+        "draft_text"
     ],
     data: function() {
         return {

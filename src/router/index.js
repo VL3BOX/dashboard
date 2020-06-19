@@ -22,7 +22,7 @@ Vue.use(VueRouter);
 const routes = [
     { path: "/", component: index },
 
-    { path: "/work", component: work },
+    { path: "/work/:type?", component: work },
     { path: "/wiki", component: wiki },
     { path: "/msg", component: msg },
     { path: "/feed", component: feed },

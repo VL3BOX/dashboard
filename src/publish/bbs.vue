@@ -56,7 +56,7 @@ export default {
     data: function() {
         return {
             //基本 - 类型设置
-            type: "bbs",
+            type: "post",
             name: "茶馆",
             loaded: false,
 

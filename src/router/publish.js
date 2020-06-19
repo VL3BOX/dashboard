@@ -10,6 +10,7 @@ import house from "../publish/house.vue";
 import macro from "../publish/macro.vue";
 import bps from "../publish/bps.vue";
 import tool from "../publish/tool.vue";
+import bbs from "../publish/bbs.vue";
 
 Vue.use(VueRouter);
 
@@ -58,6 +59,12 @@ const routes = [
     {
         path: "/tool/:id?",
         component: tool,
+    },
+
+    // 茶馆闲聊
+    {
+        path: "/bbs/:id?",
+        component: bbs,
     },
 ];
 

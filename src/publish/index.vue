@@ -49,6 +49,17 @@
                         ></el-card
                     ></el-col
                 >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link
+                            to="/tool"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/tool.svg"
+                            /><span>工具资源</span></router-link
+                        ></el-card
+                    ></el-col
+                >
             </el-row>
 
             <el-divider content-position="left">PVX / PVN</el-divider>
@@ -86,17 +97,6 @@
                         ></el-card
                     ></el-col
                 >
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link
-                            to="/tool"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/tool.svg"
-                            /><span>教程工具</span></router-link
-                        ></el-card
-                    ></el-col
-                >
             </el-row>
 
             <el-divider content-position="left">PVBB</el-divider>
@@ -111,26 +111,14 @@
                         ></el-card
                     ></el-col
                 > -->
-                <!-- <el-col :span="4"
-                    ><el-card
-                        ><router-link to="/emotion"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/emotion.svg"
-                            /><span>沙雕表情</span></router-link
-                        ></el-card
-                    ></el-col
-                > -->
                 <el-col :span="4"
                     ><el-card
                         ><router-link
-                            to="/fb"
-                            href="https://www.jx3box.com/post/?pt=bbs"
-                            target="_blank"
+                            to="/bbs"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/fb.svg"
-                            /><span>回忆录</span></router-link
+                                src="../assets/img/channel/idea.svg"
+                            /><span>玩法心得</span></router-link
                         ></el-card
                     ></el-col
                 >
@@ -138,46 +126,36 @@
                     ><el-card
                         ><router-link
                             to="/bbs"
-                            href="https://www.jx3box.com/post/?pt=bbs"
-                            target="_blank"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/memory.svg"
+                            /><span>江湖回忆</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link
+                            to="/bbs"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/video.svg"
+                            /><span>同人影音</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link
+                            to="/bbs"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/post.svg"
-                            /><span>茶馆闲聊</span></router-link
+                            /><span>交流讨论</span></router-link
                         ></el-card
                     ></el-col
                 >
             </el-row>
-
-            <!-- <el-divider content-position="left">JX3BOX</el-divider>
-            <el-row :gutter="20">
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link
-                            to="/bbs"
-                            href="https://www.jx3box.com/post/?pt=bbs"
-                            target="_blank"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/post.svg"
-                            /><span>系统公告</span></router-link
-                        ></el-card
-                    ></el-col
-                >
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link
-                            to="/bbs"
-                            href="https://www.jx3box.com/post/?pt=bbs"
-                            target="_blank"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/post.svg"
-                            /><span>帮助手册</span></router-link
-                        ></el-card
-                    ></el-col
-                >
-            </el-row> -->
         </div>
     </div>
 </template>

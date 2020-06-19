@@ -1,8 +1,6 @@
 <template>
     <div class="m-publish-index">
         <div class="u-nav">
-            <el-alert title="部分栏目发布系统尚在重构中,仍需前往老版发布中心发布,可能需要在老版登陆系统进行二次登陆,请知晓" type="warning" show-icon>
-            </el-alert>
 
             <el-divider content-position="left">PVE / PVP</el-divider>
             <el-row :gutter="20">

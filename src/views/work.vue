@@ -156,14 +156,13 @@ export default {
             this.loadPosts(i)
         },
         edit: function(type, id) {
-            // TODO:临时区分新旧版
-            const newlist = ["macro", "jx3dat", "fb", "bps","tool","house"];
+            // const newlist = ["macro", "jx3dat", "fb", "bps","tool","house"];
             let editLink = "";
-            if (newlist.includes(type)) {
+            // if (newlist.includes(type)) {
                 editLink = __Links.dashboard.publish + "#/" + type + "/" + id;
-            } else {
-                editLink = __Root + "/edit/?pid=" + id;
-            }
+            // } else {
+                // editLink = __Root + "/edit/?pid=" + id;
+            // }
             location.href = editLink;
             // location.href = editLink(type, id);
         },

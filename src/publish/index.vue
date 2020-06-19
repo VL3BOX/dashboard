@@ -86,8 +86,6 @@
                     ><el-card
                         ><router-link
                             to="/share"
-                            href="https://www.jx3box.com/post/?pt=share"
-                            target="_blank"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/share.svg"

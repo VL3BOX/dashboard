@@ -8,7 +8,7 @@ function uploadData(formdata, vm) {
     });
 }
 
-function parseData(data) {
+function parseData(data,vm) {
     return axios.post(parse, {
         raw : data
     }).catch((err) => {

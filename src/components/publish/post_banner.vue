@@ -8,10 +8,12 @@
             :on-success="done"
             :on-error="fail"
             with-credentials
+            accept="image/jpg,image/jpeg,image/gif,image/png,image/bmp"
         >
             <img v-if="post_banner" :src="post_banner" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
+        <el-button type="danger" size="small" icon="el-icon-circle-close" @click="clearBanner">移除海报</el-button>
     </div>
 </template>
 
@@ -42,6 +44,10 @@ export default {
                 this.$message.error("网络请求异常");
             }
         },
+        clearBanner : function (){
+            this.post_banner = ''
+            this.$store.commit("editBanner", this.post_banner);
+        }
     },
 };
 </script>

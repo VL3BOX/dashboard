@@ -146,8 +146,8 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            console.log(this.build());
-            // this.doPublish(this.build(), this).then((res) => {});
+            // console.log(this.build());
+            this.doPublish(this.build(), this).then((res) => {});
         },
         // 草稿
         toDraft: function() {
@@ -202,7 +202,7 @@ export default {
             fr.readAsText(facedata);
             fr.onload = function(e) {
                 console.log("读取成功...开始执行分析...");
-                parseData(e.target.result)
+                parseData(e.target.result,vm)
                     .then((res) => {
                         vm.post.post_meta.data = JSON.stringify(res.data.data);
                         return res.data.status;
@@ -220,7 +220,7 @@ export default {
                                 message: "无法解析脸型数据",
                             });
                         }
-                    });
+                    })
             };
             fr.onerror = function(e) {
                 vm.$notify.error({

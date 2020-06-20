@@ -50,14 +50,14 @@ export default {
                 branding: false,
                 contextmenu: "",
                 plugins: [
-                    "link anchor autolink",
+                    "link autolink",
                     "hr lists advlist table codesample checklist foldtext mathjax",
                     "image emoticons media videox macro qixue",
-                    "autosave code fullscreen wordcount powerpaste pagebreak jx3icon", // template 
+                    "autosave code fullscreen wordcount powerpaste pagebreak jx3icon", // template anchor 
                 ],
                 toolbar: [
-                    "undo | formatselect | fontsizeselect | forecolor backcolor | bold italic underline strikethrough superscript subscript | link unlink anchor | restoredraft code fullscreen",
-                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codesample mathjax | emoticons image media videox | macro qixue jx3icon pagebreak", // template 
+                    "undo | formatselect | fontsizeselect | forecolor backcolor | bold italic underline strikethrough superscript subscript | link unlink | restoredraft code fullscreen",
+                    "removeformat | hr alignleft aligncenter alignright alignjustify indent outdent | bullist numlist checklist table blockquote foldtext codesample mathjax | emoticons image media videox | macro qixue jx3icon pagebreak", // template anchor 
                 ],
                 mobile: {
                     toolbar_drawer: true,

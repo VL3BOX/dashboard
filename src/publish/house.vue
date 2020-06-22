@@ -29,10 +29,44 @@
         >
             <!-- 💛 栏目字段 -->
             <template>
-                <!-- 1.选择坐标 -->
+                <!-- 1.房屋类型 -->
+                <el-form-item label="房型属性" class="m-house-coord">
+                    <el-row :gutter="20">
+                        <el-col :span="8"
+                            ><el-input
+                                v-model="post.post_meta.num"
+                                placeholder="所在房号"
+                                @change="computeArea(post.post_meta.num)"
+                                ><template slot="append">号</template></el-input
+                            ></el-col
+                        >
+                        <el-col :span="8"
+                            ><el-input
+                                v-model="post.post_meta.area"
+                                placeholder="面积"
+                                ><template slot="append"
+                                    >平米</template
+                                ></el-input
+                            ></el-col
+                        >
+                        <el-col :span="8"
+                            ><el-input
+                                v-model="post.post_meta.level"
+                                placeholder="房屋等级"
+                                :min="1"
+                                :max="99"
+                                ><template slot="prepend"
+                                    >等级</template
+                                ></el-input
+                            ></el-col
+                        >
+                    </el-row>
+                </el-form-item>
+
+                <!-- 2.选择坐标 -->
                 <el-form-item label="府邸坐标" class="m-house-coord">
                     <el-row :gutter="20">
-                        <el-col :span="4">
+                        <el-col :span="8">
                             <el-select
                                 v-model="post.post_subtype"
                                 filterable
@@ -47,7 +81,7 @@
                                 </el-option>
                             </el-select>
                         </el-col>
-                        <el-col :span="4">
+                        <el-col :span="8">
                             <el-select
                                 class="m-flower-rec-select"
                                 v-model="post.post_meta.server"
@@ -63,32 +97,17 @@
                                 </el-option>
                             </el-select>
                         </el-col>
-                        <el-col :span="4"
+                        <el-col :span="8"
                             ><el-input
                                 v-model="post.post_meta.line"
                                 placeholder="所在分线"
                                 ><template slot="append">线</template></el-input
                             ></el-col
                         >
-                        <el-col :span="4"
-                            ><el-input
-                                v-model="post.post_meta.num"
-                                placeholder="所在房号"
-                                @change="computeArea(post.post_meta.num)"
-                                ><template slot="append">号</template></el-input
-                            ></el-col
-                        >
-                        <el-col :span="4"
-                            ><el-input
-                                v-model="post.post_meta.area"
-                                placeholder="面积"
-                                ><template slot="append">平米</template></el-input
-                            ></el-col
-                        >
                     </el-row>
                 </el-form-item>
 
-                <!-- 2.家园图片 -->
+                <!-- 3.家园图片 -->
                 <el-form-item label="家园图赏">
                     <album
                         :imgList="post.post_meta.pics"
@@ -189,8 +208,8 @@ const API = __server + "upload";
 import { uploadData } from "../service/house";
 import album from "@/components/publish/album.vue";
 import servers from "@jx3box/jx3box-data/data/server/server_list.json";
-import areas from '@jx3box/jx3box-data/data/house/area.json'
-import lodash from 'lodash'
+import areas from "@jx3box/jx3box-data/data/house/area.json";
+import lodash from "lodash";
 
 export default {
     name: "house",
@@ -204,7 +223,7 @@ export default {
 
             //字段 - meta表数据,可设置默认值
             servers,
-            maps:['广陵邑'],
+            maps: ["广陵邑"],
             meta: {},
 
             //文章 - 主表数据
@@ -219,7 +238,8 @@ export default {
                     server: "", //服务器
                     line: "", //分线
                     num: "", //房号
-                    area : "",//面积
+                    area: "", //面积
+                    level: "", //房屋等级
                     pics: [], //图册
                     hasData: true,
                     blueprint: [
@@ -252,9 +272,7 @@ export default {
             upload_url: API,
         };
     },
-    computed: {
-        
-    },
+    computed: {},
     methods: {
         // 发布
         toPublish: function() {
@@ -272,12 +290,13 @@ export default {
             return this.doLoad(this);
         },
         // 设置检索meta
-        build : function (){
-            let data = this.$store.state
-            data.post.meta_1 = data.post.post_meta.num  //房号
-            data.post.meta_2 = data.post.post_meta.area //面积
-            data.post.meta_3 = data.post.post_meta.hasData //是否有蓝图
-            return data
+        build: function() {
+            let data = this.$store.state;
+            data.post.meta_1 = data.post.post_meta.num; //房号
+            data.post.meta_2 = data.post.post_meta.area; //面积
+            data.post.meta_3 = data.post.post_meta.hasData; //是否有蓝图
+            data.post.meta_4 = data.post.post_meta.level; //等级
+            return data;
         },
 
         // 蓝图
@@ -328,10 +347,13 @@ export default {
         },
 
         // 面积
-        computeArea : function (num){
-            if(num){
-                let area = lodash.get(areas[this.post.post_subtype][~~num - 1],'area')
-                this.post.post_meta.area = area
+        computeArea: function(num) {
+            if (num) {
+                let area = lodash.get(
+                    areas[this.post.post_subtype][~~num - 1],
+                    "area"
+                );
+                this.post.post_meta.area = area;
             }
         },
     },

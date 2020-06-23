@@ -45,7 +45,7 @@
                 </el-form-item>
 
                 <!-- 2.tag -->
-                <el-form-item label="标签" v-if="options.tag_list.length">
+                <el-form-item label="标签" v-if="post.post_meta.type == 1">
                     <el-checkbox-group v-model="post.post_meta.tag">
                         <el-checkbox
                             v-for="item in options.tag_list"
@@ -268,24 +268,38 @@
                 </template>
 
                 <!-- 4.其它类型上传字段 -->
-                <el-form-item v-else label="其它数据">
-                    <span class="u-data-name" v-if="post.post_meta.down">
-                        <i class="el-icon-success"></i>
-                        {{ post.post_meta.down.split("/").pop() }}
-                    </span>
-                    <input
-                        class="u-data-input"
-                        type="file"
-                        id="otherdata"
-                        @change="uploadDat($event)"
-                    />
+                <el-form-item v-else label="数据" class="m-jx3dat-other">
+                    <input class="u-data-input" type="file" id="otherdata" />
                     <el-button
                         type="primary"
+                        icon="el-icon-upload2"
                         plain
                         size="medium"
-                        @click="selectDat($event)"
-                        >点击上传<i class="el-icon-upload el-icon--right"></i
-                    ></el-button>
+                        @click="uploadDat"
+                        >开始上传</el-button
+                    >
+                    <el-input
+                        v-if="post.post_meta.down"
+                        class="u-fileurl"
+                        placeholder="数据地址"
+                        :disabled="true"
+                        :value="post.post_meta.down"
+                        ><template slot="prepend"
+                            ><span class="u-status">
+                                当前文件地址</span
+                            ></template
+                        ><template slot="append"
+                            ><span
+                                class="u-copy"
+                                v-clipboard:copy="post.post_meta.down || ''"
+                                v-clipboard:success="onCopy"
+                                v-clipboard:error="onError"
+                            >
+                                <i class="el-icon-document-copy"></i
+                                ><span>点击复制</span>
+                            </span></template
+                        >
+                    </el-input>
                 </el-form-item>
             </template>
         </boilerplate>
@@ -525,7 +539,7 @@ export default {
         delDBM: function(name) {
             // this.post.post_meta.data.splice(i, 1);
 
-            if(name == 1){
+            if (name == 1) {
                 this.$alert("✘ 必须保留默认数据", "消息", {
                     confirmButtonText: "确定",
                 });
@@ -560,8 +574,16 @@ export default {
             fileInput.dispatchEvent(new MouseEvent("click"));
         },
         uploadDat: function(e) {
+            let fileInput = document.getElementById("otherdata");
+            let file = fileInput.files[0];
+            if (!file) {
+                this.$alert("请先选择文件", "提醒", {
+                    confirmButtonText: "确定",
+                });
+                return;
+            }
+
             let formdata = new FormData();
-            let file = e.target.files[0];
             formdata.append("file", file);
             uploadData(formdata, this).then((res) => {
                 this.post.post_meta.down = res.data.data.list[0];

@@ -396,10 +396,8 @@ export default {
                         // 删除
                         let i = ~~name - 1;
                         this.post.post_meta.data.splice(i, 1);
-
                         // 调整focus位置
-                        let current = ~~this.activeMacroIndex - 1;
-                        this.activeMacroIndex = current + "";
+                        this.activeMacroIndex = i + "";
                     }
                 },
             });

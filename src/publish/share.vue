@@ -245,5 +245,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "../assets/css/publish/tool.less";
+@import "../assets/css/publish/share.less";
 </style>

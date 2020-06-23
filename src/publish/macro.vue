@@ -314,17 +314,25 @@ export default {
         toPublish: function() {
             // console.log(this.build());
             this.doPublish(this.build(), this, false).then((res) => {
-                syncRedis(res.data.data, this).then((redis_result) => {
-                    this.finish(res.data.msg, res.data.data.ID, this.type);
-                });
+                syncRedis(res.data.data, this)
+                    .then((redis_result) => {
+                        this.finish(res.data.msg, res.data.data.ID, this.type);
+                    })
+                    .catch((err) => {
+                        this.failCallback(err, this);
+                    });
             });
         },
         // 草稿
         toDraft: function() {
             this.doDraft(this.build(), this, false).then((res) => {
-                syncRedis(res.data.data, this).then((redis_result) => {
-                    this.finish(res.data.msg, res.data.data.ID, this.type);
-                });
+                syncRedis(res.data.data, this)
+                    .then((redis_result) => {
+                        this.finish(res.data.msg, res.data.data.ID, this.type);
+                    })
+                    .catch((err) => {
+                        this.failCallback(err, this);
+                    });
             });
         },
         finish: function(msg, id, type) {

@@ -300,9 +300,17 @@ export default {
         toPublish: function() {
             this.doPublish(this.build(), this, false).then((res) => {
                 if (this.post.post_subtype == 1) {
-                    syncRedis(res.data.data, this).then((redis_result) => {
-                        this.finish(res.data.msg, res.data.data.ID, this.type);
-                    });
+                    syncRedis(res.data.data, this)
+                        .then((redis_result) => {
+                            this.finish(
+                                res.data.msg,
+                                res.data.data.ID,
+                                this.type
+                            );
+                        })
+                        .catch((err) => {
+                            this.failCallback(err, this);
+                        });
                 } else {
                     this.finish(res.data.msg, res.data.data.ID, this.type);
                 }
@@ -312,9 +320,17 @@ export default {
         toDraft: function() {
             this.doDraft(this.build(), this, false).then((res) => {
                 if (this.post.post_subtype == 1) {
-                    syncRedis(res.data.data, this).then((redis_result) => {
-                        this.finish(res.data.msg, res.data.data.ID, this.type);
-                    });
+                    syncRedis(res.data.data, this)
+                        .then((redis_result) => {
+                            this.finish(
+                                res.data.msg,
+                                res.data.data.ID,
+                                this.type
+                            );
+                        })
+                        .catch((err) => {
+                            this.failCallback(err, this);
+                        });
                 } else {
                     this.finish(res.data.msg, res.data.data.ID, this.type);
                 }

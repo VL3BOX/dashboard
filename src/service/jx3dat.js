@@ -1,8 +1,8 @@
 import { $, axios } from "./axios";
 import { __next, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
-const plugins = __next + "api/plugins/my-team-mon"   //TODO:
+const plugins = __next + "api/plugins/my-team-mon"
 // const plugins = "/api/plugins/my-team-mon"
-const feed = __next + "api/plugins/jx3dat/publish"  //TODO:
+const feed = __next + "api/plugins/jx3dat/publish"
 // const feed = "/api/plugins/jx3dat/publish"
 
 function uploadHub(formdata, vm) {

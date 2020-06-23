@@ -392,13 +392,15 @@ export default {
             this.$alert("确定删除这个宏吗，删除后无法找回", "消息", {
                 confirmButtonText: "确定",
                 callback: (action) => {
-                    // 删除
-                    let i = ~~name - 1;
-                    this.post.post_meta.data.splice(i, 1);
+                    if(action == 'confirm'){
+                        // 删除
+                        let i = ~~name - 1;
+                        this.post.post_meta.data.splice(i, 1);
 
-                    // 调整focus位置
-                    let current = ~~this.activeMacroIndex - 1;
-                    this.activeMacroIndex = current + "";
+                        // 调整focus位置
+                        let current = ~~this.activeMacroIndex - 1;
+                        this.activeMacroIndex = current + "";
+                    }
                 },
             });
         },

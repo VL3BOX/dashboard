@@ -32,7 +32,7 @@
             <!-- 💛 栏目字段 -->
             <template>
                 <!-- 1.数据类型 -->
-                <el-form-item label="数据类型" class="m-jx3dat-subtypes">
+                <el-form-item label="类型" class="m-jx3dat-subtypes">
                     <el-radio
                         v-for="(name, key) in options.type_map"
                         :label="key"
@@ -44,158 +44,230 @@
                     >
                 </el-form-item>
 
-                <!-- 2.团控数据类型字段 -->
+                <!-- 2.tag -->
+                <el-form-item label="标签" v-if="options.tag_list.length">
+                    <el-checkbox-group v-model="post.post_meta.tag">
+                        <el-checkbox
+                            v-for="item in options.tag_list"
+                            :label="item"
+                            :key="item"
+                        ></el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+
+                <!-- 3.团控数据类型字段 -->
                 <template v-if="post.post_meta.type == 1">
-                    <!-- TODO:云数据ID -->
-
-                    <!-- 数据列表 -->
-                    <el-alert
-                        class="u-data-tips"
-                        title="设置不公开后,仍然可以通过订阅名下载,仅不做展示"
-                        type="warning"
-                        description="不指定版本时,默认下载第一个主版本,默认最多可设置3个版本"
-                        show-icon
-                    >
-                    </el-alert>
-                    <div class="m-jx3dat-upload-wrapper">
-                        <div class="u-wrapper">
-                            <el-row class="u-thead">
-                                <el-col :span="4">版本名称</el-col>
-                                <el-col :span="4">订阅地址</el-col>
-                                <el-col :span="6">数据说明</el-col>
-                                <el-col :span="2">公开</el-col>
-                                <el-col :span="3">数据</el-col>
-                                <el-col :span="5">操作</el-col>
-                            </el-row>
-                            <div class="u-tbody">
-                                <el-row
-                                    class="u-tr"
-                                    v-for="(data, i) in post.post_meta.data"
-                                    :key="i"
-                                >
-                                    <!-- 版本名 -->
-                                    <el-col :span="4"
-                                        ><el-input
-                                            v-model="data.name"
-                                            :placeholder="
-                                                i == 0 ? '默认版' : '版本名称'
-                                            "
-                                            :disabled="i == 0"
-                                            maxlength="20"
-                                            @change="checkDataName(data)"
-                                        ></el-input
-                                    ></el-col>
-
-                                    <!-- 版本名展示 -->
-                                    <el-col
-                                        :span="4"
-                                        class="u-feed"
-                                        :class="{ 'u-feed-first': i == 0 }"
-                                        >{{
-                                            i == 0
-                                                ? user.name
-                                                : user.name + "#" + data.name
-                                        }}</el-col
-                                    >
-
-                                    <!-- 版本描述 -->
-                                    <el-col :span="6"
-                                        ><el-input
-                                            v-model="data.desc"
-                                            placeholder="请输入数据说明"
-                                            maxlength="50"
-                                        ></el-input
-                                    ></el-col>
-
-                                    <!-- 是否公开 -->
-                                    <el-col :span="2" class="u-status"
-                                        ><el-switch
-                                            v-model="data.status"
-                                            active-color="#13ce66"
-                                            inactive-color="#ff4949"
-                                        >
-                                        </el-switch>
-                                    </el-col>
-
-                                    <!-- 数据 -->
-                                    <el-col :span="3" class="u-action">
-                                        <input
-                                            class="u-data-input"
-                                            type="file"
-                                            :id="'jx3dat_' + i"
-                                            @change="uploadDBM($event, data, i)"
-                                        />
-                                        <el-button
-                                            size="small"
-                                            type="primary"
-                                            @click="selectDBM(i)"
-                                            >上传</el-button
-                                        >
-                                        <span
-                                            class="u-data-ready"
-                                            v-show="data.file"
-                                        >
-                                            <i class="el-icon-success"></i>
-                                            已上传
-                                        </span>
-                                    </el-col>
-
-                                    <!-- 操作 -->
-                                    <el-col :span="5" class="u-action">
-                                        <!-- 增加 -->
-                                        <el-button
-                                            size="small"
-                                            plain
-                                            @click="addDBM(i)"
-                                            >增加</el-button
-                                        >
-
-                                        <!-- 删除 -->
-                                        <el-button
-                                            size="small"
-                                            type="danger"
-                                            v-if="i !== 0"
-                                            @click="delDBM(i)"
-                                            >删除</el-button
-                                        >
-                                    </el-col>
-                                </el-row>
-                            </div>
+                    <el-divider content-position="left">数据</el-divider>
+                    <div class="m-data-box">
+                        <div class="m-data-header">
+                            <el-button
+                                class="m-data-addbutton"
+                                icon="el-icon-circle-plus-outline"
+                                type="primary"
+                                @click="addDBM"
+                                >添加数据</el-button
+                            >
+                            <a
+                                class="m-data-help el-button el-button--success is-plain el-button--small"
+                                href="https://www.jx3box.com/tool/?pid=13912"
+                                target="_blank"
+                            >
+                                <i class="el-icon-info"></i> 点击查看发布帮助
+                            </a>
                         </div>
+
+                        <el-tabs
+                            v-model="activeIndex"
+                            type="card"
+                            closable
+                            @tab-remove="delDBM"
+                        >
+                            <el-tab-pane
+                                v-for="(item, i) in post.post_meta.data"
+                                :key="i"
+                                :name="i + 1 + ''"
+                            >
+                                <span slot="label" class="m-data-tab-label"
+                                    ><i class="el-icon-box"></i
+                                    >{{ item.name }}</span
+                                >
+                                <div class="m-data-item">
+                                    <h5 class="u-title">订阅名</h5>
+                                    <div class="u-group">
+                                        <div class="u-subblock">
+                                            <el-input
+                                                v-model="item.name"
+                                                :minlength="1"
+                                                :maxlength="10"
+                                                show-word-limit
+                                                @change="checkDataName(item)"
+                                                :disabled="i == 0"
+                                                :placeholder="
+                                                    i == 0
+                                                        ? '默认版'
+                                                        : '版本名称'
+                                                "
+                                            >
+                                                <template slot="prepend"
+                                                    ><b class="u-feed"
+                                                        >{{ user.name
+                                                        }}{{
+                                                            item.name ==
+                                                            "默认版"
+                                                                ? ""
+                                                                : "#" +
+                                                                  item.name
+                                                        }}</b
+                                                    ></template
+                                                >
+                                            </el-input>
+                                        </div>
+                                        <div
+                                            class="u-subblock u-status-wrapper"
+                                        >
+                                            <el-switch
+                                                v-model="item.status"
+                                                active-color="#13ce66"
+                                                inactive-color="#ff4949"
+                                            >
+                                            </el-switch>
+
+                                            <el-tooltip
+                                                effect="dark"
+                                                content="设置不公开后,仍然可以通过订阅名下载,仅不做展示"
+                                                placement="top"
+                                            >
+                                                <span class="u-status">{{
+                                                    item.status
+                                                        ? "公开"
+                                                        : "私有"
+                                                }}</span>
+                                            </el-tooltip>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-data-item">
+                                    <h5 class="u-title">数据标题</h5>
+                                    <el-input
+                                        v-model="item.desc"
+                                        placeholder="数据描述"
+                                        maxlength="50"
+                                        show-word-limit
+                                    ></el-input>
+                                </div>
+                                <div class="m-data-item m-data-jx3dat">
+                                    <h5 class="u-title">数据文件</h5>
+                                    <input
+                                        class="u-data-input"
+                                        type="file"
+                                        :id="'jx3dat_' + i"
+                                    />
+                                    <!-- <el-button
+                                        size="small"
+                                        type="primary"
+                                        plain
+                                        @click="selectDBM(i)"
+                                        icon="el-icon-zoom-in"
+                                        >选择数据</el-button
+                                    > -->
+                                    <el-button
+                                        size="small"
+                                        type="primary"
+                                        plain
+                                        @click="uploadDBM(item, i)"
+                                        icon="el-icon-upload2"
+                                        >开始上传</el-button
+                                    >
+                                    <el-input
+                                        class="u-fileurl"
+                                        placeholder="数据地址"
+                                        :disabled="true"
+                                        :value="item.file"
+                                        v-if="item.file"
+                                        ><template slot="prepend"
+                                            ><span class="u-status">
+                                                当前文件地址</span
+                                            ></template
+                                        ><template slot="append"
+                                            ><span
+                                                class="u-copy"
+                                                v-clipboard:copy="item.file"
+                                                v-clipboard:success="onCopy"
+                                                v-clipboard:error="onError"
+                                            >
+                                                <i
+                                                    class="el-icon-document-copy"
+                                                ></i
+                                                ><span>点击复制</span>
+                                            </span></template
+                                        >
+                                    </el-input>
+                                </div>
+                                <!-- <div class="m-data-item">
+                                    <h5 class="u-title">云数据ID</h5>
+                                    <el-input
+                                        placeholder="云数据ID"
+                                        :disabled="true"
+                                    >
+                                    </el-input>
+                                </div> -->
+                            </el-tab-pane>
+                        </el-tabs>
                     </div>
-
-                    <!-- 其它订阅号 -->
-                    <el-form-item label="站外数据" class="m-jx3dat-otherfeed">
-                        <el-input
-                            v-model="post.post_meta.github"
-                            placeholder="Github订阅号 (非必填,无需后缀)"
-                        ></el-input>
-                        <el-input
-                            v-model="post.post_meta.gitee"
-                            placeholder="Gitee订阅号 (非必填,无需后缀)"
-                        ></el-input>
-                        <el-input
-                            v-model="post.post_meta.aliyun"
-                            placeholder="Aliyun订阅号 (非必填,无需后缀)"
-                        ></el-input>
-                    </el-form-item>
-
-                    <!-- 标签 -->
-                    <el-form-item
-                        label="标签子类"
-                        v-if="options.tag_list.length"
-                    >
-                        <el-checkbox-group v-model="post.post_meta.tag">
-                            <el-checkbox
-                                v-for="item in options.tag_list"
-                                :label="item"
-                                :key="item"
-                            ></el-checkbox>
-                        </el-checkbox-group>
-                    </el-form-item>
+                    <div class="m-data-more">
+                        <div class="u-more" @click="toggleMoreFeed">
+                            <i
+                                :class="
+                                    moreFeedsVisible
+                                        ? 'el-icon-arrow-up'
+                                        : 'el-icon-arrow-down'
+                                "
+                            ></i
+                            ><span>其它订阅号</span>
+                        </div>
+                        <el-row class="u-tr" v-show="moreFeedsVisible">
+                            <el-col :span="24"
+                                ><el-input
+                                    v-model="post.post_meta.github"
+                                    placeholder="(非必填)"
+                                    ><template slot="prepend"
+                                        >Github订阅号</template
+                                    ><template slot="append"
+                                        >@github</template
+                                    ></el-input
+                                ></el-col
+                            >
+                        </el-row>
+                        <el-row class="u-tr" v-show="moreFeedsVisible">
+                            <el-col :span="24"
+                                ><el-input
+                                    v-model="post.post_meta.gitee"
+                                    placeholder="(非必填)"
+                                    ><template slot="prepend"
+                                        >Gitee订阅号</template
+                                    ><template slot="append"
+                                        >@gitee</template
+                                    ></el-input
+                                ></el-col
+                            >
+                        </el-row>
+                        <el-row class="u-tr" v-show="moreFeedsVisible">
+                            <el-col :span="24"
+                                ><el-input
+                                    v-model="post.post_meta.aliyun"
+                                    placeholder="(非必填)"
+                                    ><template slot="prepend"
+                                        >Aliyun订阅号</template
+                                    ><template slot="append"
+                                        >@aliyun</template
+                                    ></el-input
+                                ></el-col
+                            >
+                        </el-row>
+                    </div>
                 </template>
 
-                <!-- 3.其它类型上传字段 -->
+                <!-- 4.其它类型上传字段 -->
                 <el-form-item v-else label="其它数据">
                     <span class="u-data-name" v-if="post.post_meta.down">
                         <i class="el-icon-success"></i>
@@ -292,6 +364,8 @@ export default {
             // 杂项
             user: {},
             tempname: "",
+            moreFeedsVisible: false,
+            activeIndex: "1",
         };
     },
     computed: {},
@@ -404,9 +478,17 @@ export default {
             let fileInput = document.getElementById("jx3dat_" + i);
             fileInput.dispatchEvent(new MouseEvent("click"));
         },
-        uploadDBM: function(e, item, i) {
+        uploadDBM: function(item, i) {
+            let fileInput = document.getElementById("jx3dat_" + i);
+            let file = fileInput.files[0];
+            if (!file) {
+                this.$alert("请先选择文件", "提醒", {
+                    confirmButtonText: "确定",
+                });
+                return;
+            }
+
             let formdata = new FormData();
-            let file = e.target.files[0];
             formdata.append("jx3dat", file);
             uploadHub(formdata, this).then((res) => {
                 if (res) {
@@ -420,22 +502,57 @@ export default {
             });
         },
         // 添加行
-        addDBM: function(i) {
+        addDBM: function() {
             // 目前设置最多3个版本
             if (this.post.post_meta.data.length >= 3) {
-                this.$message.error("默认上限3个");
+                this.$alert("默认只能设置3个版本", "消息", {
+                    confirmButtonText: "确定",
+                });
                 return;
             }
+
             this.post.post_meta.data.push({
                 name: "",
                 desc: "",
                 status: true,
                 file: "",
             });
+
+            let index = this.post.post_meta.data.length + 1 + "";
+            this.activeMacroIndex = index;
         },
         // 删除行
-        delDBM: function(i) {
-            this.post.post_meta.data.splice(i, 1);
+        delDBM: function(name) {
+            // this.post.post_meta.data.splice(i, 1);
+
+            if(name == 1){
+                this.$alert("✘ 必须保留默认数据", "消息", {
+                    confirmButtonText: "确定",
+                });
+                return;
+            }
+
+            if (this.post.post_meta.data.length < 2) {
+                this.$alert("✘ 必须保留默认数据", "消息", {
+                    confirmButtonText: "确定",
+                });
+                return;
+            }
+
+            this.$alert("确定删除这个数据吗，删除后无法找回", "消息", {
+                confirmButtonText: "确定",
+                callback: (action) => {
+                    if (action == "confirm") {
+                        // 删除
+                        let i = ~~name - 1;
+                        this.post.post_meta.data.splice(i, 1);
+
+                        // 调整focus位置
+                        let current = ~~this.activeIndex - 1;
+                        this.activeIndex = current + "";
+                    }
+                },
+            });
         },
         // 上传其他数据
         selectDat: function() {
@@ -455,6 +572,22 @@ export default {
                 });
 
                 this.tempname = file.name;
+            });
+        },
+        toggleMoreFeed: function() {
+            this.moreFeedsVisible = !this.moreFeedsVisible;
+        },
+        onCopy: function(val) {
+            this.$notify({
+                title: "复制成功",
+                message: "复制成功",
+                type: "success",
+            });
+        },
+        onError: function() {
+            this.$notify.error({
+                title: "复制失败",
+                message: "复制失败",
             });
         },
     },

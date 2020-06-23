@@ -17,6 +17,9 @@ Vue.prototype.doPublish = doPublish;
 Vue.prototype.doDraft = doDraft;
 Vue.prototype.doLoad = doLoad;
 
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
+
 import router from "../router/publish";
 import store from "../store/publish";
 

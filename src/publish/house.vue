@@ -167,6 +167,7 @@
                                     <el-button
                                         type="primary"
                                         @click="selectData(i)"
+                                        icon="el-icon-upload2"
                                         >上传</el-button
                                     >
                                     <span
@@ -180,7 +181,7 @@
 
                                 <el-col :span="6" class="u-action">
                                     <!-- 增加 -->
-                                    <el-button plain @click="addData(i)"
+                                    <el-button plain @click="addData(i)" icon="el-icon-circle-plus-outline"
                                         >增加</el-button
                                     >
 
@@ -189,6 +190,7 @@
                                         type="danger"
                                         v-if="i !== 0"
                                         @click="delData(i)"
+                                        icon="el-icon-remove-outline"
                                         >删除</el-button
                                     >
                                 </el-col>

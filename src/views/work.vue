@@ -156,15 +156,7 @@ export default {
             this.loadPosts(i)
         },
         edit: function(type, id) {
-            // const newlist = ["macro", "jx3dat", "fb", "bps","tool","house"];
-            let editLink = "";
-            // if (newlist.includes(type)) {
-                editLink = __Links.dashboard.publish + "#/" + type + "/" + id;
-            // } else {
-                // editLink = __Root + "/edit/?pid=" + id;
-            // }
-            location.href = editLink;
-            // location.href = editLink(type, id);
+            location.href = __Links.dashboard.publish + "#/" + type + "/" + id;
         },
         del: function(id) {
             this.$alert("确定要删除吗？", "确认信息", {
@@ -211,7 +203,7 @@ export default {
                 });
         },
         postLink: function(type, id) {
-            return __Root + type + "/" + id;
+            return __Root + type + "/?pid=" + id;
         },
     },
     filters: {

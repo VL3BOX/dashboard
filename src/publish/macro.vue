@@ -115,7 +115,7 @@
                                     云端宏图标/名称
                                     <a
                                         class="u-icon-links"
-                                        href="https://v2.jx3box.com/app/icons"
+                                        href="/app/icons"
                                         target="_blank"
                                         ><i class="el-icon-question"></i>
                                         图标大全</a
@@ -174,7 +174,7 @@
                                         ><a
                                             class="u-get"
                                             target="_blank"
-                                            href="https://v2.jx3box.com/app/talent"
+                                            href="/app/talent"
                                             ><i class="el-icon-warning"></i>
                                             获取编码</a
                                         ></template

@@ -311,7 +311,7 @@ import boilerplate from "../components/publish/boilerplate";
 
 import { uploadHub, uploadData, syncRedis } from "../service/jx3dat.js";
 import User from "@jx3box/jx3box-common/js/user";
-import { jx3dat_types, jx3dat_tags } from "@jx3box/jx3box-common/js/types";
+import { jx3dat_types, jx3dat_tags } from "../assets/data/jx3dat.json";
 import { sterilizer } from "sterilizer/index.js";
 
 export default {

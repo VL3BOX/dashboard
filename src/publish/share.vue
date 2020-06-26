@@ -156,6 +156,7 @@ export default {
         // 设置检索meta
         build: function() {
             let data = this.$store.state;
+            data.post.meta_1 = data.post.post_meta.author   //原作者
             return data;
         },
         // 加载

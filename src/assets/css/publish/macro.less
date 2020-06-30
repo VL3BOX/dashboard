@@ -76,21 +76,24 @@
         .none;
     }
 }
-
+.m-macro-box{
+    .u-icon-links{
+        // .fz(12px);
+        .ml(10px);
+        .fz(13px);
+        color:@primary;
+        box-shadow:0 1px 0 @primary;
+        &:hover{
+            color:@pink;
+            box-shadow:0 1px 0 @pink;
+        }
+    }
+}
 .m-macro-cloud{
     .clearfix;
 
     .u-group{
         display:flex;
-    }
-    .u-icon-links{
-        // .fz(12px);
-        .ml(10px);
-        .fz(13px);
-        color:#888;
-        &:hover{
-            color:@pink;
-        }
     }
 }
 

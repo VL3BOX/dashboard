@@ -184,6 +184,13 @@
                             <div class="m-macro-macro">
                                 <h5 class="u-title">
                                     宏内容
+                                    <a
+                                        class="u-icon-links"
+                                        href="/app/macroeditor"
+                                        target="_blank"
+                                        ><i class="el-icon-question"></i>
+                                        智能中文宏编辑器</a
+                                    >
                                 </h5>
                                 <el-input
                                     v-model="item.macro"

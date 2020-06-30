@@ -7,6 +7,7 @@
             <el-alert
                 class="u-tip"
                 title="昵称将作为唯一识别符，默认只能修改1次，请谨慎操作"
+                description="昵称中请勿使用任何符号、空格等特殊字符，否则云端宏/数据订阅号将无法加载"
                 type="warning"
                 show-icon
             ></el-alert>

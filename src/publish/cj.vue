@@ -17,6 +17,7 @@
             :extend="extend"
             :localDraft="true"
             :infoEnable="true"
+            :contentEnable="true"
             :markdownEnable="false"
             :excerptEnable="false"
             :tagEnable="false"

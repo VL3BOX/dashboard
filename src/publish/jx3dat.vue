@@ -19,6 +19,7 @@
             :extend="extend"
             :localDraft="true"
             :infoEnable="true"
+            :contentEnable="true"
             :markdownEnable="false"
             :excerptEnable="true"
             :tagEnable="false"
@@ -175,7 +176,7 @@
                                         type="primary"
                                         plain
                                         @click="uploadDBM(item, i)"
-                                        icon="el-icon-upload2"
+                                        icon="el-icon-s-promotion"
                                         >开始上传</el-button
                                     >
                                     <el-input
@@ -272,7 +273,7 @@
                     <input class="u-data-input" type="file" id="otherdata" />
                     <el-button
                         type="primary"
-                        icon="el-icon-upload2"
+                        icon="el-icon-s-promotion"
                         plain
                         size="medium"
                         @click="uploadDat"

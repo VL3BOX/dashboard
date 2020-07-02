@@ -18,7 +18,7 @@
             </div>
 
             <!-- 正文之前 -->
-            <div class="m-publish-prepend">
+            <div class="m-publish-prepend" v-show="contentEnable">
                 <el-divider content-position="left">正文</el-divider>
                 <el-radio-group v-model="mode" class="u-editor-mode">
                     <!-- <el-radio-button label="tinymce"></el-radio-button>
@@ -34,7 +34,7 @@
             </div>
 
             <!-- 正文区域 -->
-            <div class="m-publish-content">
+            <div class="m-publish-content" v-show="contentEnable">
                 <tinymce
                     :content="post.post_content"
                     v-show="mode == 'tinymce'"
@@ -100,6 +100,7 @@ export default {
 
         "localDraft",
         "infoEnable",
+        "contentEnable",
         "markdownEnable",
         "excerptEnable",
         "tagEnable",

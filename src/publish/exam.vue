@@ -134,7 +134,7 @@ export default {
             this.primary.whyami = this.$store.state.post.post_content
             postSubject(this.primary,this).then((res) => {
                 this.$message({
-                    message: res.data || '提交成功',
+                    message: res.data.msg || '提交成功',
                     type: "success",
                 });
                 this.$router.push({ path: '/' })

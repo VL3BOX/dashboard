@@ -12,6 +12,7 @@ import bps from "../publish/bps.vue";
 import tool from "../publish/tool.vue";
 import bbs from "../publish/bbs.vue";
 import share from "../publish/share.vue";
+import exam from "../publish/exam.vue";
 
 Vue.use(VueRouter);
 
@@ -72,6 +73,12 @@ const routes = [
     {
         path: "/share/:id?",
         component: share,
+    },
+
+    // 趣味题库
+    {
+        path: "/exam/:id?",
+        component: exam,
     },
 ];
 

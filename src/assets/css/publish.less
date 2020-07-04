@@ -19,3 +19,55 @@
         }
     }
 }
+
+.m-publish-box {
+    padding: 30px 40px;
+    .el-divider__text {
+        color: #888;
+        font-weight: 300;
+    }
+    .el-radio{
+        margin-bottom: 10px;
+        margin-left: 0 !important;
+    }
+}
+@media screen and (max-width: @ipad) {
+    .m-publish-box {
+        padding: 20px;
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .el-form-item__label {
+        float: none;
+    }
+    .el-form-item__content {
+        margin-left: 0 !important;
+    }
+}
+
+.m-publish-prepend {
+    .mb(10px);
+    .u-editor-mode {
+        .clearfix;
+        .fr;
+    }
+    .clearfix;
+}
+@media screen and (max-width: @ip5) {
+    .m-publish-prepend {
+        .u-editor-mode {
+            float: none;
+            .mb(10px);
+        }
+    }
+}
+
+.m-publish-buttons {
+    padding: 40px 0;
+    .x;
+
+    button {
+        .w(120px);
+    }
+}

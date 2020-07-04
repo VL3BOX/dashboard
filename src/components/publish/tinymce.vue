@@ -27,7 +27,7 @@ const API = JX3BOX.__server + "upload/tinymce";
 
 export default {
     name: "tinymce",
-    props: ["content"],
+    props: ["content","height"],
     data: function() {
         return {
             data: this.content,
@@ -41,7 +41,7 @@ export default {
                 // 样式
                 // content_css: `http://localhost:1024/css/article.css`,
                 body_class: "c-article c-article-editor",
-                height: 800,
+                height: this.height || 800,
                 autosave_ask_before_unload: false,
 
                 // UI

@@ -93,6 +93,17 @@
                         ></el-card
                     ></el-col
                 >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link
+                            to="/exam"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/100.svg"
+                            /><span>趣味题库</span></router-link
+                        ></el-card
+                    ></el-col
+                >
             </el-row>
 
             <el-divider content-position="left">PVBB</el-divider>

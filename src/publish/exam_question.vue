@@ -164,8 +164,11 @@ export default {
                 this.primary.answer= data.answerList
                 this.primary.hardStar= data.hardStar
                 this.primary.tags= JSON.parse(data.tags)
-                this.primary.whyami= data.whyami
+                
                 this.primary.pool= data.pool
+
+                this.primary.whyami= data.whyami
+                this.$store.commit('editContent',data.whyami)
             })
         },
         // TAG

@@ -48,9 +48,22 @@
                         :href="postLink(item.id)"
                         >[{{item.type | typeFormat}}] {{ item.title || "无标题" }}</a
                     >
-                    <time class="u-time"
+                    <div class="u-desc">
+                        <span class="u-desc-subitem">编号 : <b>{{item.id}}</b></span>
+                        <span
+                            class="u-status u-desc-subitem"
+                            :class="{
+                                pass: item.status > 0,
+                                pending: item.status == 0,
+                                fail: item.status < 0,
+                            }"
+                        >
+                            状态: <b>{{ statusmap[item.status] }}</b>
+                        </span>
+                        <time class="u-time u-desc-subitem"
                         >提交于: {{ item.createTime | dateFormat }}</time
                     >
+                    </div>
                     <el-button-group class="u-action">
                         <el-button
                             v-if="item.status < 1"
@@ -91,6 +104,12 @@
 import { getQuestions } from "../service/exam";
 import dateFormat from "../utils/dateFormat";
 import {types} from '../assets/data/exam.json'
+const statusmap = {
+    "-2": "已删除",
+    "-1": "未通过审核",
+    "0": "待审核",
+    "1": "已入库",
+};
 export default {
     name: "ideas",
     props: [],
@@ -106,6 +125,7 @@ export default {
                 question : '题目',
                 paper : '试卷'
             },
+            statusmap
         };
     },
     computed: {},
@@ -189,7 +209,7 @@ export default {
             return types[type]
         }
     },
-    mounted: function() {
+    created: function() {
         this.loadPosts()
     },
 };

@@ -39,7 +39,7 @@
                     <span v-if="post.checked == 2" class="u-mark reject"
                         >❌ 审核驳回</span
                     >
-                    <time class="u-time">
+                    <time class="u-desc">
                         <span
                             v-if="post.checked == 2 && post.check_remark"
                             class="u-check_remark"

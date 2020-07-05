@@ -49,7 +49,7 @@
                         :href="postLink(item.post_type, item.ID)"
                         >{{ item.post_title || "无标题" }}</a
                     >
-                    <time class="u-time"
+                    <time class="u-desc"
                         >发布于: {{ item.post_date | dateFormat }} | 最后更新:
                         {{ item.post_modified | dateFormat }}</time
                     >

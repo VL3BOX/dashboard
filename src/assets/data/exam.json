@@ -3,6 +3,6 @@
         "radio": "单选题",
         "checkbox": "多选题"
     },
-    "awards": [{ "label": "剑三老司机", "value": "1" }],
-    "marks": [{ "label": "官方试卷", "value": "1" }]
+    "awards": [{ "label": "剑三老司机", "value": 1 }],
+    "marks": [{ "label": "官方试卷", "value": "official" }]
 }

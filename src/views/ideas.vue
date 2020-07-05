@@ -42,27 +42,28 @@
                             src="../assets/img/works/draft.svg"
                         />
                     </i>
-                    <a
-                        class="u-title"
-                        target="_blank"
-                        :href="postLink(item.id)"
-                        >[{{item.type | typeFormat}}] {{ item.title || "无标题" }}</a
+                    <a class="u-title" target="_blank" :href="postLink(item.id)"
+                        >[{{ item.type | typeFormat }}]
+                        {{ item.title || "无标题" }}</a
                     >
                     <div class="u-desc">
-                        <span class="u-desc-subitem">编号 : <b>{{item.id}}</b></span>
-                        <span
-                            class="u-status u-desc-subitem"
-                            :class="{
-                                pass: item.status > 0,
-                                pending: item.status == 0,
-                                fail: item.status < 0,
-                            }"
+                        <span class="u-desc-subitem"
+                            >编号 : <b>{{ item.id }}</b></span
                         >
-                            状态: <b>{{ statusmap[item.status] }}</b>
+                        <span class="u-status u-desc-subitem">
+                            状态:
+                            <b
+                                :class="{
+                                    pass: item.status > 0,
+                                    pending: item.status == 0,
+                                    fail: item.status < 0,
+                                }"
+                                >{{ statusmap[item.status] }}</b
+                            >
                         </span>
                         <time class="u-time u-desc-subitem"
-                        >提交于: {{ item.createTime | dateFormat }}</time
-                    >
+                            >提交于: {{ item.createTime | dateFormat }}</time
+                        >
                     </div>
                     <el-button-group class="u-action">
                         <el-button
@@ -103,7 +104,7 @@
 <script>
 import { getQuestions } from "../service/exam";
 import dateFormat from "../utils/dateFormat";
-import {types} from '../assets/data/exam.json'
+import { types } from "../assets/data/exam.json";
 const statusmap = {
     "-2": "已删除",
     "-1": "未通过审核",
@@ -118,37 +119,40 @@ export default {
             data: [],
             total: 1,
             page: 1,
-            per : 15,
+            per: 15,
             search: "",
             searchType: "question",
             types: {
-                question : '题目',
-                paper : '试卷'
+                question: "题目",
+                paper: "试卷",
             },
-            statusmap
+            statusmap,
         };
     },
     computed: {},
     methods: {
-        loadPosts : function (i=1){
-            getQuestions({
-                pageIndex : i,
-                // title: this.search,
-                // type: this.searchType,
-                // per : this.per
-            },this).then((res) => {
+        loadPosts: function(i = 1) {
+            getQuestions(
+                {
+                    pageIndex: i,
+                    // title: this.search,
+                    // type: this.searchType,
+                    // per : this.per
+                },
+                this
+            ).then((res) => {
                 this.data = res.data.data;
                 this.total = res.data.page.total;
             });
         },
         changePage: function(i = 1) {
-            this.loadPosts(i)
+            this.loadPosts(i);
         },
         searchPost: function() {
-            this.loadPosts()
+            this.loadPosts();
         },
         edit: function(type, id) {
-            location.href = './publish/#/exam/' + type + "/" + id;
+            location.href = "./publish/#/exam/" + type + "/" + id;
         },
         del: function(id) {
             this.$alert("确定要删除吗？", "确认信息", {
@@ -195,26 +199,37 @@ export default {
                 });
         },
         postLink: function(id) {
-            return '/exam/#/question/'+ id;
+            return "/exam/#/question/" + id;
         },
-        paperLink : function (id){
-            return '/exam/#/paper/' + id
-        }
+        paperLink: function(id) {
+            return "/exam/#/paper/" + id;
+        },
     },
     filters: {
         dateFormat: function(val) {
-            return dateFormat(new Date(val*1000));
+            return dateFormat(new Date(val * 1000));
         },
-        typeFormat : function (type){
-            return types[type]
-        }
+        typeFormat: function(type) {
+            return types[type];
+        },
     },
     created: function() {
-        this.loadPosts()
+        this.loadPosts();
     },
 };
 </script>
 
 <style scoped lang="less">
 @import "../assets/css/work.less";
+.m-dashboard-box-list .u-status {
+    .pass {
+        color: #49c10f;
+    }
+    .pending {
+        color: #fba524;
+    }
+    .fail {
+        color: #fc3c3c;
+    }
+}
 </style>

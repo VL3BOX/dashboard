@@ -98,12 +98,12 @@
                 </el-input>
             </el-form-item>
 
-            <div class="m-profile-btns">
-                <el-button type="primary" @click="submitChangeProfile"
+            <el-form-item class="u-btns" label="">
+                <el-button type="primary" class="u-submit"  icon="el-icon-check" @click="submitChangeProfile"
                     >提交</el-button
                 >
                 <!-- <el-button @click="reset">取消</el-button> -->
-            </div>
+            </el-form-item>
         </el-form>
     </div>
 </template>

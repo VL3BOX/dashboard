@@ -4,7 +4,17 @@ import { __next } from "@jx3box/jx3box-common/js/jx3box.json";
 // const API = __next + 'api/question/'  //TODO:
 const API = "/api/question/";
 
-function postSubject(data, vm) {
+function getQuestion(id,vm) {
+    return axios
+        .get(API + id, {
+            withCredentials: true,
+        })
+        .catch((err) => {
+            vm.failCallback(err, vm);
+        });
+}
+
+function createQuestion(data, vm) {
     return axios
         .post(API + "create", data, {
             withCredentials: true,
@@ -14,9 +24,9 @@ function postSubject(data, vm) {
         });
 }
 
-function updateSubject(id, data, vm) {
+function updateQuestion(id, data, vm) {
     return axios
-        .post(API + id + "/update", data, {
+        .put(API + id + "/update", data, {
             withCredentials: true,
         })
         .catch((err) => {
@@ -24,4 +34,55 @@ function updateSubject(id, data, vm) {
         });
 }
 
-export { postSubject, updateSubject };
+
+function createPaper(data,vm) {
+    return axios
+        .post(API + "exam-paper", data, {
+            withCredentials: true,
+        })
+        .catch((err) => {
+            vm.failCallback(err, vm);
+        });
+}
+
+function updatePaper(id,data,vm){
+    return axios
+        .put(API + "exam-paper/" + id, data, {
+            withCredentials: true,
+        })
+        .catch((err) => {
+            vm.failCallback(err, vm);
+        });
+}
+
+function getPaper(id,vm){
+    return axios
+        .get(API + 'exam-paper/'+ id, {
+            withCredentials: true,
+        })
+        .catch((err) => {
+            vm.failCallback(err, vm);
+        });
+}
+
+
+function getQuestions(query, vm) {
+    return axios
+        .get(API + "my-list", {
+            params: query,
+            withCredentials: true,
+        })
+        .catch((err) => {
+            vm.failCallback(err, vm);
+        });
+}
+
+export {
+    getQuestion,
+    createQuestion,
+    updateQuestion,
+    getQuestions,
+    createPaper,
+    updatePaper,
+    getPaper
+};

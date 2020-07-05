@@ -7,7 +7,7 @@
 
         <div class="m-publish-exam-index">
             <el-card class="box-card">
-                <router-link class="u-item" to="/exam/subject">
+                <router-link class="u-item" to="/exam/question">
                     <i class="el-icon-s-opportunity"></i>
                     <b>贡献题目</b>
                     <span>自定义一个任意类型的题目</span>

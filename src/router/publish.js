@@ -13,7 +13,7 @@ import tool from "../publish/tool.vue";
 import bbs from "../publish/bbs.vue";
 import share from "../publish/share.vue";
 import exam from "../publish/exam.vue";
-import exam_subject from "../publish/exam_subject.vue";
+import exam_question from "../publish/exam_question.vue";
 import exam_paper from "../publish/exam_paper.vue";
 
 Vue.use(VueRouter);
@@ -83,8 +83,8 @@ const routes = [
         component: exam,
     },
     {
-        path: "/exam/subject/:id?",
-        component: exam_subject,
+        path: "/exam/question/:id?",
+        component: exam_question,
     },
     {
         path: "/exam/paper/:id?",

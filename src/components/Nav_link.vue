@@ -18,6 +18,11 @@
                     >百科贡献</span
                 ></a
             >
+            <a href="../#/ideas"
+                ><img svg-inline src="../assets/img/nav/repo.svg" /><span
+                    >题库贡献</span
+                ></a
+            >
         </div>
 
         <h5 class="u-title">写作台</h5>

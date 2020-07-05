@@ -5,6 +5,8 @@ import index from "../views/index.vue";
 
 import work from "../views/work.vue";
 import wiki from "../views/wiki.vue";
+import ideas from "../views/ideas.vue";
+
 import msg from "../views/msg.vue";
 import feed from "../views/feed.vue";
 import fav from "../views/fav.vue";
@@ -23,6 +25,8 @@ const routes = [
 
     { name: "work", path: "/work/:type?", component: work },
     { name: "wiki", path: "/wiki", component: wiki },
+    { name: "ideas", path: "/ideas", component: ideas },
+
     { name: "msg", path: "/msg", component: msg },
     { name: "feed", path: "/feed", component: feed },
     { name: "fav", path: "/fav", component: fav },

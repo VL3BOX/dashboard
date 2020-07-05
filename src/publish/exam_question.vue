@@ -14,8 +14,8 @@
             <el-form-item label="题目" class="m-publish-exam-title">
                 <el-input
                     v-model="primary.title"
-                    maxlength="120"
-                    minlength="2"
+                    :maxlength="500"
+                    :minlength="2"
                     show-word-limit
                     required
                     :rows="3"
@@ -105,9 +105,9 @@ import pubheader from "@/components/publish/pubheader.vue";
 import upload from "@/components/publish/upload.vue";
 import tinymce from "@/components/publish/tinymce.vue";
 import User from "@jx3box/jx3box-common/js/user";
-import { postSubject, updateSubject } from "../service/exam";
+import { getQuestion,createQuestion, updateQuestion } from "../service/exam";
 export default {
-    name: "exam_subject",
+    name: "exam_question",
     props: [],
     data: function() {
         return {
@@ -136,12 +136,13 @@ export default {
         publish: function() {
             this.processing = true;
             this.primary.whyami = this.$store.state.post.post_content;
+            console.log(this.primary)
             if (this.id) {
-                updateSubject(this.id, this.primary, this).then((res) => {
+                updateQuestion(this.id, this.primary, this).then((res) => {
                     this.success(res)
                 });
             } else {
-                postSubject(this.primary, this).then((res) => {
+                createQuestion(this.primary, this).then((res) => {
                     this.success(res)
                 });
             }
@@ -154,7 +155,18 @@ export default {
             this.$router.push({ path: "/exam" });
         },
         loadData : function (){
-            // TODO:加载数据
+            getQuestion(this.id,this).then((res) => {
+                let data = res.data
+                this.primary.title= data.title
+                this.primary.type= data.type
+                this.primary.options= JSON.parse(data.options)
+                // this.primary.answer= JSON.parse(data.answer)
+                this.primary.answer= data.answerList
+                this.primary.hardStar= data.hardStar
+                this.primary.tags= JSON.parse(data.tags)
+                this.primary.whyami= data.whyami
+                this.primary.pool= data.pool
+            })
         },
         // TAG
         handleClose(tag) {
@@ -175,7 +187,7 @@ export default {
             this.inputValue = "";
         },
     },
-    mounted: function() {
+    created: function() {
         if(this.id){
             this.loadData()
         }

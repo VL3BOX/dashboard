@@ -5,56 +5,78 @@
             ><slot name="header"></slot
         ></pubheader>
 
-        <h1 class="m-publish-exam-header">贡献题目</h1>
+        <h1 class="m-publish-exam-header">制作试卷</h1>
         <el-form
             label-position="left"
             label-width="80px"
             class="m-publish-exam"
         >
-            <el-form-item label="题目" class="m-publish-exam-title">
+            <el-form-item label="标题" class="m-publish-exam-title">
                 <el-input
                     v-model="primary.title"
-                    maxlength="120"
-                    minlength="2"
+                    :maxlength="120"
+                    :minlength="2"
+                    show-word-limit
+                    required
+                    placeholder="请填写试卷标题"
+                ></el-input>
+            </el-form-item>
+            <el-form-item label="描述" class="m-publish-exam-desc">
+                <el-input
+                    v-model="primary.desc"
+                    :maxlength="200"
+                    :minlength="2"
                     show-word-limit
                     required
                     :rows="3"
                     type="textarea"
-                    placeholder="请填写题目内容"
+                    placeholder="请填写试卷描述"
                 ></el-input>
             </el-form-item>
-            <el-form-item label="题型" class="m-publish-exam-type">
-                <el-radio-group v-model="primary.type">
-                    <el-radio label="radio" border>单选题</el-radio>
-                    <el-radio label="checkbox" border>多选题</el-radio>
-                </el-radio-group>
+            <el-form-item label="题目" class="m-publish-exam-common">
+                <div>
+                    只设置10道题（每道题10分，满分100分），用半角逗号隔开，例如1,2,3
+                </div>
+                <el-input
+                    v-model="list"
+                    show-word-limit
+                    required
+                    placeholder="请填写题目ID序列"
+                ></el-input>
             </el-form-item>
-            <el-form-item label="选项" class="m-publish-exam-options">
-                <el-input placeholder="选项1" v-model="primary.options[0]"
-                    ><template slot="prepend">A</template></el-input
+            <el-form-item
+                label="称谓"
+                class="m-publish-exam-common"
+                v-if="isSuper"
+            >
+                <el-select
+                    v-model="primary.medalAward"
+                    placeholder="试卷称谓奖励"
                 >
-                <el-input placeholder="选项2" v-model="primary.options[1]"
-                    ><template slot="prepend">B</template></el-input
-                >
-                <el-input placeholder="选项3" v-model="primary.options[2]"
-                    ><template slot="prepend">C</template></el-input
-                >
-                <el-input placeholder="选项4" v-model="primary.options[3]"
-                    ><template slot="prepend">D</template></el-input
-                >
+                    <el-option
+                        v-for="item in awards"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    >
+                    </el-option>
+                </el-select>
             </el-form-item>
-            <el-form-item label="答案" class="m-publish-exam-answer">
-                <el-checkbox-group v-model="primary.answer">
-                    <el-checkbox :label="0">A</el-checkbox>
-                    <el-checkbox :label="1">B</el-checkbox>
-                    <el-checkbox :label="2">C</el-checkbox>
-                    <el-checkbox :label="3">D</el-checkbox>
-                </el-checkbox-group>
+            <el-form-item
+                label="角标"
+                class="m-publish-exam-common"
+                v-if="isSuper"
+            >
+                <el-select v-model="primary.corner" placeholder="试卷角标">
+                    <el-option
+                        v-for="item in marks"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    >
+                    </el-option>
+                </el-select>
             </el-form-item>
-            <el-form-item label="难度" class="m-publish-exam-level">
-                <el-rate v-model="primary.hardStar"></el-rate>
-            </el-form-item>
-
             <el-form-item label="标签" class="m-publish-exam-tags">
                 <el-tag
                     :key="tag"
@@ -83,17 +105,16 @@
                     >+ 添加</el-button
                 >
             </el-form-item>
-
-            <el-form-item label="答案解析" class="m-publish-exam-content">
-                <tinymce :content="primary.whyami" :height="400" />
-                <upload class="u-editor-upload" />
+            <el-form-item label="" class="m-publish-exam-content">
+                <!-- <tinymce :content="primary.whyami" :height="400" />
+                <upload class="u-editor-upload" /> -->
                 <el-button
                     class="u-publish"
                     icon="el-icon-s-promotion"
                     type="success"
                     @click="publish"
                     :disabled="processing"
-                    >提交题目</el-button
+                    >发布试卷</el-button
                 >
             </el-form-item>
         </el-form>
@@ -102,10 +123,11 @@
 
 <script>
 import pubheader from "@/components/publish/pubheader.vue";
-import upload from "@/components/publish/upload.vue";
-import tinymce from "@/components/publish/tinymce.vue";
+// import upload from "@/components/publish/upload.vue";
+// import tinymce from "@/components/publish/tinymce.vue";
 import User from "@jx3box/jx3box-common/js/user";
-import {postSubject} from '../service/exam'
+import { getPaper,createPaper,updatePaper } from "../service/exam";
+import { awards, marks } from "@/assets/data/exam.json";
 export default {
     name: "exam_paper",
     props: [],
@@ -116,29 +138,72 @@ export default {
             inputValue: "",
             primary: {
                 title: "",
-                type: "radio",
-                options: ["", "", "", ""],
-                answer: [],
-                hardStar: 0,
-                tags: ["PVE", "PVP", "PVX"],
-                whyami: "",
-                pool: "common"
+                desc: "",
+                questionList: [],
+                tags: [],
+                corner: "",
+                medalAward : ''
             },
+            list: "",
+            isSuper: false,
+            awards,
+            marks,
         };
     },
-    computed: {},
+    computed: {
+        id : function (){
+            return this.$route.params.id   
+        }
+    },
     watch: {},
     methods: {
         publish: function() {
-            this.processing = true
-            this.primary.whyami = this.$store.state.post.post_content
-            postSubject(this.primary,this).then((res) => {
-                this.$message({
-                    message: res.data.msg || '提交成功',
-                    type: "success",
+            this.processing = true;
+            this.primary.questionList = this.checkList();
+            if (!this.primary.questionList) return
+            console.log(this.primary)
+            if (this.id) {
+                updatePaper(this.id, this.primary, this).then((res) => {
+                    this.success(res)
                 });
-                this.$router.push({ path: '/' })
-            })
+            } else {
+                createPaper(this.primary, this).then((res) => {
+                    this.success(res)
+                });
+            }
+        },
+        success: function(res) {
+            this.$message({
+                message: res.data.msg || "提交成功",
+                type: "success",
+            });
+            this.$router.push({ path: "/exam" });
+        },
+        loadData : function (){
+            getPaper(this.id,this).then((res) => {
+                let data = res.data
+                this.primary.title = data.title
+                this.primary.desc = data.desc
+                this.primary.medalAward = data.medalAward
+                this.primary.corner = data.corner
+                this.primary.tags = JSON.parse(data.tags)
+
+                this.primary.questionList = JSON.parse(data.questionList)
+                this.list = this.primary.questionList.toString()
+            })  
+        },
+        checkList: function() {
+            let list = this.list.split(",");
+            if (list.length > 10 || !list.length) {
+                this.$alert("请设置10道题，每道题10分，满分100分", "提醒", {
+                    confirmButtonText: "确定",
+                });
+                return false;
+            } else {
+                return list.map((val) => {
+                    return ~~val
+                });
+            }
         },
         // TAG
         handleClose(tag) {
@@ -159,13 +224,16 @@ export default {
             this.inputValue = "";
         },
     },
-    mounted: function() {
+    created: function() {
+        this.isSuper = User.getInfo().group > 60;
+        if(this.id){
+            this.loadData()
+        }
     },
     components: {
         pubheader,
-        upload,
-        tinymce,
+        // upload,
+        // tinymce,
     },
 };
 </script>
-

@@ -208,5 +208,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "../assets/css/email.less";
+@import "../assets/css/dashboard/email.less";
 </style>

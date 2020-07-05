@@ -13,6 +13,8 @@ import tool from "../publish/tool.vue";
 import bbs from "../publish/bbs.vue";
 import share from "../publish/share.vue";
 import exam from "../publish/exam.vue";
+import exam_subject from "../publish/exam_subject.vue";
+import exam_paper from "../publish/exam_paper.vue";
 
 Vue.use(VueRouter);
 
@@ -77,8 +79,16 @@ const routes = [
 
     // 趣味题库
     {
-        path: "/exam/:id?",
+        path: "/exam/",
         component: exam,
+    },
+    {
+        path: "/exam/subject/:id?",
+        component: exam_subject,
+    },
+    {
+        path: "/exam/paper/:id?",
+        component: exam_paper,
     },
 ];
 

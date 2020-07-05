@@ -16,25 +16,23 @@ import pwd from "../views/pwd.vue";
 import email from "../views/email.vue";
 import connect from "../views/connect.vue";
 
-
 Vue.use(VueRouter);
 
 const routes = [
-    { path: "/", component: index },
+    { name: "index", path: "/", component: index },
 
-    { path: "/work/:type?", component: work },
-    { path: "/wiki", component: wiki },
-    { path: "/msg", component: msg },
-    { path: "/feed", component: feed },
-    { path: "/fav", component: fav },
-    { path: "/setting", component: setting },
+    { name: "work", path: "/work/:type?", component: work },
+    { name: "wiki", path: "/wiki", component: wiki },
+    { name: "msg", path: "/msg", component: msg },
+    { name: "feed", path: "/feed", component: feed },
+    { name: "fav", path: "/fav", component: fav },
+    { name: "setting", path: "/setting", component: setting },
 
-    { path: "/profile", component: profile },
-    { path: "/avatar", component: avatar },
-    { path: "/pwd", component: pwd },
-    { path: "/email", component: email },
-    { path: "/connect", component: connect },
-    
+    { name: "profile", path: "/profile", component: profile },
+    { name: "avatar", path: "/avatar", component: avatar },
+    { name: "pwd", path: "/pwd", component: pwd },
+    { name: "email", path: "/email", component: email },
+    { name: "connect", path: "/connect", component: connect },
 ];
 
 const router = new VueRouter({

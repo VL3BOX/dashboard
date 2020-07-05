@@ -29,5 +29,5 @@
 </script>
 
 <style lang="less">
-    @import '../assets/css/setting.less';
+    @import '../assets/css/dashboard/setting.less';
 </style>

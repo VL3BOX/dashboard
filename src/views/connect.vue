@@ -128,5 +128,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "../assets/css/connect.less";
+@import "../assets/css/dashboard/connect.less";
 </style>

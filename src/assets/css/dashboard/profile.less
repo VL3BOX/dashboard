@@ -1,6 +1,6 @@
 .m-dashboard-profile {
-    max-width:800px;
-    .auto(x);
+    // max-width:800px;
+    // .auto(x);
     .u-name {
         .u-value {
             .bold;
@@ -12,9 +12,11 @@
         .pr;
         padding:0 5px;
         .mb(10px);
+        // .w(280px);
 
         .u-rename-input{
             .mb(10px);
+            .mr(10px);
         }
 
         .el-icons-status {
@@ -44,6 +46,15 @@
             font-family: "Arial";
         }
     }
+
+    .el-form-item{
+        .mb(20px);
+    }
+
+    .el-dialog__body{
+        padding-top:10px;
+        padding-bottom:10px;
+    }
 }
 @media screen and (max-width: @phone) {
     .el-form-item__label {
@@ -71,4 +82,5 @@
     .el-button{
         .w(160px);
     }
+    .ml(80px);
 }

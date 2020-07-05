@@ -8,23 +8,30 @@
         <LeftSidebar>
             <Nav />
         </LeftSidebar>
-        <Main :withoutRight="false">
+        <Main :withoutRight="false" class="m-dashboard-container">
+            <tabs v-show="isProfile"/>
             <router-view />
         </Main>
     </div>
 </template>
 
 <script>
+import tabs from "@/components/tabs.vue";
 import Info from "@/components/Info.vue";
 import Nav from "@/components/Nav.vue";
 import checkLogin from '../utils/checkLogin'
+const profileViews = ['profile','avatar','email','pwd','connect']
 export default {
     name: "dashboard",
     props: [],
     data: function () {
         return {};
     },
-    computed: {},
+    computed: {
+        isProfile : function (){
+            return profileViews.includes(this.$route.name)
+        }
+    },
     methods: {},
     created: function () {
         checkLogin()
@@ -32,6 +39,11 @@ export default {
     components: {
         Info,
         Nav,
+        tabs
     },
 };
 </script>
+
+<style lang="less">
+    @import '../assets/css/dashboard.less';
+</style>

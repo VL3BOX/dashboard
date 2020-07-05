@@ -139,5 +139,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "../assets/css/pwd.less";
+@import "../assets/css/dashboard/pwd.less";
 </style>

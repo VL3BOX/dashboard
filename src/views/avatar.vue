@@ -1,6 +1,10 @@
 <template>
     <div class="m-dashboard m-dashboard-avatar">
-        <img class="u-avatar" :src="avatar" />
+        <div class="u-preview">
+            <img class="u-avatar u-avatar-l" :src="avatar" />
+            <!-- <img class="u-avatar u-avatar-m" :src="avatar" /> -->
+            <!-- <img class="u-avatar u-avatar-s" :src="avatar" /> -->
+        </div>
         <el-upload
             class="u-upload"
             drag
@@ -81,5 +85,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "../assets/css/avatar.less";
+@import "../assets/css/dashboard/avatar.less";
 </style>

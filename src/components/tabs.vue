@@ -37,6 +37,11 @@ export default {
             active : 'profile'
         };
     },
+    watch : {
+        $route : function (){
+            this.active = this.$route.name
+        }  
+    },
     computed: {},
     methods: {
         changeTab : function (){

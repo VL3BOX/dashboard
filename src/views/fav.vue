@@ -35,8 +35,8 @@
                         :href="postLink(item.post.post_type, item.post.ID)"
                         >{{ item.post.post_title || "无标题" }}</a
                     >
-                    <time class="u-time"
-                        >发布于: {{ item.post.post_date | dateFormat}} | 最后更新: {{ item.post.post_modified | dateFormat}}</time
+                    <div class="u-desc"
+                        >发布于: {{ item.post.post_date | dateFormat}} | 最后更新: {{ item.post.post_modified | dateFormat}}</div
                     >
                     <el-button-group class="u-action">
                         <el-button

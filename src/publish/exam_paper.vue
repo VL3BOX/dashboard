@@ -95,6 +95,7 @@
                     size="small"
                     @keyup.enter.native="handleInputConfirm"
                     @blur="handleInputConfirm"
+                    placeholder="回车新增"
                 >
                 </el-input>
                 <el-button

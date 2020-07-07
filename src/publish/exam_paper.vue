@@ -53,7 +53,7 @@
                     v-model="primary.medalAward"
                     placeholder="试卷称谓奖励"
                 >
-                    <el-option label="无" :value="0"></el-option>
+                    <el-option label="无" value=""></el-option>
                     <el-option
                         v-for="item in awards"
                         :key="item.value"
@@ -145,7 +145,7 @@ export default {
                 questionList: [],
                 tags: [],
                 corner: "",
-                medalAward : 0
+                medalAward : ""
             },
             list: "",
             isSuper: false,

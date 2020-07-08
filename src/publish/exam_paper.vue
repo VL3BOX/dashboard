@@ -44,6 +44,15 @@
                     placeholder="请填写题目ID序列"
                 ></el-input>
             </el-form-item>
+            <el-form-item label="难度" class="m-publish-exam-level">
+                <el-rate
+                    v-model="primary.hardStar"
+                    show-score
+                    text-color="#ff9900"
+                    score-template="{value} 星"
+                ></el-rate>
+            </el-form-item>
+            <exam_tags class="m-publish-exam-tags" v-model="primary.tags" />
             <el-form-item
                 label="称谓"
                 class="m-publish-exam-common"
@@ -79,35 +88,6 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="标签" class="m-publish-exam-tags">
-                <el-tag
-                    :key="tag"
-                    v-for="tag in primary.tags"
-                    closable
-                    :disable-transitions="false"
-                    @close="handleClose(tag)"
-                >
-                    {{ tag }}
-                </el-tag>
-                <el-input
-                    class="input-new-tag"
-                    v-if="inputVisible"
-                    v-model="inputValue"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="handleInputConfirm"
-                    @blur="handleInputConfirm"
-                    placeholder="回车新增"
-                >
-                </el-input>
-                <el-button
-                    v-else
-                    class="button-new-tag"
-                    size="small"
-                    @click="showInput"
-                    >+ 添加</el-button
-                >
-            </el-form-item>
             <el-form-item label="" class="m-publish-exam-content">
                 <!-- <tinymce :content="primary.whyami" :height="400" />
                 <upload class="u-editor-upload" /> -->
@@ -128,8 +108,9 @@
 import pubheader from "@/components/publish/pubheader.vue";
 // import upload from "@/components/publish/upload.vue";
 // import tinymce from "@/components/publish/tinymce.vue";
+import exam_tags from "@/components/publish/exam_tags.vue";
 import User from "@jx3box/jx3box-common/js/user";
-import { getPaper,createPaper,updatePaper } from "../service/exam";
+import { getPaper, createPaper, updatePaper } from "../service/exam";
 import { awards, marks } from "@/assets/data/exam.json";
 export default {
     name: "exam_paper",
@@ -137,15 +118,14 @@ export default {
     data: function() {
         return {
             processing: false,
-            inputVisible: false,
-            inputValue: "",
             primary: {
                 title: "",
                 desc: "",
                 questionList: [],
+                hardStar: 0,
                 tags: [],
                 corner: "",
-                medalAward : ""
+                medalAward: "",
             },
             list: "",
             isSuper: false,
@@ -154,24 +134,24 @@ export default {
         };
     },
     computed: {
-        id : function (){
-            return this.$route.params.id   
-        }
+        id: function() {
+            return this.$route.params.id;
+        },
     },
     watch: {},
     methods: {
         publish: function() {
             this.processing = true;
             this.primary.questionList = this.checkList();
-            if (!this.primary.questionList) return
-            console.log(this.primary)
+            if (!this.primary.questionList) return;
+            console.log(this.primary);
             if (this.id) {
                 updatePaper(this.id, this.primary, this).then((res) => {
-                    this.success(res)
+                    this.success(res);
                 });
             } else {
                 createPaper(this.primary, this).then((res) => {
-                    this.success(res)
+                    this.success(res);
                 });
             }
         },
@@ -182,18 +162,18 @@ export default {
             });
             this.$router.push({ path: "/exam" });
         },
-        loadData : function (){
-            getPaper(this.id,this).then((res) => {
-                let data = res.data
-                this.primary.title = data.title
-                this.primary.desc = data.desc
-                this.primary.medalAward = data.medalAward
-                this.primary.corner = data.corner
-                this.primary.tags = JSON.parse(data.tags)
+        loadData: function() {
+            getPaper(this.id, this).then((res) => {
+                let data = res.data;
+                this.primary.title = data.title;
+                this.primary.desc = data.desc;
+                this.primary.medalAward = data.medalAward;
+                this.primary.corner = data.corner;
+                this.primary.tags = JSON.parse(data.tags);
 
-                this.primary.questionList = JSON.parse(data.questionList)
-                this.list = this.primary.questionList.toString()
-            })  
+                this.primary.questionList = JSON.parse(data.questionList);
+                this.list = this.primary.questionList.toString();
+            });
         },
         checkList: function() {
             let list = this.list.split(",");
@@ -204,39 +184,22 @@ export default {
                 return false;
             } else {
                 return list.map((val) => {
-                    return ~~val
+                    return ~~val;
                 });
             }
-        },
-        // TAG
-        handleClose(tag) {
-            this.primary.tags.splice(this.primary.tags.indexOf(tag), 1);
-        },
-        showInput() {
-            this.inputVisible = true;
-            this.$nextTick((_) => {
-                this.$refs.saveTagInput.$refs.input.focus();
-            });
-        },
-        handleInputConfirm() {
-            let inputValue = this.inputValue;
-            if (inputValue) {
-                this.primary.tags.push(inputValue);
-            }
-            this.inputVisible = false;
-            this.inputValue = "";
         },
     },
     created: function() {
         this.isSuper = User.getInfo().group > 60;
-        if(this.id){
-            this.loadData()
+        if (this.id) {
+            this.loadData();
         }
     },
     components: {
         pubheader,
         // upload,
         // tinymce,
+        exam_tags,
     },
 };
 </script>

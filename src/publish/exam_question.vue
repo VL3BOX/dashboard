@@ -30,16 +30,24 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="选项" class="m-publish-exam-options">
-                <el-input placeholder="选项1 (支持html)" v-model="primary.options[0]"
+                <el-input
+                    placeholder="选项1 (支持html)"
+                    v-model="primary.options[0]"
                     ><template slot="prepend">A</template></el-input
                 >
-                <el-input placeholder="选项2 (支持html)" v-model="primary.options[1]"
+                <el-input
+                    placeholder="选项2 (支持html)"
+                    v-model="primary.options[1]"
                     ><template slot="prepend">B</template></el-input
                 >
-                <el-input placeholder="选项3 (支持html)" v-model="primary.options[2]"
+                <el-input
+                    placeholder="选项3 (支持html)"
+                    v-model="primary.options[2]"
                     ><template slot="prepend">C</template></el-input
                 >
-                <el-input placeholder="选项4 (支持html)" v-model="primary.options[3]"
+                <el-input
+                    placeholder="选项4 (支持html)"
+                    v-model="primary.options[3]"
                     ><template slot="prepend">D</template></el-input
                 >
             </el-form-item>
@@ -52,38 +60,15 @@
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="难度" class="m-publish-exam-level">
-                <el-rate v-model="primary.hardStar"></el-rate>
+                <el-rate
+                    v-model="primary.hardStar"
+                    show-score
+                    text-color="#ff9900"
+                    score-template="{value} 星"
+                ></el-rate>
             </el-form-item>
 
-            <el-form-item label="标签" class="m-publish-exam-tags">
-                <el-tag
-                    :key="tag"
-                    v-for="tag in primary.tags"
-                    closable
-                    :disable-transitions="false"
-                    @close="handleClose(tag)"
-                >
-                    {{ tag }}
-                </el-tag>
-                <el-input
-                    class="input-new-tag"
-                    v-if="inputVisible"
-                    v-model="inputValue"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="handleInputConfirm"
-                    @blur="handleInputConfirm"
-                    placeholder="回车新增"
-                >
-                </el-input>
-                <el-button
-                    v-else
-                    class="button-new-tag"
-                    size="small"
-                    @click="showInput"
-                    >+ 添加</el-button
-                >
-            </el-form-item>
+            <exam_tags class="m-publish-exam-tags" v-model="primary.tags" />
 
             <el-form-item label="答案解析" class="m-publish-exam-content">
                 <tinymce :content="primary.whyami" :height="400" />
@@ -105,31 +90,33 @@
 import pubheader from "@/components/publish/pubheader.vue";
 import upload from "@/components/publish/upload.vue";
 import tinymce from "@/components/publish/tinymce.vue";
+import exam_tags from "@/components/publish/exam_tags.vue";
 import User from "@jx3box/jx3box-common/js/user";
-import { getQuestion,createQuestion, updateQuestion } from "../service/exam";
+import { getQuestion, createQuestion, updateQuestion } from "../service/exam";
 export default {
     name: "exam_question",
     props: [],
     data: function() {
         return {
             processing: false,
-            inputVisible: false,
-            inputValue: "",
             primary: {
                 title: "",
                 type: "radio",
                 options: ["", "", "", ""],
                 answer: [],
                 hardStar: 0,
-                tags: ["PVE", "PVP", "PVX"],
+                tags: [],
                 whyami: "",
                 pool: "common",
             },
         };
     },
     computed: {
-        id : function (){
-            return this.$route.params.id   
+        id: function() {
+            return this.$route.params.id;
+        },
+        isNew : function (){
+            return !this.id
         }
     },
     watch: {},
@@ -137,69 +124,55 @@ export default {
         publish: function() {
             this.processing = true;
             this.primary.whyami = this.$store.state.post.post_content;
-            console.log(this.primary)
+            console.log(this.primary);
             if (this.id) {
                 updateQuestion(this.id, this.primary, this).then((res) => {
-                    this.success(res)
+                    this.success(res);
                 });
             } else {
                 createQuestion(this.primary, this).then((res) => {
-                    this.success(res)
+                    this.success(res);
                 });
             }
         },
-        success : function (res){
+        success: function(res) {
             this.$message({
                 message: res.data.msg || "提交成功",
                 type: "success",
             });
             this.$router.push({ path: "/exam" });
         },
-        loadData : function (){
-            getQuestion(this.id,this).then((res) => {
-                let data = res.data
-                this.primary.title= data.title
-                this.primary.type= data.type
-                this.primary.options= JSON.parse(data.options)
-                // this.primary.answer= JSON.parse(data.answer)
-                this.primary.answer= data.answerList
-                this.primary.hardStar= data.hardStar
-                this.primary.tags= JSON.parse(data.tags)
-                
-                this.primary.pool= data.pool
+        loadData: function() {
+            getQuestion(this.id, this).then((res) => {
+                let data = res.data;
+                this.primary.title = data.title;
+                this.primary.type = data.type;
+                this.primary.options = JSON.parse(data.options);
+                this.primary.answer = data.answerList;
+                this.primary.hardStar = data.hardStar;
+                this.primary.tags = JSON.parse(data.tags);
 
-                this.primary.whyami= data.whyami
-                this.$store.commit('editContent',data.whyami)
-            })
-        },
-        // TAG
-        handleClose(tag) {
-            this.primary.tags.splice(this.primary.tags.indexOf(tag), 1);
-        },
-        showInput() {
-            this.inputVisible = true;
-            this.$nextTick((_) => {
-                this.$refs.saveTagInput.$refs.input.focus();
+                this.primary.pool = data.pool;
+
+                this.primary.whyami = data.whyami;
+                this.$store.commit("editContent", data.whyami);
             });
         },
-        handleInputConfirm() {
-            let inputValue = this.inputValue;
-            if (inputValue) {
-                this.primary.tags.push(inputValue);
-            }
-            this.inputVisible = false;
-            this.inputValue = "";
-        },
+        updateTags : function (val){
+            console.log(val)
+            this.tags = val
+        }
     },
     created: function() {
-        if(this.id){
-            this.loadData()
+        if (this.id) {
+            this.loadData();
         }
     },
     components: {
         pubheader,
         upload,
         tinymce,
+        exam_tags,
     },
 };
 </script>

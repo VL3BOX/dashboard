@@ -148,10 +148,10 @@ export default {
 </script>
 
 <style lang="less">
-@import "../../assets/css/components/large-dialog.less";
 .m-publish-header {
     .pr;
     .clearfix;
+    @import "../../assets/css/components/large-dialog.less";
 }
 .m-publish-store {
     .pa;

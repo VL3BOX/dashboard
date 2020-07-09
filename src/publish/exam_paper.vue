@@ -52,6 +52,17 @@
                     score-template="{value} 星"
                 ></el-rate>
             </el-form-item>
+            <el-form-item label="风格" class="m-publish-exam-style">
+                <el-select v-model="primary.style" placeholder="请选择封面风格">
+                    <el-option
+                        v-for="item in styles"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    >
+                    </el-option>
+                </el-select>
+            </el-form-item>
             <exam_tags class="m-publish-exam-tags" v-model="primary.tags" />
             <el-form-item
                 label="称谓"
@@ -111,7 +122,7 @@ import pubheader from "@/components/publish/pubheader.vue";
 import exam_tags from "@/components/publish/exam_tags.vue";
 import User from "@jx3box/jx3box-common/js/user";
 import { getPaper, createPaper, updatePaper } from "../service/exam";
-import { awards, marks } from "@/assets/data/exam.json";
+import { awards, marks, styles } from "@/assets/data/exam.json";
 export default {
     name: "exam_paper",
     props: [],
@@ -126,11 +137,13 @@ export default {
                 tags: [],
                 corner: "",
                 medalAward: "",
+                style: "default",
             },
             list: "",
             isSuper: false,
             awards,
             marks,
+            styles
         };
     },
     computed: {
@@ -170,6 +183,7 @@ export default {
                 this.primary.medalAward = data.medalAward;
                 this.primary.corner = data.corner;
                 this.primary.tags = JSON.parse(data.tags);
+                this.primary.style = data.style;
 
                 this.primary.questionList = JSON.parse(data.questionList);
                 this.list = this.primary.questionList.toString();

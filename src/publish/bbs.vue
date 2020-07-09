@@ -57,7 +57,7 @@ export default {
     data: function() {
         return {
             //基本 - 类型设置
-            type: "post",
+            type: "bbs",
             name: "茶馆",
             loaded: false,
 
@@ -100,29 +100,16 @@ export default {
         // 发布
         toPublish: function() {
             // console.log(this.build());
-            this.doPublish(this.build(), this,false).then((res) => {
-                this.finish(res.data.msg, res.data.data.ID, this.type);
-            });
+            this.doPublish(this.build(), this)
         },
         // 草稿
         toDraft: function() {
-            this.doDraft(this.build(), this,false).then((res) => {
-                this.finish(res.data.msg, res.data.data.ID, this.type);
-            });
+            this.doDraft(this.build(), this)
         },
         // 设置检索meta
         build: function() {
             let data = this.$store.state;
             return data;
-        },
-        finish: function(msg, id, type) {
-            this.$message({
-                message: msg,
-                type: "success",
-            });
-            setTimeout(() => {
-                location.href = "/" + 'bbs' + "/?pid=" + id;
-            }, 500);
         },
         // 加载
         init: function() {

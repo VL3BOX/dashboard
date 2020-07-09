@@ -8,7 +8,7 @@
         <LeftSidebar>
             <Nav />
         </LeftSidebar>
-        <Main :withoutRight="false" class="m-dashboard-container">
+        <Main :withoutRight="true"  class="m-dashboard-container">
             <tabs v-show="isProfile"/>
             <router-view />
         </Main>

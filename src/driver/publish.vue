@@ -8,7 +8,7 @@
         <LeftSidebar>
             <Nav_link />
         </LeftSidebar>
-        <Main :withoutRight="false" class="m-dashboard-publish">
+        <Main :withoutRight="true" class="m-dashboard-publish">
             <router-view />
         </Main>
     </div>

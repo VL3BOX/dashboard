@@ -71,8 +71,12 @@
             <exam_tags class="m-publish-exam-tags" v-model="primary.tags" />
 
             <el-form-item label="答案解析" class="m-publish-exam-content">
-                <tinymce :content="primary.whyami" :height="400" />
-                <upload class="u-editor-upload" />
+                <Tinymce
+                    v-model="primary.whyami"
+                    :attachmentEnable="true"
+                    :resourceEnable="true"
+                    :height="400"
+                />
                 <el-button
                     class="u-publish"
                     icon="el-icon-s-promotion"
@@ -88,9 +92,8 @@
 
 <script>
 import pubheader from "@/components/publish/pubheader.vue";
-import upload from "@/components/publish/upload.vue";
-import tinymce from "@/components/publish/tinymce.vue";
 import exam_tags from "@/components/publish/exam_tags.vue";
+import Tinymce from '@jx3box/jx3box-editor/src/Tinymce'
 import User from "@jx3box/jx3box-common/js/user";
 import { getQuestion, createQuestion, updateQuestion } from "../service/exam";
 export default {
@@ -98,7 +101,6 @@ export default {
     props: [],
     data: function() {
         return {
-            processing: false,
             primary: {
                 title: "",
                 type: "radio",
@@ -117,14 +119,15 @@ export default {
         },
         isNew : function (){
             return !this.id
+        },
+        processing:function (){
+            return this.$store.state.processing
         }
     },
     watch: {},
     methods: {
         publish: function() {
-            this.processing = true;
-            this.primary.whyami = this.$store.state.post.post_content;
-            console.log(this.primary);
+            this.$store.commit('startProcess')
             if (this.id) {
                 updateQuestion(this.id, this.primary, this).then((res) => {
                     this.success(res);
@@ -155,7 +158,6 @@ export default {
                 this.primary.pool = data.pool;
 
                 this.primary.whyami = data.whyami;
-                this.$store.commit("editContent", data.whyami);
             });
         },
         updateTags : function (val){
@@ -170,8 +172,7 @@ export default {
     },
     components: {
         pubheader,
-        upload,
-        tinymce,
+        Tinymce,
         exam_tags,
     },
 };

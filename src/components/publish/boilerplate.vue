@@ -20,29 +20,17 @@
             <!-- 正文之前 -->
             <div class="m-publish-prepend" v-show="contentEnable">
                 <el-divider content-position="left">正文</el-divider>
-                <el-radio-group v-model="mode" class="u-editor-mode">
-                    <!-- <el-radio-button label="tinymce"></el-radio-button>
-                    <el-radio-button
-                        label="markdown"
-                        v-if="markdownEnable"
-                    ></el-radio-button> -->
-                </el-radio-group>
-
-                <upload class="u-editor-upload" />
-
                 <slot name="prepend"></slot>
             </div>
 
             <!-- 正文区域 -->
             <div class="m-publish-content" v-show="contentEnable">
-                <tinymce
-                    :content="post.post_content"
+                <Tinymce
+                    v-model="post.post_content"
+                    :attachmentEnable="true"
+                    :resourceEnable="true"
                     v-show="mode == 'tinymce'"
-                />
-                <markdown
-                    v-if="markdownEnable"
-                    :content="post.post_content"
-                    v-show="mode == 'markdown'"
+                    @update="updateContent"
                 />
             </div>
 
@@ -69,8 +57,15 @@
 
             <!-- 按钮 -->
             <div class="m-publish-buttons">
-                <el-button type="primary" @click="publish" :disabled="processing">{{publish_text || '发 &nbsp;&nbsp; 布'}}</el-button>
-                <el-button type="plain" @click="draft">{{draft_text || '保存为草稿'}}</el-button>
+                <el-button
+                    type="primary"
+                    @click="publish"
+                    :disabled="processing"
+                    >{{ publish_text || "发 &nbsp;&nbsp; 布" }}</el-button
+                >
+                <el-button type="plain" @click="draft" :disabled="processing">{{
+                    draft_text || "保存为草稿"
+                }}</el-button>
             </div>
         </el-form>
     </div>
@@ -79,7 +74,8 @@
 <script>
 import pubheader from "./pubheader.vue";
 import upload from "./upload.vue";
-import tinymce from "./tinymce.vue";
+import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
+// import tinymce from "./tinymce.vue";
 import markdown from "./markdown.vue";
 import post_title from "./post_title.vue";
 import post_excerpt from "./post_excerpt.vue";
@@ -108,30 +104,22 @@ export default {
         "bannerEnable",
 
         "publish_text",
-        "draft_text"
+        "draft_text",
     ],
     data: function() {
         return {
             mode: this.post.post_mode || "tinymce",
             draft_key: "",
             isAdmin: User.getInfo().group > 30,
-            processing : false
+            
         };
     },
     computed: {
-        // 引用store
-        // dbdata: function() {
-        //     return this.$store.state;
-        // },
+        processing:function (){
+            return this.$store.state.processing
+        }
     },
     watch: {
-        // 反向监听store全部内容受组件影响时,更新本地草稿
-        // dbdata: {
-        //     handler: function(data) {
-        //         autoSavePost(this.draft_key, data);
-        //     },
-        //     deep: true,
-        // },
         // 修改本地字段时
         "post.post_meta": {
             handler: function(val) {
@@ -154,11 +142,15 @@ export default {
         publish: function() {
             this.$store.commit("changeStatus", "publish");
             this.$emit("publish");
-            this.processing = true
+            this.$store.commit('startProcess')
         },
         draft: function() {
             this.$store.commit("changeStatus", "draft");
             this.$emit("draft");
+            this.$store.commit('startProcess')
+        },
+        updateContent: function(val) {
+            this.$store.commit("editContent", val);
         },
     },
     mounted: function() {
@@ -168,9 +160,10 @@ export default {
     },
     components: {
         pubheader,
-        upload,
-        tinymce,
-        markdown,
+        // upload,
+        // tinymce,
+        // markdown,
+        Tinymce,
         post_title,
         post_tag,
         post_excerpt,

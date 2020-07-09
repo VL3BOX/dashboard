@@ -13,7 +13,7 @@
             <img v-if="post_banner" :src="post_banner" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
-        <el-button type="danger" size="small" icon="el-icon-circle-close" @click="clearBanner">移除海报</el-button>
+        <el-button class="u-remove" type="info" size="mini" icon="el-icon-circle-close" @click="clearBanner">移除海报</el-button>
     </div>
 </template>
 
@@ -77,6 +77,12 @@ export default {
         height: 100px;
         line-height: 100px;
         text-align: center;
+    }
+    .u-remove{
+        &:hover{
+            background-color: #fc3c3c;
+            border-color:#fc3c3c;
+        }
     }
 }
 </style>

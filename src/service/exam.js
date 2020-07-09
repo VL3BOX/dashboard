@@ -4,7 +4,7 @@ import { __next } from "@jx3box/jx3box-common/js/jx3box.json";
 const API = __next + 'api/question/'  //TODO:
 // const API = "/api/question/";
 
-function getQuestion(id,vm) {
+function getQuestion(id, vm) {
     return axios
         .get(API + id, {
             withCredentials: true,
@@ -21,6 +21,9 @@ function createQuestion(data, vm) {
         })
         .catch((err) => {
             vm.failCallback(err, vm);
+        })
+        .finally(() => {
+            vm.$store.commit("endProcess");
         });
 }
 
@@ -31,40 +34,47 @@ function updateQuestion(id, data, vm) {
         })
         .catch((err) => {
             vm.failCallback(err, vm);
+        })
+        .finally(() => {
+            vm.$store.commit("endProcess");
         });
 }
 
-
-function createPaper(data,vm) {
+function createPaper(data, vm) {
     return axios
         .post(API + "exam-paper", data, {
             withCredentials: true,
         })
         .catch((err) => {
             vm.failCallback(err, vm);
+        })
+        .finally(() => {
+            vm.$store.commit("endProcess");
         });
 }
 
-function updatePaper(id,data,vm){
+function updatePaper(id, data, vm) {
     return axios
         .put(API + "exam-paper/" + id, data, {
             withCredentials: true,
         })
         .catch((err) => {
             vm.failCallback(err, vm);
+        })
+        .finally(() => {
+            vm.$store.commit("endProcess");
         });
 }
 
-function getPaper(id,vm){
+function getPaper(id, vm) {
     return axios
-        .get(API + 'exam-paper/'+ id, {
+        .get(API + "exam-paper/" + id, {
             withCredentials: true,
         })
         .catch((err) => {
             vm.failCallback(err, vm);
         });
 }
-
 
 function getQuestions(query, vm) {
     return axios
@@ -84,5 +94,5 @@ export {
     getQuestions,
     createPaper,
     updatePaper,
-    getPaper
+    getPaper,
 };

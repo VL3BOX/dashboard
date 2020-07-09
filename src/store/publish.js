@@ -26,6 +26,7 @@ let store = {
             weiboEnable: false,
             tuilanEnable: false,
         },
+        processing : false
     },
     mutations: {
         changeType : function (state, payload){
@@ -61,6 +62,12 @@ let store = {
         loadPost : function (state,payload){
             state.post = payload
         },
+        startProcess : function (state){
+            state.processing = true
+        },
+        endProcess : function (state){
+            state.processing = false
+        }
     },
     getters: {},
     actions: {},

@@ -182,10 +182,14 @@ export default {
         optionChange : function (zlp){
             let first = Object.keys(this.options.map[zlp]['dungeon'])[0]
             this.post.post_meta.fb_name = first
+            this.post.post_meta.fb_boss = []
+            this.post.post_meta.fb_level = []
         },
         // 当副本切换时
         changeSubtype : function (subtype){
             this.$store.commit('changeSubtype',subtype)
+            this.post.post_meta.fb_boss = []
+            this.post.post_meta.fb_level = []
         }
     },
     mounted: function() {

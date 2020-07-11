@@ -55,7 +55,7 @@ export default {
 <style lang="less">
 .m-publish-banner {
     img {
-        max-width: 100%;
+        max-width: 180px;
     }
     .avatar-uploader{
         .mt(10px);

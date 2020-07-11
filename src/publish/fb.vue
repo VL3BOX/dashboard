@@ -101,7 +101,7 @@ import boilerplate from "../components/publish/boilerplate";
 // 本地依赖
 import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box";
 import fbmap from '@jx3box/jx3box-data/data/fb/fb_map.json'
-import lodash from 'lodash'
+import _ from 'lodash'
 
 export default {
     name: "fb",
@@ -163,7 +163,8 @@ export default {
             return Object.keys(this.options.map)
         },
         fb_list : function (){
-            return this.options.map[this.post.post_meta.fb_zlp]['dungeon']
+            let zlp = this.options.map[this.post.post_meta.fb_zlp] || this.options.map['世外蓬莱']
+            return _.get(zlp,'dungeon')
         },
         boss_list : function (){
             return this.fb_list[this.post.post_meta.fb_name]['detail']['boss_infos']

@@ -31,6 +31,14 @@
             <!-- 💛 栏目字段 -->
             <template v-if="ready && !loading" v-loading="loading">
 
+                <el-form-item label="原创">
+                    <el-switch
+                        v-model="post.original"
+                        active-color="#13ce66"
+                    >
+                    </el-switch>
+                </el-form-item>
+
                 <!-- 1.选择资料片 -->
                 <el-form-item label="资料片" v-if="zlp_list">
                     <el-radio
@@ -133,6 +141,7 @@ export default {
                 post_banner: "",             //头条图,管理员可见
                 post_status: "",             //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
+                original:0
             },
 
             //扩展 - 部分栏目文章不应启用该功能

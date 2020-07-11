@@ -79,6 +79,8 @@ export default {
         text-align: center;
     }
     .u-remove{
+        background-color: #c2c2c2;
+        border-color:#c2c2c2;
         &:hover{
             background-color: #fc3c3c;
             border-color:#fc3c3c;

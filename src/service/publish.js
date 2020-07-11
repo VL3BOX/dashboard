@@ -78,7 +78,9 @@ function doLoad(vm, oldMetaKeys) {
             .then((res) => {
                 // 远程数据
                 let post = res.data.data.post;
+                post.original = !!post.original //是否原创
                 let meta = res.data.data.meta;
+
                 if (!post.post_meta) post.post_meta = vm.post.post_meta; //旧异常数据处理
 
                 // 加载到store

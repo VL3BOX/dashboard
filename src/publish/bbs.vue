@@ -29,6 +29,13 @@
             @draft="toDraft"
         >
             <template>
+                <el-form-item label="原创">
+                    <el-switch
+                        v-model="post.original"
+                        active-color="#13ce66"
+                    >
+                    </el-switch>
+                </el-form-item>
                 <el-form-item label="类型">
                     <el-radio-group v-model="post.post_subtype">
                         <el-radio
@@ -83,6 +90,7 @@ export default {
                 post_banner: "", //头条图,管理员可见
                 post_status: "", //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
+                original:0
             },
 
             //扩展 - 部分栏目文章不应启用该功能
@@ -100,11 +108,11 @@ export default {
         // 发布
         toPublish: function() {
             // console.log(this.build());
-            this.doPublish(this.build(), this)
+            this.doPublish(this.build(), this);
         },
         // 草稿
         toDraft: function() {
-            this.doDraft(this.build(), this)
+            this.doDraft(this.build(), this);
         },
         // 设置检索meta
         build: function() {

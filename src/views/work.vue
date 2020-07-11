@@ -49,10 +49,12 @@
                         :href="postLink(item.post_type, item.ID)"
                         >{{ item.post_title || "无标题" }}</a
                     >
-                    <time class="u-desc"
-                        >发布于: {{ item.post_date | dateFormat }} | 最后更新:
-                        {{ item.post_modified | dateFormat }}</time
-                    >
+                    <div class="u-desc">
+                        <span class="u-desc-subitem"><i class="el-icon-folder"></i> 分类 : {{item.post_type | typeFormat}}</span>
+                        <time class="u-desc-subitem"><i class="el-icon-finished"></i> 发布 : {{ item.post_date | dateFormat }}</time>
+                        <time class="u-desc-subitem"><i class="el-icon-refresh"></i> 更新 : {{ item.post_modified | dateFormat }}</time>
+                    </div>
+
                     <el-button-group class="u-action">
                         <el-button
                             type="primary"
@@ -118,7 +120,7 @@ import {
     __v2,
     __Root,
     __Links,
-    __cmsType,
+    __postType,
 } from "@jx3box/jx3box-common/js/jx3box";
 import dateFormat from "../utils/dateFormat";
 
@@ -130,30 +132,30 @@ export default {
             data: [],
             total: 1,
             page: 1,
-            per : 10,
+            per: 10,
             search: "",
             searchType: "",
-            types: __cmsType,
+            types: __postType,
         };
     },
     computed: {},
     methods: {
-        loadPosts : function (i=1){
+        loadPosts: function(i = 1) {
             getWorks({
                 page: i,
                 title: this.search,
                 type: this.searchType,
-                per : this.per
+                per: this.per,
             }).then((res) => {
                 this.data = res.data.data.list;
                 this.total = res.data.data.total;
             });
         },
         changePage: function(i = 1) {
-            this.loadPosts(i)
+            this.loadPosts(i);
         },
-        searchPost: function(i=1) {
-            this.loadPosts(i)
+        searchPost: function(i = 1) {
+            this.loadPosts(i);
         },
         edit: function(type, id) {
             location.href = __Links.dashboard.publish + "#/" + type + "/" + id;
@@ -210,13 +212,16 @@ export default {
         dateFormat: function(val) {
             return dateFormat(new Date(val));
         },
+        typeFormat:function (val){
+            return __postType[val]
+        }
     },
     mounted: function() {
-        let route_type = this.$route.params.type
-        if(route_type){
-            this.searchType = route_type
+        let route_type = this.$route.params.type;
+        if (route_type) {
+            this.searchType = route_type;
         }
-        this.loadPosts()
+        this.loadPosts();
     },
 };
 </script>

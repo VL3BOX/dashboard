@@ -39,7 +39,7 @@
                     <span v-if="post.checked == 2" class="u-mark reject"
                         >❌ 审核驳回</span
                     >
-                    <time class="u-desc">
+                    <div class="u-desc">
                         <span
                             v-if="post.checked == 2 && post.check_remark"
                             class="u-check_remark"
@@ -47,11 +47,10 @@
                                 `驳回理由：${post.check_remark}&nbsp;&nbsp;|&nbsp;&nbsp;`
                             "
                         ></span>
-                        发布于:
-                        {{ new Date(post.created * 1000) | dateFormat }} |
-                        最后更新:
-                        {{ new Date(post.updated * 1000) | dateFormat }}
-                    </time>
+                        <time class="u-desc-subitem"><i class="el-icon-finished"></i> 发布 : {{ new Date(post.created * 1000) | dateFormat }}</time>
+                        <time class="u-desc-subitem"><i class="el-icon-refresh"></i> 更新 : {{ new Date(post.updated * 1000) | dateFormat }}</time>
+                    </div>
+                    
 
                     <el-button-group class="u-action">
                         <el-button

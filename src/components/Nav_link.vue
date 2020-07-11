@@ -25,7 +25,7 @@
             >
         </div>
 
-        <h5 class="u-title">写作台</h5>
+        <h5 class="u-title">仓库</h5>
         <div class="m-nav-group">
             <a href="../#/msg"
                 ><img svg-inline src="../assets/img/nav/msg.svg" /><span

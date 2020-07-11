@@ -10,7 +10,7 @@
             with-credentials
             accept="image/jpg,image/jpeg,image/gif,image/png,image/bmp"
         >
-            <img v-if="post_banner" :src="post_banner" />
+            <img v-if="post_banner" :src="post_banner | showBanner" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         <el-button class="u-remove" type="info" size="mini" icon="el-icon-circle-close" @click="clearBanner">移除海报</el-button>
@@ -18,8 +18,9 @@
 </template>
 
 <script>
-import { JX3BOX } from "@jx3box/jx3box-common";
-const API = JX3BOX.__server + "upload";
+import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
+import { showMinibanner } from "@jx3box/jx3box-common/js/utils";
+const API = __server + "upload";
 // const API = "http://localhost:5160/" + "publish/upload";
 
 export default {
@@ -49,6 +50,11 @@ export default {
             this.$store.commit("editBanner", this.post_banner);
         }
     },
+    filters : {
+        showBanner : function (val){
+            return showMinibanner(val)
+        }
+    }
 };
 </script>
 

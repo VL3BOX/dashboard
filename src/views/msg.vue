@@ -3,19 +3,38 @@
         <div class="m-dashboard-box">
             <div class="m-dashboard-box-header">
                 <h4 class="u-title">消息列表</h4>
-                <el-button class="u-read-all" type="primary" size="mini" @click="read(null)" :disabled="!unread_total">
+                <el-button
+                    class="u-read-all"
+                    type="primary"
+                    size="mini"
+                    @click="read(null)"
+                    :disabled="!unread_total"
+                >
                     <i class="el-icon el-icon-check"></i>
                     <span v-text="'全部设为已读'"></span>
                 </el-button>
             </div>
             <ul class="m-dashboard-box-list" v-if="data.length">
-                <li v-for="(item, i) in data" :key="i" :class="{on : item.read == 1}" v-show="item.deleted==0">
+                <li
+                    v-for="(item, i) in data"
+                    :key="i"
+                    :class="{ on: item.read == 1 }"
+                    v-show="item.deleted == 0"
+                >
                     <div class="u-primary">
-                        <span class="u-content" v-html="item.content">
+                        <span class="u-content">
+                            <span v-html="item.content"></span>
+                            <a
+                                :href="item | msgLink"
+                                class="u-msg-link"
+                                v-if="item.source_id && item.source_type"
+                                @click="read(item)"
+                                ><i class="el-icon-link"></i> 点击查看</a
+                            >
                         </span>
-                        <time class="u-time"
-                            >{{ dateFormat(~~item.created) }}</time
-                        >
+                        <time class="u-time">{{
+                            dateFormat(~~item.created)
+                        }}</time>
                     </div>
                     <el-button-group class="u-action">
                         <el-button
@@ -56,13 +75,17 @@
             >
             </el-pagination>
         </div>
-
     </div>
 </template>
 
 <script>
 import { getMsgs, readMsg, removeMsg } from "../service/msg.js";
-import dateFormat from '../utils/dateFormat'
+import dateFormat from "../utils/dateFormat";
+import { __postType, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
+const cms_types = Object.keys(__postType);
+const exam_types = ["question", "paper"];
+const wiki_types = ["cj", "item"];
+
 export default {
     name: "msg",
     props: [],
@@ -83,31 +106,46 @@ export default {
                 this.data = res.data.data.messages;
             });
         },
-        read(item){
+        read(item) {
             readMsg(item ? [item.ID] : null).then((res) => {
-                if(res.data.code === 200) {
-                    if(item) {
+                if (res.data.code === 200) {
+                    if (item) {
                         item.read = 1;
                     } else {
                         this.changePage(this.page);
                     }
                 } else {
-                    this.$notify.error({title: res.data.message});
+                    this.$notify.error({ title: res.data.message });
                 }
             });
         },
-        del(item){
+        del(item) {
             removeMsg([item.ID]).then((res) => {
-                if(res.data.code === 200) {
+                if (res.data.code === 200) {
                     item.deleted = Math.round(new Date() / 1000);
                 } else {
-                    this.$notify.error({title: res.data.message});
+                    this.$notify.error({ title: res.data.message });
                 }
             });
         },
-        dateFormat : function (val){
-            return dateFormat(new Date(val*1000))
-        }
+        dateFormat: function(val) {
+            return dateFormat(new Date(val * 1000));
+        },
+    },
+    filters: {
+        msgLink: function(item) {
+            let id = item.source_id;
+            let type = item.source_type;
+
+            // TODO:消息链接
+            if (cms_types.includes(type)) {
+                return __Root + type + "/?pid=" + id;
+            } else if (wiki_types.includes(type)) {
+                return __Root + type + "/#/view/" + id;
+            } else if (exam_types.includes(type)) {
+                return __Root + "exam" + "/#/" + type + "/" + id;
+            }
+        },
     },
     mounted: function() {
         this.changePage();

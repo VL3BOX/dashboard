@@ -21,9 +21,7 @@
                     v-if="achievement_post.data && achievement_post.data.length"
                 >
                     <li v-for="(post, key) in achievement_post.data" :key="key">
-                        <i class="u-icon">
-                            <img svg-inline src="../assets/img/works/repo.svg" />
-                        </i>
+                        <span class="u-tab" v-text="tab_name(post.type)"></span>
                         <a class="u-title" target="_blank" :href="post.link">{{ post.title || "无标题" }}</a>
                         <span v-if="post.checked == 0" class="u-mark pending">⌛ 等待审核</span>
                         <span v-if="post.checked == 1" class="u-mark">✔ 审核通过</span>
@@ -100,12 +98,8 @@
                         v-if="achievement_comment.data && achievement_comment.data.length"
                 >
                     <li v-for="(comment, key) in achievement_comment.data" :key="key">
-                        <i class="u-icon">
-                            <img svg-inline src="../assets/img/works/repo.svg" />
-                        </i>
-                        <a class="u-title" target="_blank" :href="comment.link">
-                            {{ comment.title || "无标题" }}
-                        </a>
+                        <span class="u-tab" v-text="tab_name(comment.type)"></span>
+                        <a class="u-title" target="_blank" :href="comment.link">{{ comment.title || "无标题" }}</a>
                         <span v-if="comment.checked == 0" class="u-mark pending">⌛ 等待审核</span>
                         <span v-if="comment.checked == 1" class="u-mark">✔ 审核通过</span>
                         <span v-if="comment.checked == 2" class="u-mark reject">❌ 审核驳回</span>
@@ -264,34 +258,50 @@ export default {
                 },
             });
         },
+        tab_name(type){
+            switch (type) {
+                case 'achievement':
+                    return '成就';
+                case 'item':
+                    return '物品';
+            }
+        },
     },
     filters: {
         dateFormat: function(val) {
             return dateFormat(new Date(val));
         },
     },
-    mounted: function() {
-        if (this.$route.query.type && this.$route.query.keyword){
-            switch (this.$route.query.type) {
-                case 'wiki_post':
-                    this.achievement_post.keyword = this.$route.query.keyword;
-                    break;
-                case 'wiki_comment':
-                    this.achievement_comment.keyword = this.$route.query.keyword;
-                    break;
+    watch: {
+        $route:{
+            immediate: true,
+            handler() {
+                if (this.$route.query.type && this.$route.query.keyword){
+                    switch (this.$route.query.type) {
+                        case 'wiki_post':
+                            this.achievement_post.keyword = this.$route.query.keyword;
+                            break;
+                        case 'wiki_comment':
+                            this.achievement_comment.keyword = this.$route.query.keyword;
+                            break;
+                    }
+
+                    // 置空输入框ID
+                    this.$nextTick(() => {
+                        let input_doms = document.querySelectorAll('.u-source-search input');
+                        for(let i = 0; i < input_doms.length; i++) input_doms[i].value = '';
+                    });
+                } else {
+                    this.achievement_post.keyword = '';
+                    this.achievement_comment.keyword = '';
+                }
+
+                // 列表获取
+                this.post_page_change();
+                this.comment_page_change();
             }
-
-            // 置空输入框ID
-            this.$nextTick(() => {
-                let input_doms = document.querySelectorAll('.u-source-search input');
-                for(let i = 0; i < input_doms.length; i++) input_doms[i].value = '';
-            });
         }
-
-        // 列表获取
-        this.post_page_change();
-        this.comment_page_change();
-    },
+    }
 };
 </script>
 
@@ -315,6 +325,18 @@ export default {
         &.reject {
             background-color: #f0787a;
         }
+    }
+
+    .u-tab {
+        float: left;
+        width: 1em;
+        margin-top: 4px;
+        margin-right: 5px;
+        padding: 4px 5px;
+        font-size: 12px;
+        background-color: #333333;
+        color: #FFFFFF;
+        border-radius: 3px;
     }
 
     .u-desc {

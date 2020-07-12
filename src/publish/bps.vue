@@ -21,7 +21,7 @@
             :infoEnable="true"
             :contentEnable="true"
             :markdownEnable="false"
-            :excerptEnable="true"
+            :excerptEnable="false"
             :tagEnable="false"
             :notifyEnable="true"
             :bannerEnable="true"

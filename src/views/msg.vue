@@ -81,7 +81,7 @@
 <script>
 import { getMsgs, readMsg, removeMsg } from "../service/msg.js";
 import dateFormat from "../utils/dateFormat";
-import { __postType, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __postType, __Root, __Links } from "@jx3box/jx3box-common/js/jx3box.json";
 const cms_types = Object.keys(__postType);
 const exam_types = ["question", "paper"];
 const wiki_types = ["cj", "item"];
@@ -142,6 +142,8 @@ export default {
                 return __Root + type + "/?pid=" + id;
             } else if (wiki_types.includes(type)) {
                 return __Root + type + "/#/view/" + id;
+            } else if (['wiki_post', 'wiki_comment'].includes(type)) {
+                return `${__Links.dashboard.home}/#/wiki?type=${type}&keyword=${id}`;
             } else if (exam_types.includes(type)) {
                 return __Root + "exam" + "/#/" + type + "/" + id;
             }

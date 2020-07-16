@@ -190,18 +190,21 @@ export default {
         },
         get_achievement_newest_post(achievement_id) {
             return new Promise((resolve, reject) => {
-                if (!achievement_id) resolve(false);
-                $http({
-                    url: `${JX3BOX.__helperUrl}api/achievement/${achievement_id}/post`,
-                    headers: { Accept: "application/prs.helper.v2+json" },
-                })
-                    .then((res) => {
-                        let data = res.data;
-                        resolve(data.code === 200 ? data.data : false);
+                if (!achievement_id) {
+                    resolve(false);
+                } else {
+                    $http({
+                        url: `${JX3BOX.__helperUrl}api/achievement/${achievement_id}/post`,
+                        headers: {Accept: "application/prs.helper.v2+json"},
                     })
-                    .catch((err) => {
-                        resolve(false);
-                    });
+                        .then((res) => {
+                            let data = res.data;
+                            resolve(data.code === 200 ? data.data : false);
+                        })
+                        .catch((err) => {
+                            resolve(false);
+                        });
+                }
             });
         },
         icon_url_filter(icon_id) {
@@ -273,6 +276,7 @@ export default {
                     let _interval = setInterval(() => {
                         this.$store.state.post.post_content = "";
                         this.$store.state.post.post_content = post.content;
+                        tinyMCE.activeEditor.setContent(post.content);
                         if (!post.content || tinyMCE.activeEditor.getContent())
                             clearInterval(_interval);
                     }, 200);

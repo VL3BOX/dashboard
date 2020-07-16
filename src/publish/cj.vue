@@ -132,7 +132,8 @@ export default {
                 return;
             }
 
-            if (!this.$store.state.post.post_content) {
+            let content = tinyMCE.activeEditor.getContent();
+            if (!content) {
                 this.$message({ message: "要编写攻略正文哦", type: "warning" });
                 return;
             }
@@ -153,7 +154,7 @@ export default {
                     post: {
                         level: this.post.level,
                         user_nickname: User.getInfo().name,
-                        content: this.$store.state.post.post_content,
+                        content: content,
                         remark: this.post.remark,
                     },
                 }),
@@ -288,6 +289,7 @@ export default {
                     this.post.level = 3;
                     this.post.remark = "";
                     this.$store.state.post.post_content = "";
+                    tinyMCE.activeEditor.setContent("");
                 }
 
                 if (achievement) {

@@ -66,7 +66,7 @@
                         type="success"
                         @click="toPublish"
                         :disabled="processing"
-                >提交题目</el-button
+                >提交攻略</el-button
                 >
             </el-form-item>
         </el-form>

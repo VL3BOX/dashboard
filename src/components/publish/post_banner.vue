@@ -1,6 +1,6 @@
 <template>
     <div class="m-publish-banner">
-        <el-alert title="图片尺寸180*100像素，非必选，部分栏目不会展示海报" type="info" show-icon> </el-alert>
+        <el-alert class="u-tip" title="图片尺寸180*100像素，非必选，部分栏目不会展示海报，分享功能将使用该图作为预览图" type="info" show-icon> </el-alert>
         <el-upload
             class="avatar-uploader"
             :action="url"
@@ -60,6 +60,9 @@ export default {
 
 <style lang="less">
 .m-publish-banner {
+    .u-tip{
+        padding:5px 15px;
+    }
     img {
         max-width: 180px;
     }

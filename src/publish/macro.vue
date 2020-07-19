@@ -24,7 +24,7 @@
             :excerptEnable="false"
             :tagEnable="false"
             :notifyEnable="true"
-            :bannerEnable="false"
+            :bannerEnable="true"
             @publish="toPublish"
             publish_text="发布为公开"
             @draft="toDraft"

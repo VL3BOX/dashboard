@@ -1,30 +1,15 @@
 <template>
-    <div class="m-publish-cj">
-        <!-- 💛 预设选项 -->
-        <!-- 
-            localDraft : 是否显示本地草稿按钮
-            infoEnable : 是否包含自定义字段
-            markdownEnable : 是否开启markdown编辑器
-            excerptEnable : 是否开启摘要
-            tagEnable : 是否开启标签
-            notifyEnable : 是否开启通知等扩展功能
-            bannerEnable : 是否开启头条图功能,开启后仍旧需要签约作者及管理员才可见
-         -->
-        <boilerplate
-            :name="name"
-            :type="type"
-            :post="post"
-            :extend="extend"
-            :localDraft="true"
-            :infoEnable="true"
-            :contentEnable="true"
-            :markdownEnable="false"
-            :excerptEnable="false"
-            :tagEnable="false"
-            :notifyEnable="false"
-            :bannerEnable="false"
-            @publish="toPublish"
-            @draft="toDraft"
+    <div class="m-publish-box">
+        <!-- 头部 -->
+        <pubheader name="成就百科" :localDraft="false">
+            <slot name="header"></slot>
+        </pubheader>
+
+        <h1 class="m-publish-cj-header">贡献攻略</h1>
+        <el-form
+                label-position="left"
+                label-width="80px"
+                class="m-publish-cj"
         >
             <!-- 💛 栏目字段 -->
             <el-form-item label="成就选择">
@@ -34,7 +19,7 @@
                     filterable
                     remote
                     reserve-keyword
-                    :disabled="!!post.ID"
+                    :disabled="!!post.id"
                     placeholder="输入成就名称/成就描述/称号/奖励物品"
                     :remote-method="search_achievements_handle"
                     :loading="options.search_loading"
@@ -67,12 +52,30 @@
                     placeholder="请简单描述一下本次修订的说明"
                 ></el-input>
             </el-form-item>
-        </boilerplate>
+
+            <el-form-item label="攻略正文" class="m-publish-cj-content">
+                <Tinymce
+                        v-model="post.content"
+                        :attachmentEnable="true"
+                        :resourceEnable="true"
+                        :height="400"
+                />
+                <el-button
+                        class="u-publish"
+                        icon="el-icon-s-promotion"
+                        type="success"
+                        @click="toPublish"
+                        :disabled="processing"
+                >提交攻略</el-button
+                >
+            </el-form-item>
+        </el-form>
     </div>
 </template>
 
 <script>
-import boilerplate from "../components/publish/boilerplate";
+import pubheader from "@/components/publish/pubheader.vue";
+import Tinymce from '@jx3box/jx3box-editor/src/Tinymce'
 
 // 本地依赖
 import { $ as $http } from "../service/axios";
@@ -87,10 +90,6 @@ export default {
     props: [],
     data: function() {
         return {
-            // 基本 - 类型设置
-            type: "cj",
-            name: "成就攻略",
-
             //选项 - 加载可选项
             options: {
                 achievements: null,
@@ -99,16 +98,11 @@ export default {
 
             //文章 - 主表数据
             post: {
-                ID: "", //文章ID
-                post_mode: "tinymce", //编辑模式(会影响文章详情页渲染规则)
-                // post_title: "",              //标题
-                // post_content: "",            //主表内容字段,由后端接口配置是否双存储至meta表
+                id: "",     // 文章ID
+                content: "",
                 achievement_id: "",
                 level: 3,
                 remark: "",
-                // post_excerpt: "",            //主表摘要
-                // post_tags: [],               //标签列表
-                // post_banner: "",             //头条图,管理员可见
             },
 
             // 扩展 - 部分栏目文章不应启用该功能
@@ -121,7 +115,11 @@ export default {
             },
         };
     },
-    computed: {},
+    computed: {
+        processing:function (){
+            return this.$store.state.processing
+        }
+    },
     methods: {
         toPublish: function() {
             if (!this.post.achievement_id) {
@@ -132,7 +130,7 @@ export default {
                 return;
             }
 
-            if (!this.$store.state.post.post_content) {
+            if (!this.post.content) {
                 this.$message({ message: "要编写攻略正文哦", type: "warning" });
                 return;
             }
@@ -145,6 +143,7 @@ export default {
                 return;
             }
 
+            this.$store.commit('startProcess');
             $http({
                 method: "POST",
                 url: `${JX3BOX.__helperUrl}api/achievement/${this.post.achievement_id}/post`,
@@ -153,7 +152,7 @@ export default {
                     post: {
                         level: this.post.level,
                         user_nickname: User.getInfo().name,
-                        content: this.$store.state.post.post_content,
+                        content: this.post.content,
                         remark: this.post.remark,
                     },
                 }),
@@ -165,7 +164,7 @@ export default {
                             message: "提交成功，请等待审核",
                             type: "success",
                             onClose: () => {
-                                this.$router.push({ path: "/" });
+                                this.$router.go(0);
                             },
                         });
                     } else {
@@ -182,26 +181,15 @@ export default {
                     });
                 })
                 .finally(() => {
-                    //this.isEditMode = false;
+                    this.$store.commit('endProcess');
                 });
         },
-        toDraft: function() {
-            console.log(this.$store.state);
-        },
         get_achievement_newest_post(achievement_id) {
-            return new Promise((resolve, reject) => {
-                if (!achievement_id) resolve(false);
-                $http({
-                    url: `${JX3BOX.__helperUrl}api/achievement/${achievement_id}/post`,
-                    headers: { Accept: "application/prs.helper.v2+json" },
-                })
-                    .then((res) => {
-                        let data = res.data;
-                        resolve(data.code === 200 ? data.data : false);
-                    })
-                    .catch((err) => {
-                        resolve(false);
-                    });
+            return $http({
+                url: `${JX3BOX.__helperUrl}api/achievement/${achievement_id}/post`,
+                headers: {Accept: "application/prs.helper.v2+json"},
+            }).catch((err) => {
+                resolve(false);
             });
         },
         icon_url_filter(icon_id) {
@@ -241,10 +229,8 @@ export default {
         await this.search_achievements_handle("");
 
         // 获取成就ID并通过watch获取攻略
-        let achievement_id = this.$route.params.achievement_id;
-        this.post.achievement_id = achievement_id
-            ? parseInt(achievement_id)
-            : null;
+        let id = this.$route.params.achievement_id;
+        this.post.achievement_id = id ? parseInt(id) : null;
 
         // 去掉标题
         document.getElementsByClassName("m-publish-title").forEach((item) => {
@@ -257,55 +243,49 @@ export default {
     },
     watch: {
         "post.achievement_id": {
-            async handler() {
-                let data = await this.get_achievement_newest_post(
-                    this.post.achievement_id
-                );
-                let post = data.post;
-                let achievement = data.achievement;
-                if (post) {
-                    // 数据填充
-                    this.post.achievement_id = parseInt(post.achievement_id);
-                    this.post.level = post.level || 1;
-                    this.post.remark = "";
+            handler() {
+                if(!this.post.achievement_id) return;
+                this.get_achievement_newest_post(this.post.achievement_id)
+                    .then((res) => {
+                    let data = res.data;
+                    data = data.code === 200 ? data.data : false;
 
-                    // 富文本框赋值
-                    let _interval = setInterval(() => {
-                        this.$store.state.post.post_content = "";
-                        this.$store.state.post.post_content = post.content;
-                        if (!post.content || tinyMCE.activeEditor.getContent())
-                            clearInterval(_interval);
-                    }, 200);
-                } else {
                     // 数据填充
-                    this.post.achievement_id = this.post.achievement_id
-                        ? parseInt(this.post.achievement_id)
-                        : "";
-                    this.post.level = 3;
-                    this.post.remark = "";
-                    this.$store.state.post.post_content = "";
-                }
-
-                if (achievement) {
-                    // 将选择项恢复至下拉框
-                    let exist = false;
-                    this.options.achievements = this.options.achievements || [];
-                    for (let index in this.options.achievements) {
-                        if (
-                            this.options.achievements[index].ID ==
-                            this.post.achievement_id
-                        ) {
-                            exist = true;
-                            break;
-                        }
+                    let post = data.post;
+                    let achievement = data.achievement;
+                    if (post) {
+                        this.post.achievement_id = parseInt(post.achievement_id);
+                        this.post.level = post.level || 1;
+                        this.post.remark = "";
+                        this.post.content = post.content;
+                    } else {
+                        this.post.achievement_id = this.post.achievement_id
+                            ? parseInt(this.post.achievement_id)
+                            : "";
+                        this.post.level = 3;
+                        this.post.remark = "";
+                        this.post.content = "";
                     }
-                    if (!exist) this.options.achievements.push(achievement);
-                }
+
+                    if (achievement) {
+                        // 将选择项恢复至下拉框
+                        let exist = false;
+                        this.options.achievements = this.options.achievements || [];
+                        for (let index in this.options.achievements) {
+                            if (this.options.achievements[index].ID == this.post.achievement_id) {
+                                exist = true;
+                                break;
+                            }
+                        }
+                        if (!exist) this.options.achievements.push(achievement);
+                    }
+                });
             },
         },
     },
     components: {
-        boilerplate,
+        pubheader,
+        Tinymce,
     },
 };
 </script>

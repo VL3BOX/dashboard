@@ -39,6 +39,13 @@
                     >
                     </el-switch>
                 </el-form-item>
+
+                <el-form-item label="语言">
+                    <el-radio-group v-model="post.post_meta.lang">
+                        <el-radio label="cn">简体中文</el-radio>
+                        <el-radio label="tr">繁體中文</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 
                 <!-- 1.数据类型 -->
                 <el-form-item label="类型" class="m-jx3dat-subtypes">
@@ -353,6 +360,7 @@ export default {
                 post_meta: {
                     //新版,字段表合并至主表,减少数据库查询次数
                     type: "1",
+                    lang : 'cn',
                     data: [
                         {
                             name: "默认版",
@@ -484,6 +492,7 @@ export default {
         build: function() {
             let data = this.$store.state;
             data.post.meta_1 = data.post.post_meta.tag.toString(); //标签
+            data.post.meta_2 = data.post.post_meta.lang; //语言
             return data;
         },
 

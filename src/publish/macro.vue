@@ -33,13 +33,17 @@
             <!-- 💛 栏目字段 -->
             <template>
                 <el-form-item label="原创">
-                    <el-switch
-                        v-model="post.original"
-                        active-color="#13ce66"
-                    >
+                    <el-switch v-model="post.original" active-color="#13ce66">
                     </el-switch>
                 </el-form-item>
-                
+
+                <el-form-item label="语言">
+                    <el-radio-group v-model="post.post_meta.lang">
+                        <el-radio label="cn">简体中文</el-radio>
+                        <el-radio label="tr">繁體中文</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+
                 <!-- 1.选择资料片 -->
                 <el-form-item label="资料片">
                     <el-select
@@ -291,6 +295,7 @@ export default {
                 post_content: "", //主表内容字段,由后端接口配置是否双存储至meta表
                 post_meta: {
                     zlp: zlps[0],
+                    lang : 'cn',
                     data: [
                         {
                             name: "",
@@ -308,7 +313,7 @@ export default {
                 post_banner: "", //头条图,管理员可见
                 post_status: "", //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
-                original:0
+                original: 0,
             },
 
             //扩展 - 部分栏目文章不应启用该功能
@@ -373,6 +378,7 @@ export default {
                 xfmap[data.post.post_subtype],
                 "id"
             ); //心法id
+            data.post.meta_3 = data.post.post_meta.lang; //语言
             return data;
         },
 
@@ -409,7 +415,7 @@ export default {
             this.$alert("确定删除这个宏吗，删除后无法找回", "消息", {
                 confirmButtonText: "确定",
                 callback: (action) => {
-                    if(action == 'confirm'){
+                    if (action == "confirm") {
                         // 删除
                         let i = ~~name - 1;
                         this.post.post_meta.data.splice(i, 1);

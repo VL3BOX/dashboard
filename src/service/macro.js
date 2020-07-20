@@ -28,6 +28,7 @@ function transferForRedis(data) {
         post_id: pid,
         post_status : data.post_status,
         data: {},
+        lang:data.post_meta.lang
     };
 
     let xf = xfmap[data.post_subtype]['id'] + ''

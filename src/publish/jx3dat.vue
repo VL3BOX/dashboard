@@ -404,6 +404,7 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
+            // console.log(this.build())
             this.doPublish(this.build(), this, false).then((res) => {
                 if (this.post.post_subtype == 1) {
                     syncRedis(res.data.data, this)
@@ -492,7 +493,7 @@ export default {
         build: function() {
             let data = this.$store.state;
             data.post.meta_1 = data.post.post_meta.tag.toString(); //标签
-            data.post.meta_2 = data.post.post_meta.lang; //语言
+            data.post.meta_4 = data.post.post_meta.lang; //语言
             return data;
         },
 

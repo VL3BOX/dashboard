@@ -378,7 +378,7 @@ export default {
                 xfmap[data.post.post_subtype],
                 "id"
             ); //心法id
-            data.post.meta_3 = data.post.post_meta.lang; //语言
+            data.post.meta_4 = data.post.post_meta.lang; //语言
             return data;
         },
 

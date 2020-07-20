@@ -43,6 +43,7 @@ function transferForRedis(data) {
         post_id: pid,
         post_status : data.post_status,
         data: {},
+        lang:data.post_meta.lang
     };
 
     data.post_meta.data.forEach((item, i) => {

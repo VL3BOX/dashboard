@@ -65,7 +65,7 @@
 
 export default {
     name: "pubheader",
-    props: ["name", "localDraft"],
+    props: ["name"],
     data: function() {
         return {
             dialogVisible: false,

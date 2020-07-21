@@ -17,7 +17,6 @@
             :post="post"
             :meta="meta"
             :extend="extend"
-            :localDraft="true"
             :infoEnable="true"
             :contentEnable="false"
             :markdownEnable="false"

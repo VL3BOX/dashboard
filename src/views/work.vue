@@ -50,9 +50,18 @@
                         >{{ item.post_title || "无标题" }}</a
                     >
                     <div class="u-desc">
-                        <span class="u-desc-subitem"><i class="el-icon-folder"></i> 分类 : {{item.post_type | typeFormat}}</span>
-                        <time class="u-desc-subitem"><i class="el-icon-finished"></i> 发布 : {{ item.post_date | dateFormat }}</time>
-                        <time class="u-desc-subitem"><i class="el-icon-refresh"></i> 更新 : {{ item.post_modified | dateFormat }}</time>
+                        <span class="u-desc-subitem"
+                            ><i class="el-icon-folder"></i> 分类 :
+                            {{ item.post_type | typeFormat }}</span
+                        >
+                        <time class="u-desc-subitem"
+                            ><i class="el-icon-finished"></i> 发布 :
+                            {{ item.post_date | dateFormat }}</time
+                        >
+                        <time class="u-desc-subitem"
+                            ><i class="el-icon-refresh"></i> 更新 :
+                            {{ item.post_modified | dateFormat }}</time
+                        >
                     </div>
 
                     <el-button-group class="u-action">
@@ -164,17 +173,19 @@ export default {
             this.$alert("确定要删除吗？", "确认信息", {
                 confirmButtonText: "确定",
                 callback: (action) => {
-                    delPost(id)
-                        .then(() => {
-                            this.$message({
-                                type: "success",
-                                message: `删除成功`,
+                    if (action == "confirm") {
+                        delPost(id)
+                            .then(() => {
+                                this.$message({
+                                    type: "success",
+                                    message: `删除成功`,
+                                });
+                                location.reload();
+                            })
+                            .catch((err) => {
+                                this.failCallback(err, this);
                             });
-                            location.reload();
-                        })
-                        .catch((err) => {
-                            this.failCallback(err, this);
-                        });
+                    }
                 },
             });
         },
@@ -212,9 +223,9 @@ export default {
         dateFormat: function(val) {
             return dateFormat(new Date(val));
         },
-        typeFormat:function (val){
-            return __postType[val]
-        }
+        typeFormat: function(val) {
+            return __postType[val];
+        },
     },
     mounted: function() {
         let route_type = this.$route.params.type;

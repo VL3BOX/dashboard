@@ -1,7 +1,7 @@
 <template>
     <div class="m-publish-header">
         <el-page-header @back="goBack" :content="name"></el-page-header>
-        <div class="m-publish-store" v-if="localDraft">
+        <!-- <div class="m-publish-store" v-if="localDraft">
             <el-button
                 type="primary"
                 icon="el-icon-folder"
@@ -13,7 +13,6 @@
                 title="本地备份"
                 :visible.sync="dialogVisible"
             >
-                <!-- 清空按钮 -->
                 <el-button
                     class="u-clear"
                     plain
@@ -57,12 +56,12 @@
                     >
                 </span>
             </el-dialog>
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script>
-import { DB, savePost } from "../../utils/autoSave";
+// import { DB, savePost } from "../../utils/autoSave";
 
 export default {
     name: "pubheader",
@@ -77,70 +76,71 @@ export default {
     computed: {},
     methods: {
         goBack: function() {
-            this.$alert(
-                "当前页面内容将丢失,但仍可在本地历史存档中找到",
-                "提醒",
-                {
-                    confirmButtonText: "确定",
-                    callback: (action) => {
-                        if (action !== "cancel") {
-                            let draft_key = new Date().toUTCString();
-                            savePost(draft_key, this.$store.state);
-                            this.$root.$router.push("/");
-                        }
-                    },
-                }
-            );
+            // this.$alert(
+            //     "当前页面内容将丢失,但仍可在本地历史存档中找到",
+            //     "提醒",
+            //     {
+            //         confirmButtonText: "确定",
+            //         callback: (action) => {
+            //             if (action !== "cancel") {
+            //                 // let draft_key = new Date().toUTCString();
+            //                 // savePost(draft_key, this.$store.state);
+            //                 this.$root.$router.push("/");
+            //             }
+            //         },
+            //     }
+            // );
+            this.$root.$router.push("/");
         },
-        openDraftBox: function() {
-            this.dialogVisible = true;
-            this.loadDrafts();
-        },
-        closeDraftBox: function() {
-            this.dialogVisible = false;
-        },
-        loadDrafts: function() {
-            this.tableData = [];
-            //当草稿超过n篇时,自动清空
-            DB.length().then((len) => {
-                // if (len > 20) {
-                // DB.clear();
-                // } else {
-                DB.iterate((val, key, i) => {
-                    this.tableData.push({
-                        key: key,
-                        title: val.post.post_title,
-                        content: val.post.post_content,
-                    });
-                })
-                    .then(function() {
-                        console.log("[IDB] Iteration has completed");
-                    })
-                    .catch(function(err) {
-                        console.log(err);
-                    });
-                // }
-            });
-        },
-        clear: function() {
-            this.$alert("确认清除全部缓存归档么", "信息", {
-                confirmButtonText: "确定",
-                callback: (action) => {
-                    DB.clear();
-                    this.tableData = [];
-                },
-            });
-        },
-        useDraft: function(i, key) {
-            DB.getItem(key).then((data) => {
-                this.$store.replaceState(data);
-                this.closeDraftBox();
-            });
-        },
-        deleteDraft: function(i, key) {
-            this.tableData.splice(i, 1);
-            DB.removeItem(key);
-        },
+        // openDraftBox: function() {
+        //     this.dialogVisible = true;
+        //     this.loadDrafts();
+        // },
+        // closeDraftBox: function() {
+        //     this.dialogVisible = false;
+        // },
+        // loadDrafts: function() {
+        //     this.tableData = [];
+        //     //当草稿超过n篇时,自动清空
+        //     DB.length().then((len) => {
+        //         // if (len > 20) {
+        //         // DB.clear();
+        //         // } else {
+        //         DB.iterate((val, key, i) => {
+        //             this.tableData.push({
+        //                 key: key,
+        //                 title: val.post.post_title,
+        //                 content: val.post.post_content,
+        //             });
+        //         })
+        //             .then(function() {
+        //                 console.log("[IDB] Iteration has completed");
+        //             })
+        //             .catch(function(err) {
+        //                 console.log(err);
+        //             });
+        //         // }
+        //     });
+        // },
+        // clear: function() {
+        //     this.$alert("确认清除全部缓存归档么", "信息", {
+        //         confirmButtonText: "确定",
+        //         callback: (action) => {
+        //             DB.clear();
+        //             this.tableData = [];
+        //         },
+        //     });
+        // },
+        // useDraft: function(i, key) {
+        //     DB.getItem(key).then((data) => {
+        //         this.$store.replaceState(data);
+        //         this.closeDraftBox();
+        //     });
+        // },
+        // deleteDraft: function(i, key) {
+        //     this.tableData.splice(i, 1);
+        //     DB.removeItem(key);
+        // },
     },
     mounted: function() {},
     components: {},

@@ -1,20 +1,24 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import index from "../publish/index.vue";
+const index = () => import("../publish/index.vue");
 
-import jx3dat from "../publish/jx3dat.vue";
-import fb from "../publish/fb.vue";
-import cj from "../publish/cj.vue";
-import house from "../publish/house.vue";
-import macro from "../publish/macro.vue";
-import bps from "../publish/bps.vue";
-import tool from "../publish/tool.vue";
-import bbs from "../publish/bbs.vue";
-import share from "../publish/share.vue";
-import exam from "../publish/exam.vue";
-import exam_question from "../publish/exam_question.vue";
-import exam_paper from "../publish/exam_paper.vue";
+
+const macro = () => import("../publish/macro.vue");
+const jx3dat = () => import("../publish/jx3dat.vue");
+const fb = () => import("../publish/fb.vue");
+const bps = () => import("../publish/bps.vue");
+
+const cj = () => import("../publish/cj.vue");
+const house = () => import("../publish/house.vue");
+const share = () => import("../publish/share.vue");
+
+const tool = () => import("../publish/tool.vue");
+const bbs = () => import("../publish/bbs.vue");
+
+const exam = () => import("../publish/exam.vue");
+const exam_question = () => import("../publish/exam_question.vue");
+const exam_paper = () => import("../publish/exam_paper.vue");
 
 Vue.use(VueRouter);
 

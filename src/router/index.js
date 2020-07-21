@@ -1,22 +1,22 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import index from "../views/index.vue";
+const index = () => import("../views/index.vue");
 
-import work from "../views/work.vue";
-import wiki from "../views/wiki.vue";
-import ideas from "../views/ideas.vue";
+const work = () => import("../views/work.vue");
+const wiki = () => import("../views/wiki.vue");
+const ideas = () => import("../views/ideas.vue");
 
-import msg from "../views/msg.vue";
-import feed from "../views/feed.vue";
-import fav from "../views/fav.vue";
-import setting from "../views/setting.vue";
+const msg = () => import("../views/msg.vue");
+const feed = () => import("../views/feed.vue");
+const fav = () => import("../views/fav.vue");
+const setting = () => import("../views/setting.vue");
 
-import profile from "../views/profile.vue";
-import avatar from "../views/avatar.vue";
-import pwd from "../views/pwd.vue";
-import email from "../views/email.vue";
-import connect from "../views/connect.vue";
+const profile = () => import("../views/profile.vue");
+const avatar = () => import("../views/avatar.vue");
+const pwd = () => import("../views/pwd.vue");
+const email = () => import("../views/email.vue");
+const connect = () => import("../views/connect.vue");
 
 Vue.use(VueRouter);
 

@@ -82,7 +82,6 @@ import post_excerpt from "./post_excerpt.vue";
 import post_tag from "./post_tag.vue";
 import post_notify from "./post_notify.vue";
 import post_banner from "./post_banner.vue";
-import { autoSavePost } from "@/utils/autoSave";
 import User from "@jx3box/jx3box-common/js/user";
 
 export default {

@@ -1,20 +1,21 @@
 import { $ } from "./axios";
+import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
 
 function getFavs(query) {
-    return $.get("post/myfav", {
+    return $.get(__server + "post/myfav", {
         params: query,
     });
 }
 
 function addFav(id) {
-    return $.post("post/fav", {
+    return $.post(__server + "post/fav", {
         pid: id,
         action: 1,
     });
 }
 
 function delFav(id) {
-    return $.post("post/fav", {
+    return $.post(__server + "post/fav", {
         pid: id,
         action: 0,
     });

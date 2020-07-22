@@ -1,17 +1,17 @@
-import {$} from "./axios";
-import {__helperUrl} from '@jx3box/jx3box-common/js/jx3box.json'
+import { $ } from "./axios";
+import { __helperUrl } from "@jx3box/jx3box-common/js/jx3box.json";
 
-const API = __helperUrl + 'api/messages';
-const qs = require('qs');
+const API = __helperUrl + "api/messages";
+const qs = require("qs");
 
 function getMsgs(i = 1) {
     return $.get(API, {
-        headers: {Accept: 'application/prs.helper.v2+json'},
+        headers: { Accept: "application/prs.helper.v2+json" },
         params: {
             // length : 2,
-            page: i
-        }
-    })
+            page: i,
+        },
+    });
 }
 
 function readMsg(ids) {
@@ -19,16 +19,20 @@ function readMsg(ids) {
     if (ids) data.ids = ids;
 
     return $.put(`${API}/read`, qs.stringify(data), {
-        headers: {Accept: 'application/prs.helper.v2+json'},
-    })
+        headers: { Accept: "application/prs.helper.v2+json" },
+    });
 }
 
 function removeMsg(ids) {
-    return $.put(`${API}/remove`, qs.stringify({
-        ids: ids
-    }), {
-        headers: {Accept: 'application/prs.helper.v2+json'},
-    })
+    return $.put(
+        `${API}/remove`,
+        qs.stringify({
+            ids: ids,
+        }),
+        {
+            headers: { Accept: "application/prs.helper.v2+json" },
+        }
+    );
 }
 
-export {getMsgs, readMsg, removeMsg}
+export { getMsgs, readMsg, removeMsg };

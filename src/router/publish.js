@@ -8,13 +8,14 @@ const macro = () => import("../publish/macro.vue");
 const jx3dat = () => import("../publish/jx3dat.vue");
 const fb = () => import("../publish/fb.vue");
 const bps = () => import("../publish/bps.vue");
+const tool = () => import("../publish/tool.vue");
 
 const cj = () => import("../publish/cj.vue");
 const house = () => import("../publish/house.vue");
 const share = () => import("../publish/share.vue");
 
-const tool = () => import("../publish/tool.vue");
 const bbs = () => import("../publish/bbs.vue");
+const wiki = () => import("../publish/wiki.vue");
 
 const exam = () => import("../publish/exam.vue");
 const exam_question = () => import("../publish/exam_question.vue");
@@ -93,6 +94,12 @@ const routes = [
     {
         path: "/exam/paper/:id?",
         component: exam_paper,
+    },
+
+    // 词条发布
+    {
+        path: "/wiki/:id?",
+        component: wiki,
     },
 ];
 

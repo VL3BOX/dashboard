@@ -1,9 +1,9 @@
 import { $ } from "./axios";
-import lodash from "lodash";
+import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
 
 // 发布
 function doPublish(data, vm, skip = true) {
-    return $.post(`post/publish`, data)
+    return $.post(__server + `post/publish`, data)
         .then((res) => {
             if (skip) {
                 this.$message({
@@ -19,18 +19,11 @@ function doPublish(data, vm, skip = true) {
 
             return res;
         })
-        .catch((err) => {
-            console.log(err);
-            vm.failCallback(err, vm);
-        })
-        .finally(() => {
-            vm.$store.commit('endProcess')
-        });
 }
 
 // 草稿
 function doDraft(data, vm, skip = true) {
-    return $.post(`post/publish`, data)
+    return $.post(__server + `post/publish`, data)
         .then((res) => {
             if (skip) {
                 this.$message({
@@ -56,13 +49,6 @@ function doDraft(data, vm, skip = true) {
 
             return res;
         })
-        .catch((err) => {
-            console.log(err);
-            vm.failCallback(err, vm);
-        })
-        .finally(() => {
-            vm.$store.commit('endProcess')
-        });
 }
 
 // 编辑加载
@@ -70,7 +56,7 @@ function doLoad(vm, oldMetaKeys) {
     let id = vm.$route.params.id;
 
     if (id) {
-        return $.get(`post/query`, {
+        return $.get(__server + `post/query`, {
             params: {
                 id: id,
             },
@@ -110,10 +96,6 @@ function doLoad(vm, oldMetaKeys) {
                 // }
                 // vm.$store.state.meta = res.data.data.meta;
             })
-            .catch((err) => {
-                console.log(err);
-                vm.failCallback(err, vm);
-            });
     } else {
         return new Promise((resolve, reject) => {
             // 将默认结构添加到$store

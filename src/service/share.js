@@ -1,19 +1,14 @@
-import { $, axios } from "./axios";
+import { $ } from "./axios";
 import { __node, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
-const parse = __node + "facedat";
 
 function uploadData(formdata, vm) {
-    return $.post("upload/data", formdata).catch((err) => {
-        vm.failCallback(err, vm);
-    });
+    return $.post(__server + "upload/data", formdata)
 }
 
 function parseData(data,vm) {
-    return axios.post(parse, {
+    return $.post(__node + "facedat", {
         raw : data
-    }).catch((err) => {
-        vm.failCallback(err, vm);
-    });
+    })
     
 }
 

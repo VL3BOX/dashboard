@@ -1,8 +1,9 @@
 import { $ } from "./axios";
+import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
 
 // 信息
 function getUserInfo(uid) {
-    return $.get("user/info", {
+    return $.get(__server + "user/info", {
         params: {
             uid: uid,
         },
@@ -11,38 +12,38 @@ function getUserInfo(uid) {
 
 // 昵称
 function checkNickname(name) {
-    return $.get("dashboard/nickname/check", {
+    return $.get(__server + "dashboard/nickname/check", {
         params: {
             name: name,
         },
     });
 }
 function updateNickname(data) {
-    return $.post("dashboard/nickname/update", { name: data });
+    return $.post(__server + "dashboard/nickname/update", { name: data });
 }
 // 资料
 function updateProfile(data) {
-    return $.post("dashboard/profile/update", data);
+    return $.post(__server + "dashboard/profile/update", data);
 }
 function getProfile(){
-    return $.get("user/profile").then((res) => {
+    return $.get(__server + "user/profile").then((res) => {
         return res.data.data
     })
 }
 
 // 头像
 function updateAvatar(data) {
-    return $.post("dashboard/avatar/update", data);
+    return $.post(__server + "dashboard/avatar/update", data);
 }
 
 // 密码
 function updatePassword(data) {
-    return $.post("dashboard/password/update", data);
+    return $.post(__server + "dashboard/password/update", data);
 }
 
 // 邮箱
 function checkEmailStatus(uid) {
-    return $.get("dashboard/email/check", {
+    return $.get(__server + "dashboard/email/check", {
         params: {
             uid: uid,
         },
@@ -50,7 +51,7 @@ function checkEmailStatus(uid) {
 }
 
 function checkEmailAvailable(email) {
-    return $.get("account/has", {
+    return $.get(__server + "account/has", {
         params: {
             user_login: email,
         },
@@ -58,11 +59,11 @@ function checkEmailAvailable(email) {
 }
 
 function sendBindEmail(data) {
-    return $.post("dashboard/email/bind", data);
+    return $.post(__server + "dashboard/email/bind", data);
 }
 
 function sendVerifyEmail(uid) {
-    return $.get("dashboard/email/verify", {
+    return $.get(__server + "dashboard/email/verify", {
         params: {
             uid: uid,
         },
@@ -71,11 +72,11 @@ function sendVerifyEmail(uid) {
 
 // 互联
 function unbindOAuth(data) {
-    return $.post("dashboard/oauth/unbind", data);
+    return $.post(__server + "dashboard/oauth/unbind", data);
 }
 
 function checkOAuth(data) {
-    return $.post("dashboard/oauth/check", data);
+    return $.post(__server + "dashboard/oauth/check", data);
 }
 
 export {

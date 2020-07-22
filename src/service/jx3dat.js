@@ -1,36 +1,22 @@
-import { $, axios } from "./axios";
-import { __next, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
+import { $ } from "./axios";
+import { __next, __Root,__server } from "@jx3box/jx3box-common/js/jx3box.json";
 const plugins = __next + "api/plugins/my-team-mon"
 // const plugins = "/api/plugins/my-team-mon"
 const feed = __next + "api/plugins/jx3dat/publish"
 // const feed = "/api/plugins/jx3dat/publish"
 
 function uploadHub(formdata, vm) {
-    return axios
-        .post(plugins, formdata, {
-            withCredentials: true,
-        })
-        .catch((err) => {
-            vm.failCallback(err, vm);
-        });
+    return $.post(plugins, formdata)
 }
 
 function uploadData(formdata, vm) {
-    return $.post("upload/data", formdata).catch((err) => {
-        vm.failCallback(err, vm);
-    });
+    return $.post(__server + "upload/data", formdata);
 }
 
 function syncRedis(data,vm) {
     let redisData = transferForRedis(data);
     console.log('正在执行redis同步作业:',redisData)
-    return axios
-        .post(feed, redisData, {
-            withCredentials: true,
-        })
-        .catch((err) => {
-            vm.failCallback(err, vm);
-        });
+    return $.post(feed, redisData)
 }
 
 function transferForRedis(data) {

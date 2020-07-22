@@ -174,15 +174,6 @@ export default {
                         });
                     }
                 })
-                .catch(() => {
-                    this.$message({
-                        message: "网络异常，提交失败",
-                        type: "error",
-                    });
-                })
-                .finally(() => {
-                    this.$store.commit('endProcess');
-                });
         },
         get_achievement_newest_post(achievement_id) {
             return $http({

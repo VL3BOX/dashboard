@@ -1,90 +1,44 @@
-import { axios } from "./axios";
+import { $ } from "./axios";
 import { __next } from "@jx3box/jx3box-common/js/jx3box.json";
 
 const API = __next + 'api/question/'  //TODO:
 // const API = "/api/question/";
 
 function getQuestion(id, vm) {
-    return axios
-        .get(API + id, {
-            withCredentials: true,
-        })
-        .catch((err) => {
-            vm.failCallback(err, vm);
-        });
+    return $
+        .get(API + id)
 }
 
 function createQuestion(data, vm) {
-    return axios
-        .post(API + "create", data, {
-            withCredentials: true,
-        })
-        .catch((err) => {
-            vm.failCallback(err, vm);
-        })
-        .finally(() => {
-            vm.$store.commit("endProcess");
-        });
+    return $
+        .post(API + "create", data)
 }
 
 function updateQuestion(id, data, vm) {
-    return axios
-        .put(API + id + "/update", data, {
-            withCredentials: true,
-        })
-        .catch((err) => {
-            vm.failCallback(err, vm);
-        })
-        .finally(() => {
-            vm.$store.commit("endProcess");
-        });
+    return $
+        .put(API + id + "/update", data)
 }
 
 function createPaper(data, vm) {
-    return axios
-        .post(API + "exam-paper", data, {
-            withCredentials: true,
-        })
-        .catch((err) => {
-            vm.failCallback(err, vm);
-        })
-        .finally(() => {
-            vm.$store.commit("endProcess");
-        });
+    return $
+        .post(API + "exam-paper", data)
 }
 
 function updatePaper(id, data, vm) {
-    return axios
-        .put(API + "exam-paper/" + id, data, {
-            withCredentials: true,
-        })
-        .catch((err) => {
-            vm.failCallback(err, vm);
-        })
-        .finally(() => {
-            vm.$store.commit("endProcess");
-        });
+    return $
+        .put(API + "exam-paper/" + id, data)
 }
 
 function getPaper(id, vm) {
-    return axios
-        .get(API + "exam-paper/" + id, {
-            withCredentials: true,
-        })
-        .catch((err) => {
-            vm.failCallback(err, vm);
-        });
+    return $
+        .get(API + "exam-paper/" + id)
 }
 
 function getQuestions(query, vm) {
-    return axios
+    return $
         .get(API + "my-list", {
             params: query,
-            withCredentials: true,
         })
-        .catch((err) => {
-            vm.failCallback(err, vm);
-        });
 }
 
 export {

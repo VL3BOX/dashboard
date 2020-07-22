@@ -1,5 +1,5 @@
-import {$ as $http} from "./axios";
-import {__helperUrl} from '@jx3box/jx3box-common/js/jx3box.json';
+import { $ as $http } from "./axios";
+import { __helperUrl } from "@jx3box/jx3box-common/js/jx3box.json";
 
 function get_posts(keyword, page, limit) {
     let data = {};
@@ -10,7 +10,7 @@ function get_posts(keyword, page, limit) {
     return $http({
         method: "GET",
         url: `${__helperUrl}api/my/wiki/posts`,
-        headers: {Accept: "application/prs.helper.v2+json"},
+        headers: { Accept: "application/prs.helper.v2+json" },
         params: data,
     });
 }
@@ -20,7 +20,7 @@ function remove_post(post_id) {
     return $http({
         method: "PUT",
         url: `${__helperUrl}api/my/wiki/post/${post_id}/remove`,
-        headers: {Accept: "application/prs.helper.v2+json"},
+        headers: { Accept: "application/prs.helper.v2+json" },
     });
 }
 
@@ -33,7 +33,7 @@ function get_comments(keyword, page, limit) {
     return $http({
         method: "GET",
         url: `${__helperUrl}api/my/wiki/comments`,
-        headers: {Accept: "application/prs.helper.v2+json"},
+        headers: { Accept: "application/prs.helper.v2+json" },
         params: data,
     });
 }
@@ -43,8 +43,8 @@ function remove_comment(comment_id) {
     return $http({
         method: "PUT",
         url: `${__helperUrl}api/my/wiki/comment/${comment_id}/remove`,
-        headers: {Accept: "application/prs.helper.v2+json"},
+        headers: { Accept: "application/prs.helper.v2+json" },
     });
 }
 
-export {get_posts, remove_post, get_comments, remove_comment};
+export { get_posts, remove_post, get_comments, remove_comment };

@@ -95,7 +95,6 @@
                     :disabled="processing"
                     >提交词条</el-button
                 >
-
                 <el-checkbox class="u-anonymous" v-model="primary.anonymous"
                     >匿名</el-checkbox
                 >
@@ -145,6 +144,7 @@ export default {
             let check = this.validate();
             if (!check) return;
             this.$store.commit("startProcess");
+            this.primary.anonymous = ~~this.primary.anonymous
             addWiki(this.primary).then((res) => {
                 this.success(res);
             });
@@ -160,6 +160,7 @@ export default {
             loadWiki(this.id).then((res) => {
                 console.log(res.data.data)
                 this.primary = res.data.data
+                this.primary.anonymous = ~~this.primary.anonymous
             })
         },
         validate: function() {

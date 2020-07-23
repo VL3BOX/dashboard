@@ -57,10 +57,9 @@
                     src="../assets/img/nav/user.svg"
                 /><span>资料修改</span></a
             >
-            <!-- <a href="../#/avatar"><img class="u-avatar" svg-inline src="../assets/img/nav/avatar.svg" /><span>定制头像</span></a>
-            <a href="../#/pwd"><img class="u-pass" svg-inline src="../assets/img/nav/pass.svg" /><span>修改密码</span></a>
-            <a href="../#/email"><img class="u-mail" svg-inline src="../assets/img/nav/mail.svg" /><span>绑定邮箱</span></a>
-            <a href="../#/connect"><img class="u-link" svg-inline src="../assets/img/nav/link.svg" /><span>绑定账号</span></a> -->
+            <a href="../#/config"
+                ><i class="u-icon el-icon-s-tools"></i><span>通知设置</span></a
+            >
             <a :href="feedback" target="_blank"
                 ><img
                     class="u-help"

@@ -79,6 +79,15 @@ function checkOAuth(data) {
     return $.post(__server + "dashboard/oauth/check", data);
 }
 
+// 用户设置
+function getConf(){
+    return $.get(__server + "dashboard/config");
+}
+
+function setConf(data){
+    return $.post(__server + "dashboard/config",data);
+}
+
 export {
     getUserInfo,
     checkNickname,
@@ -93,4 +102,6 @@ export {
     sendBindEmail,
     unbindOAuth,
     checkOAuth,
+    getConf,
+    setConf
 };

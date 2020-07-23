@@ -18,6 +18,7 @@ const avatar = () => import("../views/avatar.vue");
 const pwd = () => import("../views/pwd.vue");
 const email = () => import("../views/email.vue");
 const connect = () => import("../views/connect.vue");
+const config = () => import("../views/config.vue");
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,7 @@ const routes = [
     { name: "pwd", path: "/pwd", component: pwd },
     { name: "email", path: "/email", component: email },
     { name: "connect", path: "/connect", component: connect },
+    { name: "config", path: "/config", component: config },
 ];
 
 const router = new VueRouter({

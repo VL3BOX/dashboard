@@ -1,18 +1,22 @@
 <template>
     <div class="m-dashboard m-dashboard-work">
-        <!-- <el-input
+        <el-input
             class="m-dashboard-work-search"
             placeholder="请输入内容"
             v-model="search"
-            @change="searchPost"
+            @change="loadPosts"
         >
             <el-select
                 class="u-select"
                 v-model="searchType"
                 slot="prepend"
                 placeholder="请选择"
-                @change="searchPost"
+                @change="loadPosts"
             >
+                <el-option
+                    label="全部"
+                    value=""
+                ></el-option>
                 <el-option
                     :label="item"
                     :value="key"
@@ -23,9 +27,9 @@
             <el-button
                 slot="append"
                 icon="el-icon-search"
-                @click="searchPost"
+                @click="loadPosts"
             ></el-button>
-        </el-input> -->
+        </el-input>
 
         <div class="m-dashboard-box">
             <ul class="m-dashboard-box-list" v-if="data.length">
@@ -42,27 +46,27 @@
                             src="../assets/img/works/draft.svg"
                         />
                     </i>
-                    <a class="u-title" target="_blank" :href="postLink(item.id)"
+                    <a class="u-title" target="_blank" :href="postLink(item.wiki_id)"
                         >[{{ item.type | typeFormat }}]
                         {{ item.title || "无标题" }}</a
                     >
                     <div class="u-desc">
-                        <span class="u-desc-subitem"
+                        <!-- <span class="u-desc-subitem"
                             >编号 : <b>{{ item.id }}</b></span
-                        >
+                        > -->
                         <span class="u-status u-desc-subitem">
                             状态:
                             <b
                                 :class="{
-                                    pass: item.status > 0,
                                     pending: item.status == 0,
-                                    fail: item.status < 0,
+                                    pass: item.status == 1,
+                                    fail: item.status == 2,
                                 }"
                                 >{{ statusmap[item.status] }}</b
                             >
                         </span>
                         <time class="u-time u-desc-subitem"
-                            >提交于: {{ item.createTime | dateFormat }}</time
+                            >提交于: {{ item.created_at }}</time
                         >
                     </div>
                     <el-button-group class="u-action">
@@ -72,7 +76,7 @@
                             size="mini"
                             icon="el-icon-edit"
                             title="编辑"
-                            @click="edit(searchType, item.id)"
+                            @click="edit(item.id)"
                         ></el-button>
                     </el-button-group>
                 </li>
@@ -89,11 +93,11 @@
             <el-pagination
                 class="m-dashboard-box-pages"
                 background
-                :page-size="per"
+                layout="total, prev, pager, next, jumper"
                 :hide-on-single-page="true"
+                :page-size="per"
                 @current-change="changePage"
                 :current-page.sync="page"
-                layout="total, prev, pager, next, jumper"
                 :total="total"
             >
             </el-pagination>
@@ -102,106 +106,58 @@
 </template>
 
 <script>
-import { getQuestions } from "../service/exam";
+import { myWiki } from "../service/bb";
 import dateFormat from "../utils/dateFormat";
-import { types } from "../assets/data/exam.json";
+import { types } from "../assets/data/wiki.json";
 const statusmap = {
-    "-2": "已删除",
-    "-1": "未通过审核",
     "0": "待审核",
-    "1": "已入库",
+    "1": "通过审核",
+    "2": "未通过审核",
 };
 export default {
-    name: "ideas",
+    name: "bb",
     props: [],
     data: function() {
         return {
             data: [],
             total: 1,
             page: 1,
-            per: 15,
+            per: 10,
             search: "",
-            searchType: "question",
-            types: {
-                question: "题目",
-                paper: "试卷",
-            },
+            searchType: "",
+            types,
             statusmap,
         };
     },
-    computed: {},
+    computed: {
+        params : function (){
+            return {
+                size : this.per,
+                title : this.search
+            }
+        }
+    },
     methods: {
         loadPosts: function(i = 1) {
-            getQuestions(
-                {
-                    pageIndex: i,
-                    // title: this.search,
-                    // type: this.searchType,
-                    // per : this.per
-                },
-                this
-            ).then((res) => {
-                this.data = res.data.data;
-                this.total = res.data.page.total;
+            let query = Object.assign(this.params,{
+                page : i
+            })
+            myWiki(query).then((res) => {
+                this.data = res.data.data.data;
+                this.total = res.data.data.total;
             });
         },
         changePage: function(i = 1) {
             this.loadPosts(i);
         },
-        searchPost: function() {
-            this.loadPosts();
-        },
-        edit: function(type, id) {
-            location.href = "./publish/#/exam/" + type + "/" + id;
-        },
-        del: function(id) {
-            this.$alert("确定要删除吗？", "确认信息", {
-                confirmButtonText: "确定",
-                callback: (action) => {
-                    if(action == 'confirm'){
-                        delPost(id)
-                            .then(() => {
-                                this.$message({
-                                    type: "success",
-                                    message: `删除成功`,
-                                });
-                                location.reload();
-                            })
-                    }
-                },
-            });
-        },
-        draft: function(id, i) {
-            hidePost(id)
-                .then((res) => {
-                    this.$message({
-                        type: "success",
-                        message: `操作成功`,
-                    });
-                    this.data[i].post_status = "draft";
-                })
-        },
-        publish: function(id, i) {
-            publishPost(id)
-                .then((res) => {
-                    this.$message({
-                        type: "success",
-                        message: `操作成功`,
-                    });
-                    this.data[i].post_status = "publish";
-                })
+        edit: function(id) {
+            location.href = "./publish/#/wiki/" + id;
         },
         postLink: function(id) {
-            return "/exam/#/question/" + id;
-        },
-        paperLink: function(id) {
-            return "/exam/#/paper/" + id;
+            return "/wiki/?pid=" + id;
         },
     },
     filters: {
-        dateFormat: function(val) {
-            return dateFormat(new Date(val * 1000));
-        },
         typeFormat: function(type) {
             return types[type];
         },

@@ -414,9 +414,6 @@ export default {
                                 this.type
                             );
                         })
-                        .catch((err) => {
-                            this.failCallback(err, this);
-                        });
                 } else {
                     this.finish(res.data.msg, res.data.data.ID, this.type);
                 }
@@ -434,9 +431,6 @@ export default {
                                 this.type
                             );
                         })
-                        .catch((err) => {
-                            this.failCallback(err, this);
-                        });
                 } else {
                     this.finish(res.data.msg, res.data.data.ID, this.type);
                 }

@@ -1,10 +1,21 @@
-// import { __bb } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __bb } from "@jx3box/jx3box-common/js/jx3box.json";
 import { $ } from "./axios";
-const __bb = 'http://bb.jx3box.com/'
 
-const add = __bb + 'api/wiki/user_item'
+const add = __bb + "api/wiki/user_item";
 function addWiki(data) {
-    return $.post(add,data)
+    return $.post(add, data);
 }
 
-export { addWiki };
+const load = __bb + "api/wiki/user_item/";
+function loadWiki(id) {
+    return $.get(load + id);
+}
+
+const list = __bb + "api/wiki/user_item/";
+function myWiki(params) {
+    return $.get(list,{
+        params : params
+    });
+}
+
+export { addWiki, loadWiki, myWiki };

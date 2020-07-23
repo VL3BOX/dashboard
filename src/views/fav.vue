@@ -118,9 +118,6 @@ export default {
                             });
                             location.reload();
                         })
-                        .catch((err) => {
-                            this.failCallback(err, this);
-                        });
                 },
             });
         },

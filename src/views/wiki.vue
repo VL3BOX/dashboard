@@ -220,20 +220,22 @@ export default {
             this.$alert("确定要删除吗？", "确认信息", {
                 confirmButtonText: "确定",
                 callback: (action) => {
-                    remove_post(post.id).then(
-                        (data) => {
-                            data = data.data;
-                            if (data.code === 200) {
-                                this.$notify({title: "删除成功", type: "success"});
-                                this.post_page_change(this.post_page);
-                            } else {
-                                this.$notify({title: "删除失败", type: "error"});
+                    if(action == 'confirm'){
+                        remove_post(post.id).then(
+                            (data) => {
+                                data = data.data;
+                                if (data.code === 200) {
+                                    this.$notify({title: "删除成功", type: "success"});
+                                    this.post_page_change(this.post_page);
+                                } else {
+                                    this.$notify({title: "删除失败", type: "error"});
+                                }
+                            },
+                            () => {
+                                this.$notify({ title: "删除失败", type: "error" });
                             }
-                        },
-                        () => {
-                            this.$notify({ title: "删除失败", type: "error" });
-                        }
-                    );
+                        );
+                    }
                 },
             });
         },

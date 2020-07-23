@@ -339,9 +339,6 @@ export default {
                     .then((redis_result) => {
                         this.finish(res.data.msg, res.data.data.ID, this.type);
                     })
-                    .catch((err) => {
-                        this.failCallback(err, this);
-                    });
             });
         },
         // 草稿
@@ -351,9 +348,6 @@ export default {
                     .then((redis_result) => {
                         this.finish(res.data.msg, res.data.data.ID, this.type);
                     })
-                    .catch((err) => {
-                        this.failCallback(err, this);
-                    });
             });
         },
         finish: function(msg, id, type) {

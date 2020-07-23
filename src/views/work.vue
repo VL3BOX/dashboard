@@ -182,9 +182,6 @@ export default {
                                 });
                                 location.reload();
                             })
-                            .catch((err) => {
-                                this.failCallback(err, this);
-                            });
                     }
                 },
             });
@@ -198,9 +195,6 @@ export default {
                     });
                     this.data[i].post_status = "draft";
                 })
-                .catch((err) => {
-                    this.failCallback(err, this);
-                });
         },
         publish: function(id, i) {
             publishPost(id)
@@ -211,9 +205,6 @@ export default {
                     });
                     this.data[i].post_status = "publish";
                 })
-                .catch((err) => {
-                    this.failCallback(err, this);
-                });
         },
         postLink: function(type, id) {
             return __Root + type + "/?pid=" + id;

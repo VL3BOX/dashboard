@@ -8,8 +8,9 @@
             label-position="left"
             label-width="80px"
             class="m-publish-wiki"
+            v-model="primary"
         >
-            <el-form-item label="类别" class="m-publish-wiki-type">
+            <el-form-item label="类别" class="m-publish-wiki-type isRequired">
                 <el-radio-group v-model="primary.type">
                     <el-radio
                         :label="type"
@@ -21,14 +22,19 @@
                 </el-radio-group>
             </el-form-item>
 
-            <el-form-item label="名称" class="m-publish-wiki-title">
+            <el-form-item label="名称" class="m-publish-wiki-title isRequired">
                 <el-input
                     v-model="primary.title"
                     placeholder="请输入词条名称"
+                    :minlength="1"
+                    :maxlength="50"
                 ></el-input>
             </el-form-item>
 
-            <el-form-item label="内容" class="m-publish-wiki-content">
+            <el-form-item
+                label="内容"
+                class="m-publish-wiki-content isRequired"
+            >
                 <Tinymce
                     v-model="primary.content"
                     :attachmentEnable="true"
@@ -67,7 +73,7 @@
                 >
             </el-form-item>
 
-            <el-form-item label="批注" class="m-publish-wiki-remark">
+            <el-form-item label="批注" class="m-publish-wiki-remark isRequired">
                 <el-input
                     v-model="primary.remark"
                     :maxlength="200"
@@ -90,7 +96,9 @@
                     >提交词条</el-button
                 >
 
-                <el-checkbox class="u-anonymous" v-model="primary.anonymous">匿名</el-checkbox>
+                <el-checkbox class="u-anonymous" v-model="primary.anonymous"
+                    >匿名</el-checkbox
+                >
             </el-form-item>
         </el-form>
     </div>
@@ -101,7 +109,7 @@ import pubheader from "@/components/publish/pubheader.vue";
 import { types } from "@/assets/data/wiki.json";
 import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
 import User from "@jx3box/jx3box-common/js/user";
-import { addWiki } from "../service/bb";
+import { addWiki, loadWiki } from "../service/bb";
 export default {
     name: "wiki",
     props: [],
@@ -112,8 +120,8 @@ export default {
                 type: "",
                 title: "",
                 content: "",
-                tag: [],
                 remark: "",
+                tag: [],
                 reference: [],
                 anonymous: 0,
             },
@@ -127,9 +135,6 @@ export default {
         id: function() {
             return this.$route.params.id;
         },
-        isNew: function() {
-            return !this.id;
-        },
         processing: function() {
             return this.$store.state.processing;
         },
@@ -137,41 +142,35 @@ export default {
     watch: {},
     methods: {
         publish: function() {
+            let check = this.validate();
+            if (!check) return;
             this.$store.commit("startProcess");
-            console.log(this.primary)
             addWiki(this.primary).then((res) => {
-                console.log(res.data)
                 this.success(res);
             });
         },
         success: function(res) {
             this.$message({
-                message: res.data.msg || "提交成功",
+                message: "提交成功请等待审核",
                 type: "success",
             });
-            // this.$router.push({ path: "/" });
+            this.$router.push({ path: "/" });
         },
         loadData: function() {
-            // getQuestion(this.id, this).then((res) => {
-            //     let data = res.data;
-            //     this.primary.title = data.title;
-            //     this.primary.type = data.type;
-            //     this.primary.options = JSON.parse(data.options);
-            //     this.primary.answer = data.answerList;
-            //     this.primary.hardStar = data.hardStar;
-            //     this.primary.tags = JSON.parse(data.tags);
-
-            //     this.primary.pool = data.pool;
-
-            //     this.primary.whyami = data.whyami;
-            // });
-        },
-        updateTags: function(val) {
-            // console.log(val);
-            // this.tags = val;
+            loadWiki(this.id).then((res) => {
+                console.log(res.data.data)
+                this.primary = res.data.data
+            })
         },
         validate: function() {
-            // 1.检查必填项：remark
+            let required = ["title", "type", "content", "remark"];
+            let result = required.every((prop) => {
+                return !!this.primary[prop];
+            });
+            if (!result) {
+                this.$message.error("请完成必填项");
+            }
+            return result;
         },
         handleClose(tag) {
             this.primary.tag.splice(this.primary.tag.indexOf(tag), 1);

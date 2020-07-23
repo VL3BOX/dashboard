@@ -161,7 +161,6 @@ export default {
                 })
                 .catch((err) => {
                     this.checkname = false;
-                    this.failCallback(err, this);
                 });
         },
         submitChangeName() {
@@ -192,9 +191,6 @@ export default {
                                 this.renaming = false;
                                 this.dialogVisible = false
                             })
-                            .catch((err) => {
-                                this.failCallback(err, this);
-                            });
                     }
                 },
             });
@@ -229,9 +225,6 @@ export default {
                         type: "success",
                     });
                 })
-                .catch((err) => {
-                    this.failCallback(err, this);
-                });
         },
         // 获取资料
         getUserProfile() {

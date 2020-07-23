@@ -17,6 +17,11 @@
                     >百科贡献</span
                 ></router-link
             >
+            <router-link to="/bb"
+                ><img svg-inline src="../assets/img/nav/repo.svg" /><span
+                    >词条贡献</span
+                ></router-link
+            >
             <router-link to="/ideas"
                 ><img svg-inline src="../assets/img/nav/repo.svg" /><span
                     >题库贡献</span

@@ -65,9 +65,6 @@ export default {
                 .then((res) => {
                     this.join = dateFormat(new Date(res.data.data.created_at));
                 })
-                .catch((err) => {
-                    this.$message.error("网络请求异常");
-                });
         }
     },
 };

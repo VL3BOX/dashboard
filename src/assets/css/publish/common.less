@@ -58,4 +58,12 @@
     .c-large-dialog{
         line-height:1.5 !important;
     }
+
+    .isRequired .el-form-item__label{
+        &:after{
+            content:"*";
+            color:#fc3c3c;
+            .ml(3px);
+        }
+    }
 }

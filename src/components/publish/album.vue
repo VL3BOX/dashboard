@@ -25,7 +25,7 @@
 <script>
 import allow_types from "@jx3box/jx3box-common/js/conf";
 import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
-import axios from "axios";
+import {axios} from "@/service/axios";
 // import draggable from 'vuedraggable'
 const imgtypes = ["jpg", "png", "gif", "bmp"];
 const API = __server + "upload";
@@ -86,15 +86,6 @@ export default {
                         this.fileList.push(file);
                         this.$emit("albumChange", this.fileList);
                     })
-                    .catch((err) => {
-                        if (err.response.data.code) {
-                            this.$message.error(
-                                `[${err.response.data.code}] ${err.response.data.msg}`
-                            );
-                        } else {
-                            this.$message.error("请求异常");
-                        }
-                    });
             }
         },
         handleRemove(file, fileList) {

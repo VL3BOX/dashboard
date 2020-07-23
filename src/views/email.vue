@@ -142,9 +142,6 @@ export default {
                         type: "success",
                     });
                 })
-                .catch((err) => {
-                    this.failCallback(err, this);
-                });
         },
         checkEmail: function() {
             // 如果为空
@@ -168,9 +165,6 @@ export default {
                 .then((res) => {
                     this.email_available = res.data ? false : true;
                 })
-                .catch((err) => {
-                    this.$message.error("网络请求异常");
-                });
         },
         bind: function() {
             if (!this.ready) {
@@ -187,9 +181,6 @@ export default {
                         confirmButtonText: "确定",
                     });
                 })
-                .catch((err) => {
-                    this.failCallback(err, this);
-                });
         },
     },
     mounted: function() {

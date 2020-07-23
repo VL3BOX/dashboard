@@ -72,9 +72,6 @@ export default {
                         type: "success",
                     });
                 })
-                .catch((err) => {
-                    this.failCallback(err, this);
-                });
         },
     },
     mounted: function() {

@@ -137,7 +137,6 @@ export default {
             let id = item.source_id;
             let type = item.source_type;
 
-            // TODO:消息链接
             if (cms_types.includes(type)) {
                 return __Root + type + "/?pid=" + id;
             } else if (wiki_types.includes(type)) {

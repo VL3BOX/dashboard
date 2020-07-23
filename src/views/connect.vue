@@ -95,19 +95,6 @@ export default {
                         type: "success",
                     });
                 })
-                .catch((err) => {
-                    if (err.response.data.code) {
-                        this.$alert(
-                            `[${err.response.data.code}] ${err.response.data.msg}`,
-                            "消息",
-                            {
-                                confirmButtonText: "确定",
-                            }
-                        );
-                    } else {
-                        this.$message.error("网络请求异常");
-                    }
-                });
         },
     },
     mounted: function() {
@@ -120,9 +107,6 @@ export default {
                 this.qq = res.data.data.qq || "";
                 this.weibo = res.data.data.weibo || "";
             })
-            .catch((err) => {
-                this.failCallback(err, this);
-            });
     },
 };
 </script>

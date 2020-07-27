@@ -11,7 +11,7 @@
                 v-model="searchType"
                 slot="prepend"
                 placeholder="请选择"
-                @change="loadPosts"
+                @change="loadPosts(1)"
             >
                 <el-option
                     label="全部"
@@ -27,7 +27,7 @@
             <el-button
                 slot="append"
                 icon="el-icon-search"
-                @click="loadPosts"
+                @click="loadPosts(1)"
             ></el-button>
         </el-input>
 
@@ -108,7 +108,7 @@
 <script>
 import { myWiki } from "../service/bb";
 import dateFormat from "../utils/dateFormat";
-import { types } from "../assets/data/wiki.json";
+import { types } from "@jx3box/jx3box-data/data/common/wiki.json";
 const statusmap = {
     "0": "待审核",
     "1": "通过审核",
@@ -133,7 +133,9 @@ export default {
         params : function (){
             return {
                 size : this.per,
-                title : this.search
+                title : this.search,
+                size : this.per,
+                type : this.searchType
             }
         }
     },

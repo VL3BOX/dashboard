@@ -178,7 +178,7 @@
 
                             // 数据填充
                             let post = data.post;
-                            let item = data.item;
+                            let item = data.source;
                             if (post) {
                                 this.post.source_id = parseInt(post.source_id);
                                 this.post.level = post.level || 1;

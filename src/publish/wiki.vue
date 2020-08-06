@@ -28,6 +28,7 @@
                     placeholder="请输入词条名称"
                     :minlength="1"
                     :maxlength="50"
+                    :disabled="!!id"
                 ></el-input>
             </el-form-item>
 

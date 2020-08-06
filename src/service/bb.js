@@ -6,7 +6,7 @@ function addWiki(data) {
     return $.post(add, data);
 }
 
-const load = __bb + "api/wiki/user_item/";
+const load = __bb + "api/wiki/";
 function loadWiki(id) {
     return $.get(load + id);
 }

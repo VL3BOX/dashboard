@@ -159,9 +159,15 @@ export default {
         },
         loadData: function() {
             loadWiki(this.id).then((res) => {
+                let data = res.data.data
                 console.log(res.data.data)
-                this.primary = res.data.data
-                this.primary.anonymous = ~~this.primary.anonymous
+
+                this.primary.wiki_id = data.id
+                this.primary.type = data.type
+                this.primary.title = data.title
+                this.primary.content = data.content
+                this.primary.tag = data.tag
+                this.primary.anonymous = !!data.anonymous
             })
         },
         validate: function() {

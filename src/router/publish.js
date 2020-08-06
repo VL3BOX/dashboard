@@ -11,6 +11,7 @@ const bps = () => import("../publish/bps.vue");
 const tool = () => import("../publish/tool.vue");
 
 const cj = () => import("../publish/cj.vue");
+const item = () => import("../publish/item.vue");
 const house = () => import("../publish/house.vue");
 const share = () => import("../publish/share.vue");
 
@@ -28,10 +29,16 @@ const routes = [
     // 发布索引
     { path: "/", component: index },
 
-    // 成就发布
+    // 成就攻略发布
     {
         path: "/cj/:achievement_id(\\d+)?",
         component: cj,
+    },
+
+    // 物品攻略发布
+    {
+        path: "/item/:source_id(\\d+)?",
+        component: item,
     },
 
     // 副本发布

@@ -190,7 +190,7 @@ export default {
             });
         },
         handleInputConfirm() {
-            let inputValue = this.inputValue;
+            let inputValue = this.inputValue.trim();
             if (inputValue) {
                 this.primary.tag.push(inputValue);
             }

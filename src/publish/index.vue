@@ -104,6 +104,16 @@
                         ></el-card
                     ></el-col
                 >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link to="/item"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/item.svg"
+                            /><span>物品攻略</span></router-link
+                        ></el-card
+                    ></el-col
+                >
             </el-row>
 
             <el-divider content-position="left">PVBB</el-divider>

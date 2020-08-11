@@ -14,7 +14,7 @@
 </template>
 
 <script>
-const { JX3BOX, User } = require("@jx3box/jx3box-common");
+const { JX3BOX, User,Utils } = require("@jx3box/jx3box-common");
 export default {
     name: "Info",
     props: [],
@@ -25,7 +25,7 @@ export default {
     },
     computed: {
         home: function() {
-            return JX3BOX.__Links.author + '?uid=' + this.uid;
+            return Utils.authorLink(this.uid);
         },
     },
     methods: {},

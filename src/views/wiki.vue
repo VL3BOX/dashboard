@@ -26,6 +26,7 @@
                         <span v-if="post.checked == 0" class="u-mark pending">⌛ 等待审核</span>
                         <span v-if="post.checked == 1" class="u-mark">✔ 审核通过</span>
                         <span v-if="post.checked == 2" class="u-mark reject">❌ 审核驳回</span>
+                        <span v-if="post.checked == 3" class="u-mark hold">🔐 等待验证</span>
                         <div class="u-desc">
                             <span
                                 v-if="post.checked == 2 && post.check_remark"
@@ -326,6 +327,10 @@ export default {
 
         &.reject {
             background-color: #f0787a;
+        }
+
+        &.hold {
+            background-color: darkorange;
         }
     }
 

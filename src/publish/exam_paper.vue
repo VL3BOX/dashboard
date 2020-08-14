@@ -35,7 +35,7 @@
             </el-form-item>
             <el-form-item label="题目" class="m-publish-exam-common">
                 <div>
-                    只设置10道题（每道题10分，满分100分），用半角逗号隔开，例如1,2,3
+                    请设置10道题（每道题10分，满分100分），用半角逗号隔开，例如1,2,3
                 </div>
                 <el-input
                     v-model="list"
@@ -184,6 +184,7 @@ export default {
                 this.primary.corner = data.corner;
                 this.primary.tags = JSON.parse(data.tags);
                 this.primary.style = data.style;
+                this.primary.hardStar = data.hardStar
 
                 this.primary.questionList = JSON.parse(data.questionList);
                 this.list = this.primary.questionList.toString();
@@ -217,3 +218,7 @@ export default {
     },
 };
 </script>
+
+<style lang="less">
+@import "../assets/css/publish/exam.less";
+</style>

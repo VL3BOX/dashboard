@@ -44,7 +44,8 @@
 </template>
 
 <script>
-import { JX3BOX, User, OAuth } from "@jx3box/jx3box-common";
+import { JX3BOX, User } from "@jx3box/jx3box-common";
+import OAuth from "@/assets/data/oauth.js";
 import { unbindOAuth, checkOAuth } from "../service/profile";
 
 export default {
@@ -87,26 +88,24 @@ export default {
             unbindOAuth({
                 uid: this.uid,
                 type: type,
-            })
-                .then((res) => {
-                    this[type] = null;
-                    this.$message({
-                        message: "解绑成功",
-                        type: "success",
-                    });
-                })
+            }).then((res) => {
+                this[type] = null;
+                this.$message({
+                    message: "解绑成功",
+                    type: "success",
+                });
+            });
         },
     },
     mounted: function() {
         this.uid = User.getInfo().uid;
         checkOAuth({
             uid: this.uid,
-        })
-            .then((res) => {
-                this.github = res.data.data.github || "";
-                this.qq = res.data.data.qq || "";
-                this.weibo = res.data.data.weibo || "";
-            })
+        }).then((res) => {
+            this.github = res.data.data.github || "";
+            this.qq = res.data.data.qq || "";
+            this.weibo = res.data.data.weibo || "";
+        });
     },
 };
 </script>

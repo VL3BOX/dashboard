@@ -334,8 +334,13 @@ export default {
         }
     }
 
+    li{
+        padding-left:40px;
+    }
+
     .u-tab {
-        float: left;
+        // float: left;
+        .pa;left:10px;
         width: 1em;
         margin-top: 4px;
         margin-right: 5px;

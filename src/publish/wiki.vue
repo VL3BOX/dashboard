@@ -28,7 +28,7 @@
                     placeholder="请输入词条名称"
                     :minlength="1"
                     :maxlength="50"
-                    :disabled="!!id"
+                    :disabled="!!id && !isSuper"
                 ></el-input>
             </el-form-item>
 
@@ -129,6 +129,7 @@ export default {
 
             inputVisible: false,
             inputValue: "",
+            isSuper : User.getInfo().group > 60
         };
     },
     computed: {

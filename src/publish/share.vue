@@ -212,6 +212,7 @@ export default {
             fr.readAsText(facedata);
             fr.onload = function(e) {
                 console.log("读取成功...开始执行分析...");
+                // console.log(e.target.result)
                 parseData(e.target.result,vm)
                     .then((res) => {
                         vm.post.post_meta.data = JSON.stringify(res.data.data);

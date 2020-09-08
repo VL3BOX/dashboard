@@ -36,42 +36,8 @@
                     >
                     </el-switch>
                 </el-form-item>
-                
-                <!-- 1.房屋类型 -->
-                <el-form-item label="房型属性" class="m-house-coord">
-                    <el-row :gutter="20">
-                        <el-col :span="8"
-                            ><el-input
-                                v-model="post.post_meta.num"
-                                placeholder="所在房号"
-                                @change="computeArea(post.post_meta.num)"
-                                ><template slot="append">号</template></el-input
-                            ></el-col
-                        >
-                        <el-col :span="8"
-                            ><el-input
-                                v-model="post.post_meta.area"
-                                placeholder="面积"
-                                ><template slot="append"
-                                    >平米</template
-                                ></el-input
-                            ></el-col
-                        >
-                        <el-col :span="8"
-                            ><el-input
-                                v-model="post.post_meta.level"
-                                placeholder="房屋等级"
-                                :min="1"
-                                :max="99"
-                                ><template slot="prepend"
-                                    >等级</template
-                                ></el-input
-                            ></el-col
-                        >
-                    </el-row>
-                </el-form-item>
 
-                <!-- 2.选择坐标 -->
+                <!-- 1.选择坐标 -->
                 <el-form-item label="府邸坐标" class="m-house-coord">
                     <el-row :gutter="20">
                         <el-col :span="8">
@@ -110,6 +76,40 @@
                                 v-model="post.post_meta.line"
                                 placeholder="所在分线"
                                 ><template slot="append">线</template></el-input
+                            ></el-col
+                        >
+                    </el-row>
+                </el-form-item>
+
+                <!-- 2.房屋类型 -->
+                <el-form-item label="房型属性" class="m-house-coord">
+                    <el-row :gutter="20">
+                        <el-col :span="8"
+                            ><el-input
+                                v-model="post.post_meta.num"
+                                placeholder="所在房号"
+                                @change="computeArea(post.post_meta.num)"
+                                ><template slot="append">号</template></el-input
+                            ></el-col
+                        >
+                        <el-col :span="8"
+                            ><el-input
+                                v-model="post.post_meta.area"
+                                placeholder="面积"
+                                ><template slot="append"
+                                    >平米</template
+                                ></el-input
+                            ></el-col
+                        >
+                        <el-col :span="8"
+                            ><el-input
+                                v-model="post.post_meta.level"
+                                placeholder="房屋等级"
+                                :min="1"
+                                :max="99"
+                                ><template slot="prepend"
+                                    >等级</template
+                                ></el-input
                             ></el-col
                         >
                     </el-row>
@@ -218,7 +218,12 @@ const API = __server + "upload";
 import { uploadData } from "../service/house";
 import album from "@/components/publish/album.vue";
 import servers from "@jx3box/jx3box-data/data/server/server_list.json";
-import areas from "@jx3box/jx3box-data/data/house/area.json";
+import housedata from "@jx3box/jx3box-data/data/house/area.json";
+const housemap = {
+    "广陵邑" : "455",
+    "枫叶泊·乐苑":"471",
+    "枫叶泊·天苑":"486"
+}
 import lodash from "lodash";
 
 export default {
@@ -359,12 +364,15 @@ export default {
 
         // 面积
         computeArea: function(num) {
-            if (num) {
-                let area = lodash.get(
-                    areas[this.post.post_subtype][~~num - 1],
-                    "area"
-                );
-                this.post.post_meta.area = area;
+            if(this.post.post_subtype){
+                let mapid = housemap[this.post.post_subtype]
+                if (num) {
+                    let area = lodash.get(
+                        housedata[mapid][~~num - 1],
+                        "area"
+                    );
+                    if(area) this.post.post_meta.area = area;
+                }
             }
         },
     },

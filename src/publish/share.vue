@@ -29,13 +29,10 @@
         >
             <template>
                 <el-form-item label="原创">
-                    <el-switch
-                        v-model="post.original"
-                        active-color="#13ce66"
-                    >
+                    <el-switch v-model="post.original" active-color="#13ce66">
                     </el-switch>
                 </el-form-item>
-                
+
                 <el-form-item label="类型">
                     <el-radio-group v-model="post.post_subtype">
                         <el-radio
@@ -100,6 +97,7 @@ import album from "@/components/publish/album.vue";
 // import lodash from "lodash";
 import { uploadData, parseData } from "../service/share.js";
 const types = ["成男", "成女", "正太", "萝莉"];
+const { parse } = require("lua-json");
 
 export default {
     name: "share",
@@ -138,7 +136,7 @@ export default {
                 post_banner: "", //头条图,管理员可见
                 post_status: "", //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
-                original:0
+                original: 0,
             },
 
             //扩展 - 部分栏目文章不应启用该功能
@@ -165,7 +163,7 @@ export default {
         // 设置检索meta
         build: function() {
             let data = this.$store.state;
-            data.post.meta_1 = data.post.post_meta.author   //原作者
+            data.post.meta_1 = data.post.post_meta.author; //原作者
             return data;
         },
         // 加载
@@ -204,34 +202,33 @@ export default {
         },
         // 解析数据
         parseData: function(facedata) {
+
+            const vm = this
+
             // 如果不支持本地读取
             if (!FileReader) return;
-            const vm = this;
 
             let fr = new FileReader();
             fr.readAsText(facedata);
             fr.onload = function(e) {
                 console.log("读取成功...开始执行分析...");
-                // console.log(e.target.result)
-                parseData(e.target.result,vm)
-                    .then((res) => {
-                        vm.post.post_meta.data = JSON.stringify(res.data.data);
-                        return res.data.status;
-                    })
-                    .then((status) => {
-                        if (status) {
-                            vm.$notify({
-                                title: "成功",
-                                message: "脸型数据解析成功",
-                                type: "success",
-                            });
-                        } else {
-                            vm.$notify.error({
-                                title: "错误",
-                                message: "无法解析脸型数据",
-                            });
-                        }
-                    })
+
+                let data = e.target.result;
+                data = "return" + data.slice(data.indexOf("{"));
+
+                try {
+                    vm.post.post_meta.data = JSON.stringify(parse(data));
+                    vm.$notify({
+                        title: "成功",
+                        message: "脸型数据解析成功",
+                        type: "success",
+                    });
+                } catch (e) {
+                    vm.$notify.error({
+                        title: "错误",
+                        message: "无法解析脸型数据",
+                    });
+                }
             };
             fr.onerror = function(e) {
                 vm.$notify.error({

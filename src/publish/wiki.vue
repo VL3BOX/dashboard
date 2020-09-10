@@ -110,6 +110,7 @@ import { types } from "@jx3box/jx3box-data/data/common/wiki.json";
 import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
 import User from "@jx3box/jx3box-common/js/user";
 import { addWiki, loadWiki } from "../service/bb";
+import {__Root} from '@jx3box/jx3box-common/js/jx3box.json'
 export default {
     name: "wiki",
     props: [],
@@ -156,13 +157,12 @@ export default {
                 message: "提交成功请等待审核",
                 type: "success",
             });
-            this.$router.push({ path: "/" });
+            // this.$router.push({ path: "/" });
+            location.href = __Root + 'wiki/?pid=' + this.id
         },
         loadData: function() {
             loadWiki(this.id).then((res) => {
                 let data = res.data.data
-                console.log(res.data.data)
-
                 this.primary.wiki_id = data.id
                 this.primary.type = data.type
                 this.primary.title = data.title

@@ -1,31 +1,18 @@
 <template>
     <div class="m-dashboard m-dashboard-work">
-        <!-- <el-input
+        <el-input
             class="m-dashboard-work-search"
             placeholder="请输入内容"
             v-model="search"
             @change="searchPost"
         >
-            <el-select
-                class="u-select"
-                v-model="searchType"
-                slot="prepend"
-                placeholder="请选择"
-                @change="searchPost"
-            >
-                <el-option
-                    :label="item"
-                    :value="key"
-                    v-for="(item, key) in types"
-                    :key="key"
-                ></el-option>
-            </el-select>
+            <span slot="prepend">关键词</span>
             <el-button
                 slot="append"
                 icon="el-icon-search"
                 @click="searchPost"
             ></el-button>
-        </el-input> -->
+        </el-input>
 
         <div class="m-dashboard-box">
             <ul class="m-dashboard-box-list" v-if="data.length">
@@ -119,7 +106,7 @@ export default {
             data: [],
             total: 1,
             page: 1,
-            per: 15,
+            per: 10,
             search: "",
             searchType: "question",
             types: {
@@ -135,9 +122,9 @@ export default {
             getQuestions(
                 {
                     pageIndex: i,
-                    // title: this.search,
-                    // type: this.searchType,
-                    // per : this.per
+                    title: this.search,
+                    // tag: this.searchType,
+                    pageSize : this.per
                 },
                 this
             ).then((res) => {

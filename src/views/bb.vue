@@ -4,14 +4,12 @@
             class="m-dashboard-work-search"
             placeholder="请输入内容"
             v-model="search"
-            @change="loadPosts"
         >
             <el-select
                 class="u-select"
                 v-model="searchType"
                 slot="prepend"
                 placeholder="请选择"
-                @change="loadPosts(1)"
             >
                 <el-option
                     label="全部"
@@ -27,7 +25,7 @@
             <el-button
                 slot="append"
                 icon="el-icon-search"
-                @click="loadPosts(1)"
+                @click="loadPosts"
             ></el-button>
         </el-input>
 
@@ -135,22 +133,17 @@ export default {
                 size : this.per,
                 title : this.search,
                 size : this.per,
-                type : this.searchType
+                type : this.searchType,
+                page : this.page
             }
-        }
+        },
     },
     methods: {
-        loadPosts: function(i = 1) {
-            let query = Object.assign(this.params,{
-                page : i
-            })
-            myWiki(query).then((res) => {
+        loadPosts: function() {
+            myWiki(this.params).then((res) => {
                 this.data = res.data.data.data;
                 this.total = res.data.data.total;
             });
-        },
-        changePage: function(i = 1) {
-            this.loadPosts(i);
         },
         edit: function(id) {
             location.href = "./publish/#/wiki/" + id;
@@ -167,6 +160,14 @@ export default {
     created: function() {
         this.loadPosts();
     },
+    watch : {
+        params : {
+            deep : true,
+            handler : function (val){
+                this.loadPosts();
+            }
+        }
+    }
 };
 </script>
 

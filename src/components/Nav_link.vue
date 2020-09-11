@@ -23,7 +23,7 @@
                     >词条贡献</span
                 ></a
             >
-            <a href="../#/ideas"
+            <a href="../#/exam"
                 ><img svg-inline src="../assets/img/nav/repo.svg" /><span
                     >题库贡献</span
                 ></a

@@ -5,7 +5,7 @@ const index = () => import("../views/index.vue");
 
 const work = () => import("../views/work.vue");
 const wiki = () => import("../views/wiki.vue");
-const ideas = () => import("../views/ideas.vue");
+const exam = () => import("../views/exam.vue");
 const bb = () => import("../views/bb.vue");
 
 const msg = () => import("../views/msg.vue");
@@ -27,7 +27,7 @@ const routes = [
 
     { name: "work", path: "/work/:type?", component: work },
     { name: "wiki", path: "/wiki", component: wiki },
-    { name: "ideas", path: "/ideas", component: ideas },
+    { name: "exam", path: "/exam", component: exam },
     { name: "bb", path: "/bb", component: bb },
 
     { name: "msg", path: "/msg", component: msg },

@@ -161,10 +161,12 @@ export default {
             if (this.id) {
                 updatePaper(this.id, this.primary, this).then((res) => {
                     this.success(res);
+                    location.href = '/exam/#/paper/' + this.id
                 });
             } else {
                 createPaper(this.primary, this).then((res) => {
                     this.success(res);
+                    location.href = '/exam/#/paper/' + res.data.data.id
                 });
             }
         },
@@ -173,7 +175,7 @@ export default {
                 message: res.data.msg || "提交成功",
                 type: "success",
             });
-            this.$router.push({ path: "/exam" });
+            // this.$router.push({ path: "/exam" });
         },
         loadData: function() {
             getPaper(this.id, this).then((res) => {

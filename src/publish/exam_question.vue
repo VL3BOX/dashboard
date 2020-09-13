@@ -131,10 +131,12 @@ export default {
             if (this.id) {
                 updateQuestion(this.id, this.primary, this).then((res) => {
                     this.success(res);
+                    location.href = '/exam/#/question/' + this.id
                 });
             } else {
                 createQuestion(this.primary, this).then((res) => {
                     this.success(res);
+                    location.href = '/exam/#/question/' + res.data.data.id
                 });
             }
         },
@@ -143,7 +145,7 @@ export default {
                 message: res.data.msg || "提交成功",
                 type: "success",
             });
-            this.$router.push({ path: "/exam" });
+            // this.$router.push({ path: "/exam" });
         },
         loadData: function() {
             getQuestion(this.id, this).then((res) => {

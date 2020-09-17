@@ -54,7 +54,7 @@
 
 <script>
 import boilerplate from "@/components/publish/boilerplate";
-import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __ossMirror,__imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
 // import lodash from "lodash";
 import types from "../assets/data/tool.json";
 

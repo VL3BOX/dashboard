@@ -258,7 +258,7 @@
 <script>
 import boilerplate from "@/components/publish/boilerplate";
 import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
-import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __ossMirror,__iconPath,__imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { syncRedis } from "../service/macro.js";
 import { sterilizer } from "sterilizer/index.js";
@@ -448,7 +448,7 @@ export default {
             let id = isNaN(item.icon) ? 13 : ~~item.icon;
             id = Math.max(0, Math.min(id, 30000));
             this.$set(item, "icon", id);
-            return __ossMirror + "icon/" + id + ".png";
+            return __iconPath + "icon/" + id + ".png";
         },
         changeSubtype: function() {
             let iconid = xfmap[this.post.post_subtype]["icon"];
@@ -457,7 +457,7 @@ export default {
     },
     filters: {
         xficon: function(id) {
-            return __ossMirror + "image/xf/" + id + ".png";
+            return __imgPath + "image/xf/" + id + ".png";
         },
     },
     mounted: function() {

@@ -100,7 +100,7 @@
 <script>
 import boilerplate from "@/components/publish/boilerplate";
 import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
-import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __ossMirror,__iconPath,__imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import lodash from "lodash";
 import zlps from "../assets/data/zlps.json";
@@ -183,7 +183,7 @@ export default {
     },
     filters: {
         xficon: function(id) {
-            return __ossMirror + "image/xf/" + id + ".png";
+            return __imgPath + "image/xf/" + id + ".png";
         },
     },
     mounted: function() {

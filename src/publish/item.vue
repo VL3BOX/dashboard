@@ -131,9 +131,9 @@
             },
             icon_url_filter(icon_id) {
                 if (isNaN(parseInt(icon_id))) {
-                    return `${JX3BOX.__ossMirror}image/common/nullicon.png`;
+                    return `${JX3BOX.__imgPath}image/common/nullicon.png`;
                 } else {
-                    return `${JX3BOX.__ossMirror}icon/${icon_id}.png`;
+                    return `${JX3BOX.__iconPath}icon/${icon_id}.png`;
                 }
             },
             // 物品搜索

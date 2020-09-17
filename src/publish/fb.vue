@@ -98,7 +98,7 @@
 import boilerplate from "../components/publish/boilerplate";
 
 // 本地依赖
-import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box";
+import { __ossMirror,__imgPath } from "@jx3box/jx3box-common/js/jx3box";
 import fbmap from '@jx3box/jx3box-data/data/fb/fb_map.json'
 import _ from 'lodash'
 
@@ -210,7 +210,7 @@ export default {
 },
     filters: {
         thumbnail: function(url) {
-            return __ossMirror + url + '?v20200510';
+            return __imgPath + url + '?v20200510';
         },
     },
     components: {

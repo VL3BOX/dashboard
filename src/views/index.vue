@@ -48,7 +48,7 @@ export default {
     methods: {},
     filters: {
         groupicon: function(groupid) {
-            return JX3BOX.__ossMirror + "image/group/" + groupid + ".svg";
+            return JX3BOX.__imgPath + "image/group/" + groupid + ".svg";
         },
     },
     mounted: function() {

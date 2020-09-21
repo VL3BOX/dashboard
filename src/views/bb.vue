@@ -44,14 +44,11 @@
                             src="../assets/img/works/draft.svg"
                         />
                     </i>
-                    <a class="u-title" target="_blank" :href="postLink(item.wiki_id)"
+                    <a class="u-title" target="_blank" :href="item | postLink"
                         >[{{ item.type | typeFormat }}]
                         {{ item.title || "无标题" }}</a
                     >
                     <div class="u-desc">
-                        <!-- <span class="u-desc-subitem"
-                            >编号 : <b>{{ item.id }}</b></span
-                        > -->
                         <span class="u-status u-desc-subitem">
                             状态:
                             <b
@@ -67,16 +64,6 @@
                             >提交于: {{ item.created_at }}</time
                         >
                     </div>
-                    <el-button-group class="u-action">
-                        <el-button
-                            v-if="item.status < 1"
-                            type="primary"
-                            size="mini"
-                            icon="el-icon-edit"
-                            title="编辑"
-                            @click="edit(item.id)"
-                        ></el-button>
-                    </el-button-group>
                 </li>
             </ul>
             <el-alert
@@ -149,13 +136,16 @@ export default {
             location.href = "./publish/#/wiki/" + id;
         },
         postLink: function(id) {
-            return "/wiki/?pid=" + id;
+            return ;
         },
     },
     filters: {
         typeFormat: function(type) {
             return types[type];
         },
+        postLink : function (item){
+            return item.wiki_id ? "/wiki/?pid=" + item.wiki_id : "/wiki/?hid=" + item.id
+        }
     },
     created: function() {
         this.loadPosts();

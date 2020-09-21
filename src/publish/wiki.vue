@@ -106,7 +106,7 @@
 
 <script>
 import pubheader from "@/components/publish/pubheader.vue";
-import { types } from "@jx3box/jx3box-data/data/common/wiki.json";
+import types from "@/assets/data/wiki.json";
 import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
 import User from "@jx3box/jx3box-common/js/user";
 import { addWiki, loadWiki } from "../service/bb";

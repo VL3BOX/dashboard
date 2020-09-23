@@ -101,6 +101,7 @@ import boilerplate from "../components/publish/boilerplate";
 import { __ossMirror,__imgPath } from "@jx3box/jx3box-common/js/jx3box";
 import fbmap from '@jx3box/jx3box-data/data/fb/fb_map.json'
 import _ from 'lodash'
+import isEmptyMeta from '@/utils/isEmptyMeta.js'
 
 const default_zlp = '奉天证道'
 const default_fb = '达摩洞'
@@ -208,7 +209,7 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then(() => {
-            if(!this.post.post_meta) this.post.post_meta = default_meta
+            if(isEmptyMeta(this.post.post_meta)) this.post.post_meta = default_meta
             this.loading = false
             console.log('Init Post:',this.post)
         })

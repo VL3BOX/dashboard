@@ -266,6 +266,7 @@ import {
 import User from "@jx3box/jx3box-common/js/user";
 import { syncRedis } from "../service/macro.js";
 import { sterilizer } from "sterilizer/index.js";
+import isEmptyMeta from '@/utils/isEmptyMeta.js'
 import lodash from "lodash";
 import zlps from "../assets/data/zlps.json";
 const default_meta = {
@@ -466,7 +467,7 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then(() => {
-            if (!this.post.post_meta) this.post.post_meta = default_meta;
+            if(isEmptyMeta(this.post.post_meta)) this.post.post_meta = default_meta
             console.log("Init Post:", this.post);
         });
     },

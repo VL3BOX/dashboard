@@ -141,7 +141,7 @@ export default {
     },
     filters: {
         typeFormat: function(type) {
-            return types[type];
+            return types[type] || '已合并分类';
         },
         postLink : function (item){
             return item.wiki_id ? "/wiki/?pid=" + item.wiki_id : "/wiki/?hid=" + item.id

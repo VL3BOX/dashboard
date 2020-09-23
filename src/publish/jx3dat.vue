@@ -325,6 +325,7 @@ import { uploadHub, uploadData, syncRedis } from "../service/jx3dat.js";
 import User from "@jx3box/jx3box-common/js/user";
 import { jx3dat_types, jx3dat_tags } from "../assets/data/jx3dat.json";
 import { sterilizer } from "sterilizer/index.js";
+import isEmptyMeta from '@/utils/isEmptyMeta.js'
 const default_meta = {
     //新版,字段表合并至主表,减少数据库查询次数
     type: "1",
@@ -615,7 +616,7 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then((data) => {
-            if (!this.post.post_meta) this.post.post_meta = default_meta;
+            if(isEmptyMeta(this.post.post_meta)) this.post.post_meta = default_meta
         });
         this.user = User.getInfo();
     },

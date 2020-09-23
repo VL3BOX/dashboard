@@ -104,6 +104,7 @@ import {
 } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import lodash from "lodash";
+import isEmptyMeta from '@/utils/isEmptyMeta.js'
 import zlps from "../assets/data/zlps.json";
 // import { points } from "../assets/data/bps.json";
 const default_meta = {
@@ -191,7 +192,7 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then(() => {
-            if (!this.post.post_meta) this.post.post_meta = default_meta;
+            if(isEmptyMeta(this.post.post_meta)) this.post.post_meta = default_meta
             console.log("Init Post:", this.post);
         });
     },

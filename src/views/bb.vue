@@ -93,7 +93,7 @@
 <script>
 import { myWiki } from "../service/bb";
 import dateFormat from "../utils/dateFormat";
-import { types } from "@jx3box/jx3box-data/data/common/wiki.json";
+import types from "@/assets/data/wiki.json";
 const statusmap = {
     "0": "待审核",
     "1": "通过审核",

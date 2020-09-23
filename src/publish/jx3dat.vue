@@ -32,10 +32,7 @@
             <!-- 💛 栏目字段 -->
             <template>
                 <el-form-item label="原创">
-                    <el-switch
-                        v-model="post.original"
-                        active-color="#13ce66"
-                    >
+                    <el-switch v-model="post.original" active-color="#13ce66">
                     </el-switch>
                 </el-form-item>
 
@@ -45,7 +42,7 @@
                         <el-radio label="tr">繁體中文</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                
+
                 <!-- 1.数据类型 -->
                 <el-form-item label="类型" class="m-jx3dat-subtypes">
                     <el-radio
@@ -328,6 +325,25 @@ import { uploadHub, uploadData, syncRedis } from "../service/jx3dat.js";
 import User from "@jx3box/jx3box-common/js/user";
 import { jx3dat_types, jx3dat_tags } from "../assets/data/jx3dat.json";
 import { sterilizer } from "sterilizer/index.js";
+const default_meta = {
+    //新版,字段表合并至主表,减少数据库查询次数
+    type: "1",
+    lang: "cn",
+    data: [
+        {
+            name: "默认版",
+            desc: "",
+            status: true,
+            file: "",
+            version: "",
+        },
+    ],
+    tag: [],
+    github: "",
+    gitee: "",
+    aliyun: "",
+    down: "",
+};
 
 export default {
     name: "jx3dat",
@@ -356,31 +372,13 @@ export default {
                 post_subtype: "1", //子类型(过滤查询用)
                 post_title: "", //标题
                 post_content: "", //主表内容字段,由后端接口配置是否双存储至meta表
-                post_meta: {
-                    //新版,字段表合并至主表,减少数据库查询次数
-                    type: "1",
-                    lang : 'cn',
-                    data: [
-                        {
-                            name: "默认版",
-                            desc: "",
-                            status: true,
-                            file: "",
-                            version: "",
-                        },
-                    ],
-                    tag: [],
-                    github: "",
-                    gitee: "",
-                    aliyun: "",
-                    down: "",
-                },
+                post_meta: default_meta,
                 post_excerpt: "", //主表摘要
                 post_mode: "tinymce", //编辑模式(会影响文章详情页渲染规则)
                 post_status: "", //由发布按钮、草稿按钮决定
                 post_banner: "", //头条图,管理员可见
                 // post_tags: [], //标签列表
-                original:0
+                original: 0,
             },
 
             //扩展 - 部分栏目文章不应启用该功能
@@ -406,14 +404,9 @@ export default {
             // console.log(this.build())
             this.doPublish(this.build(), this, false).then((res) => {
                 if (this.post.post_subtype == 1) {
-                    syncRedis(res.data.data, this)
-                        .then((redis_result) => {
-                            this.finish(
-                                res.data.msg,
-                                res.data.data.ID,
-                                this.type
-                            );
-                        })
+                    syncRedis(res.data.data, this).then((redis_result) => {
+                        this.finish(res.data.msg, res.data.data.ID, this.type);
+                    });
                 } else {
                     this.finish(res.data.msg, res.data.data.ID, this.type);
                 }
@@ -423,14 +416,9 @@ export default {
         toDraft: function() {
             this.doDraft(this.build(), this, false).then((res) => {
                 if (this.post.post_subtype == 1) {
-                    syncRedis(res.data.data, this)
-                        .then((redis_result) => {
-                            this.finish(
-                                res.data.msg,
-                                res.data.data.ID,
-                                this.type
-                            );
-                        })
+                    syncRedis(res.data.data, this).then((redis_result) => {
+                        this.finish(res.data.msg, res.data.data.ID, this.type);
+                    });
                 } else {
                     this.finish(res.data.msg, res.data.data.ID, this.type);
                 }
@@ -626,7 +614,9 @@ export default {
     },
     mounted: function() {
         // 初始化默认文章数据
-        this.init().then((data) => {});
+        this.init().then((data) => {
+            if (!this.post.post_meta) this.post.post_meta = default_meta;
+        });
         this.user = User.getInfo();
     },
     filters: {},

@@ -116,7 +116,7 @@
                 >
             </el-row>
 
-            <el-divider content-position="left">PVBB</el-divider>
+            <el-divider content-position="left">PVBB / 其它</el-divider>
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
@@ -135,12 +135,12 @@
                             to="/bbs"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/idea.svg"
-                            /><span>玩法心得</span></router-link
+                                src="../assets/img/channel/post.svg"
+                            /><span>茶馆交流</span></router-link
                         ></el-card
                     ></el-col
                 >
-                <el-col :span="4"
+                <!-- <el-col :span="4"
                     ><el-card
                         ><router-link
                             to="/bbs"
@@ -172,7 +172,7 @@
                             /><span>交流讨论</span></router-link
                         ></el-card
                     ></el-col
-                >
+                > -->
             </el-row>
         </div>
     </div>

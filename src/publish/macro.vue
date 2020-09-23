@@ -258,12 +258,31 @@
 <script>
 import boilerplate from "@/components/publish/boilerplate";
 import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
-import { __ossMirror,__iconPath,__imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
+import {
+    __ossMirror,
+    __iconPath,
+    __imgPath,
+} from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { syncRedis } from "../service/macro.js";
 import { sterilizer } from "sterilizer/index.js";
 import lodash from "lodash";
 import zlps from "../assets/data/zlps.json";
+const default_meta = {
+    zlp: zlps[0],
+    lang: "cn",
+    data: [
+        {
+            name: "",
+            icon: 13,
+            talent: "",
+            macro: "",
+            speed: "",
+            equip: "",
+            desc: "",
+        },
+    ],
+};
 
 export default {
     name: "macro",
@@ -292,21 +311,7 @@ export default {
                 post_subtype: "通用", //子类型(过滤查询用)
                 post_title: "", //标题
                 post_content: "", //主表内容字段,由后端接口配置是否双存储至meta表
-                post_meta: {
-                    zlp: zlps[0],
-                    lang : 'cn',
-                    data: [
-                        {
-                            name: "",
-                            icon: 13,
-                            talent: "",
-                            macro: "",
-                            speed: "",
-                            equip: "",
-                            desc: "",
-                        },
-                    ],
-                },
+                post_meta: default_meta,
                 post_excerpt: "", //主表摘要
                 post_mode: "tinymce", //编辑模式(会影响文章详情页渲染规则)
                 post_banner: "", //头条图,管理员可见
@@ -335,19 +340,17 @@ export default {
         toPublish: function() {
             // console.log(this.build());
             this.doPublish(this.build(), this, false).then((res) => {
-                syncRedis(res.data.data, this)
-                    .then((redis_result) => {
-                        this.finish(res.data.msg, res.data.data.ID, this.type);
-                    })
+                syncRedis(res.data.data, this).then((redis_result) => {
+                    this.finish(res.data.msg, res.data.data.ID, this.type);
+                });
             });
         },
         // 草稿
         toDraft: function() {
             this.doDraft(this.build(), this, false).then((res) => {
-                syncRedis(res.data.data, this)
-                    .then((redis_result) => {
-                        this.finish(res.data.msg, res.data.data.ID, this.type);
-                    })
+                syncRedis(res.data.data, this).then((redis_result) => {
+                    this.finish(res.data.msg, res.data.data.ID, this.type);
+                });
             });
         },
         finish: function(msg, id, type) {
@@ -463,6 +466,7 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then(() => {
+            if (!this.post.post_meta) this.post.post_meta = default_meta;
             console.log("Init Post:", this.post);
         });
     },

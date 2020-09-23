@@ -30,10 +30,7 @@
             <!-- 💛 栏目字段 -->
             <template>
                 <el-form-item label="原创">
-                    <el-switch
-                        v-model="post.original"
-                        active-color="#13ce66"
-                    >
+                    <el-switch v-model="post.original" active-color="#13ce66">
                     </el-switch>
                 </el-form-item>
                 <!-- 1.选择资料片 -->
@@ -100,11 +97,20 @@
 <script>
 import boilerplate from "@/components/publish/boilerplate";
 import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
-import { __ossMirror,__iconPath,__imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
+import {
+    __ossMirror,
+    __iconPath,
+    __imgPath,
+} from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import lodash from "lodash";
 import zlps from "../assets/data/zlps.json";
 // import { points } from "../assets/data/bps.json";
+const default_meta = {
+    zlp: zlps[0],
+    pvmode: "",
+    // points: [],
+};
 
 export default {
     name: "bps",
@@ -135,17 +141,13 @@ export default {
                 post_subtype: "通用", //子类型(过滤查询用)
                 post_title: "", //标题
                 post_content: "", //主表内容字段,由后端接口配置是否双存储至meta表
-                post_meta: {
-                    zlp: zlps[0],
-                    pvmode: "",
-                    // points: [],
-                },
+                post_meta: default_meta,
                 post_excerpt: "", //主表摘要
                 post_mode: "tinymce", //编辑模式(会影响文章详情页渲染规则)
                 post_banner: "", //头条图,管理员可见
                 post_status: "", //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
-                original:0
+                original: 0,
             },
 
             //扩展 - 部分栏目文章不应启用该功能
@@ -189,6 +191,7 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then(() => {
+            if (!this.post.post_meta) this.post.post_meta = default_meta;
             console.log("Init Post:", this.post);
         });
     },

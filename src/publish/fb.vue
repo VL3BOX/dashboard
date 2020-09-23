@@ -71,9 +71,9 @@
                     <el-checkbox-group v-model="post.post_meta.fb_boss">
                         <el-checkbox-button
                             v-for="(boss, i) in boss_list"
-                            :label="boss.name"
+                            :label="boss"
                             :key="i"
-                            >{{ boss.name }}</el-checkbox-button
+                            >{{ boss }}</el-checkbox-button
                         >
                     </el-checkbox-group>
                 </el-form-item>
@@ -102,6 +102,15 @@ import { __ossMirror,__imgPath } from "@jx3box/jx3box-common/js/jx3box";
 import fbmap from '@jx3box/jx3box-data/data/fb/fb_map.json'
 import _ from 'lodash'
 
+const default_zlp = '奉天证道'
+const default_fb = '达摩洞'
+const default_meta = {
+    fb_zlp: default_zlp,
+    fb_name: default_fb,
+    fb_boss: [],
+    fb_level: [],
+}
+
 export default {
     name: "fb",
     props: [],
@@ -126,15 +135,10 @@ export default {
                 ID: "",                      //文章ID
                 // post_author               //无需设置,由token自动获取
                 // post_type:"",             //类型(默认由boilerplate托管)
-                post_subtype:"范阳夜变",      //子类型(过滤查询用)
+                post_subtype:default_fb,      //子类型(过滤查询用)
                 post_title: "",              //标题
                 post_content: "",            //主表内容字段,由后端接口配置是否双存储至meta表
-                post_meta: {                 //json格式
-                    fb_zlp: "世外蓬莱",
-                    fb_name: "范阳夜变",
-                    fb_boss: [],
-                    fb_level: [],
-                },
+                post_meta: default_meta,
                 post_excerpt: "",            //摘要
                 post_mode: "tinymce",        //编辑模式(会影响文章详情页渲染规则)
                 post_banner: "",             //头条图,管理员可见
@@ -162,14 +166,14 @@ export default {
             return Object.keys(this.options.map)
         },
         fb_list : function (){
-            let zlp = this.options.map[this.post.post_meta.fb_zlp] || this.options.map['世外蓬莱']
+            let zlp = this.options.map[this.post.post_meta.fb_zlp] || this.options.map[default_zlp]
             return _.get(zlp,'dungeon')
         },
         boss_list : function (){
-            return this.fb_list[this.post.post_meta.fb_name]['detail']['boss_infos']
+            return _.get(this.fb_list[this.post.post_meta.fb_name],'boss')
         },
         level_list : function (){
-            return this.fb_list[this.post.post_meta.fb_name]['maps']
+            return _.get(this.fb_list[this.post.post_meta.fb_name],'maps')
         },
     },
     methods: {
@@ -204,13 +208,14 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then(() => {
+            if(!this.post.post_meta) this.post.post_meta = default_meta
             this.loading = false
             console.log('Init Post:',this.post)
         })
 },
     filters: {
         thumbnail: function(url) {
-            return __imgPath + url + '?v20200510';
+            return __imgPath + url + '?v=' + Date.now();
         },
     },
     components: {

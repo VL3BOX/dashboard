@@ -20,7 +20,7 @@
             :infoEnable="true"
             :contentEnable="false"
             :markdownEnable="false"
-            :excerptEnable="false"
+            :excerptEnable="true"
             :tagEnable="false"
             :notifyEnable="false"
             :bannerEnable="false"

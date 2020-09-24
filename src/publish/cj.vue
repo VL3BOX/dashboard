@@ -248,7 +248,11 @@ export default {
                         this.post.achievement_id = parseInt(post.achievement_id);
                         this.post.level = post.level || 1;
                         this.post.remark = "";
-                        this.post.content = post.content;
+                        let content = post.content;
+                        content = content.replace(/(<p>)?\s*◆成就难度 [★]+\s*(<\/p>)?/ig,'');
+                        content = content.replace(/(<p>)?\s*◆花费时长 [★]+\s*(<\/p>)?/ig,'');
+                        content = content.replace(/(<p>)?\s*◆成就攻略\s*(<\/p>)?/ig,'');
+                        this.post.content = content;
                     } else {
                         this.post.achievement_id = this.post.achievement_id
                             ? parseInt(this.post.achievement_id)

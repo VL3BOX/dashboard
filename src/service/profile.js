@@ -42,18 +42,14 @@ function updatePassword(data) {
 }
 
 // 邮箱
-function checkEmailStatus(uid) {
-    return $.get(__server + "dashboard/email/check", {
-        params: {
-            uid: uid,
-        },
-    });
+function checkEmailStatus() {
+    return $.get(__server + "dashboard/email/check");
 }
 
 function checkEmailAvailable(email) {
-    return $.get(__server + "account/has", {
+    return $.get(__server + "account/email/check", {
         params: {
-            user_login: email,
+            user_email: email,
         },
     });
 }
@@ -62,12 +58,8 @@ function sendBindEmail(data) {
     return $.post(__server + "dashboard/email/bind", data);
 }
 
-function sendVerifyEmail(uid) {
-    return $.get(__server + "dashboard/email/verify", {
-        params: {
-            uid: uid,
-        },
-    });
+function sendVerifyEmail() {
+    return $.post(__server + "dashboard/email/verify");
 }
 
 // 互联

@@ -20,6 +20,15 @@
                     :closable="false"
                 >
                 </el-alert>
+                <div class="u-btngroup">
+                    <el-button
+                        type="primary"
+                        class="u-button"
+                        @click="changeEmail"
+                        icon="el-icon-edit"
+                        >修改邮箱</el-button
+                    >
+                </div>
             </template>
 
             <template v-if="verified == false">
@@ -34,15 +43,28 @@
                     :closable="false"
                 >
                 </el-alert>
-                <el-button type="primary" class="u-button" @click="verify"
+                <el-button
+                    type="primary"
+                    class="u-button"
+                    @click="verify"
+                    icon="el-icon-s-promotion"
                     >验证邮箱</el-button
+                >
+                <el-button
+                    type="primary"
+                    class="u-button"
+                    @click="changeEmail"
+                    icon="el-icon-edit"
+                    >修改邮箱</el-button
                 >
             </template>
         </div>
 
         <!-- 未绑定 -->
         <div v-if="status == false" class="u-none">
-            <h1 class="u-title">未绑定邮箱</h1>
+            <h1 class="u-title">
+                {{ changeEmailMode ? "修改邮箱" : "未绑定邮箱" }}
+            </h1>
 
             <div class="u-email">
                 <el-input
@@ -81,7 +103,7 @@
             </div>
 
             <el-alert
-                title="绑定后将不可修改"
+                title="请填写正确的邮箱地址"
                 class="u-tip"
                 type="warning"
                 description="绑定邮箱后将可以使用邮箱进行登录,当第三方登录出现异常时不会受影响"
@@ -90,13 +112,15 @@
             >
             </el-alert>
 
-            <el-button
-                type="primary"
-                class="u-button"
-                @click="bind"
-                :disabled="!ready"
-                >绑定邮箱</el-button
-            >
+            <div class="u-btngroup">
+                <el-button
+                    type="primary"
+                    class="u-button"
+                    @click="bind"
+                    :disabled="!ready"
+                    >绑定邮箱</el-button
+                >
+            </div>
         </div>
     </div>
 </template>
@@ -126,6 +150,8 @@ export default {
             email_validate_tip: "邮箱格式不正确或长度超出限制",
             email_available: null,
             email_available_tip: "邮箱已被使用,请更换",
+
+            changeEmailMode: false,
         };
     },
     computed: {
@@ -135,13 +161,12 @@ export default {
     },
     methods: {
         verify: function() {
-            sendVerifyEmail(this.uid)
-                .then((res) => {
-                    this.$message({
-                        message: "邮件已发送请查收",
-                        type: "success",
-                    });
-                })
+            sendVerifyEmail(this.uid).then((res) => {
+                this.$message({
+                    message: "邮件已发送请查收",
+                    type: "success",
+                });
+            });
         },
         checkEmail: function() {
             // 如果为空
@@ -157,14 +182,12 @@ export default {
                 len: [3, 50],
             });
             this.email_validate = result;
-            this.email_available = null;
             if (!result) return;
 
             // 邮箱是否可用
-            checkEmailAvailable(this.email)
-                .then((res) => {
-                    this.email_available = res.data ? false : true;
-                })
+            checkEmailAvailable(this.email).then((res) => {
+                this.email_available = res.data.data;
+            });
         },
         bind: function() {
             if (!this.ready) {
@@ -175,25 +198,35 @@ export default {
             sendBindEmail({
                 uid: this.uid,
                 email: this.email,
-            })
-                .then((res) => {
+            }).then((res) => {
+                if (!res.data.code) {
                     this.$alert("申请提交成功,请前往邮箱验证", "消息", {
                         confirmButtonText: "确定",
                     });
-                })
+                    this.status = true;
+                    this.verified = false;
+                    this.address = this.email;
+                } else {
+                    this.$message.error(res.data.msg);
+                }
+            });
+        },
+        changeEmail: function() {
+            this.status = false;
+            this.changeEmailMode = true;
         },
     },
     mounted: function() {
         this.uid = User.getInfo().uid;
-        checkEmailStatus(this.uid)
-            .then((res) => {
+        checkEmailStatus().then((res) => {
+            if (res.data.data.email) {
                 this.status = true;
                 this.address = res.data.data.email;
                 this.verified = !!parseInt(res.data.data.verified);
-            })
-            .catch((err) => {
+            } else {
                 this.status = false;
-            });
+            }
+        });
     },
 };
 </script>

@@ -1,6 +1,8 @@
 .m-dashboard-email{
     // max-width:600px;
 
+    .mt(10vh);
+
     .u-pic{
         .db;.auto(x);
         .size(120px);
@@ -15,11 +17,15 @@
         .x;
     }
 
+    .u-btngroup{
+        .x;
+    }
+
     .u-button{
-        .auto(x);
-        .db;
+        // .auto(x);
+        // .db;
         .w(120px);
-        .mt(10px);
+        .mt(20px);
     }
 
     .u-email{
@@ -51,4 +57,9 @@
         }
     }
 
+}
+@media screen and (max-width:@phone){
+    .m-dashboard-email{
+        .mt(0);
+    }
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="m-dashboard m-dashboard-pwd">
-        <img class="u-pic" svg-inline src="../assets/img/setting/pwd.svg" />
-        <form>
+        <form v-if="status" class="m-dashboard-pwd-doing">
+            <img class="u-pic" svg-inline src="../assets/img/setting/pwd.svg" />
             <el-alert
                 class="u-ac"
                 title="请妥善保管"
@@ -77,6 +77,16 @@
                 >提交</el-button
             >
         </form>
+        <div v-else class="m-dashboard-pwd-done">
+            <img class="u-icon" svg-inline src="../assets/img/setting/checked.svg" />
+            <p>修改成功</p>
+            <el-button
+                class="u-submit u-button"
+                type="primary"
+                @click="reset"
+                >返回</el-button
+            >
+        </div>
     </div>
 </template>
 
@@ -95,6 +105,7 @@ export default {
             pass_validate: null,
             pass_validate_tip: "密码有效长度为6-50个字符",
             pass_accordance_tip: "两次密码不一致",
+            status : true
         };
     },
     computed: {
@@ -124,12 +135,23 @@ export default {
                 pwd2: this.pwd2,
             })
                 .then((res) => {
-                    this.$message({
-                        message: "密码修改成功",
-                        type: "success",
-                    });
+                    if(!res.data.code){
+                        this.$message({
+                            message: "密码修改成功",
+                            type: "success",
+                        });
+                        this.status = false
+                    }else{
+                        this.$message({
+                            message: res.data.msg,
+                            type: "error",
+                        });
+                    }
                 })
         },
+        reset : function (){
+            this.status = true
+        }
     },
     mounted: function() {},
 };

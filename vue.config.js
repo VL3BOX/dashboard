@@ -14,6 +14,7 @@ module.exports = {
                 },
             },
         },
+        disableHostCheck: true
     },
 
     //❤️ Multiple pages ~

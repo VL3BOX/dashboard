@@ -1,10 +1,11 @@
-const { User } = require("@jx3box/jx3box-common");
+import { User } from "@jx3box/jx3box-common/js/user";
+import { __Domain } from "@jx3box/jx3box-common/js/jx3box.json";
 
-export default function(){
-    if(location.hostname != 'localhost'){
-        if(!User.isLogin()){
-            User.destroy()
-            User.toLogin()
+export default function() {
+    if (location.hostname == "www.jx3box.com") {
+        if (!User.isLogin()) {
+            User.destroy();
+            User.toLogin();
         }
     }
 }

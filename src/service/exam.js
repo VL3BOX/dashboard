@@ -1,7 +1,7 @@
 import { $ } from "./axios";
 import { __next } from "@jx3box/jx3box-common/js/jx3box.json";
 
-const API = __next + 'api/question/'  //TODO:
+const API = __next + 'api/question/'
 // const API = "/api/question/";
 
 function getQuestion(id, vm) {

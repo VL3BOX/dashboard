@@ -1,6 +1,9 @@
 .m-dashboard-profile {
-    // max-width:800px;
+    max-width:800px;
     // .auto(x);
+
+    padding:10px 20px;
+
     .u-name {
         .u-value {
             .bold;
@@ -47,8 +50,17 @@
         }
     }
 
+    .u-server-tip{
+        .ml(10px);
+        .fz(12px);
+        color:#999;
+        i{
+            .fz(16px);
+        }
+    }
+
     .u-submit{
-        .w(120px);
+        .w(180px);
     }
 
     .el-form-item{
@@ -61,12 +73,17 @@
     }
 }
 @media screen and (max-width: @phone) {
-    .el-form-item__label {
-        .x(left);
-        // .w(60px) !important;
-    }
-    .u-server{
-        .db;
+    .m-dashboard-profile{
+        padding:0;
+        .el-form-item__label {
+            .x(left);
+        }
+        .u-server{
+            .db;
+        }
+        .u-btns{
+            .x;
+        }
     }
 }
 

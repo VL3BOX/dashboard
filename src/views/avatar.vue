@@ -61,16 +61,21 @@ export default {
         },
         submit: function() {
             updateAvatar({
-                uid: User.getInfo().uid,
                 path: this.path,
             })
                 .then((res) => {
-                    User.refresh("avatar", this.path);
-
-                    this.$message({
-                        message: "头像更新成功",
-                        type: "success",
-                    });
+                    if(!res.data.code){
+                        User.refresh("avatar", this.path);
+                        this.$message({
+                            message: "头像更新成功",
+                            type: "success",
+                        });
+                    }else{
+                        this.$message({
+                            message: res.data.msg,
+                            type: "error",
+                        });
+                    }
                 })
         },
     },

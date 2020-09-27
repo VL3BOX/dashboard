@@ -9,26 +9,12 @@ function getUserInfo(uid) {
         },
     });
 }
-
-// 昵称
-function checkNickname(name) {
-    return $.get(__server + "dashboard/nickname/check", {
-        params: {
-            name: name,
-        },
-    });
-}
-function updateNickname(data) {
-    return $.post(__server + "dashboard/nickname/update", { name: data });
-}
 // 资料
-function updateProfile(data) {
-    return $.post(__server + "dashboard/profile/update", data);
-}
 function getProfile(){
-    return $.get(__server + "user/profile").then((res) => {
-        return res.data.data
-    })
+    return $.get(__server + "dashboard/profile")
+}
+function updateProfile(data) {
+    return $.post(__server + "dashboard/profile", data);
 }
 
 // 头像
@@ -82,8 +68,6 @@ function setConf(data){
 
 export {
     getUserInfo,
-    checkNickname,
-    updateNickname,
     updateProfile,
     getProfile,
     updateAvatar,

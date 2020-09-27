@@ -5,73 +5,28 @@
         <el-form
             class="m-profile-name"
             ref="form"
-            label-width="80px"
-            label-position="left"
+            label-width="100px"
+            :label-position="position"
         >
-            <!-- <el-divider content-position="left">昵称</el-divider> -->
             <el-form-item class="u-name" label="昵称">
                 <div class="u-value">
-                    {{ name }}
-                    <el-button
+                    {{ nickname }}
+                    <!-- TODO:vip/rename -->
+                    <!-- <a
                         class="u-edit"
-                        :disabled="renaming"
                         title="修改昵称"
-                        @click="startChangeName"
                         type="primary"
                         icon="el-icon-edit"
                         size="mini"
-                        >修改昵称</el-button
-                    >
+                        >修改昵称</a
+                    > -->
                 </div>
             </el-form-item>
 
-            <el-dialog
-                title="昵称修改"
-                :visible.sync="dialogVisible"
-                width="60%"
-                :before-close="handleClose"
-            >
-                <el-alert
-                    class="u-tip"
-                    title="昵称将作为唯一识别符，默认只能修改1次，请谨慎操作"
-                    description="昵称中请勿使用任何符号、空格等特殊字符，否则云端宏/数据订阅号将无法加载"
-                    type="warning"
-                    show-icon
-                ></el-alert>
-                <div class="u-rename" v-show="renaming">
-                    <el-input
-                        class="u-rename-input"
-                        v-model="rename"
-                        minlength="2"
-                        maxlength="12"
-                        @change="check"
-                        show-word-limit
-                    ></el-input>
-                    <i
-                        v-show="checkname"
-                        class="el-icon-success el-icons-status"
-                    ></i>
-                    <el-alert
-                        v-show="!checkname"
-                        title="昵称已被使用"
-                        type="error"
-                        show-icon
-                    >
-                    </el-alert>
-                </div>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="endChangeName">取 消</el-button>
-                    <el-button type="primary" @click="submitChangeName" :disabled="renaming && !checkname"
-                        >确 定</el-button
-                    >
-                </span>
-            </el-dialog>
-
             <el-form-item class="u-name" label="服务器">
-                <!-- <el-divider content-position="left">常驻服务器</el-divider> -->
                 <el-select
                     class="u-server"
-                    v-model="server"
+                    v-model="form.jx3_server"
                     filterable
                     placeholder="请输入服务器"
                 >
@@ -83,26 +38,80 @@
                     >
                     </el-option>
                 </el-select>
+                <span class="u-server-tip"><i class="el-icon-question"></i> 部分应用将使用此服务器作为默认服务器</span>
             </el-form-item>
 
-            <!-- <el-divider content-position="left">签名</el-divider> -->
+            <el-form-item class="u-name">
+                <div slot="label">
+                    <el-tooltip
+                        class="item"
+                        effect="dark"
+                        content="此项不会被公开,仅用于赛事联系或其它确认"
+                        placement="left"
+                    >
+                        <div><i class="el-icon-lock"></i> QQ</div>
+                    </el-tooltip>
+                </div>
+                <el-input
+                    v-model="form.qq_number"
+                    placeholder="请输入QQ号码"
+                ></el-input>
+            </el-form-item>
+
+            <el-form-item class="u-phone">
+                <div slot="label">
+                    <el-tooltip
+                        class="item"
+                        effect="dark"
+                        content="此项不会被公开,仅用于礼品发放"
+                        placement="left"
+                    >
+                        <div><i class="el-icon-lock"></i> 联系电话</div>
+                    </el-tooltip>
+                </div>
+                <el-input
+                    v-model="form.phone"
+                    placeholder="请输入收货电话"
+                ></el-input>
+            </el-form-item>
+
+            <el-form-item class="u-address">
+                <div slot="label">
+                    <el-tooltip
+                        class="item"
+                        effect="dark"
+                        content="此项不会被公开,仅用于礼品发放"
+                        placement="left"
+                    >
+                        <div><i class="el-icon-lock"></i> 联系地址</div>
+                    </el-tooltip>
+                </div>
+                <el-input
+                    v-model="form.address"
+                    placeholder="请输入收货地址"
+                    type="textarea"
+                ></el-input>
+            </el-form-item>
+
             <el-form-item class="u-name" label="签名">
                 <el-input
                     type="textarea"
                     :rows="4"
                     maxlength="80"
                     placeholder="签名内容"
-                    v-model="rebio"
+                    v-model="form.user_bio"
                     show-word-limit
                 >
                 </el-input>
             </el-form-item>
 
             <el-form-item class="u-btns" label="">
-                <el-button type="primary" class="u-submit"  icon="el-icon-check" @click="submitChangeProfile"
+                <el-button
+                    type="primary"
+                    class="u-submit"
+                    @click="submit"
                     >提交</el-button
                 >
-                <!-- <el-button @click="reset">取消</el-button> -->
             </el-form-item>
         </el-form>
     </div>
@@ -110,12 +119,7 @@
 
 <script>
 import { JX3BOX, User } from "@jx3box/jx3box-common";
-import {
-    checkNickname,
-    updateNickname,
-    updateProfile,
-    getProfile,
-} from "../service/profile";
+import { updateProfile, getProfile } from "../service/profile";
 import { sterilizer } from "sterilizer/index.js";
 import servers from "@jx3box/jx3box-data/data/server/server_list.json";
 
@@ -124,119 +128,45 @@ export default {
     props: [],
     data: function() {
         return {
-            name: "",
-            rename: "",
-            renaming: false,
-            checkname: true,
-
-            bio: "",
-            rebio: "",
-
-            server: "",
+            nickname: User.getInfo().name,
             servers,
-
-            dialogVisible: false,
+            form: {
+                jx3_server: "",
+                user_bio: "",
+                qq_number: "",
+                phone: "",
+                address: "",
+            },
+            position : window.innerWidth < 768 ? 'top' : 'left'
         };
     },
     computed: {},
     methods: {
-        // 昵称
-        startChangeName() {
-            this.renaming = true;
-            this.dialogVisible = true
-        },
-        check() {
-            this.rename = this.rename.trim();
-            if (this.rename < 2 || this.rename.length > 12) {
-                this.$message.error("昵称长度限制为2~12个字符");
-                return;
-            }
-            // 禁用符号
-            this.rename = sterilizer(this.rename).kill();
-            this.rename = sterilizer(this.rename).removeSpace();
-
-            checkNickname(this.rename)
-                .then((res) => {
-                    this.checkname = true;
-                })
-                .catch((err) => {
-                    this.checkname = false;
-                });
-        },
-        submitChangeName() {
-            if (!this.checkname) {
-                this.$alert("昵称不合法", "提交失败", {
-                    confirmButtonText: "确定",
-                    callback: (action) => {
-                        this.$message.error("用户名已被使用或包含禁用字符");
-                    },
-                });
-                return;
-            }
-
-            this.$alert(`确定修改为 ${this.rename} 吗`, "消息", {
-                confirmButtonText: "确定",
-                callback: (action) => {
-                    if (action == "confirm") {
-                        updateNickname(this.rename)
-                            .then((res) => {
-                                this.name = this.rename;
-                                User.refresh("name", this.rename);
-
-                                this.$message({
-                                    message: "资料修改成功",
-                                    type: "success",
-                                });
-
-                                this.renaming = false;
-                                this.dialogVisible = false
-                            })
-                    }
-                },
-            });
-        },
-        endChangeName() {
-            this.renaming = false;
-            this.rename = this.name;
-            this.rebio = this.bio;
-            this.dialogVisible = false
-        },
-        handleClose(done) {
-            this.$confirm("确认关闭？")
-                .then((_) => {
-                    done();
-                })
-                .catch((_) => {});
-        },
         // 提交资料
-        submitChangeProfile() {
-            let data = {
-                bio: this.rebio,
-                server: this.server,
-            };
+        submit() {
+            updateProfile(this.form).then((res) => {
 
-            updateProfile(data)
-                .then((res) => {
-                    this.bio = this.rebio;
-                    User.refresh("bio", this.rebio);
-
+                if(!res.data.code){
+                    User.refresh("bio", this.form.user_bio);
                     this.$message({
                         message: "资料修改成功",
                         type: "success",
                     });
-                })
+                }
+                
+            });
         },
         // 获取资料
-        getUserProfile() {
-            getProfile().then((data) => {
-                this.server = data.server;
+        getProfile() {
+            getProfile().then((res) => {
+                if(!res.data.code){
+                    this.form = res.data.data
+                }
             });
         },
     },
     mounted: function() {
-        this.name = this.rename = User.getInfo().name;
-        this.bio = this.rebio = User.getInfo().bio;
-        this.getUserProfile();
+        this.getProfile();
     },
 };
 </script>

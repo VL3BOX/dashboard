@@ -147,7 +147,7 @@ export default {
             updateProfile(this.form).then((res) => {
 
                 if(!res.data.code){
-                    User.refresh("bio", this.form.user_bio);
+                    // User.refresh("bio", this.form.user_bio);
                     this.$message({
                         message: "资料修改成功",
                         type: "success",

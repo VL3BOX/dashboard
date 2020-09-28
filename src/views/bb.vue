@@ -81,7 +81,6 @@
                 layout="total, prev, pager, next, jumper"
                 :hide-on-single-page="true"
                 :page-size="per"
-                @current-change="changePage"
                 :current-page.sync="page"
                 :total="total"
             >

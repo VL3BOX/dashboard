@@ -45,7 +45,6 @@
                     src="../assets/img/nav/fav.svg"
                 /><span>我的收藏</span></a
             >
-            <!-- <a href="../#/setting"><img class="u-setting" svg-inline src="../assets/img/nav/setting.svg" /><span>消息通知</span></a> -->
         </div>
 
         <h5 class="u-title">账号设置</h5>
@@ -55,10 +54,10 @@
                     class="u-user"
                     svg-inline
                     src="../assets/img/nav/user.svg"
-                /><span>资料修改</span></a
+                /><span>资料设置</span></a
             >
             <a href="../#/config"
-                ><i class="u-icon el-icon-s-tools"></i><span>通知设置</span></a
+                ><i class="u-icon el-icon-s-tools"></i><span>扩展设置</span></a
             >
             <a :href="feedback" target="_blank"
                 ><img

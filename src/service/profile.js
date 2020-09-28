@@ -2,12 +2,8 @@ import { $ } from "./axios";
 import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
 
 // 信息
-function getUserInfo(uid) {
-    return $.get(__server + "user/info", {
-        params: {
-            uid: uid,
-        },
-    });
+function getUserInfo() {
+    return $.get(__server + "user/me");
 }
 // 资料
 function getProfile(){
@@ -49,13 +45,14 @@ function sendVerifyEmail() {
 }
 
 // 互联
+function checkOAuth() {
+    return $.get(__server + "dashboard/oauth/check");
+}
+
 function unbindOAuth(data) {
     return $.post(__server + "dashboard/oauth/unbind", data);
 }
 
-function checkOAuth(data) {
-    return $.post(__server + "dashboard/oauth/check", data);
-}
 
 // 用户设置
 function getConf(){

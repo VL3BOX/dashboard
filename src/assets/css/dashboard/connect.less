@@ -24,9 +24,13 @@
     .u-status{
         .nobreak;
     }
+
+    .u-tip{
+        .mb(10px);
+    }
 }
 
-@media screen and (max-width:@ipad-y){
+@media screen and (max-width:@phone){
     .m-dashboard-connect {
         .box-card{
             float:none;
@@ -49,17 +53,20 @@
         .u-status{
             margin:0;
             .fl;
-            .w(80px);
+            .w(60px);
             .lh(40px);
+            .x(left);
         }
         .u-button{
             .fr;
+            .x;
+            .w(auto) !important;
         }
     }
 }
 
 @media screen and (max-width:@ip5){
     .m-dashboard-connect .u-button{
-        .w(80px);
+        .fz(12px);
     }
 }

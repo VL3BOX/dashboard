@@ -16,7 +16,7 @@
                 <!-- <div class="u-level"></div> -->
                 <!-- <div class="u-credit">积分</div> -->
                 <div class="u-join">加入于{{ join }}</div>
-                <div class="u-bio">Sign {{ bio }}</div>
+                <div class="u-bio">{{ bio }}</div>
             </div>
         </div>
 

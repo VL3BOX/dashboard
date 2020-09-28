@@ -7,15 +7,17 @@
                 /></i>
                 <!-- <i class="u-avatar-frame"><img class="u-avatar-frame-pic" src="../assets/img/1.png" /></i> -->
             </i>
-            <h1 class="u-name">{{ name }}</h1>
-            <!-- <i class="u-group"><img :src="group | groupicon"></i> -->
-            <div class="u-uid">
-                <em>UID</em><b>{{ uid }}</b>
+            <div class="u-info">
+                <h1 class="u-name">{{ name }}</h1>
+                <!-- <i class="u-group"><img :src="group | groupicon"></i> -->
+                <div class="u-uid">
+                    <em>UID</em><b>{{ uid }}</b>
+                </div>
+                <!-- <div class="u-level"></div> -->
+                <!-- <div class="u-credit">积分</div> -->
+                <div class="u-join">加入于{{ join }}</div>
+                <div class="u-bio">Sign {{ bio }}</div>
             </div>
-            <!-- <div class="u-level"></div> -->
-            <!-- <div class="u-credit">积分</div> -->
-            <div class="u-join">加入于{{ join }}</div>
-            <div class="u-bio">{{ bio }}</div>
         </div>
 
         <!-- 任务 -->
@@ -57,14 +59,14 @@ export default {
         let _info = User.getInfo();
         this.name = _info.name;
         this.uid = _info.uid;
-        this.bio = _info.bio;
         this.group = _info.group;
 
         if (this.uid) {
-            getUserInfo(this.uid)
-                .then((res) => {
-                    this.join = dateFormat(new Date(res.data.data.created_at));
-                })
+            getUserInfo(this.uid).then((res) => {
+                let data = res.data.data;
+                this.join = dateFormat(new Date(data.user_registered));
+                this.bio = data.user_bio;
+            });
         }
     },
 };

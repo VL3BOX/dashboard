@@ -1,4 +1,4 @@
-import { User } from "@jx3box/jx3box-common/js/user";
+import User from "@jx3box/jx3box-common/js/user";
 import { __Domain } from "@jx3box/jx3box-common/js/jx3box.json";
 
 export default function() {

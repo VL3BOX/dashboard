@@ -156,7 +156,7 @@
 
             // 获取物品ID并通过watch获取攻略
             let id = this.$route.params.source_id;
-            this.post.source_id = id ? parseInt(id) : null;
+            this.post.source_id = id ? id : null;
 
             // 去掉标题
             document.getElementsByClassName("m-publish-title").forEach((item) => {
@@ -180,12 +180,12 @@
                             let post = data.post;
                             let item = data.source;
                             if (post) {
-                                this.post.source_id = parseInt(post.source_id);
+                                this.post.source_id = post.source_id;
                                 this.post.level = post.level || 1;
                                 this.post.remark = "";
                                 this.post.content = post.content;
                             } else {
-                                this.post.source_id = this.post.source_id ? parseInt(this.post.source_id) : "";
+                                this.post.source_id = this.post.source_id ? this.post.source_id : "";
                                 this.post.level = 3;
                                 this.post.remark = "";
                                 this.post.content = "";

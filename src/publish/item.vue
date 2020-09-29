@@ -20,7 +20,7 @@
                         :remote-method="search_items"
                         :loading="options.search_loading"
                 >
-                    <el-option v-for="item in options.items" :key="item.UiID" :label="item.Name" :value="item.UiID">
+                    <el-option v-for="item in options.items" :key="item.id" :label="item.Name" :value="item.id">
                         <div class="m-selector-item">
                             <img class="u-icon" :src="icon_url_filter(item.IconID)" :alt="item.Name"/>
                             <span class="u-name" v-text="item.Name"></span>
@@ -196,7 +196,7 @@
                                 let exist = false;
                                 this.options.items = this.options.items || [];
                                 for (let index in this.options.items) {
-                                    if (this.options.items[index].UiID == this.post.source_id) {
+                                    if (this.options.items[index].id == this.post.source_id) {
                                         exist = true;
                                         break;
                                     }

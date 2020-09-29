@@ -10,15 +10,13 @@
             <!-- 💛 栏目字段 -->
             <el-form-item label="物品选择">
                 <el-select
-                        class="u-item_id"
-                        v-model="post.source_id"
-                        filterable
-                        remote
-                        reserve-keyword
-                        :disabled="!!post.id"
-                        placeholder="输入物品名称/物品描述"
-                        :remote-method="search_items"
-                        :loading="options.search_loading"
+                    class="u-item_id"
+                    v-model="post.source_id"
+                    filterable
+                    :disabled="!!post.id"
+                    placeholder="输入物品名称/物品描述并按『回车』进行搜索"
+                    :filter-method="goto_search_items"
+                    :loading="options.search_loading"
                 >
                     <el-option v-for="item in options.items" :key="item.id" :label="item.Name" :value="item.id">
                         <div class="m-selector-item">
@@ -137,13 +135,14 @@
                 }
             },
             // 物品搜索
-            search_items(keyword = '') {
+            goto_search_items(keyword = '', callback = null) {
                 this.options.search_loading = true;
                 search_items(keyword, 10).then(
                     (data) => {
                         data = data.data;
                         this.options.items = data.code === 200 ? data.data.data : false;
                         this.options.search_loading = false;
+                        if (typeof callback === "function") callback();
                     },
                     () => {
                         this.options.items = false;
@@ -152,11 +151,11 @@
             },
         },
         mounted() {
-            this.search_items();
-
-            // 获取物品ID并通过watch获取攻略
-            let id = this.$route.params.source_id;
-            this.post.source_id = id ? id : null;
+            this.goto_search_items('', () => {
+                // 获取物品ID并通过watch获取攻略
+                let id = this.$route.params.source_id;
+                this.post.source_id = id ? id : null;
+            });
 
             // 去掉标题
             document.getElementsByClassName("m-publish-title").forEach((item) => {

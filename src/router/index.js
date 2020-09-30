@@ -11,7 +11,6 @@ const bb = () => import("../views/bb.vue");
 const msg = () => import("../views/msg.vue");
 const feed = () => import("../views/feed.vue");
 const fav = () => import("../views/fav.vue");
-const setting = () => import("../views/setting.vue");
 
 const profile = () => import("../views/profile.vue");
 const avatar = () => import("../views/avatar.vue");
@@ -33,7 +32,6 @@ const routes = [
     { name: "msg", path: "/msg", component: msg },
     { name: "feed", path: "/feed", component: feed },
     { name: "fav", path: "/fav", component: fav },
-    { name: "setting", path: "/setting", component: setting },
 
     { name: "profile", path: "/profile", component: profile },
     { name: "avatar", path: "/avatar", component: avatar },

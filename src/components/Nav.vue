@@ -57,7 +57,7 @@
                 /><span>资料设置</span></router-link
             >
             <router-link to="/config"
-                ><i class="u-icon el-icon-s-tools"></i><span>扩展设置</span></router-link
+                ><i class="u-icon el-icon-s-tools"></i><span>通知设置</span></router-link
             >
             <a :href="feedback" target="_blank"
                 ><img

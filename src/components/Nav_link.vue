@@ -57,7 +57,7 @@
                 /><span>资料设置</span></a
             >
             <a href="../#/config"
-                ><i class="u-icon el-icon-s-tools"></i><span>扩展设置</span></a
+                ><i class="u-icon el-icon-s-tools"></i><span>通知设置</span></a
             >
             <a :href="feedback" target="_blank"
                 ><img

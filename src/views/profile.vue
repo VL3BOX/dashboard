@@ -41,6 +41,13 @@
                 <span class="u-server-tip"><i class="el-icon-question"></i> 部分应用将使用此服务器作为默认服务器</span>
             </el-form-item>
 
+            <el-form-item class="u-name" label="推栏ID">
+                <el-input
+                    v-model="form.tuilan_id"
+                    placeholder="请输入推栏数字ID"
+                ></el-input>
+            </el-form-item>
+
             <el-form-item class="u-name">
                 <div slot="label">
                     <el-tooltip

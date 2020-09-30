@@ -37,7 +37,7 @@ const routes = [
 
     // 物品攻略发布
     {
-        path: "/item/:source_id(\\d+)?",
+        path: "/item/:source_id([_\\d]+)?",
         component: item,
     },
 

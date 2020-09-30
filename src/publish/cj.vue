@@ -17,11 +17,9 @@
                     class="u-achievement_id"
                     v-model="post.achievement_id"
                     filterable
-                    remote
-                    reserve-keyword
                     :disabled="!!post.id"
-                    placeholder="输入成就名称/成就描述/称号/奖励物品"
-                    :remote-method="search_achievements_handle"
+                    placeholder="输入成就名称/成就描述/称号/奖励物品并按『回车』进行搜索"
+                    :filter-method="search_achievements_handle"
                     :loading="options.search_loading"
                 >
                     <el-option

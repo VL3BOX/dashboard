@@ -143,6 +143,7 @@ export default {
                 qq_number: "",
                 phone: "",
                 address: "",
+                tuilan_id:""
             },
             position : window.innerWidth < 768 ? 'top' : 'left'
         };

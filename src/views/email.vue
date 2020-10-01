@@ -43,20 +43,22 @@
                     :closable="false"
                 >
                 </el-alert>
-                <el-button
-                    type="primary"
-                    class="u-button"
-                    @click="verify"
-                    icon="el-icon-s-promotion"
-                    >验证邮箱</el-button
-                >
-                <el-button
-                    type="primary"
-                    class="u-button"
-                    @click="changeEmail"
-                    icon="el-icon-edit"
-                    >修改邮箱</el-button
-                >
+                <div class="u-btngroup">
+                    <el-button
+                        type="primary"
+                        class="u-button"
+                        @click="verify"
+                        icon="el-icon-s-promotion"
+                        >验证邮箱</el-button
+                    >
+                    <el-button
+                        type="primary"
+                        class="u-button"
+                        @click="changeEmail"
+                        icon="el-icon-edit"
+                        >修改邮箱</el-button
+                    >
+                </div>
             </template>
         </div>
 

@@ -11,15 +11,12 @@
             <el-form-item class="u-name" label="昵称">
                 <div class="u-value">
                     {{ nickname }}
-                    <!-- TODO:vip/rename -->
-                    <!-- <a
-                        class="u-edit"
-                        title="修改昵称"
-                        type="primary"
-                        icon="el-icon-edit"
-                        size="mini"
-                        >修改昵称</a
-                    > -->
+                    <a
+                        class="u-edit el-button el-button--primary el-button--mini"
+                        href="/vip/rename"
+                        target="_blank"
+                        ><i class="el-icon-edit"></i> 修改昵称</a
+                    >
                 </div>
             </el-form-item>
 

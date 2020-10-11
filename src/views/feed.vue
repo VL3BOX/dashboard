@@ -1,14 +1,5 @@
 <template>
-    <div class="m-dashboard m-dashboard-feed">
-        订阅列表
-
-        +是否开启邮箱订阅
-
-        更新时间，作品名称，作品链接，原作者
-        取消订阅
-        
-搜索
-    </div>
+    <el-alert title="即将登场" type="warning" show-icon> </el-alert>
 </template>
 
 <script>

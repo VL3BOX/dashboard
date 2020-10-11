@@ -6,7 +6,7 @@
             <Info />
         </Breadcrumb>
         <LeftSidebar>
-            <Nav_link />
+            <Nav />
         </LeftSidebar>
         <Main :withoutRight="true" class="m-dashboard-publish">
             <router-view />
@@ -16,7 +16,7 @@
 
 <script>
 import Info from "@/components/Info.vue";
-import Nav_link from "@/components/Nav_link.vue";
+import Nav from "@/components/Nav.vue";
 import checkLogin from '../utils/checkLogin'
 export default {
     name: "dashboard",
@@ -31,7 +31,7 @@ export default {
     },
     components: {
         Info,
-        Nav_link,
+        Nav,
     },
 };
 </script>

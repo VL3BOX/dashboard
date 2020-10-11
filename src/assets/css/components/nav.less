@@ -43,27 +43,26 @@
         .fz(14px, 32px);
         padding: 4px 25px;
         color: #555;
-        .u-icon,svg{
-            .y(-3px);
+        svg,i,img{
             .mr(5px);
-            fill:#555;
-            .size(16px);
-            .w(16px);
         }
-        .el-icon-s-tools{
+        svg{
+            .size(16px);
+            .y(-3px);
+            fill:#555;
+        }
+        i{
             .fz(16px);
             .y(-1px);
-        }
-        .u-fav,.u-pass,.u-user,.u-avatar{
-            .size(14px);
-            .y(-2px);
-        }
-        .u-help{
-            .w(14px);
         }
         .u-blank{
             .mt(7px);
             .fr;
+        }
+
+        &.disabled{
+            .tm(0.4);
+            cursor: default;
         }
 
         &:hover {
@@ -74,7 +73,7 @@
 
         border-top:1px solid transparent;
         border-bottom:1px solid transparent;
-        &.router-link-active {
+        &.on {
             background-color: #fff;
             color:@color-link;
             svg{fill:@color-link;}

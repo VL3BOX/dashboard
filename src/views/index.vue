@@ -9,19 +9,20 @@
             </i>
             <div class="u-info">
                 <h1 class="u-name">{{ name }}</h1>
-                <!-- <i class="u-group"><img :src="group | groupicon"></i> -->
                 <div class="u-uid">
                     <em>UID</em><b>{{ uid }}</b>
+                    <i class="u-group"><img :src="group | groupicon"></i>
                 </div>
-                <!-- <div class="u-level"></div> -->
-                <!-- <div class="u-credit">积分</div> -->
+                <!-- <div class="u-level">等级</div> -->
+                <!-- <div class="u-credit">积分</div>  -->
+                <!-- 盒币充值与打赏 -->
                 <div class="u-join">加入于{{ join }}</div>
                 <div class="u-bio">{{ bio }}</div>
             </div>
         </div>
-
+        <!-- TODO: -->
         <!-- 勋章 -->
-        <!-- 积分兑换 -->
+        <!-- 积分兑换商城 -->
     </div>
 </template>
 

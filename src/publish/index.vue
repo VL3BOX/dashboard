@@ -47,17 +47,6 @@
                         ></el-card
                     ></el-col
                 >
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link
-                            to="/tool"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/tool.svg"
-                            /><span>工具资源</span></router-link
-                        ></el-card
-                    ></el-col
-                >
             </el-row>
 
             <el-divider content-position="left">PVX / PVN</el-divider>
@@ -69,6 +58,16 @@
                                 svg-inline
                                 src="../assets/img/channel/cj.svg"
                             /><span>成就攻略</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link to="/item"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/item.svg"
+                            /><span>物品攻略</span></router-link
                         ></el-card
                     ></el-col
                 >
@@ -93,27 +92,6 @@
                         ></el-card
                     ></el-col
                 >
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link
-                            to="/exam"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/100.svg"
-                            /><span>趣味题库</span></router-link
-                        ></el-card
-                    ></el-col
-                >
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link to="/item"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/item.svg"
-                            /><span>物品攻略</span></router-link
-                        ></el-card
-                    ></el-col
-                >
             </el-row>
 
             <el-divider content-position="left">PVBB / 其它</el-divider>
@@ -126,6 +104,28 @@
                                 svg-inline
                                 src="../assets/img/channel/wiki.svg"
                             /><span>百科词条</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link
+                            to="/tool"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/tool.svg"
+                            /><span>工具资源</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link
+                            to="/exam"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/100.svg"
+                            /><span>趣味题库</span></router-link
                         ></el-card
                     ></el-col
                 >

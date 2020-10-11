@@ -3,11 +3,11 @@
         <el-tab-pane label="百科攻略" name="wiki_post" class="m-dashboard m-dashboard-work m-dashboard-wiki">
             <el-input
                 class="m-dashboard-work-search u-source-search"
-                placeholder="请输入内容"
+                placeholder="请输入搜索内容"
                 v-model="achievement_post.keyword"
                 @change="search_post"
             >
-                <template slot="prepend">百科攻略</template>
+                <template slot="prepend">关键词</template>
                 <el-button
                     slot="append"
                     icon="el-icon-search"
@@ -39,7 +39,6 @@
 
                         <el-button-group class="u-action">
                             <el-button
-                                type="primary"
                                 size="mini"
                                 icon="el-icon-edit"
                                 :disabled="post.checked != 0"
@@ -47,7 +46,6 @@
                                 @click="post_edit('achievement', post)"
                             ></el-button>
                             <el-button
-                                type="primary"
                                 size="mini"
                                 icon="el-icon-delete"
                                 title="删除"
@@ -81,11 +79,11 @@
         <el-tab-pane label="百科评论" name="wiki_comment" class="m-dashboard m-dashboard-work m-dashboard-wiki">
             <el-input
                     class="m-dashboard-work-search u-source-search"
-                    placeholder="请输入内容"
+                    placeholder="请输入搜索内容"
                     v-model="achievement_comment.keyword"
                     @change="search_comment"
             >
-                <template slot="prepend">百科评论</template>
+                <template slot="prepend">关键词</template>
                 <el-button
                         slot="append"
                         icon="el-icon-search"

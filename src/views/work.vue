@@ -1,30 +1,24 @@
 <template>
     <div class="m-dashboard m-dashboard-work">
+        <el-tabs v-model="searchType">
+            <el-tab-pane label="全部作品" name="all"></el-tab-pane>
+            <el-tab-pane
+                :label="item"
+                :name="key"
+                v-for="(item, key) in types"
+                :key="key"
+            >
+            </el-tab-pane>
+        </el-tabs>
         <el-input
             class="m-dashboard-work-search"
-            placeholder="请输入内容"
+            placeholder="请输入搜索内容"
             v-model="search"
-            @change="searchPost"
         >
-            <el-select
-                class="u-select"
-                v-model="searchType"
-                slot="prepend"
-                placeholder="请选择"
-                @change="searchPost"
-            >
-                <el-option label="全部" value=""></el-option>
-                <el-option
-                    :label="item"
-                    :value="key"
-                    v-for="(item, key) in types"
-                    :key="key"
-                ></el-option>
-            </el-select>
+            <span slot="prepend">关键词</span>
             <el-button
                 slot="append"
                 icon="el-icon-search"
-                @click="searchPost"
             ></el-button>
         </el-input>
 
@@ -66,7 +60,6 @@
 
                     <el-button-group class="u-action">
                         <el-button
-                            type="primary"
                             size="mini"
                             icon="el-icon-edit"
                             title="编辑"
@@ -74,7 +67,6 @@
                         ></el-button>
                         <el-button
                             v-if="item.post_status == 'publish'"
-                            type="primary"
                             size="mini"
                             icon="el-icon-lock"
                             title="设为私有"
@@ -82,14 +74,12 @@
                         ></el-button>
                         <el-button
                             v-else
-                            type="primary"
                             size="mini"
                             icon="el-icon-check"
                             title="设为公开"
                             @click="publish(item.ID, i)"
                         ></el-button>
                         <el-button
-                            type="primary"
                             size="mini"
                             icon="el-icon-delete"
                             title="删除"
@@ -112,7 +102,6 @@
                 background
                 :page-size="per"
                 :hide-on-single-page="true"
-                @current-change="changePage"
                 :current-page.sync="page"
                 layout="total, prev, pager, next, jumper"
                 :total="total"
@@ -143,28 +132,34 @@ export default {
             page: 1,
             per: 10,
             search: "",
-            searchType: "",
+            searchType: "all",
             types: __postType,
         };
     },
-    computed: {},
-    methods: {
-        loadPosts: function(i = 1) {
-            getWorks({
-                page: i,
-                title: this.search,
-                type: this.searchType,
+    computed: {
+        params: function() {
+            return {
                 per: this.per,
-            }).then((res) => {
+                title: this.search,
+                type: this.searchType == 'all' ? '' : this.searchType,
+                page: this.page,
+            };
+        },
+    },
+    watch : {
+        params : {
+            deep : true,
+            handler: function (newval){
+                this.loadPosts()
+            }
+        }
+    },
+    methods: {
+        loadPosts: function() {
+            getWorks(this.params).then((res) => {
                 this.data = res.data.data.list;
                 this.total = res.data.data.total;
             });
-        },
-        changePage: function(i = 1) {
-            this.loadPosts(i);
-        },
-        searchPost: function(i = 1) {
-            this.loadPosts(i);
         },
         edit: function(type, id) {
             location.href = __Links.dashboard.publish + "#/" + type + "/" + id;
@@ -174,37 +169,34 @@ export default {
                 confirmButtonText: "确定",
                 callback: (action) => {
                     if (action == "confirm") {
-                        delPost(id)
-                            .then(() => {
-                                this.$message({
-                                    type: "success",
-                                    message: `删除成功`,
-                                });
-                                location.reload();
-                            })
+                        delPost(id).then(() => {
+                            this.$message({
+                                type: "success",
+                                message: `删除成功`,
+                            });
+                            location.reload();
+                        });
                     }
                 },
             });
         },
         draft: function(id, i) {
-            hidePost(id)
-                .then((res) => {
-                    this.$message({
-                        type: "success",
-                        message: `操作成功`,
-                    });
-                    this.data[i].post_status = "draft";
-                })
+            hidePost(id).then((res) => {
+                this.$message({
+                    type: "success",
+                    message: `操作成功`,
+                });
+                this.data[i].post_status = "draft";
+            });
         },
         publish: function(id, i) {
-            publishPost(id)
-                .then((res) => {
-                    this.$message({
-                        type: "success",
-                        message: `操作成功`,
-                    });
-                    this.data[i].post_status = "publish";
-                })
+            publishPost(id).then((res) => {
+                this.$message({
+                    type: "success",
+                    message: `操作成功`,
+                });
+                this.data[i].post_status = "publish";
+            });
         },
         postLink: function(type, id) {
             return __Root + type + "/?pid=" + id;

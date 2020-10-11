@@ -1,34 +1,27 @@
 <template>
     <div class="m-dashboard m-dashboard-work">
+        <el-tabs v-model="searchType">
+            <el-tab-pane label="全部" name=""></el-tab-pane>
+            <el-tab-pane
+                :label="item"
+                :name="key"
+                v-for="(item, key) in types"
+                :key="key"
+            >
+            </el-tab-pane>
+        </el-tabs>
         <el-input
             class="m-dashboard-work-search"
-            placeholder="请输入内容"
+            placeholder="请输入搜索内容"
             v-model="search"
         >
-            <el-select
-                class="u-select"
-                v-model="searchType"
-                slot="prepend"
-                placeholder="请选择"
-            >
-                <el-option
-                    label="全部"
-                    value=""
-                ></el-option>
-                <el-option
-                    :label="item"
-                    :value="key"
-                    v-for="(item, key) in types"
-                    :key="key"
-                ></el-option>
-            </el-select>
+            <span slot="prepend">关键词</span>
             <el-button
                 slot="append"
                 icon="el-icon-search"
                 @click="loadPosts"
             ></el-button>
         </el-input>
-
         <div class="m-dashboard-box">
             <ul class="m-dashboard-box-list" v-if="data.length">
                 <li v-for="(item, i) in data" :key="i">
@@ -50,20 +43,28 @@
                     >
                     <div class="u-desc">
                         <span class="u-status u-desc-subitem">
-                            状态:
-                            <b
+                            <i class="el-icon-price-tag"></i> 状态 : 
+                            <span
                                 :class="{
                                     pending: item.status == 0,
                                     pass: item.status == 1,
                                     fail: item.status == 2,
                                 }"
-                                >{{ statusmap[item.status] }}</b
+                                >{{ statusmap[item.status] }}</span
                             >
                         </span>
                         <time class="u-time u-desc-subitem"
-                            >提交于: {{ item.created_at }}</time
+                            >提交于 : {{ item.created_at }}</time
                         >
                     </div>
+                    <!-- <el-button-group class="u-action">
+                        <el-button v-if="item.status != 1"
+                            size="mini"
+                            icon="el-icon-edit"
+                            title="编辑"
+                            @click="edit(item.id)"
+                        ></el-button>
+                    </el-button-group> -->
                 </li>
             </ul>
             <el-alert
@@ -114,14 +115,21 @@ export default {
         };
     },
     computed: {
-        params : function (){
+        params: function() {
             return {
-                size : this.per,
-                title : this.search,
-                size : this.per,
-                type : this.searchType,
-                page : this.page
-            }
+                size: this.per,
+                title: this.search,
+                type: this.searchType,
+                page: this.page,
+            };
+        },
+    },
+    watch: {
+        params: {
+            deep: true,
+            handler: function(val) {
+                this.loadPosts();
+            },
         },
     },
     methods: {
@@ -135,28 +143,22 @@ export default {
             location.href = "./publish/#/wiki/" + id;
         },
         postLink: function(id) {
-            return ;
+            return;
         },
     },
     filters: {
         typeFormat: function(type) {
-            return types[type] || '已合并分类';
+            return types[type] || "已合并分类";
         },
-        postLink : function (item){
-            return item.wiki_id ? "/wiki/?pid=" + item.wiki_id : "/wiki/?hid=" + item.id
-        }
+        postLink: function(item) {
+            return item.wiki_id
+                ? "/wiki/?pid=" + item.wiki_id
+                : "/wiki/?hid=" + item.id;
+        },
     },
     created: function() {
         this.loadPosts();
     },
-    watch : {
-        params : {
-            deep : true,
-            handler : function (val){
-                this.loadPosts();
-            }
-        }
-    }
 };
 </script>
 

@@ -1,12 +1,13 @@
 <template>
     <div class="m-dashboard m-dashboard-work m-dashboard-fav">
+        <h2 class="u-title">我的收藏</h2>
         <el-input
             class="m-dashboard-work-search"
-            placeholder="请输入内容"
+            placeholder="请输入搜索内容"
             v-model="search"
             @change="searchPost"
         >
-            <template slot="prepend">我的收藏</template>
+            <template slot="prepend">关键词</template>
             <el-button
                 slot="append"
                 icon="el-icon-search"
@@ -32,15 +33,18 @@
                     <a
                         class="u-title"
                         target="_blank"
-                        :href="postLink(item.post.post_type, item.post.ID)"
+                        :href="
+                            postLink(item.post.post_type, item.post.ID)
+                        "
                         >{{ item.post.post_title || "无标题" }}</a
                     >
-                    <div class="u-desc"
-                        >发布于: {{ item.post.post_date | dateFormat}} | 最后更新: {{ item.post.post_modified | dateFormat}}</div
-                    >
+                    <div class="u-desc">
+                        发布于: {{ item.post.post_date | dateFormat }} |
+                        最后更新:
+                        {{ item.post.post_modified | dateFormat }}
+                    </div>
                     <el-button-group class="u-action">
                         <el-button
-                            type="primary"
                             size="mini"
                             icon="el-icon-delete"
                             title="删除"
@@ -82,6 +86,7 @@ export default {
     props: [],
     data: function() {
         return {
+            type: "all",
             data: [],
             total: 1,
             page: 1,
@@ -110,14 +115,13 @@ export default {
             this.$alert("确定要取消收藏吗？", "确认信息", {
                 confirmButtonText: "确定",
                 callback: (action) => {
-                    delFav(id)
-                        .then(() => {
-                            this.$message({
-                                type: "success",
-                                message: `取消收藏成功`,
-                            });
-                            location.reload();
-                        })
+                    delFav(id).then(() => {
+                        this.$message({
+                            type: "success",
+                            message: `取消收藏成功`,
+                        });
+                        location.reload();
+                    });
                 },
             });
         },
@@ -125,10 +129,10 @@ export default {
             return __Root + type + "/" + id;
         },
     },
-    filters:{
-        dateFormat : function (val){
-            return dateFormat(new Date(val))
-        }
+    filters: {
+        dateFormat: function(val) {
+            return dateFormat(new Date(val));
+        },
     },
     mounted: function() {
         this.changePage();

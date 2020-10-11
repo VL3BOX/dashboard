@@ -16,8 +16,8 @@
             <a href="/dashboard/#/bb" :class="isActive('bb')">
                 <i class="el-icon-collection"></i><span>词条贡献</span>
             </a>
-            <a href="/dashboard/#/exam" :class="isActive('exam')">
-                <i class="el-icon-collection"></i><span>应用贡献</span>
+            <a href="/dashboard/#/other" :class="isActive('other')">
+                <i class="el-icon-collection"></i><span>其它</span>
             </a>
         </div>
 

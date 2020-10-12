@@ -1,6 +1,6 @@
 <template>
     <nav class="m-nav">
-        <a class="m-nav-publish el-button el-button--primary" href="./publish">
+        <a class="m-nav-publish el-button el-button--primary" href="/dashboard/publish">
             <i class="el-icon-edit-outline"></i><span>发布中心</span>
         </a>
         <!-- <a class="m-nav-bucket el-button el-button--primary is-plain"  href="./bucket"><img class="u-bucket" svg-inline src="../assets/img/nav/bucket.svg" /> <span>仓库</span></a> -->

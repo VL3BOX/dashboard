@@ -37,9 +37,13 @@ export default {
         return {
             data: {
                 github: "",
+                github_id: "",
                 qq: "",
+                qq_id: "",
                 weibo: "",
+                weibo_id: "",
                 wechat: "",
+                wechat_id: "",
             },
             oauth,
         };
@@ -47,7 +51,7 @@ export default {
     computed: {},
     methods: {
         checkStatus: function(type) {
-            return !!this.data[type];
+            return !!this.data[type + '_id'];
         },
         bind: function(type) {
             location.href = links[type];
@@ -58,11 +62,11 @@ export default {
                 type: type,
             }).then((res) => {
                 if (!res.data.code) {
-                    this.data[type] = null;
                     this.$message({
                         message: "解绑成功",
                         type: "success",
                     });
+                    location.reload()
                 } else {
                     this.$message({
                         message: res.data.msg,

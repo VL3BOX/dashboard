@@ -37,7 +37,7 @@
             </a>
         </div>
 
-        <h5 class="u-title">账号设置</h5>
+        <h5 class="u-title">账号中心</h5>
         <div class="m-nav-group">
             <a href="/dashboard/#/profile" :class="isActive('profile')">
                 <i class="el-icon-user"></i><span>资料设置</span>

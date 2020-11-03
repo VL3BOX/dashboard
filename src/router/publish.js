@@ -82,6 +82,10 @@ const routes = [
         path: "/bbs/:id?",
         component: bbs,
     },
+    {
+        path: "/post/:id?",
+        component: bbs,
+    },
 
     // 捏脸分享
     {

@@ -12,6 +12,7 @@ const tool = () => import("../publish/tool.vue");
 
 const cj = () => import("../publish/cj.vue");
 const item = () => import("../publish/item.vue");
+const item_plan = () => import("../publish/item_plan.vue");
 const house = () => import("../publish/house.vue");
 const share = () => import("../publish/share.vue");
 
@@ -39,6 +40,11 @@ const routes = [
     {
         path: "/item/:source_id([_\\d]+)?",
         component: item,
+    },
+    // 物品清单发布
+    {
+        path: "/item/plan/:plan_id(\\d+)?",
+        component: item_plan,
     },
 
     // 副本发布

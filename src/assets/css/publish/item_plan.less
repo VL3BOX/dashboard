@@ -1,0 +1,44 @@
+@import './common.less';
+
+.c-item-search {
+  padding: 10px;
+  border: 1px solid #DCDFE6;
+  border-radius: 4px;
+
+  .m-simple-item {
+    cursor: pointer;
+    user-select: none;
+  }
+}
+
+.m-search-items, .m-selected-items {
+  .pl(0);
+  list-style: none;
+
+  li:last-child {
+    .m-simple-item {
+      .mb(0);
+    }
+  }
+}
+
+.m-no-item {
+  .pt(10px);
+  .pb(5px);
+  font-size: 14px;
+  text-align: center;
+  color: #AAAAAA;
+}
+
+.c-plan-relation {
+  .pl(25px);
+}
+
+.m-position {
+  .fl;
+  .w(320px);
+
+  .u-title {
+    .mt(0);
+  }
+}

@@ -10,8 +10,8 @@
       <el-col :xs="24" :sm="5" class="c-item-search">
         <el-input placeholder="请输入物品名称" prefix-icon="el-icon-search" v-model="keyword"></el-input>
         <draggable class="m-search-items" tag="ul" v-if="items && items.length" :list="items" :sort="false"
-                   :group="{ name: 'people', pull: 'clone', put: false }" :move="move_handle">
-          <li v-for="(item,key) in items" :key="key">
+                   :group="{ name: 'draggable-item', pull: 'clone', put: false }" :move="move_handle" ghost-class="ghost">
+          <li v-for="(item,key) in items" :key="key" class="m-search-item">
             <Item :item="item"/>
           </li>
         </draggable>
@@ -22,20 +22,20 @@
       </el-col>
 
       <el-col :xs="24" :sm="19" class="c-plan-relation">
-        <el-row :gutter="15">
-          <el-col :xs="24" :sm="6" class="m-position" v-for="(position,key) in positions" :key="key">
-            <h3 class="u-title" v-text="position.label"></h3>
-            <div class="c-selected-items">
-              <draggable class="m-selected-items" tag="ul" :list="plan.relation[key]" group="people" :move="move_handle"
-                         :data-AucGenre="position.AucGenre" :data-AucSubType="position.AucSubType">
-                <li v-for="(item,key) in plan.relation[key]" :key="key">
-                  <Item :item="item"/>
-                </li>
-              </draggable>
-              <span v-if="!plan.relation[key].length" class="u-tip">拖拽所需装备到此处</span>
-            </div>
-          </el-col>
-        </el-row>
+        <div class="m-position" v-for="(position,key) in positions" :key="key">
+          <h3 class="u-title" v-text="position.label"></h3>
+          <div class="c-selected-items">
+            <draggable class="m-selected-items" tag="ul" :list="plan.relation[key]" group="draggable-item"
+                       :data-AucGenre="position.AucGenre" :data-AucSubType="position.AucSubType" :move="move_handle"
+                       :class="{empty:!plan.relation[key]||!plan.relation[key].length}" ghost-class="ghost">
+              <li v-for="(item,k) in plan.relation[key]" :key="k" class="m-selected-item">
+                <Item :item="item"/>
+                <i class="u-el-icon el-icon-close" @click="plan.relation[key].splice(k,1)"></i>
+              </li>
+            </draggable>
+            <span v-if="!plan.relation[key].length" class="u-tip">拖拽所需装备到此处</span>
+          </div>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -114,8 +114,8 @@ export default {
   watch: {
     keyword: {
       immediate: true,
-      handler(){
-        search_items(this.keyword, 15, ['id', 'UiID', 'Name', 'IconID', 'Quality', 'AucGenre', 'AucSubType']).then(
+      handler() {
+        search_items(this.keyword, 10, ['id', 'UiID', 'Name', 'IconID', 'Quality', 'AucGenre', 'AucSubType']).then(
             (data) => {
               data = data.data;
               this.items = data.code === 200 ? data.data.data : [];

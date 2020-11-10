@@ -5,12 +5,15 @@ const {User} = require("@jx3box/jx3box-common");
 const qs = require("qs");
 
 // 物品搜索
-function search_items(keyword, length, fields) {
+function search_items(keyword, length, fields, is_equip = null) {
+    let params = {keyword: keyword, limit: length, fields: fields};
+    if (is_equip !== null) params.is_equip = is_equip ? 1 : 0;
+
     return $http({
         method: "GET",
         url: `${JX3BOX.__helperUrl}api/item/search`,
         headers: {Accept: "application/prs.helper.v2+json"},
-        params: {keyword: keyword, limit: length, fields: fields},
+        params: params,
     });
 }
 

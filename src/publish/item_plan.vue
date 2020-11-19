@@ -32,7 +32,7 @@
                        :group="{ name: 'draggable-item', pull: 'clone', put: false }" :move="move_handle"
                        ghost-class="ghost">
               <li v-for="(item,key) in items" :key="key" class="m-search-item">
-                <Item :item="item"/>
+                <jx3-item-simple :item="item"/>
               </li>
             </draggable>
             <div v-if="items && !items.length" class="m-no-item">
@@ -49,7 +49,7 @@
                   <draggable class="m-selected-items" tag="ul" :list="position.data" group="draggable-item"
                              :class="{empty:!position.data||!position.data.length}" ghost-class="ghost">
                     <li v-for="(item,k) in position.data" :key="k" class="m-selected-item">
-                      <Item :item="item"/>
+                      <jx3-item-simple :item="item"/>
                       <i class="u-el-icon el-icon-close" @click="position.data.splice(k,1)"></i>
                     </li>
                   </draggable>
@@ -75,8 +75,9 @@
                              :data-AucGenre="position.AucGenre" :data-AucSubType="position.AucSubType"
                              :class="{empty:!equip_relation[key]||!equip_relation[key].length}" ghost-class="ghost">
                     <li v-for="(item,k) in equip_relation[key]" :key="k" class="m-selected-item">
-                      <Item :item="item"/>
+                      <jx3-item-simple :item="item"/>
                       <i class="u-el-icon el-icon-close" @click="equip_relation[key].splice(k,1)"></i>
+                      <span v-if="k==0" class="u-main">主</span>
                     </li>
                   </draggable>
                   <span v-if="!equip_relation[key].length" class="u-tip">拖拽所需装备到此处</span>
@@ -97,7 +98,7 @@
 
 <script>
   import pubheader from "@/components/publish/pubheader.vue";
-  import Item from '@/components/publish/item.vue';
+  import ItemSimple from '@jx3box/jx3box-editor/src/ItemSimple';
   import draggable from 'vuedraggable';
 
   // 本地依赖
@@ -187,7 +188,7 @@
         return result;
       },
       search() {
-        search_items(this.keyword, 10, ['id', 'UiID', 'Name', 'IconID', 'Quality', 'AucGenre', 'AucSubType'], this.plan.type == 2).then(
+        search_items(this.keyword, 15, ['id', 'UiID', 'Name', 'IconID', 'Quality', 'AucGenre', 'AucSubType'], this.plan.type == 2).then(
           (data) => {
             data = data.data;
             this.items = data.code === 200 ? data.data.data : [];
@@ -252,7 +253,7 @@
     components: {
       draggable,
       pubheader,
-      Item,
+      'jx3-item-simple' : ItemSimple,
     },
   };
 </script>

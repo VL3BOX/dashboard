@@ -48,9 +48,10 @@
       font-size: 14px;
 
       input {
-        .mt(-5px);
         .w(calc(~"100% - 20px"));
-        padding: 0;
+        .mt(-5px);
+        .pl(5px);
+        .pr(5px);
         border-radius: 0;
         border: none;
         border-bottom: 1px solid #DCDFE6;
@@ -60,7 +61,7 @@
     .m-position {
       .pr;
 
-      .u-el-icon {
+      & > .u-el-icon {
         .pa;
         top: 8px;
         right: 8px;
@@ -69,17 +70,22 @@
   }
 
   .m-positions {
-    -moz-column-count: 4;
-    -webkit-column-count: 4;
     column-count: 4;
-    -moz-column-gap: 1em;
-    -webkit-column-gap: 1em;
-    column-gap: 1em;
+    column-gap: 15px;
+  }
+
+  @media screen and (max-width: @ipad) {
+    .pl(0);
+
+    .m-positions {
+      .mt(15px);
+      column-count: 1;
+    }
   }
 }
 
 .m-position {
-  .mb(20px);
+  .mb(15px);
   padding: 10px;
   border: 1px solid #DCDFE6;
   border-radius: 4px;
@@ -110,6 +116,10 @@
   &:hover {
     color: #035CC1;
     border-color: #035CC1;
+  }
+
+  @media screen and (max-width: @ipad) {
+    .mt(0);
   }
 }
 

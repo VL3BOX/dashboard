@@ -58,7 +58,11 @@
                 <i class="u-el-icon el-icon-close" @click="normal_relation.splice(key,1)"></i>
               </div>
             </div>
-            <div class="m-position-add" @click="add_normal_relation">+</div>
+            <el-row :gutter="15">
+              <el-col :xs="24" :sm="6">
+                <div class="m-position-add" @click="add_normal_relation">+</div>
+              </el-col>
+            </el-row>
           </el-col>
 
           <el-col :xs="24" :sm="19" class="c-plan-relation" v-if="plan.type==2">
@@ -67,9 +71,8 @@
                 <h3 class="u-title" v-text="position.label"></h3>
                 <div class="c-selected-items">
                   <draggable class="m-selected-items m-selected-equips" tag="ul" :list="equip_relation[key]"
-                             group="draggable-item"
+                             group="draggable-item" :move="move_handle"
                              :data-AucGenre="position.AucGenre" :data-AucSubType="position.AucSubType"
-                             :move="move_handle"
                              :class="{empty:!equip_relation[key]||!equip_relation[key].length}" ghost-class="ghost">
                     <li v-for="(item,k) in equip_relation[key]" :key="k" class="m-selected-item">
                       <Item :item="item"/>
@@ -83,84 +86,108 @@
           </el-col>
         </el-row>
       </el-form-item>
+      <el-form-item>
+        <el-button class="u-publish" icon="el-icon-s-promotion" type="success" @click="submit"
+                   :disabled="$store.state.processing">提交物品清单
+        </el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import pubheader from "@/components/publish/pubheader.vue";
-import Tinymce from '@jx3box/jx3box-editor/src/Tinymce';
-import Item from '@/components/publish/item.vue';
-import draggable from 'vuedraggable';
+  import pubheader from "@/components/publish/pubheader.vue";
+  import Item from '@/components/publish/item.vue';
+  import draggable from 'vuedraggable';
 
-// 本地依赖
-import {JX3BOX} from "@jx3box/jx3box-common";
-import {search_items, get_item_newest_post, create_item_post} from "../service/item";
+  // 本地依赖
+  import {search_items} from "../service/item";
+  import {get_item_plan, save_item_plan} from "../service/item_plan";
 
-const qs = require("qs");
-const lodash = require("lodash");
+  const qs = require("qs");
+  const lodash = require("lodash");
 
-export default {
-  name: "item",
-  props: [],
-  data: function () {
-    return {
-      keyword: '',
-      items: null,
-      normal_relation: [{title: '', data: []}],
-      equip_relation: {
-        '1': [],
-        '2': [],
-        '3_1': [],
-        '3_2': [],
-        '3_3': [],
-        '3_4': [],
-        '3_5': [],
-        '3_6': [],
-        '4_1': [],
-        '4_3': [],
-        '4_2_1': [],
-        '4_2_2': [],
-      },
-      plan: {
-        id: '',
-        title: '',
-        type: 1,
-        relation: null,
-        description: '',
-      },
-      positions: {
-        '1': {label: '武器', AucGenre: 1},
-        '2': {label: '暗器', AucGenre: 2},
-        '3_1': {label: '上衣', AucGenre: 3, AucSubType: 1},
-        '3_2': {label: '帽子', AucGenre: 3, AucSubType: 2},
-        '3_3': {label: '腰带', AucGenre: 3, AucSubType: 3},
-        '3_4': {label: '下装', AucGenre: 3, AucSubType: 4},
-        '3_5': {label: '鞋子', AucGenre: 3, AucSubType: 5},
-        '3_6': {label: '护腕', AucGenre: 3, AucSubType: 6},
-        '4_1': {label: '项链', AucGenre: 4, AucSubType: 1},
-        '4_3': {label: '腰坠', AucGenre: 4, AucSubType: 3},
-        '4_2_1': {label: '戒指', AucGenre: 4, AucSubType: 2, index: 1},
-        '4_2_2': {label: '戒指', AucGenre: 4, AucSubType: 2, index: 2},
-      },
-    };
-  },
-  computed: {},
-  methods: {
-    add_normal_relation() {
-      this.normal_relation.push({title: '', data: []});
+  export default {
+    name: "item",
+    props: [],
+    data: function () {
+      return {
+        keyword: '',
+        items: null,
+        normal_relation: [{title: '', data: []}],
+        equip_relation: {
+          '1': [],
+          '2': [],
+          '3_1': [],
+          '3_2': [],
+          '3_3': [],
+          '3_4': [],
+          '3_5': [],
+          '3_6': [],
+          '4_1': [],
+          '4_3': [],
+          '4_2_1': [],
+          '4_2_2': [],
+        },
+        plan: {
+          id: '',
+          title: '',
+          type: 1,
+          relation: null,
+          description: '',
+        },
+        positions: {
+          '1': {label: '武器', AucGenre: 1},
+          '2': {label: '暗器', AucGenre: 2},
+          '3_1': {label: '上衣', AucGenre: 3, AucSubType: 1},
+          '3_2': {label: '帽子', AucGenre: 3, AucSubType: 2},
+          '3_3': {label: '腰带', AucGenre: 3, AucSubType: 3},
+          '3_4': {label: '下装', AucGenre: 3, AucSubType: 4},
+          '3_5': {label: '鞋子', AucGenre: 3, AucSubType: 5},
+          '3_6': {label: '护腕', AucGenre: 3, AucSubType: 6},
+          '4_1': {label: '项链', AucGenre: 4, AucSubType: 1},
+          '4_3': {label: '腰坠', AucGenre: 4, AucSubType: 3},
+          '4_2_1': {label: '戒指', AucGenre: 4, AucSubType: 2, index: 1},
+          '4_2_2': {label: '戒指', AucGenre: 4, AucSubType: 2, index: 2},
+        },
+      };
     },
-    move_handle(e) {
-      if (!e.to.classList.contains('m-selected-items')) return false;
-      if (!e.to.classList.contains('m-selected-equips')) return true;
-      let AucGenre = e.to.getAttribute('data-AucGenre');
-      let AucSubType = e.to.getAttribute('data-AucSubType');
-      let result = e.draggedContext.element.AucGenre == AucGenre;
-      if (AucSubType !== null) result = result && e.draggedContext.element.AucSubType == AucSubType;
-      return result;
+    mounted() {
+      if (this.$route.params.plan_id) {
+        get_item_plan(this.$route.params.plan_id).then(
+          (data) => {
+            data = data.data;
+            if (data.code === 200) {
+              this.plan = data.data.plan;
+              if (this.plan.type == 1) {
+                this.normal_relation = this.plan.relation_items;
+              } else if (this.plan.type == 2) {
+                this.equip_relation = this.plan.relation_items;
+              } else {
+                this.$message.error('物品清单类型异常，请联系管理员');
+              }
+            } else {
+              this.$message.error('获取物品清单异常，请联系管理员');
+            }
+          }
+        )
+      }
     },
-    search() {
-      search_items(this.keyword, 10, ['id', 'UiID', 'Name', 'IconID', 'Quality', 'AucGenre', 'AucSubType'], this.plan.type == 2).then(
+    methods: {
+      add_normal_relation() {
+        this.normal_relation.push({title: '', data: []});
+      },
+      move_handle(e) {
+        if (!e.to.classList.contains('m-selected-items')) return false;
+        if (!e.to.classList.contains('m-selected-equips')) return true;
+        let AucGenre = e.to.getAttribute('data-AucGenre');
+        let AucSubType = e.to.getAttribute('data-AucSubType');
+        let result = e.draggedContext.element.AucGenre == AucGenre;
+        if (AucSubType !== null) result = result && e.draggedContext.element.AucSubType == AucSubType;
+        return result;
+      },
+      search() {
+        search_items(this.keyword, 10, ['id', 'UiID', 'Name', 'IconID', 'Quality', 'AucGenre', 'AucSubType'], this.plan.type == 2).then(
           (data) => {
             data = data.data;
             this.items = data.code === 200 ? data.data.data : [];
@@ -168,32 +195,68 @@ export default {
           () => {
             this.options.items = false;
           }
-      );
-    }
-  },
-  mounted() {
+        );
+      },
+      submit() {
+        if (this.plan.type == 1) {
+          // 将Plan对象数组转为Plan ID数组
+          let relation = JSON.parse(JSON.stringify(this.normal_relation));
+          for (let key in relation) {
+            for (let k in relation[key].data) {
+              relation[key].data[k] = relation[key].data[k].id
+            }
+          }
+          this.plan.relation = JSON.stringify(relation);
+        } else if (this.plan.type == 2) {
+          // 将Plan对象数组转为Plan ID数组
+          let relation = JSON.parse(JSON.stringify(this.equip_relation));
+          for (let key in relation) {
+            for (let k in relation[key]) {
+              relation[key][k] = relation[key][k].id
+            }
+          }
+          this.plan.relation = JSON.stringify(relation);
+        } else {
+          this.$message.error('物品清单类型异常，请联系管理员');
+          return;
+        }
 
-  },
-  watch: {
-    keyword: {
-      immediate: true,
-      handler() {
+        this.$store.commit('startProcess');
+        save_item_plan(this.plan).then(
+          (data) => {
+            data = data.data;
+            if (data.code === 200) {
+              this.$message({
+                message: "物品清单提交成功", type: "success", onClose: () => {
+                  this.$router.go(0);
+                }
+              });
+            } else {
+              this.$message({message: `${data.message}`, type: "warning"});
+            }
+          }
+        )
+      }
+    },
+    watch: {
+      keyword: {
+        immediate: true,
+        handler() {
+          this.search();
+        }
+      },
+      'plan.type': function () {
         this.search();
       }
     },
-    'plan.type': function () {
-      this.search();
-    }
-  },
-  components: {
-    draggable,
-    pubheader,
-    // Tinymce,
-    Item,
-  },
-};
+    components: {
+      draggable,
+      pubheader,
+      Item,
+    },
+  };
 </script>
 
 <style lang="less">
-@import "../assets/css/publish/item_plan.less";
+  @import "../assets/css/publish/item_plan.less";
 </style>

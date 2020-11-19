@@ -2,7 +2,7 @@
   <div class="m-simple-item">
     <img class="u-icon" :src="icon_url(item.IconID)" alt="`IconID:${item.IconID}`">
     <span class="u-name" :style="{'color':item_color(item.Quality)}" v-text="item.Name"></span>
-    <span class="u-uiid fr" v-text="`UiID:${item.UiID}`"></span>
+    <span class="u-uiid fr" v-text="`ID:${item.id}`"></span>
   </div>
 </template>
 

@@ -71,6 +71,14 @@
                         ></el-card
                     ></el-col
                 >
+                <el-col :span="4">
+                  <el-card>
+                    <router-link to="/item/plan">
+                      <img svg-inline src="../assets/img/channel/item.svg"/>
+                      <span>物品清单</span>
+                    </router-link>
+                  </el-card>
+                </el-col>
                 <el-col :span="4"
                     ><el-card
                         ><router-link to="/house"

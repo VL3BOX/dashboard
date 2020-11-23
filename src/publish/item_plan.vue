@@ -12,6 +12,10 @@
       <el-form-item label="标题">
         <el-input v-model="plan.title" placeholder="请输入物品清单的标题"></el-input>
       </el-form-item>
+      <el-form-item label="可见性">
+        <el-radio v-model="plan.public" :label="0">私有</el-radio>
+        <el-radio v-model="plan.public" :label="1">公开</el-radio>
+      </el-form-item>
       <!-- 清单描述 -->
       <el-form-item label="描述">
         <el-input type="textarea" :rows="3" v-model="plan.description" placeholder="简单说明一下你的物品清单"></el-input>
@@ -24,10 +28,10 @@
         </el-radio-group>
       </el-form-item>
       <!-- 清单关系 -->
-      <el-form-item label="内容">
+      <el-form-item label="清单">
         <el-row style="line-height:initial;">
           <el-col :xs="24" :sm="5" class="c-item-search">
-            <el-input placeholder="请输入物品名称" prefix-icon="el-icon-search" v-model="keyword"></el-input>
+            <el-input placeholder="请输入物品名称（可适配中括号形式）" prefix-icon="el-icon-search" v-model="keyword"></el-input>
             <draggable class="m-search-items" tag="ul" v-if="items && items.length" :list="items" :sort="false"
                        :group="{ name: 'draggable-item', pull: 'clone', put: false }" :move="move_handle"
                        ghost-class="ghost">
@@ -66,24 +70,26 @@
           </el-col>
 
           <el-col :xs="24" :sm="19" class="c-plan-relation" v-if="plan.type==2">
-            <div class="m-positions">
-              <div class="m-position" v-for="(position,key) in positions" :key="key">
-                <h3 class="u-title" v-text="position.label"></h3>
-                <div class="c-selected-items">
-                  <draggable class="m-selected-items m-selected-equips" tag="ul" :list="equip_relation[key]"
-                             group="draggable-item" :move="move_handle"
-                             :data-AucGenre="position.AucGenre" :data-AucSubType="position.AucSubType"
-                             :class="{empty:!equip_relation[key]||!equip_relation[key].length}" ghost-class="ghost">
-                    <li v-for="(item,k) in equip_relation[key]" :key="k" class="m-selected-item">
-                      <jx3-item-simple :item="item"/>
-                      <i class="u-el-icon el-icon-close" @click="equip_relation[key].splice(k,1)"></i>
-                      <span v-if="k==0" class="u-main">主</span>
-                    </li>
-                  </draggable>
-                  <span v-if="!equip_relation[key].length" class="u-tip">拖拽所需装备到此处</span>
+            <el-row gutter="15" class="m-positions">
+              <el-col :xs="24" :sm="6" v-for="(_positions,index) in positions" :key="index">
+                <div class="m-position" v-for="(position,key) in _positions" :key="key">
+                  <h3 class="u-title" v-text="position.label"></h3>
+                  <div class="c-selected-items">
+                    <draggable class="m-selected-items m-selected-equips" tag="ul" :list="equip_relation[key]"
+                               group="draggable-item" :move="move_handle"
+                               :data-AucGenre="position.AucGenre" :data-AucSubType="position.AucSubType"
+                               :class="{empty:!equip_relation[key]||!equip_relation[key].length}" ghost-class="ghost">
+                      <li v-for="(item,k) in equip_relation[key]" :key="k" class="m-selected-item">
+                        <jx3-item-simple :item="item"/>
+                        <i class="u-el-icon el-icon-close" @click="equip_relation[key].splice(k,1)"></i>
+                        <span v-if="k==0" class="u-main">主</span>
+                      </li>
+                    </draggable>
+                    <span v-if="!equip_relation[key].length" class="u-tip">拖拽所需装备到此处</span>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </el-col>
+            </el-row>
           </el-col>
         </el-row>
       </el-form-item>
@@ -107,6 +113,7 @@
 
   const qs = require("qs");
   const lodash = require("lodash");
+  const {__Root} = require("@jx3box/jx3box-common/js/jx3box.json");
 
   export default {
     name: "item",
@@ -133,39 +140,54 @@
         plan: {
           id: '',
           title: '',
+          public: 0,
           type: 1,
           relation: null,
           description: '',
         },
-        positions: {
-          '1': {label: '武器', AucGenre: 1},
-          '2': {label: '暗器', AucGenre: 2},
-          '3_1': {label: '上衣', AucGenre: 3, AucSubType: 1},
-          '3_2': {label: '帽子', AucGenre: 3, AucSubType: 2},
-          '3_3': {label: '腰带', AucGenre: 3, AucSubType: 3},
-          '3_4': {label: '下装', AucGenre: 3, AucSubType: 4},
-          '3_5': {label: '鞋子', AucGenre: 3, AucSubType: 5},
-          '3_6': {label: '护腕', AucGenre: 3, AucSubType: 6},
-          '4_1': {label: '项链', AucGenre: 4, AucSubType: 1},
-          '4_3': {label: '腰坠', AucGenre: 4, AucSubType: 3},
-          '4_2_1': {label: '戒指', AucGenre: 4, AucSubType: 2, index: 1},
-          '4_2_2': {label: '戒指', AucGenre: 4, AucSubType: 2, index: 2},
-        },
+        positions: [
+          {
+            '1': {label: '武器', AucGenre: 1},
+            '2': {label: '暗器', AucGenre: 2},
+          },
+          {
+            '3_2': {label: '帽子', AucGenre: 3, AucSubType: 2},
+            '3_1': {label: '上衣', AucGenre: 3, AucSubType: 1},
+            '3_3': {label: '腰带', AucGenre: 3, AucSubType: 3},
+          },
+          {
+            '3_6': {label: '护腕', AucGenre: 3, AucSubType: 6},
+            '3_4': {label: '下装', AucGenre: 3, AucSubType: 4},
+            '3_5': {label: '鞋子', AucGenre: 3, AucSubType: 5},
+          },
+          {
+            '4_1': {label: '项链', AucGenre: 4, AucSubType: 1},
+            '4_3': {label: '腰坠', AucGenre: 4, AucSubType: 3},
+            '4_2_1': {label: '戒指', AucGenre: 4, AucSubType: 2, index: 1},
+            '4_2_2': {label: '戒指', AucGenre: 4, AucSubType: 2, index: 2},
+          },
+        ],
       };
     },
     mounted() {
       if (this.$route.params.plan_id) {
+        console.log(4124124, this.$route.params.plan_id);
         get_item_plan(this.$route.params.plan_id).then(
           (data) => {
             data = data.data;
             if (data.code === 200) {
               this.plan = data.data.plan;
-              if (this.plan.type == 1) {
-                this.normal_relation = this.plan.relation_items;
-              } else if (this.plan.type == 2) {
-                this.equip_relation = this.plan.relation_items;
+              if (this.plan) {
+                if (this.plan.type == 1) {
+                  this.normal_relation = this.plan.relation_items;
+                } else if (this.plan.type == 2) {
+                  this.equip_relation = this.plan.relation_items;
+                } else {
+                  this.$message.error('物品清单类型异常，请联系管理员');
+                }
               } else {
-                this.$message.error('物品清单类型异常，请联系管理员');
+                this.$message.error(data.message);
+                this.$router.push({name: 'item_plan'})
               }
             } else {
               this.$message.error('获取物品清单异常，请联系管理员');
@@ -229,7 +251,7 @@
             if (data.code === 200) {
               this.$message({
                 message: "物品清单提交成功", type: "success", onClose: () => {
-                  this.$router.go(0);
+                  location.href = `${__Root}item/#/plan_view/${data.data.id}`;
                 }
               });
             } else {
@@ -253,7 +275,7 @@
     components: {
       draggable,
       pubheader,
-      'jx3-item-simple' : ItemSimple,
+      'jx3-item-simple': ItemSimple,
     },
   };
 </script>

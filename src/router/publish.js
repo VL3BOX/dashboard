@@ -43,6 +43,7 @@ const routes = [
     },
     // 物品清单发布
     {
+        name: 'item_plan',
         path: "/item/plan/:plan_id(\\d+)?",
         component: item_plan,
     },

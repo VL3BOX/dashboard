@@ -24,4 +24,23 @@ function save_item_plan(params) {
   });
 }
 
-export {get_item_plan,save_item_plan};
+// 获取我的清单
+function get_my_item_plans(params) {
+  return $http({
+    method: "GET",
+    url: `${JX3BOX.__helperUrl}api/my/item_plans`,
+    headers: {Accept: "application/prs.helper.v2+json"},
+    params: params,
+  });
+}
+
+function delete_item_plan(plan_id) {
+  return $http({
+    method: "PUT",
+    url: `${JX3BOX.__helperUrl}api/item_plan/remove`,
+    headers: {Accept: "application/prs.helper.v2+json"},
+    data: qs.stringify({plan_id: plan_id}),
+  });
+}
+
+export {get_item_plan, save_item_plan, get_my_item_plans, delete_item_plan};

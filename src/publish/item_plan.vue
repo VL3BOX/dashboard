@@ -46,22 +46,24 @@
           </el-col>
 
           <el-col :xs="24" :sm="19" class="c-plan-relation c-normal-relation" v-if="plan.type==1">
-            <div class="m-positions">
-              <div class="m-position" v-for="(position,key) in normal_relation" :key="key">
-                <el-input class="u-title" v-model='position.title' placeholder="子清单标题（选填）"></el-input>
-                <div class="c-selected-items">
-                  <draggable class="m-selected-items" tag="ul" :list="position.data" group="draggable-item"
-                             :class="{empty:!position.data||!position.data.length}" ghost-class="ghost">
-                    <li v-for="(item,k) in position.data" :key="k" class="m-selected-item">
-                      <jx3-item-simple :item="item"/>
-                      <i class="u-el-icon el-icon-close" @click="position.data.splice(k,1)"></i>
-                    </li>
-                  </draggable>
-                  <span v-if="!position.data.length" class="u-tip">拖拽所需道具到此处</span>
+            <el-row :gutter="15" class="m-positions">
+              <el-col :xs="24" :sm="6" v-for="(position,key) in normal_relation" :key="key">
+                <div class="m-position">
+                  <el-input class="u-title" v-model='position.title' placeholder="子清单标题（选填）"></el-input>
+                  <div class="c-selected-items">
+                    <draggable class="m-selected-items" tag="ul" :list="position.data" group="draggable-item"
+                               :class="{empty:!position.data||!position.data.length}" ghost-class="ghost">
+                      <li v-for="(item,k) in position.data" :key="k" class="m-selected-item">
+                        <jx3-item-simple :item="item"/>
+                        <i class="u-el-icon el-icon-close" @click="position.data.splice(k,1)"></i>
+                      </li>
+                    </draggable>
+                    <span v-if="!position.data.length" class="u-tip">拖拽所需道具到此处</span>
+                  </div>
+                  <i class="u-el-icon el-icon-close" @click="normal_relation.splice(key,1)"></i>
                 </div>
-                <i class="u-el-icon el-icon-close" @click="normal_relation.splice(key,1)"></i>
-              </div>
-            </div>
+              </el-col>
+            </el-row>
             <el-row :gutter="15">
               <el-col :xs="24" :sm="6">
                 <div class="m-position-add" @click="add_normal_relation">+</div>

@@ -47,7 +47,6 @@
                             placeholder="请输入物品名称（可适配中括号形式）"
                             prefix-icon="el-icon-search"
                             v-model="keyword"
-                            @change="filterKeywords"
                         ></el-input>
                         <draggable
                             class="m-search-items"
@@ -382,10 +381,6 @@ export default {
                     this.options.items = false;
                 }
             );
-        },
-        filterKeywords : function (){
-            this.keyword = this.keyword &&  this.keyword.replace(/\[/g,'') 
-            this.keyword = this.keyword &&  this.keyword.replace(/\]/g,'') 
         },
         submit() {
             if (this.plan.type == 1) {

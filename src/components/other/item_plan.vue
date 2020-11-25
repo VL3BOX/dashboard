@@ -1,102 +1,139 @@
 <template>
-  <ul>
-    <li v-for="(plan, key) in data" :key="key" class="m-plan">
-      <div class="u-title">
-        <span v-if="plan.type==1" class="u-type" style="background-color:#409EFF">道具清单</span>
-        <span v-if="plan.type==2" class="u-type" style="background-color:#F0787A">装备清单</span>
-        <a class="u-name" v-text="plan.title" :href="`/item/#/plan_view/${plan.id}`"></a>
-      </div>
-      <a class="u-description" v-text="plan.description" :href="`/item/#/plan_view/${plan.id}`"></a>
-      <div class="u-updated" v-text="'最后更新于 ' + $options.filters.dateFormat(new Date(plan.updated * 1000))"></div>
-      <el-button-group class="u-action">
-        <el-button size="mini" icon="el-icon-edit" title="编辑" @click="plan_edit(plan.id)"></el-button>
-        <el-button size="mini" icon="el-icon-delete" title="删除" @click="plan_delete(plan.id)"></el-button>
-      </el-button-group>
-    </li>
-  </ul>
+    <ul>
+        <li v-for="(plan, key) in data" :key="key" class="m-plan">
+            <div class="u-title">
+                <span
+                    v-if="plan.type == 1"
+                    class="u-type"
+                    style="background-color:#409EFF"
+                    >道具清单</span
+                >
+                <span
+                    v-if="plan.type == 2"
+                    class="u-type"
+                    style="background-color:#F0787A"
+                    >装备清单</span
+                >
+                <a
+                    class="u-name"
+                    v-text="plan.title"
+                    :href="`/item/#/plan_view/${plan.id}`"
+                ></a>
+            </div>
+            <a
+                class="u-description"
+                v-text="plan.description"
+                :href="`/item/#/plan_view/${plan.id}`"
+            ></a>
+            <div
+                class="u-updated"
+                v-text="
+                    '最后更新于 ' +
+                        $options.filters.dateFormat(
+                            new Date(plan.updated * 1000)
+                        )
+                "
+            ></div>
+            <el-button-group class="u-action">
+                <el-button
+                    size="mini"
+                    icon="el-icon-edit"
+                    title="编辑"
+                    @click="plan_edit(plan.id)"
+                ></el-button>
+                <el-button
+                    size="mini"
+                    icon="el-icon-delete"
+                    title="删除"
+                    @click="plan_delete(plan.id)"
+                ></el-button>
+            </el-button-group>
+        </li>
+    </ul>
 </template>
 
 <script>
-  import {delete_item_plan} from "../../service/item_plan";
-  import dateFormat from "../../utils/dateFormat";
-  import authorUrl from "../../utils/authorUrl";
+import { delete_item_plan } from "../../service/item_plan";
+import dateFormat from "../../utils/dateFormat";
+import authorUrl from "../../utils/authorUrl";
 
-  export default {
+export default {
     name: "item_plan",
     props: ["data"],
     methods: {
-      plan_edit: function (id) {
-        location.href = "./publish/#/item/plan/" + id;
-      },
-      plan_delete: function (id) {
-        this.$confirm('确认是否删除该物品清单？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          delete_item_plan(id).then(
-            (data) => {
-              data = data.data;
-              if (data.code === 200) {
-                this.$message.success(data.message);
-                this.$emit('refresh');
-              } else {
-                this.$message.error(data.message);
-              }
-            }
-          );
-        });
-      },
+        plan_edit: function(id) {
+            location.href = "./publish/#/item/plan/" + id;
+        },
+        plan_delete: function(id) {
+            this.$confirm("确认是否删除该物品清单？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            }).then(() => {
+                delete_item_plan(id).then((data) => {
+                    data = data.data;
+                    if (data.code === 200) {
+                        this.$message.success(data.message);
+                        this.$emit("refresh");
+                    } else {
+                        this.$message.error(data.message);
+                    }
+                });
+            });
+        },
     },
     filters: {
-      dateFormat,
-      authorUrl,
+        dateFormat,
+        authorUrl,
     },
-  };
+};
 </script>
 
 <style scoped lang="less">
-  @import "../../assets/css/work.less";
+@import "../../assets/css/work.less";
 
-  .m-dashboard-box-list {
+.m-dashboard-box-list {
     .u-action {
-      top: 50%;
-      bottom: auto;
-      transform: translateY(-50%);
+        top: 50%;
+        bottom: auto;
+        transform: translateY(-50%);
     }
-  }
+}
 
-  .m-plan {
+.m-plan {
     padding: 10px 15px;
     font-size: 13px;
 
     .u-updated {
-      .mt(5px);
-      opacity: .4;
-      font-size: 12px;
+        .mt(5px);
+        opacity: 0.4;
+        font-size: 12px;
     }
 
-    .u-title, .u-type, .u-name {
-      .dbi;
-      vertical-align: middle;
+    .u-title,
+    .u-type,
+    .u-name {
+        .dbi;
+        vertical-align: middle;
     }
 
     .u-type {
-      padding: 1px 3px;
-      color: white;
-      border-radius: 4px;
+        padding: 4px;
+        color: white;
+        border-radius: 2px;
+        .fz(12px);
     }
 
     .u-name {
-      .ml(8px);
+        .ml(8px);
     }
 
     .u-description {
-      .db;
-      .mt(5px);
-      color: #3d454d;
-      font-size: 12px;
-      opacity: .7;
+        .db;
+        .mt(5px);
+        color: #3d454d;
+        font-size: 12px;
+        opacity: 0.7;
     }
-  }
+}
 </style>

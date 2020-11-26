@@ -337,8 +337,8 @@ export default {
                 xfmap: xfmap,
                 equip_types: {
                     jx3box: "魔盒清单",
-                    tuilan: "推栏",
-                    j3pz: "胖叔配装器",
+                    // tuilan: "推栏",
+                    // j3pz: "胖叔配装器",
                 },
             },
 

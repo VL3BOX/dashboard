@@ -13,7 +13,7 @@
         "@jx3box/jx3box-common": "^5.4.3",
         "@jx3box/jx3box-common-ui": "^2.7.6",
         "@jx3box/jx3box-data": "^0.5.8",
-        "@jx3box/jx3box-editor": "^0.3.4",
+        "@jx3box/jx3box-editor": "^0.3.5",
         "axios": "^0.19.2",
         "element-ui": "^2.13.0",
         "localforage": "^1.7.3",

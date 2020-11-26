@@ -17,6 +17,8 @@
                 <el-input
                     v-model="plan.title"
                     placeholder="请输入物品清单的标题"
+                    maxlength="20"
+                    show-word-limit
                 ></el-input>
             </el-form-item>
             <el-form-item label="可见性">
@@ -30,6 +32,8 @@
                     :rows="3"
                     v-model="plan.description"
                     placeholder="简单说明一下你的物品清单"
+                    maxlength="2000"
+                    show-word-limit
                 ></el-input>
             </el-form-item>
             <!-- 清单类型 -->
@@ -94,6 +98,8 @@
                                         class="u-title"
                                         v-model="position.title"
                                         placeholder="子清单标题（选填）"
+                                        maxlength="20"
+                                        show-word-limit
                                     ></el-input>
                                     <div class="c-selected-items">
                                         <draggable
@@ -104,7 +110,7 @@
                                             :class="{
                                                 empty:
                                                     !position.data ||
-                                                    !position.data.length,
+                                                    position.data && !position.data.length,
                                             }"
                                             ghost-class="ghost"
                                         >
@@ -127,7 +133,7 @@
                                             </li>
                                         </draggable>
                                         <span
-                                            v-if="!position.data.length"
+                                            v-if="!position.data || position.data && !position.data.length"
                                             class="u-tip"
                                             >拖拽所需道具到此处</span
                                         >
@@ -157,7 +163,7 @@
                         class="c-plan-relation"
                         v-if="plan.type == 2"
                     >
-                        <el-row gutter="15" class="m-positions">
+                        <el-row :gutter="15" class="m-positions">
                             <el-col
                                 :xs="24"
                                 :sm="6"
@@ -187,7 +193,7 @@
                                             :class="{
                                                 empty:
                                                     !equip_relation[key] ||
-                                                    !equip_relation[key].length,
+                                                    equip_relation[key] && !equip_relation[key].length,
                                             }"
                                             ghost-class="ghost"
                                         >
@@ -214,7 +220,8 @@
                                             </li>
                                         </draggable>
                                         <span
-                                            v-if="!equip_relation[key].length"
+                                            v-if="!equip_relation[key] ||
+                                                  equip_relation[key] && !equip_relation[key].length"
                                             class="u-tip"
                                             >拖拽所需装备到此处</span
                                         >
@@ -249,31 +256,43 @@ import { search_items } from "../service/item";
 import { get_item_plan, save_item_plan } from "../service/item_plan";
 
 const qs = require("qs");
-const lodash = require("lodash");
+const $_ = require("lodash");
 const { __Root } = require("@jx3box/jx3box-common/js/jx3box.json");
+import EquipPosition from '@jx3box/jx3box-editor/service/enum/EquipPosition';
 
 export default {
     name: "item",
     props: [],
     data: function() {
+        let positions = [
+          [EquipPosition.MELEE_WEAPON, EquipPosition.RANGE_WEAPON],
+          [EquipPosition.HELM, EquipPosition.CHEST, EquipPosition.WAIST],
+          [EquipPosition.BANGLE, EquipPosition.PANTS, EquipPosition.BOOTS],
+          [EquipPosition.AMULET, EquipPosition.PENDANT, EquipPosition.RING_1, EquipPosition.RING_2],
+        ];
+        // 重置键名
+        let all_positions = EquipPosition.all();
+        for (let i in positions){
+          let _output = {}
+          for (let key in positions[i]){
+            let type = $_.get(positions, `${i}.${key}`);
+            _output[type] = all_positions[type];
+          }
+          $_.set(positions, i, _output);
+        }
+
+        // 构建装备清单结构
+        let equip_relation = {};
+        for(let i in all_positions){
+            let position = all_positions[i];
+            equip_relation[position.type] = [];
+        }
+
         return {
             keyword: "",
             items: null,
             normal_relation: [{ title: "", data: [] }],
-            equip_relation: {
-                "1": [],
-                "2": [],
-                "3_1": [],
-                "3_2": [],
-                "3_3": [],
-                "3_4": [],
-                "3_5": [],
-                "3_6": [],
-                "4_1": [],
-                "4_3": [],
-                "4_2_1": [],
-                "4_2_2": [],
-            },
+            equip_relation: equip_relation,
             plan: {
                 id: "",
                 title: "",
@@ -282,43 +301,11 @@ export default {
                 relation: null,
                 description: "",
             },
-            positions: [
-                {
-                    "1": { label: "武器", AucGenre: 1 },
-                    "2": { label: "暗器", AucGenre: 2 },
-                },
-                {
-                    "3_2": { label: "帽子", AucGenre: 3, AucSubType: 2 },
-                    "3_1": { label: "上衣", AucGenre: 3, AucSubType: 1 },
-                    "3_3": { label: "腰带", AucGenre: 3, AucSubType: 3 },
-                },
-                {
-                    "3_6": { label: "护腕", AucGenre: 3, AucSubType: 6 },
-                    "3_4": { label: "下装", AucGenre: 3, AucSubType: 4 },
-                    "3_5": { label: "鞋子", AucGenre: 3, AucSubType: 5 },
-                },
-                {
-                    "4_1": { label: "项链", AucGenre: 4, AucSubType: 1 },
-                    "4_3": { label: "腰坠", AucGenre: 4, AucSubType: 3 },
-                    "4_2_1": {
-                        label: "戒指",
-                        AucGenre: 4,
-                        AucSubType: 2,
-                        index: 1,
-                    },
-                    "4_2_2": {
-                        label: "戒指",
-                        AucGenre: 4,
-                        AucSubType: 2,
-                        index: 2,
-                    },
-                },
-            ],
+            positions: positions,
         };
     },
     mounted() {
         if (this.$route.params.plan_id) {
-            console.log(4124124, this.$route.params.plan_id);
             get_item_plan(this.$route.params.plan_id).then((data) => {
                 data = data.data;
                 if (data.code === 200) {

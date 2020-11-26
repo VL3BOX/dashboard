@@ -22,8 +22,8 @@
                 ></el-input>
             </el-form-item>
             <el-form-item label="可见性">
-                <el-radio v-model="plan.public" :label="0">私有</el-radio>
                 <el-radio v-model="plan.public" :label="1">公开</el-radio>
+                <el-radio v-model="plan.public" :label="0">私有</el-radio>
             </el-form-item>
             <!-- 清单描述 -->
             <el-form-item label="描述">
@@ -296,7 +296,7 @@ export default {
             plan: {
                 id: "",
                 title: "",
-                public: 0,
+                public: 1,
                 type: 1,
                 relation: null,
                 description: "",

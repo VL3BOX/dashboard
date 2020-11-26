@@ -9,7 +9,7 @@
             tagEnable : 是否开启标签
             notifyEnable : 是否开启通知等扩展功能
             bannerEnable : 是否开启头条图功能,开启后仍旧需要签约作者及管理员才可见
-         -->
+    -->
         <boilerplate
             v-if="loaded"
             :name="name"
@@ -32,8 +32,10 @@
             <!-- 💛 栏目字段 -->
             <template>
                 <el-form-item label="原创">
-                    <el-switch v-model="post.original" active-color="#13ce66">
-                    </el-switch>
+                    <el-switch
+                        v-model="post.original"
+                        active-color="#13ce66"
+                    ></el-switch>
                 </el-form-item>
 
                 <el-form-item label="语言">
@@ -56,8 +58,7 @@
                             :key="item"
                             :label="item"
                             :value="item"
-                        >
-                        </el-option>
+                        ></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -94,9 +95,10 @@
                             class="m-macro-docs el-button el-button--primary is-plain el-button--small"
                             target="_blank"
                             href="https://www.jx3box.com/tool/265/"
-                            ><i class="el-icon-s-management"></i>
-                            宏命令完整参考手册</a
                         >
+                            <i class="el-icon-s-management"></i>
+                            宏命令完整参考手册
+                        </a>
                         <a
                             class="m-macro-help el-button el-button--success is-plain el-button--small"
                             href="https://www.jx3box.com/tool/14671/"
@@ -117,11 +119,10 @@
                             :key="i"
                             :name="i + 1 + ''"
                         >
-                            <span slot="label"
-                                ><img class="u-tabicon" :src="icon(item)" />{{
-                                    i + 1 + "号位-" + item.name
-                                }}</span
-                            >
+                            <span slot="label">
+                                <img class="u-tabicon" :src="icon(item)" />
+                                {{ i + 1 + "号位-" + item.name }}
+                            </span>
                             <div class="m-macro-cloud m-macro-item">
                                 <h5 class="u-title">
                                     云端宏图标/名称
@@ -129,9 +130,10 @@
                                         class="u-icon-links"
                                         href="/app/icons"
                                         target="_blank"
-                                        ><i class="el-icon-question"></i>
-                                        图标大全</a
                                     >
+                                        <i class="el-icon-question"></i>
+                                        图标大全
+                                    </a>
                                 </h5>
                                 <div class="u-group">
                                     <div class="u-subblock m-macro-icon">
@@ -160,21 +162,19 @@
                                             show-word-limit
                                             @change="checkDataName(item)"
                                         >
-                                            <template slot="prepend"
-                                                ><b class="u-feed"
-                                                    >{{ nickname }}#{{
+                                            <template slot="prepend">
+                                                <b class="u-feed">
+                                                    {{ nickname }}#{{
                                                         item.name
-                                                    }}</b
-                                                ></template
-                                            >
+                                                    }}
+                                                </b>
+                                            </template>
                                         </el-input>
                                     </div>
                                 </div>
                             </div>
                             <div class="m-macro-talent m-macro-item">
-                                <h5 class="u-title">
-                                    奇穴方案
-                                </h5>
+                                <h5 class="u-title">奇穴方案</h5>
                                 <div class="m-macro-talent-simulator">
                                     <div class="qx-container"></div>
                                 </div>
@@ -182,16 +182,18 @@
                                     v-model="item.talent"
                                     placeholder="奇穴方案编码"
                                     @change="checkTalent(item)"
-                                    ><template slot="prepend"
-                                        ><a
+                                >
+                                    <template slot="prepend">
+                                        <a
                                             class="u-get"
                                             target="_blank"
                                             href="/app/talent"
-                                            ><i class="el-icon-warning"></i>
-                                            获取编码</a
-                                        ></template
-                                    ></el-input
-                                >
+                                        >
+                                            <i class="el-icon-warning"></i>
+                                            获取编码
+                                        </a>
+                                    </template>
+                                </el-input>
                             </div>
                             <div class="m-macro-macro">
                                 <h5 class="u-title">
@@ -200,9 +202,10 @@
                                         class="u-icon-links"
                                         href="/app/macroeditor"
                                         target="_blank"
-                                        ><i class="el-icon-question"></i>
-                                        智能中文宏编辑器</a
                                     >
+                                        <i class="el-icon-question"></i>
+                                        智能中文宏编辑器
+                                    </a>
                                 </h5>
                                 <el-input
                                     v-model="item.macro"
@@ -212,31 +215,52 @@
                                     show-word-limit
                                     type="textarea"
                                     :rows="12"
+                                ></el-input>
+                            </div>
+                            <div class="m-macro-equip">
+                                <h5 class="u-title">
+                                    配装方案
+                                    <a
+                                        class="u-icon-links"
+                                        href="/tool/?pid=19309#/"
+                                        target="_blank"
+                                    >
+                                        <i class="el-icon-question"></i>
+                                        魔盒清单使用指南
+                                    </a>
+                                </h5>
+                                <el-input
+                                    v-model="item.equip"
+                                    placeholder="配装方案编号"
                                 >
+                                    <template slot="prepend">
+                                        <el-select
+                                            v-model="item.equip_type"
+                                            placeholder="请选择"
+                                        >
+                                            <el-option
+                                                v-for="(label,
+                                                val) in options.equip_types"
+                                                :key="val"
+                                                :label="label"
+                                                :value="val"
+                                            ></el-option>
+                                        </el-select>
+                                    </template>
                                 </el-input>
                             </div>
                             <el-form-item label="其它" class="m-macro-misc">
                                 <el-row>
-                                    <el-col :span="8" class="u-speed"
-                                        ><el-input
+                                    <el-col :span="8" class="u-speed">
+                                        <el-input
                                             v-model="item.speed"
                                             placeholder="填写推荐的急速阈值"
                                         >
                                             <template slot="prepend"
                                                 >急速阈值</template
                                             >
-                                        </el-input></el-col
-                                    >
-                                    <el-col :span="8" class="u-equip"
-                                        ><el-input
-                                            v-model="item.equip"
-                                            placeholder="配装方案编号,即将推出"
-                                            disabled
-                                            ><template slot="prepend"
-                                                >配装方案</template
-                                            ></el-input
-                                        ></el-col
-                                    >
+                                        </el-input>
+                                    </el-col>
                                     <el-col :span="8"></el-col>
                                 </el-row>
                             </el-form-item>
@@ -244,9 +268,20 @@
                                 <el-input
                                     v-model="item.desc"
                                     type="textarea"
-                                    placeholder="补充说明.."
+                                    placeholder="重要说明（会出现在宏第一行）"
                                 ></el-input>
                             </el-form-item>
+                            <div class="m-macro-op">
+                                <el-button
+                                    class="u-macro-remove-fix"
+                                    @click="removeMacro(i)"
+                                    type="danger"
+                                    plain
+                                    icon="el-icon-delete"
+                                    size="small"
+                                    >移除本宏</el-button
+                                >
+                            </div>
                         </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -266,7 +301,7 @@ import {
 import User from "@jx3box/jx3box-common/js/user";
 import { syncRedis } from "../service/macro.js";
 import { sterilizer } from "sterilizer/index.js";
-import isEmptyMeta from '@/utils/isEmptyMeta.js'
+import isEmptyMeta from "@/utils/isEmptyMeta.js";
 import lodash from "lodash";
 import zlps from "../assets/data/zlps.json";
 const default_meta = {
@@ -280,6 +315,7 @@ const default_meta = {
             macro: "",
             speed: "",
             equip: "",
+            equip_type: "jx3box",
             desc: "",
         },
     ],
@@ -299,6 +335,11 @@ export default {
             options: {
                 zlps: zlps,
                 xfmap: xfmap,
+                equip_types: {
+                    jx3box: "魔盒清单",
+                    tuilan: "推栏",
+                    j3pz: "胖叔配装器",
+                },
             },
 
             //字段
@@ -396,6 +437,7 @@ export default {
                 macro: "",
                 speed: "",
                 equip: "",
+                equip_type: "",
                 desc: "",
             });
             this.activeMacroIndex = index;
@@ -467,7 +509,8 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then(() => {
-            if(isEmptyMeta(this.post.post_meta)) this.post.post_meta = default_meta
+            if (isEmptyMeta(this.post.post_meta))
+                this.post.post_meta = default_meta;
             console.log("Init Post:", this.post);
         });
     },

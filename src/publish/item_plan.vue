@@ -238,7 +238,7 @@
                     icon="el-icon-s-promotion"
                     type="success"
                     @click="submit"
-                    :disabled="$store.state.processing"
+                    :loading="$store.state.processing"
                     >提交物品清单
                 </el-button>
             </el-form-item>
@@ -397,13 +397,8 @@ export default {
             save_item_plan(this.plan).then((data) => {
                 data = data.data;
                 if (data.code === 200) {
-                    this.$message({
-                        message: "物品清单提交成功",
-                        type: "success",
-                        onClose: () => {
-                            location.href = `${__Root}item/#/plan_view/${data.data.id}`;
-                        },
-                    });
+                    this.$message({message: "物品清单提交成功", type: "success"});
+                    location.href = `${__Root}item/#/plan_view/${data.data.id}`;
                 } else {
                     this.$message({
                         message: `${data.message}`,

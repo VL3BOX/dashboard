@@ -194,7 +194,7 @@ export default {
             uploadData(formdata, this).then((res) => {
                 this.post.post_meta.file = res.data.data.list[0];
                 this.$message({
-                    message: res.data.msg,
+                    message: '上传成功',
                     type: "success",
                 });
             });

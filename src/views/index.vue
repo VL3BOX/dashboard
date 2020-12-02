@@ -40,7 +40,7 @@
                             <i class="el-icon-coin"></i> 积分
                         </div>
                         <div class="u-credit-value">
-                            <b>{{ credit.dot }}</b>
+                            <b>{{ asset.points }}</b>
                         </div>
                         <div class="u-credit-op">
                             <a class="el-button el-button--primary el-button--mini is-disabled" href="">兑换</a>
@@ -53,7 +53,7 @@
                             <i class="el-icon-coin"></i> 盒币
                         </div>
                         <div class="u-credit-value">
-                            <b>{{ credit.coin | formatCredit }}</b>
+                            <b>{{ asset.box_coin | formatCredit }}</b>
                         </div>
                         <div class="u-credit-op">
                             <a class="el-button el-button--primary el-button--mini is-disabled" href="">充值</a><a class="el-button el-button--primary el-button--mini is-disabled" href="">提现</a>
@@ -66,9 +66,9 @@
                             <i class="el-icon-bank-card"></i> 红包
                         </div>
                         <div class="u-credit-value">
-                            <b>{{ credit.packet | formatCredit }}</b>
+                            <b>{{ asset.red_packet | formatCredit }}</b>
                         </div>
-                        <div class="u-credit-op"><a class="el-button el-button--primary el-button--mini" href="/vip/credit/#/packet">提现</a></div>
+                        <div class="u-credit-op"><a class="el-button el-button--primary el-button--mini" href="/vip/credit#/packet">提现</a></div>
                     </div></el-col
                 >
                 <el-col :span="6"
@@ -77,7 +77,7 @@
                             <i class="el-icon-present"></i> 礼品/订单
                         </div>
                         <div class="u-credit-value">
-                            <b>{{ credit.gift }}</b>
+                            <b>{{ asset.gift }}</b>
                         </div>
                         <div class="u-credit-op"><a class="el-button el-button--primary el-button--mini is-disabled" href="">查看</a></div>
                     </div></el-col
@@ -94,7 +94,7 @@
 import { JX3BOX, User, Utils } from "@jx3box/jx3box-common";
 import { getUserInfo } from "../service/profile";
 import dateFormat from "../utils/dateFormat";
-import { getMyPacket } from "@/service/pay.js";
+import { getMyAsset } from "@/service/index.js";
 export default {
     name: "index",
     props: [],
@@ -109,10 +109,10 @@ export default {
                 join: "",
                 bio: "",
             },
-            credit: {
-                dot: 0, //积分
-                coin: 0, //盒币
-                packet: 0, //红包
+            asset: {
+                points: 0, //积分
+                box_coin: 0, //盒币
+                red_packet: 0, //红包
                 gift: 0, //礼品、商城订单
             },
         };
@@ -138,9 +138,11 @@ export default {
                 });
             }
         },
-        loadPacket : function (){
-            getMyPacket().then((res) => {
-                this.redit.packet = res.data.data.totalMoney
+        loadAsset : function (){
+            getMyAsset().then((res) => {
+                this.credit.box_coin = res.data.data.box_coin
+                this.credit.points = res.data.data.box_coin
+                this.credit.red_packet = res.data.data.red_packet
             })
         }
     },
@@ -157,7 +159,7 @@ export default {
     },
     mounted: function() {
         this.renderInfo();
-        this.loadPacket()
+        this.loadAsset()
     },
 };
 </script>

@@ -7,8 +7,14 @@ module.exports = {
 
     devServer: {
         proxy: {
+            // "/api": {
+            //     target: "https://next.jx3box.com",
+            //     onProxyReq: function(request) {
+            //         request.setHeader("origin", "");
+            //     },
+            // },
             "/api": {
-                target: "https://next.jx3box.com",
+                target: "https://pay.jx3box.com",
                 onProxyReq: function(request) {
                     request.setHeader("origin", "");
                 },
@@ -106,16 +112,4 @@ module.exports = {
         types.forEach(type => addStyleResource(config.module.rule('less').oneOf(type)));
 
     },
-
-    // devServer: {
-    //     proxy: {
-    //         "/hub": {
-    //             "target": process.env["DEV_SERVER"] == "true" ? "http://localhost:51818" : "https://hub.jx3box.com",
-    //             "onProxyReq": function (request) {
-    //                 request.setHeader("origin", "");
-    //             }
-    //         }
-    //     }
-    // }
-
 };

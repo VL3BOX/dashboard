@@ -28,15 +28,17 @@
             .fz(2em, 48px);
             font-weight:300;
         }
-        .u-group{
-            // .dbi;.size(48px);
-            // .y(top);
-            .ml(5px);
+        // .u-group{
+        //     // .dbi;.size(48px);
+        //     // .y(top);
+        //     .ml(5px);
+        //     .fz(12px);
+        //     color:#aaa;
+        //     font-style: normal;
+        // }
+        .u-identity {
             .fz(12px);
-            color:#aaa;
-            font-style: normal;
-        }
-        .u-uid {
+            padding:2px 0;
             b {
                 .bold;
             }
@@ -48,17 +50,52 @@
                 .r(3px);
                 .mr(5px);
             }
-            .mb(2px);
+            span{
+                .mr(10px);
+            }
         }
 
         .u-join,.u-bio{
             .fz(13px);
             padding:0 5px;
+            .nobreak;
         }
 
         .clearfix;
         border-bottom: 1px solid #eee;
         padding-bottom: 20px;
+    }
+
+    .m-credit{
+        .mt(20px);
+        .x;
+        background-color:@bg-light;
+        border:1px solid @border-hr;
+        .r(6px);
+        padding:10px;
+
+        .u-credit-name{
+            .fz(22px,2);
+            font-weight:300;
+        }
+
+        .u-credit-value{
+            .fz(30px,40px);
+            .bold;
+        }
+
+        .u-credit-op{
+            .mt(10px);
+            .fz(14px,2);
+            font-weight: normal;
+            // a:hover{
+            //     color:@pink;
+            // }
+            // a{
+            //     padding:5px;
+            // }
+        }
+
     }
 }
 

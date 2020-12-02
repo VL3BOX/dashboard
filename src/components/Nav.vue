@@ -42,6 +42,9 @@
             <a href="/dashboard/#/profile" :class="isActive('profile')">
                 <i class="el-icon-user"></i><span>资料设置</span>
             </a>
+            <a href="/vip/credit" target="_blank">
+                <i class="el-icon-coin"></i><span>积分中心</span>
+            </a>
             <a href="/dashboard/#/config" :class="isActive('config')">
                 <i class="el-icon-setting"></i><span>通知设置</span>
             </a>

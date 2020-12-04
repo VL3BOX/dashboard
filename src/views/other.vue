@@ -74,13 +74,12 @@ export default {
             page: 1,
             per: 10,
             search: "",
-            searchType: "question",
+            searchType: "item_plan",
             types: {
-                question: "题目",
-                item_plan: "物品清单",
+                item_plan: "物品/装备清单",
+                question: "贡献题目",
                 // TODO:
-                // paper: "试卷",
-                // item_schema: "配装方案",
+                // paper: "贡献试卷",
             },
         };
     },

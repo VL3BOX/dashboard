@@ -140,9 +140,9 @@ export default {
         },
         loadAsset : function (){
             getMyAsset().then((res) => {
-                this.credit.box_coin = res.data.data.box_coin
-                this.credit.points = res.data.data.box_coin
-                this.credit.red_packet = res.data.data.red_packet
+                this.asset.box_coin = res.data.data.box_coin
+                this.asset.points = res.data.data.points
+                this.asset.red_packet = res.data.data.red_packet
             })
         }
     },
@@ -154,7 +154,7 @@ export default {
             return val ? JX3BOX.__userGroup[val] : "游客";
         },
         formatCredit: function(val) {
-            return val ? val.toFixed(2) : "0.00";
+            return val ? (val / 100 ).toFixed(2) : "0.00";
         },
     },
     mounted: function() {

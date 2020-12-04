@@ -20,7 +20,7 @@
                 <li v-for="(item, i) in data" :key="i">
                     <i class="u-icon">
                         <img
-                            v-if="item.post.post_status == 'publish'"
+                            v-if="item.post_publish"
                             svg-inline
                             src="../assets/img/works/repo.svg"
                         />
@@ -33,22 +33,19 @@
                     <a
                         class="u-title"
                         target="_blank"
-                        :href="
-                            postLink(item.post.post_type, item.post.ID)
-                        "
-                        >{{ item.post.post_title || "无标题" }}</a
+                        :href="getLink(item.post_type, item.post_id)"
+                        >{{ item.post_title || "无标题" }}</a
                     >
                     <div class="u-desc">
-                        发布于: {{ item.post.post_date | dateFormat }} |
-                        最后更新:
-                        {{ item.post.post_modified | dateFormat }}
+                        发布于: {{ item.post_created * 1000 | dateFormat }} |
+                        最后更新: {{ item.post_updated * 1000 | dateFormat }}
                     </div>
                     <el-button-group class="u-action">
                         <el-button
                             size="mini"
                             icon="el-icon-delete"
                             title="删除"
-                            @click="del(item.post.ID)"
+                            @click="del(item.post_type, item.post_id)"
                         ></el-button>
                     </el-button-group>
                 </li>
@@ -66,7 +63,7 @@
                 class="m-dashboard-box-pages"
                 background
                 :hide-on-single-page="true"
-                @current-change="changePage"
+                @current-change="page_change"
                 :current-page="page"
                 layout="total, prev, pager, next, jumper"
                 :total="total"
@@ -77,8 +74,8 @@
 </template>
 
 <script>
-import { getFavs, delFav } from "../service/fav";
-import { __v2, __Root } from "@jx3box/jx3box-common/js/jx3box";
+import { getMyFavs, delFav } from "../service/fav";
+import { getLink } from "@jx3box/jx3box-common/js/utils";
 import dateFormat from "../utils/dateFormat";
 
 export default {
@@ -95,27 +92,24 @@ export default {
     },
     computed: {},
     methods: {
-        changePage: function(i = 1) {
-            getFavs({
+        page_change(i = 1) {
+            getMyFavs({
+                keyword: this.search,
                 page: i,
             }).then((res) => {
-                this.data = res.data.data.list;
-                this.total = res.data.data.total;
+                res = res.data;
+                this.data = res.code === 200 ? res.data.data : [];
+                this.total = res.code === 200 ? res.data.total : 0;
             });
         },
-        searchPost: function() {
-            getFavs({
-                title: this.search,
-            }).then((res) => {
-                this.data = res.data.data.list;
-                this.total = res.data.data.total;
-            });
+        searchPost() {
+            this.page_change(1);
         },
-        del: function(id) {
+        del: function(type, id) {
             this.$alert("确定要取消收藏吗？", "确认信息", {
                 confirmButtonText: "确定",
                 callback: (action) => {
-                    delFav(id).then(() => {
+                    delFav(type, id).then(() => {
                         this.$message({
                             type: "success",
                             message: `取消收藏成功`,
@@ -125,9 +119,7 @@ export default {
                 },
             });
         },
-        postLink: function(type, id) {
-            return __Root + type + "/" + id;
-        },
+        getLink,
     },
     filters: {
         dateFormat: function(val) {
@@ -135,7 +127,7 @@ export default {
         },
     },
     mounted: function() {
-        this.changePage();
+        this.page_change();
     },
 };
 </script>

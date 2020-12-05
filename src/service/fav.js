@@ -1,24 +1,22 @@
 import { $ } from "./axios";
-import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __helperUrl } from "@jx3box/jx3box-common/js/jx3box.json";
 
-function getFavs(query) {
-    return $.get(__server + "post/myfav", {
+const qs = require("qs");
+
+function getMyFavs(query) {
+    return $.get(`${__helperUrl}api/my/post/favorites`, {
         params: query,
     });
 }
 
-function addFav(id) {
-    return $.post(__server + "post/fav", {
-        pid: id,
-        action: 1,
-    });
+function delFav(post_type, post_id) {
+    if (post_type && post_id) {
+        return $.post(`${__helperUrl}api/post/favorite`, qs.stringify({
+            post_type: post_type,
+            post_id: post_id,
+            cancel: 1
+        }));
+    } else return null;
 }
 
-function delFav(id) {
-    return $.post(__server + "post/fav", {
-        pid: id,
-        action: 0,
-    });
-}
-
-export { getFavs, addFav, delFav };
+export { getMyFavs, delFav };

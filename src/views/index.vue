@@ -25,7 +25,7 @@
                     </span> -->
                 </div>
                 <div class="u-bio">
-                    {{ info.bio || "凭栏望千里，煮酒论江湖。" }}
+                    {{ info.bio }}
                 </div>
                 <div class="u-medals">
                     <!-- TODO:个人勋章列表 -->

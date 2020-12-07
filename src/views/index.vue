@@ -24,9 +24,6 @@
                         <em>Level</em><b>{{ level }}</b>
                     </span> -->
                 </div>
-                <div class="u-bio">
-                    {{ info.bio }}
-                </div>
                 <div class="u-medals">
                     <!-- TODO:个人勋章列表 -->
                 </div>
@@ -129,14 +126,6 @@ export default {
             this.info.name = _info.name || "匿名";
             this.info.uid = _info.uid || 0;
             this.info.group = _info.group || 0;
-
-            if (this.uid) {
-                getUserInfo(this.uid).then((res) => {
-                    let data = res.data.data;
-                    this.info.join = dateFormat(new Date(data.user_registered));
-                    this.info.bio = data.user_bio;
-                });
-            }
         },
         loadAsset : function (){
             getMyAsset().then((res) => {

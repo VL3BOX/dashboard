@@ -10,7 +10,7 @@ const fb = () => import("../publish/fb.vue");
 const bps = () => import("../publish/bps.vue");
 const tool = () => import("../publish/tool.vue");
 
-const cj = () => import("../publish/cj.vue");
+const achievement = () => import("../publish/achievement.vue");
 const item = () => import("../publish/item.vue");
 const item_plan = () => import("../publish/item_plan.vue");
 const house = () => import("../publish/house.vue");
@@ -32,8 +32,13 @@ const routes = [
 
     // 成就攻略发布
     {
+        path: "/achievement/:achievement_id(\\d+)?",
+        component: achievement,
+    },
+    // todo:准备弃用路由
+    {
         path: "/cj/:achievement_id(\\d+)?",
-        component: cj,
+        component: achievement,
     },
 
     // 物品攻略发布

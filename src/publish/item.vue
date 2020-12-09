@@ -77,7 +77,7 @@
                     id: "",     // 文章ID
                     content: "",
                     source_id: "",
-                    level: 3,
+                    level: 0,
                     remark: "",
                 },
 
@@ -105,6 +105,11 @@
 
                 if (!this.post.content) {
                     this.$message({message: "要编写攻略正文哦", type: "warning"});
+                    return;
+                }
+
+                if (!(this.post.level >= 1 && this.post.level <= 5)) {
+                    this.$message({message: "请选择适合的综合难度", type: "warning"});
                     return;
                 }
 
@@ -185,7 +190,7 @@
                                 this.post.content = post.content;
                             } else {
                                 this.post.source_id = this.post.source_id ? this.post.source_id : "";
-                                this.post.level = 3;
+                                this.post.level = 0;
                                 this.post.remark = "";
                                 this.post.content = "";
                             }

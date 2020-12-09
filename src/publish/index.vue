@@ -53,7 +53,7 @@
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/cj"
+                        ><router-link to="/achievement"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/cj.svg"

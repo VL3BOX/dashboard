@@ -84,7 +84,7 @@ const qs = require("qs");
 const lodash = require("lodash");
 
 export default {
-    name: "cj",
+    name: "achievement",
     props: [],
     data: function() {
         return {
@@ -99,7 +99,7 @@ export default {
                 id: "",     // 文章ID
                 content: "",
                 achievement_id: "",
-                level: 3,
+                level: 0,
                 remark: "",
             },
 
@@ -130,6 +130,11 @@ export default {
 
             if (!this.post.content) {
                 this.$message({ message: "要编写攻略正文哦", type: "warning" });
+                return;
+            }
+
+            if (!(this.post.level >= 1 && this.post.level <= 5)) {
+                this.$message({message: "请选择适合的综合难度", type: "warning"});
                 return;
             }
 
@@ -255,7 +260,7 @@ export default {
                         this.post.achievement_id = this.post.achievement_id
                             ? parseInt(this.post.achievement_id)
                             : "";
-                        this.post.level = 3;
+                        this.post.level = 0;
                         this.post.remark = "";
                         this.post.content = "";
                     }

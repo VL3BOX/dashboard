@@ -37,8 +37,9 @@
                         >{{ item.post_title || "无标题" }}</a
                     >
                     <div class="u-desc">
-                        发布于: {{ item.post_created * 1000 | dateFormat }} |
-                        最后更新: {{ item.post_updated * 1000 | dateFormat }}
+                        <span v-text="getTypeLabel(item.post_type)"></span>
+                        <span v-if="item.post_created"> | 发布于: {{ item.post_created * 1000 | dateFormat }}</span>
+                        <span v-if="item.post_updated"> | 最后更新: {{ item.post_updated * 1000 | dateFormat }}</span>
                     </div>
                     <el-button-group class="u-action">
                         <el-button
@@ -75,7 +76,7 @@
 
 <script>
 import { getMyFavs, delFav } from "../service/fav";
-import { getLink } from "@jx3box/jx3box-common/js/utils";
+import { getLink, getTypeLabel } from "@jx3box/jx3box-common/js/utils";
 import dateFormat from "../utils/dateFormat";
 
 export default {
@@ -120,6 +121,7 @@ export default {
             });
         },
         getLink,
+        getTypeLabel,
     },
     filters: {
         dateFormat: function(val) {

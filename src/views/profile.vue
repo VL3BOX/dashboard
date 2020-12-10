@@ -35,14 +35,10 @@
                     >
                     </el-option>
                 </el-select>
-                <span class="u-server-tip"><i class="el-icon-question"></i> 部分应用将使用此服务器作为默认服务器</span>
-            </el-form-item>
-
-            <el-form-item class="u-name" label="推栏ID">
-                <el-input
-                    v-model="form.tuilan_id"
-                    placeholder="请输入推栏数字ID"
-                ></el-input>
+                <span class="u-server-tip"
+                    ><i class="el-icon-question"></i>
+                    部分应用将使用此服务器作为默认服务器</span
+                >
             </el-form-item>
 
             <el-form-item class="u-name">
@@ -109,11 +105,35 @@
                 </el-input>
             </el-form-item>
 
+            <el-form-item class="u-tv" label="直播间">
+                <el-row>
+                    <el-col :span="4"
+                        ><div class="u-tv-type">
+                            <el-select
+                                v-model="form.tv_type"
+                                placeholder="请选择平台"
+                            >
+                                <el-option
+                                    v-for="(label, val) in tvmap"
+                                    :key="val"
+                                    :label="label"
+                                    :value="val"
+                                >
+                                </el-option>
+                            </el-select></div
+                    ></el-col>
+                    <el-col :span="20"
+                        ><div class="u-tv-id" style="margin-left:10px;">
+                            <el-input
+                                v-model="form.tv_id"
+                                placeholder="请输入直播间"
+                            ></el-input></div
+                    ></el-col>
+                </el-row>
+            </el-form-item>
+
             <el-form-item class="u-btns" label="">
-                <el-button
-                    type="primary"
-                    class="u-submit"
-                    @click="submit"
+                <el-button type="primary" class="u-submit" @click="submit"
                     >提交</el-button
                 >
             </el-form-item>
@@ -126,7 +146,7 @@ import { JX3BOX, User } from "@jx3box/jx3box-common";
 import { updateProfile, getProfile } from "../service/profile";
 import { sterilizer } from "sterilizer/index.js";
 import servers from "@jx3box/jx3box-data/data/server/server_list.json";
-
+import tvmap from "@/assets/data/tvmap.json";
 export default {
     name: "profile",
     props: [],
@@ -140,9 +160,11 @@ export default {
                 qq_number: "",
                 phone: "",
                 address: "",
-                tuilan_id:""
+                tv_id: "",
+                tv_type: "",
             },
-            position : window.innerWidth < 768 ? 'top' : 'left'
+            position: window.innerWidth < 768 ? "top" : "left",
+            tvmap,
         };
     },
     computed: {},
@@ -150,22 +172,20 @@ export default {
         // 提交资料
         submit() {
             updateProfile(this.form).then((res) => {
-
-                if(!res.data.code){
+                if (!res.data.code) {
                     // User.refresh("bio", this.form.user_bio);
                     this.$message({
                         message: "资料修改成功",
                         type: "success",
                     });
                 }
-                
             });
         },
         // 获取资料
         getProfile() {
             getProfile().then((res) => {
-                if(!res.data.code){
-                    this.form = res.data.data
+                if (!res.data.code) {
+                    this.form = res.data.data;
                 }
             });
         },

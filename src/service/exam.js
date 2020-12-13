@@ -1,44 +1,39 @@
-import { $ } from "./axios";
-import { __next } from "@jx3box/jx3box-common/js/jx3box.json";
-
-const API = __next + 'api/question/'
-// const API = "/api/question/";
+import { $next } from "@jx3box/jx3box-common/js/axios";
 
 function getQuestion(id, vm) {
-    return $
-        .get(API + id)
+    return $next.get("/api/question/" + id);
 }
 
 function createQuestion(data, vm) {
-    return $
-        .post(API + "create", data)
+    return $next.post("/api/question/create", data);
 }
 
 function updateQuestion(id, data, vm) {
-    return $
-        .put(API + id + "/update", data)
+    return $next.put("/api/question/" + id + "/update", data);
 }
 
 function createPaper(data, vm) {
-    return $
-        .post(API + "exam-paper", data)
+    return $next.post("/api/question/" + "exam-paper", data);
 }
 
 function updatePaper(id, data, vm) {
-    return $
-        .put(API + "exam-paper/" + id, data)
+    return $next.put("/api/question/" + "exam-paper/" + id, data);
 }
 
 function getPaper(id, vm) {
-    return $
-        .get(API + "exam-paper/" + id)
+    return $next.get("/api/question/" + "exam-paper/" + id);
 }
 
 function getQuestions(query, vm) {
-    return $
-        .get(API + "my-list", {
-            params: query,
-        })
+    return $next.get("/api/question/" + "my-list", {
+        params: query,
+    });
+}
+
+function getPapers(query) {
+    return $next.get("/api/question/exam-paper?my", {
+        params: query,
+    });
 }
 
 export {
@@ -49,4 +44,5 @@ export {
     createPaper,
     updatePaper,
     getPaper,
+    getPapers,
 };

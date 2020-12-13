@@ -3,15 +3,16 @@
         <li v-for="(item, i) in list" :key="i">
             <i class="u-icon">
                 <img
-                    v-if="item.status > 0"
+                    v-if="item.status != 0"
                     svg-inline
                     src="../../assets/img/works/repo.svg"
                 />
                 <img v-else svg-inline src="../../assets/img/works/draft.svg" />
             </i>
-            <a class="u-title" target="_blank" :href="postLink(item.id)"
-                >[{{ item.type | typeFormat }}] {{ item.title || "无标题" }}</a
-            >
+            <a class="u-title" target="_blank" :href="postLink(item.id)">
+                <!-- [{{ item.type | typeFormat }}]  -->
+                {{ item.title || "无标题" }}
+            </a>
             <div class="u-desc">
                 <span class="u-desc-subitem"
                     >编号 : <b>{{ item.id }}</b></span
@@ -22,7 +23,7 @@
                         :class="{
                             pass: item.status > 0,
                             pending: item.status == 0,
-                            fail: item.status < 0,
+                            fail: item.status < 0 || item.status > 1,
                         }"
                         >{{ statusmap[item.status] }}</b
                     >
@@ -51,6 +52,7 @@ const statusmap = {
     "-1": "未通过审核",
     "0": "待审核",
     "1": "已入库",
+    "2" : '已删除'
 };
 export default {
     name: "",
@@ -61,16 +63,16 @@ export default {
         };
     },
     computed: {
-        list : function (){
-            return this.data
-        }
+        list: function() {
+            return this.data;
+        },
     },
     methods: {
         edit: function(id) {
-            location.href = "./publish/#/exam/question/" + id;
+            location.href = "./publish/#/exam/paper/" + id;
         },
         postLink: function(id) {
-            return "/exam/#/question/" + id;
+            return "/exam/#/paper/" + id;
         },
     },
     filters: {

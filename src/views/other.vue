@@ -17,18 +17,23 @@
             <span slot="prepend">关键词</span>
             <el-button slot="append" icon="el-icon-search"></el-button>
         </el-input>
-        <div class="m-dashboard-box">
+        <div class="m-dashboard-box" v-loading="loading">
             <template v-if="data && data.length">
-                <question
-                    class="m-dashboard-box-list"
-                    :data="data"
-                    v-if="searchType === 'question'"
-                />
                 <item_plan
                     class="m-dashboard-box-list"
                     :data="data"
                     v-if="searchType === 'item_plan'"
                     @refresh="loadPosts(searchType)"
+                />
+                <question
+                    class="m-dashboard-box-list"
+                    :data="data"
+                    v-if="searchType === 'question'"
+                />
+                <paper
+                    class="m-dashboard-box-list"
+                    :data="data"
+                    v-if="searchType === 'paper'"
                 />
             </template>
             <el-alert
@@ -55,14 +60,16 @@
 </template>
 
 <script>
-import { getQuestions } from "../service/exam";
+import { getQuestions,getPapers } from "../service/exam";
 import { get_my_item_plans } from "../service/item_plan";
 import question from "@/components/other/question.vue";
+import paper from "@/components/other/paper.vue";
 import item_plan from "@/components/other/item_plan.vue";
 
 const fn = {
     question: getQuestions,
     item_plan: get_my_item_plans,
+    paper : getPapers
 };
 export default {
     name: "ideas",
@@ -76,16 +83,16 @@ export default {
             search: "",
             searchType: "item_plan",
             types: {
-                item_plan: "物品/装备清单",
-                question: "贡献题目",
-                // TODO:
-                // paper: "贡献试卷",
+                item_plan: "我的清单",
+                question: "我的题目",
+                paper: "我的试卷",
             },
+            loading : false
         };
     },
     computed: {
         params: function() {
-            if (this.searchType == "question") {
+            if (this.searchType == "question" || this.searchType == "paper") {
                 return {
                     pageIndex: this.page,
                     title: this.search,
@@ -102,6 +109,9 @@ export default {
         },
     },
     watch: {
+        searchType : function (){
+            this.page = 1  
+        },
         params: {
             deep: true,
             handler: function(val) {
@@ -111,6 +121,7 @@ export default {
     },
     methods: {
         loadPosts: function(searchType) {
+            this.loading = true
             fn[searchType](this.params).then((res) => {
                 if (searchType == "item_plan") {
                     res = res.data;
@@ -122,7 +133,9 @@ export default {
                     this.data = res.data.data;
                     this.total = res.data.page.total;
                 }
-            });
+            }).finally(() => {
+                this.loading = false
+            })
         },
     },
     created: function() {
@@ -131,6 +144,7 @@ export default {
     components: {
         question,
         item_plan,
+        paper
     },
 };
 </script>

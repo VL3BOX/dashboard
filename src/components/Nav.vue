@@ -17,7 +17,7 @@
                 <i class="el-icon-collection"></i><span>词条贡献</span>
             </a>
             <a href="/dashboard/#/other" :class="isActive('other')">
-                <i class="el-icon-collection"></i><span>其它</span>
+                <i class="el-icon-collection"></i><span>其它贡献</span>
             </a>
         </div>
 

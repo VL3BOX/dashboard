@@ -105,7 +105,7 @@ import {
 import User from "@jx3box/jx3box-common/js/user";
 import lodash from "lodash";
 import isEmptyMeta from '@/utils/isEmptyMeta.js'
-import zlps from "../assets/data/zlps.json";
+import zlps from '@jx3box/jx3box-common/data/zlps.json'
 // import { points } from "../assets/data/bps.json";
 const default_meta = {
     zlp: zlps[0],

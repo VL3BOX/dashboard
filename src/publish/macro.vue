@@ -303,7 +303,7 @@ import { syncRedis } from "../service/macro.js";
 import { sterilizer } from "sterilizer/index.js";
 import isEmptyMeta from "@/utils/isEmptyMeta.js";
 import lodash from "lodash";
-import zlps from "../assets/data/zlps.json";
+import zlps from '@jx3box/jx3box-common/data/zlps.json'
 const default_meta = {
     zlp: zlps[0],
     lang: "cn",

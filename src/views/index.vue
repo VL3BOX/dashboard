@@ -24,8 +24,12 @@
                         <em>Level</em><b>{{ level }}</b>
                     </span> -->
                 </div>
-                <div class="u-medals">
-                    <!-- TODO:个人勋章列表 -->
+                <div class="u-medals" v-if="medals && medals.length">
+                    <span class="u-medal" v-for="(item, i) in medals" :key="i"
+                        ><img
+                            :src="item.medal | showTeamMedal"
+                            :title="medal_map[item.medal]"
+                    /></span>
                 </div>
             </div>
         </div>
@@ -40,7 +44,11 @@
                             <b>{{ asset.points }}</b>
                         </div>
                         <div class="u-credit-op">
-                            <a class="el-button el-button--primary el-button--mini is-disabled" href="">兑换</a>
+                            <a
+                                class="el-button el-button--primary el-button--mini is-disabled"
+                                href=""
+                                >兑换</a
+                            >
                         </div>
                     </div></el-col
                 >
@@ -53,7 +61,15 @@
                             <b>{{ asset.box_coin | formatCredit }}</b>
                         </div>
                         <div class="u-credit-op">
-                            <a class="el-button el-button--primary el-button--mini is-disabled" href="">充值</a><a class="el-button el-button--primary el-button--mini is-disabled" href="">提现</a>
+                            <a
+                                class="el-button el-button--primary el-button--mini is-disabled"
+                                href=""
+                                >充值</a
+                            ><a
+                                class="el-button el-button--primary el-button--mini is-disabled"
+                                href=""
+                                >提现</a
+                            >
                         </div>
                     </div></el-col
                 >
@@ -65,7 +81,13 @@
                         <div class="u-credit-value">
                             <b>{{ asset.red_packet | formatCredit }}</b>
                         </div>
-                        <div class="u-credit-op"><a class="el-button el-button--primary el-button--mini" href="/vip/credit#/packet">提现</a></div>
+                        <div class="u-credit-op">
+                            <a
+                                class="el-button el-button--primary el-button--mini"
+                                href="/vip/credit#/packet"
+                                >提现</a
+                            >
+                        </div>
                     </div></el-col
                 >
                 <el-col :span="6"
@@ -76,7 +98,13 @@
                         <div class="u-credit-value">
                             <b>{{ asset.gift }}</b>
                         </div>
-                        <div class="u-credit-op"><a class="el-button el-button--primary el-button--mini is-disabled" href="">查看</a></div>
+                        <div class="u-credit-op">
+                            <a
+                                class="el-button el-button--primary el-button--mini is-disabled"
+                                href=""
+                                >查看</a
+                            >
+                        </div>
                     </div></el-col
                 >
             </el-row>
@@ -91,7 +119,9 @@
 import { JX3BOX, User, Utils } from "@jx3box/jx3box-common";
 import { getUserInfo } from "../service/profile";
 import dateFormat from "../utils/dateFormat";
-import { getMyAsset } from "@/service/index.js";
+import { getMyAsset, getUserMedals } from "@/service/index.js";
+import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
+import { __imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
 export default {
     name: "index",
     props: [],
@@ -112,6 +142,8 @@ export default {
                 red_packet: 0, //红包
                 gift: 0, //礼品、商城订单
             },
+            medals: [],
+            medal_map,
         };
     },
     computed: {},
@@ -127,13 +159,19 @@ export default {
             this.info.uid = _info.uid || 0;
             this.info.group = _info.group || 0;
         },
-        loadAsset : function (){
+        loadAsset: function() {
             getMyAsset().then((res) => {
-                this.asset.box_coin = res.data.data.box_coin
-                this.asset.points = res.data.data.points
-                this.asset.red_packet = res.data.data.red_packet
-            })
-        }
+                this.asset.box_coin = res.data.data.box_coin;
+                this.asset.points = res.data.data.points;
+                this.asset.red_packet = res.data.data.red_packet;
+            });
+        },
+        loadMedals: function() {
+            if (!this.info.uid) return;
+            getUserMedals(this.info.uid).then((res) => {
+                this.medals = res.data.data;
+            });
+        },
     },
     filters: {
         groupicon: function(groupid) {
@@ -143,12 +181,16 @@ export default {
             return val ? JX3BOX.__userGroup[val] : "游客";
         },
         formatCredit: function(val) {
-            return val ? (val / 100 ).toFixed(2) : "0.00";
+            return val ? (val / 100).toFixed(2) : "0.00";
+        },
+        showTeamMedal: function(val) {
+            return __imgPath + "image/medals/team/" + val + "-20.gif";
         },
     },
     mounted: function() {
         this.renderInfo();
-        this.loadAsset()
+        this.loadAsset();
+        this.loadMedals();
     },
 };
 </script>

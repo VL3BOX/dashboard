@@ -3,6 +3,7 @@
         <Header></Header>
         <Breadcrumb name="个人中心" slug="dashboard" root="/dashboard" :crumbEnable="true">
             <img slot="logo" svg-inline src="../assets/img/logo.svg" />
+            <Info />
         </Breadcrumb>
         <LeftSidebar>
             <Nav />
@@ -16,7 +17,7 @@
 
 <script>
 import tabs from "@/components/tabs.vue";
-// import Info from "@/components/Info.vue";
+import Info from "@/components/Info.vue";
 import Nav from "@/components/Nav.vue";
 import checkLogin from '../utils/checkLogin'
 const profileViews = ['profile','avatar','email','pwd','connect']
@@ -36,7 +37,7 @@ export default {
         checkLogin()
     },
     components: {
-        // Info,
+        Info,
         Nav,
         tabs
     },

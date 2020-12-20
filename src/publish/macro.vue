@@ -380,7 +380,7 @@ export default {
     methods: {
         // 发布
         toPublish: function() {
-            // console.log(this.build());
+            this.check()
             this.doPublish(this.build(), this, false).then((res) => {
                 syncRedis(res.data.data, this).then((redis_result) => {
                     this.finish(res.data.msg, res.data.data.ID, this.type);
@@ -389,6 +389,7 @@ export default {
         },
         // 草稿
         toDraft: function() {
+            this.check()
             this.doDraft(this.build(), this, false).then((res) => {
                 syncRedis(res.data.data, this).then((redis_result) => {
                     this.finish(res.data.msg, res.data.data.ID, this.type);
@@ -466,6 +467,16 @@ export default {
         },
 
         // 检查版本名
+        check : function (){
+            if(!this.post.post_title){
+                this.post.post_title = User.getInfo().name + '的宏'
+            }
+            this.post.post_meta.data.forEach((item,i) => {
+                if(!item.name){
+                    item.name = '未标题-' + i
+                }
+            })
+        },
         checkDataName: function(data) {
             let name = sterilizer(data.name).removeSpace();
             if (!name) {

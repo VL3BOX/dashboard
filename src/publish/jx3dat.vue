@@ -173,7 +173,7 @@
                                         class="u-data-input"
                                         type="file"
                                         :id="'jx3dat_' + i"
-                                        @change="uploadDBM(item,i)"
+                                        @change="uploadDBM(item, i)"
                                     />
                                     <el-button
                                         type="primary"
@@ -183,6 +183,9 @@
                                         @click="selectDBM(i)"
                                         >上传数据文件</el-button
                                     >
+                                    <span class="u-data-remark">
+                                        {{ item.origin_name }}
+                                    </span>
                                     <!-- <el-button
                                         size="small"
                                         type="primary"
@@ -193,7 +196,7 @@
                                     > -->
                                     <el-input
                                         class="u-fileurl"
-                                        :class="{isUploaded:item.isUploaded}"
+                                        :class="{ isUploaded: item.isUploaded }"
                                         @change="aniDBM(item)"
                                         placeholder="数据地址"
                                         :disabled="true"
@@ -284,7 +287,12 @@
 
                 <!-- 4.其它类型上传字段 -->
                 <el-form-item v-else label="数据" class="m-jx3dat-other">
-                    <input class="u-data-input" type="file" id="otherdata" @change="uploadDat"/>
+                    <input
+                        class="u-data-input"
+                        type="file"
+                        id="otherdata"
+                        @change="uploadDat"
+                    />
                     <el-button
                         type="primary"
                         icon="el-icon-s-promotion"
@@ -293,6 +301,9 @@
                         @click="selectDat"
                         >上传数据文件</el-button
                     >
+                    <span class="u-data-remark">
+                        {{ post.post_meta.origin_name }}
+                    </span>
                     <el-input
                         v-if="post.post_meta.down"
                         class="u-fileurl"
@@ -328,7 +339,7 @@ import { uploadHub, uploadData, syncRedis } from "../service/jx3dat.js";
 import User from "@jx3box/jx3box-common/js/user";
 import { jx3dat_types, jx3dat_tags } from "../assets/data/jx3dat.json";
 import { sterilizer } from "sterilizer/index.js";
-import isEmptyMeta from '@/utils/isEmptyMeta.js'
+import isEmptyMeta from "@/utils/isEmptyMeta.js";
 const default_meta = {
     //新版,字段表合并至主表,减少数据库查询次数
     type: "1",
@@ -340,6 +351,8 @@ const default_meta = {
             status: true,
             file: "",
             version: "",
+            origin_name: "",
+            upload_status: false,
         },
     ],
     tag: [],
@@ -347,6 +360,7 @@ const default_meta = {
     gitee: "",
     aliyun: "",
     down: "",
+    origin_name : ''
 };
 
 export default {
@@ -506,6 +520,7 @@ export default {
                 });
                 return;
             }
+            item.origin_name = file.name;
 
             let formdata = new FormData();
             formdata.append("jx3dat", file);
@@ -517,6 +532,7 @@ export default {
                         type: "success",
                     });
                     item.version = Date.now();
+                    item.upload_status = true;
                 }
             });
         },
@@ -586,6 +602,9 @@ export default {
                 return;
             }
 
+            // 显示原文件名
+            this.post.post_meta.origin_name = file.name
+
             let formdata = new FormData();
             formdata.append("file", file);
             uploadData(formdata, this).then((res) => {
@@ -599,11 +618,11 @@ export default {
                 this.tempname = file.name;
             });
         },
-        aniDBM : function (item){
-            item.isUploaded = true
+        aniDBM: function(item) {
+            item.isUploaded = true;
             setTimeout(() => {
-                item.isUploaded = false
-            })
+                item.isUploaded = false;
+            }, 2000);
         },
         toggleMoreFeed: function() {
             this.moreFeedsVisible = !this.moreFeedsVisible;
@@ -625,7 +644,8 @@ export default {
     mounted: function() {
         // 初始化默认文章数据
         this.init().then((data) => {
-            if(isEmptyMeta(this.post.post_meta)) this.post.post_meta = default_meta
+            if (isEmptyMeta(this.post.post_meta))
+                this.post.post_meta = default_meta;
         });
         this.user = User.getInfo();
     },

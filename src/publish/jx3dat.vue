@@ -139,7 +139,7 @@
                                         >
                                             <el-switch
                                                 v-model="item.status"
-                                                active-color="#13ce66"
+                                                active-color="#49C10F"
                                                 inactive-color="#ff4949"
                                             >
                                             </el-switch>
@@ -173,25 +173,28 @@
                                         class="u-data-input"
                                         type="file"
                                         :id="'jx3dat_' + i"
+                                        @change="uploadDBM(item,i)"
                                     />
-                                    <!-- <el-button
-                                        size="small"
-                                        type="primary"
-                                        plain
-                                        @click="selectDBM(i)"
-                                        icon="el-icon-zoom-in"
-                                        >选择数据</el-button
-                                    > -->
                                     <el-button
+                                        type="primary"
+                                        icon="el-icon-s-promotion"
+                                        plain
+                                        size="small"
+                                        @click="selectDBM(i)"
+                                        >上传数据文件</el-button
+                                    >
+                                    <!-- <el-button
                                         size="small"
                                         type="primary"
                                         plain
                                         @click="uploadDBM(item, i)"
                                         icon="el-icon-s-promotion"
                                         >开始上传</el-button
-                                    >
+                                    > -->
                                     <el-input
                                         class="u-fileurl"
+                                        :class="{isUploaded:item.isUploaded}"
+                                        @change="aniDBM(item)"
                                         placeholder="数据地址"
                                         :disabled="true"
                                         :value="item.file"
@@ -281,14 +284,14 @@
 
                 <!-- 4.其它类型上传字段 -->
                 <el-form-item v-else label="数据" class="m-jx3dat-other">
-                    <input class="u-data-input" type="file" id="otherdata" />
+                    <input class="u-data-input" type="file" id="otherdata" @change="uploadDat"/>
                     <el-button
                         type="primary"
                         icon="el-icon-s-promotion"
                         plain
                         size="medium"
-                        @click="uploadDat"
-                        >开始上传</el-button
+                        @click="selectDat"
+                        >上传数据文件</el-button
                     >
                     <el-input
                         v-if="post.post_meta.down"
@@ -595,6 +598,12 @@ export default {
 
                 this.tempname = file.name;
             });
+        },
+        aniDBM : function (item){
+            item.isUploaded = true
+            setTimeout(() => {
+                item.isUploaded = false
+            })
         },
         toggleMoreFeed: function() {
             this.moreFeedsVisible = !this.moreFeedsVisible;

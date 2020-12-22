@@ -30,10 +30,7 @@
             <!-- 💛 栏目字段 -->
             <template>
                 <el-form-item label="原创">
-                    <el-switch
-                        v-model="post.original"
-                        active-color="#13ce66"
-                    >
+                    <el-switch v-model="post.original" active-color="#13ce66">
                     </el-switch>
                 </el-form-item>
 
@@ -174,9 +171,10 @@
                                     />
                                     <el-button
                                         type="primary"
+                                        size="medium"
                                         @click="selectData(i)"
                                         icon="el-icon-upload2"
-                                        >上传</el-button
+                                        >上传蓝图</el-button
                                     >
                                     <span
                                         class="u-data-ready"
@@ -189,7 +187,11 @@
 
                                 <el-col :span="6" class="u-action">
                                     <!-- 增加 -->
-                                    <el-button plain @click="addData(i)" icon="el-icon-circle-plus-outline"
+                                    <el-button
+                                        plain
+                                        @click="addData(i)"
+                                        icon="el-icon-circle-plus-outline"
+                                        size="medium"
                                         >增加</el-button
                                     >
 
@@ -220,10 +222,10 @@ import album from "@/components/publish/album.vue";
 import servers from "@jx3box/jx3box-data/data/server/server_list.json";
 import housedata from "@jx3box/jx3box-data/data/house/area.json";
 const housemap = {
-    "广陵邑" : "455",
-    "枫叶泊·乐苑":"471",
-    "枫叶泊·天苑":"486"
-}
+    广陵邑: "455",
+    "枫叶泊·乐苑": "471",
+    "枫叶泊·天苑": "486",
+};
 import lodash from "lodash";
 
 export default {
@@ -238,7 +240,7 @@ export default {
 
             //字段 - meta表数据,可设置默认值
             servers,
-            maps: ["广陵邑","枫叶泊·乐苑","枫叶泊·天苑"],
+            maps: ["广陵邑", "枫叶泊·乐苑", "枫叶泊·天苑"],
             meta: {},
 
             //文章 - 主表数据
@@ -270,7 +272,7 @@ export default {
                 post_banner: "", //头条图,管理员可见
                 post_status: "", //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
-                original:0
+                original: 0,
             },
 
             //扩展 - 部分栏目文章不应启用该功能
@@ -364,14 +366,11 @@ export default {
 
         // 面积
         computeArea: function(num) {
-            if(this.post.post_subtype){
-                let mapid = housemap[this.post.post_subtype]
+            if (this.post.post_subtype) {
+                let mapid = housemap[this.post.post_subtype];
                 if (num) {
-                    let area = lodash.get(
-                        housedata[mapid][~~num - 1],
-                        "area"
-                    );
-                    if(area) this.post.post_meta.area = area;
+                    let area = lodash.get(housedata[mapid][~~num - 1], "area");
+                    if (area) this.post.post_meta.area = area;
                 }
             }
         },

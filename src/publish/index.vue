@@ -47,6 +47,14 @@
                         ></el-card
                     ></el-col
                 >
+                <el-col :span="4">
+                    <el-card>
+                        <router-link to="/collection">
+                            <img svg-inline src="../assets/img/channel/collection.svg"/>
+                            <span>文集</span>
+                        </router-link>
+                    </el-card>
+                </el-col>
             </el-row>
 
             <el-divider content-position="left">PVX / PVN</el-divider>
@@ -56,7 +64,7 @@
                         ><router-link to="/achievement"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/cj.svg"
+                                src="../assets/img/channel/achievement.svg"
                             /><span>成就攻略</span></router-link
                         ></el-card
                     ></el-col
@@ -74,7 +82,7 @@
                 <el-col :span="4">
                   <el-card>
                     <router-link to="/item/plan">
-                      <img svg-inline src="../assets/img/channel/item.svg"/>
+                      <img svg-inline src="../assets/img/channel/item_plan.svg"/>
                       <span>物品清单</span>
                     </router-link>
                   </el-card>

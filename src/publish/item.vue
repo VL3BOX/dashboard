@@ -13,6 +13,7 @@
                     class="u-item_id"
                     v-model="post.source_id"
                     filterable
+                    remote
                     :disabled="!!post.id"
                     placeholder="输入物品名称/物品描述并按『回车』进行搜索"
                     :filter-method="goto_search_items"

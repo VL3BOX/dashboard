@@ -9,6 +9,7 @@ const jx3dat = () => import("../publish/jx3dat.vue");
 const fb = () => import("../publish/fb.vue");
 const bps = () => import("../publish/bps.vue");
 const tool = () => import("../publish/tool.vue");
+const collection = () => import("../publish/collection.vue");
 
 const achievement = () => import("../publish/achievement.vue");
 const item = () => import("../publish/item.vue");
@@ -51,6 +52,13 @@ const routes = [
         name: 'item_plan',
         path: "/item/plan/:plan_id(\\d+)?",
         component: item_plan,
+    },
+
+    // 文集发布
+    {
+        name: 'collection',
+        path: "/collection/:collection_id(\\d+)?",
+        component: collection,
     },
 
     // 副本发布

@@ -12,45 +12,49 @@
         <el-input v-model="collection.title" placeholder="请输入文集标题" maxlength="20" show-word-limit></el-input>
       </div>
 
-      <br>
-      <el-row gutter="30">
-        <el-col span="6" class="m-publish-status">
-          <el-divider content-position="left">可见性</el-divider>
-          <el-radio v-model="collection.status" :label="2">公开</el-radio>
-          <el-radio v-model="collection.status" :label="1">私有</el-radio>
+      <el-row :gutter="30">
+        <el-col :span="6" class="m-publish-image">
+          <el-divider content-position="left">封面图</el-divider>
+          <post_banner :banner="collection.image"/>
         </el-col>
-        <el-col span="18" class="m-publish-tags">
-          <el-divider content-position="left">标签（选填）</el-divider>
-          <ul class="m-list-style">
-            <li v-for="(tag, key) in collection.tags" :key="key" class="m-tag">
-              <span v-text="tag"></span>
-              <i class="el-icon-close" @click="collection.tags.splice(key, 1)"></i>
-            </li>
-          </ul>
-          <div style="display:inline-block;vertical-align:middle;">
-            <el-input class="u-tag-add-value" placeholder="请输入标签（最多为5个）" v-model="add_tag"></el-input>
-            <el-button class="u-tag-add" @click="()=>{if(add_tag)collection.tags.push(add_tag);add_tag=''}">
-              <i class="el-icon-plus"></i>
-            </el-button>
+        <el-col :span="18">
+          <div class="m-publish-public">
+            <el-divider content-position="left">可见性</el-divider>
+            <el-radio v-model="collection.public" :label="2">公开</el-radio>
+            <el-radio v-model="collection.public" :label="1">私有</el-radio>
+          </div>
+
+          <div class="m-publish-tags">
+            <el-divider content-position="left">标签（选填）</el-divider>
+            <ul class="m-list-style">
+              <li v-for="(t, key) in collection.tags" :key="key" class="m-tag">
+                <span v-text="t"></span>
+                <i class="el-icon-close" @click="collection.tags.splice(key, 1)"></i>
+              </li>
+            </ul>
+            <div class="m-tag-add" v-if="collection.tags.length < 5">
+              <el-input class="u-tag-add-value" placeholder="请输入标签（最多为5个）" v-model="tag"></el-input>
+              <el-button class="u-tag-add" @click="()=>{if(tag)collection.tags.push(tag);tag='';}">
+                <i class="el-icon-plus"></i>
+              </el-button>
+            </div>
           </div>
         </el-col>
       </el-row>
 
-      <br>
-      <el-row gutter="30">
-        <el-col span="6" class="m-publish-image">
-          <el-divider content-position="left">封面图</el-divider>
-          <post_banner :banner="collection.image"/>
-        </el-col>
+      <div class="m-publish-description">
+        <el-divider content-position="left" @click="show_description=!show_description">描述（选填）</el-divider>
+        <span v-if="!show_description" @click="show_description=true" class="u-show">▼ 展开</span>
+        <span v-if="show_description" @click="show_description=false" class="u-hide">▲ 收起</span>
+        <Tinymce
+            v-show="show_description"
+            v-model="collection.description"
+            :attachmentEnable="true"
+            :resourceEnable="true"
+            :height="300"
+        />
+      </div>
 
-        <el-col span="18" class="m-publish-description">
-          <el-divider content-position="left">描述（选填）</el-divider>
-          <el-input type="textarea" maxlength="2000" show-word-limit v-model="collection.description"
-                    placeholder="请简单描述一下您的文集"></el-input>
-        </el-col>
-      </el-row>
-
-      <br>
       <div class="m-publish-content">
         <el-divider content-position="left">内容</el-divider>
         <div class="u-content-add" @click="add_content_item">
@@ -70,7 +74,7 @@
             <el-row class="m-content-item" :gutter="10">
               <el-col :span="4">
                 <el-select class="u-item-key" v-model="item.type" placeholder="请选择文章类型"
-                           @change="()=>{search_handle(null, item);item.url=''}">
+                           @change="()=>{search_handle(null, item);item.url=item.title=''}">
                   <el-option v-for="(type, k) in source_types" :label="type" :key="k" :value="k"></el-option>
                 </el-select>
               </el-col>
@@ -82,10 +86,12 @@
                     filterable
                     remote
                     placeholder="通过输入文章标题进行搜索"
-                    :remote-method="(query)=>{search_handle(query, item)}">
+                    :remote-method="(query)=>{search_handle(query, item)}"
+                    @change="(post_id)=>{title_fill(post_id, item)}"
+                >
                   <template v-for="post in item.posts">
-                    <el-option :key="post.id" :value="post.id" :label="post.title"
-                               v-if="post.id && post.title"></el-option>
+                    <el-option v-if="post.id && post.title" :key="post.id" :value="post.id"
+                               :label="post.title"></el-option>
                   </template>
                 </el-select>
                 <el-input class="u-item-value" placeholder="请输入URL链接" v-else v-model="item.url"></el-input>
@@ -96,20 +102,32 @@
             </el-row>
           </li>
         </draggable>
+        <div v-else class="u-content-items-empty">暂无文章信息，请进行文章添加</div>
       </div>
+
+      <el-form-item>
+        <el-button
+            class="u-publish"
+            icon="el-icon-s-promotion"
+            type="success"
+            @click="submit"
+            :loading="$store.state.processing"
+        >提交文集
+        </el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
   const {__postType, __otherType} = require("@jx3box/jx3box-common/js/jx3box");
+  import Tinymce from '@jx3box/jx3box-editor/src/Tinymce'
   import pubheader from "@/components/publish/pubheader.vue";
   import post_banner from "@/components/publish/post_banner.vue";
   import draggable from "vuedraggable";
 
   // 本地依赖
-  import {JX3BOX} from "@jx3box/jx3box-common";
-  import {search_items, get_item_newest_post, create_item_post} from "../service/item";
+  import {get_collection, submit_collection} from "../service/collection";
   import {get_posts_by_type} from "../service/post";
 
   const qs = require("qs");
@@ -125,34 +143,46 @@
       delete source_types['cj'];
 
       return {
-        //选项 - 加载可选项
-        options: {
-          items: null,
-          search_loading: false,
-        },
         source_types: source_types,
         // 文集主体
         collection: {
           id: "",
           title: "",
-          status: "",
+          public: "",
           image: "",
           description: "",
           tags: [],
           content: [],
         },
-        add_tag: '',
+        tag: '',
+        show_description: false,
       };
     },
     mounted() {
       if (!this.collection.content.length) this.add_content_item();
-    },
-    computed: {
-      processing: function () {
-        return this.$store.state.processing
+
+      if (this.$route.params.collection_id) {
+        get_collection(this.$route.params.collection_id).then(
+          (res) => {
+            res = res.data;
+            if (res.code === 200) {
+              let collection = res.data.collection;
+              for (let i in collection.content) {
+                let item = collection.content[i];
+                item.posts = item.type === 'custom' ? null : [{id: item.id, title: item.title}];
+              }
+              this.collection = res.data.collection;
+            }
+          }
+        )
       }
     },
     methods: {
+      // 帖子标题填充
+      title_fill(post_id, item) {
+        let post = item.posts[post_id];
+        item.title = post && post.title ? post.title : '';
+      },
       add_content_item() {
         this.collection.content.push({title: '', type: '', id: '', url: '', posts: null})
       },
@@ -165,46 +195,34 @@
           }
         });
       },
-      toPublish: function () {
-        if (!this.post.content) {
-          this.$message({message: "要编写攻略正文哦", type: "warning"});
-          return;
-        }
+      submit: function () {
+        this.$confirm('确定提交文集信息？', '提示', {type: 'info'}).then(() => {
+          let collection = JSON.parse(JSON.stringify(this.collection));
 
-        if (!(this.post.level >= 1 && this.post.level <= 5)) {
-          this.$message({message: "请选择适合的综合难度", type: "warning"});
-          return;
-        }
-
-        if (!this.post.remark) {
-          this.$message({message: "请简单描述本次修订说明", type: "warning"});
-          return;
-        }
-
-        this.$store.commit('startProcess');
-        create_item_post(this.post).then((data) => {
-          data = data.data;
-          if (data.code === 200) {
-            this.$message({
-              message: "提交成功，请等待审核", type: "success", onClose: () => {
-                this.$router.go(0);
-              }
-            });
-          } else {
-            this.$message({message: `${data.message}`, type: "warning",});
+          if (!collection.content.length) {
+            this.$message({message: "要添加文集内文章哦", type: "warning"});
+            return;
           }
+
+          // 去除多余字段
+          for (let i in collection.content) delete collection.content[i].posts;
+          collection.content = JSON.stringify(collection.content);
+
+          this.$store.commit('startProcess');
+          submit_collection(collection).then((data) => {
+            data = data.data;
+            if (data.code === 200) {
+              this.$message({message: data.message, type: "success"});
+              location.href = `${__Root}collection/#/view/${data.data.collection.id}`;
+            } else {
+              this.$message({message: `${data.message}`, type: "warning"});
+            }
+          });
         });
       },
-      icon_url_filter(icon_id) {
-        if (isNaN(parseInt(icon_id))) {
-          return `${JX3BOX.__imgPath}image/common/nullicon.png`;
-        } else {
-          return `${JX3BOX.__iconPath}icon/${icon_id}.png`;
-        }
-      },
     },
-    watch: {},
     components: {
+      Tinymce,
       draggable,
       pubheader,
       post_banner,

@@ -1,7 +1,7 @@
 <template>
   <div class="m-publish-box">
     <!-- 头部 -->
-    <pubheader name="文集" :localDraft="false">
+    <pubheader name="剑三小册" :localDraft="false">
       <slot name="header"></slot>
     </pubheader>
 
@@ -9,7 +9,7 @@
       <!-- 💛 栏目字段 -->
       <div class="m-publish-title">
         <el-divider content-position="left">标题</el-divider>
-        <el-input v-model="collection.title" placeholder="请输入文集标题" maxlength="20" show-word-limit></el-input>
+        <el-input v-model="collection.title" placeholder="请输入剑三小册标题" maxlength="20" show-word-limit></el-input>
       </div>
 
       <el-row :gutter="30">
@@ -112,7 +112,7 @@
             type="success"
             @click="submit"
             :loading="$store.state.processing"
-        >提交文集
+        >提交剑三小册
         </el-button>
       </el-form-item>
     </el-form>
@@ -144,7 +144,7 @@
 
       return {
         source_types: source_types,
-        // 文集主体
+        // 剑三小册主体
         collection: {
           id: "",
           title: "",
@@ -196,11 +196,11 @@
         });
       },
       submit: function () {
-        this.$confirm('确定提交文集信息？', '提示', {type: 'info'}).then(() => {
+        this.$confirm('确定提交剑三小册信息？', '提示', {type: 'info'}).then(() => {
           let collection = JSON.parse(JSON.stringify(this.collection));
 
           if (!collection.content.length) {
-            this.$message({message: "要添加文集内文章哦", type: "warning"});
+            this.$message({message: "要添加剑三小册内文章哦", type: "warning"});
             return;
           }
 

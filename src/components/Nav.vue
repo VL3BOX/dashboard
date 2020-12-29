@@ -10,6 +10,9 @@
             <a href="/dashboard/#/work" :class="isActive('work')">
                 <i class="el-icon-collection"></i><span>我的作品</span>
             </a>
+            <a href="/dashboard/#/collection" class="disabled" :class="isActive('collection')">
+                <i class="el-icon-folder"></i><span>剑三小册</span>
+            </a>
             <a href="/dashboard/#/wiki" :class="isActive('wiki')">
                 <i class="el-icon-collection"></i><span>百科贡献</span>
             </a>
@@ -31,9 +34,6 @@
             </a>
             <a href="/dashboard/#/feed" class="disabled" :class="isActive('feed')">
                 <i class="el-icon-view"></i><span>我的订阅</span>
-            </a>
-            <a href="/dashboard/#/collection" class="disabled" :class="isActive('collection')">
-                <i class="el-icon-folder"></i><span>我的文集</span>
             </a>
         </div>
 

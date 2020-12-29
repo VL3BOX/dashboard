@@ -54,7 +54,7 @@ const routes = [
         component: item_plan,
     },
 
-    // 文集发布
+    // 剑三小册发布
     {
         name: 'collection',
         path: "/collection/:collection_id(\\d+)?",

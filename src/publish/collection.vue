@@ -55,23 +55,23 @@
         />
       </div>
 
-      <div class="m-publish-content">
+      <div class="m-publish-posts">
         <el-divider content-position="left">内容</el-divider>
-        <div class="u-content-add" @click="add_content_item">
+        <div class="u-posts-add" @click="add_posts_item">
           <i class="el-icon-plus"></i>
           <span> 添加文章</span>
         </div>
         <draggable
             class="m-list-style"
             tag="ul"
-            v-if="collection.content && collection.content.length"
-            :list="collection.content"
+            v-if="collection.posts && collection.posts.length"
+            :list="collection.posts"
             handle=".u-move"
         >
-          <li v-for="(item, key) in collection.content" :key="key" class="c-content-item">
+          <li v-for="(item, key) in collection.posts" :key="key" class="c-posts-item">
             <i class="u-move el-icon-more"></i>
-            <i class="u-delete el-icon-close" @click="collection.content.splice(key, 1)"></i>
-            <el-row class="m-content-item" :gutter="10">
+            <i class="u-delete el-icon-close" @click="collection.posts.splice(key, 1)"></i>
+            <el-row class="m-posts-item" :gutter="10">
               <el-col :span="4">
                 <el-select class="u-item-key" v-model="item.type" placeholder="请选择文章类型"
                            @change="()=>{search_handle(null, item);item.url=item.title=''}">
@@ -102,7 +102,7 @@
             </el-row>
           </li>
         </draggable>
-        <div v-else class="u-content-items-empty">暂无文章信息，请进行文章添加</div>
+        <div v-else class="u-posts-items-empty">暂无文章信息，请进行文章添加</div>
       </div>
 
       <el-form-item>
@@ -120,6 +120,7 @@
 </template>
 
 <script>
+  const {__Root} = require("@jx3box/jx3box-common/js/jx3box.json");
   const {__postType, __otherType} = require("@jx3box/jx3box-common/js/jx3box");
   import Tinymce from '@jx3box/jx3box-editor/src/Tinymce'
   import pubheader from "@/components/publish/pubheader.vue";
@@ -152,14 +153,14 @@
           image: "",
           description: "",
           tags: [],
-          content: [],
+          posts: [],
         },
         tag: '',
         show_description: false,
       };
     },
     mounted() {
-      if (!this.collection.content.length) this.add_content_item();
+      if (!this.collection.posts.length) this.add_posts_item();
 
       if (this.$route.params.collection_id) {
         get_collection(this.$route.params.collection_id).then(
@@ -167,11 +168,15 @@
             res = res.data;
             if (res.code === 200) {
               let collection = res.data.collection;
-              for (let i in collection.content) {
-                let item = collection.content[i];
-                item.posts = item.type === 'custom' ? null : [{id: item.id, title: item.title}];
+              if (collection) {
+                for (let i in collection.posts) {
+                  let item = collection.posts[i];
+                  collection.posts[i].posts = item.type === 'custom' ? null : [{id: item.id, title: item.title}];
+                }
+                this.collection = collection;
+              } else {
+                this.$message({message: "该剑三小册已被删除或无权限访问", type: "warning"});
               }
-              this.collection = res.data.collection;
             }
           }
         )
@@ -183,8 +188,8 @@
         let post = item.posts[post_id];
         item.title = post && post.title ? post.title : '';
       },
-      add_content_item() {
-        this.collection.content.push({title: '', type: '', id: '', url: '', posts: null})
+      add_posts_item() {
+        this.collection.posts.push({title: '', type: '', id: '', url: '', posts: null})
       },
       search_handle(queryString, item) {
         if (queryString === null) item.id = queryString = '';
@@ -199,14 +204,14 @@
         this.$confirm('确定提交剑三小册信息？', '提示', {type: 'info'}).then(() => {
           let collection = JSON.parse(JSON.stringify(this.collection));
 
-          if (!collection.content.length) {
+          if (!collection.posts.length) {
             this.$message({message: "要添加剑三小册内文章哦", type: "warning"});
             return;
           }
 
           // 去除多余字段
-          for (let i in collection.content) delete collection.content[i].posts;
-          collection.content = JSON.stringify(collection.content);
+          for (let i in collection.posts) delete collection.posts[i].posts;
+          collection.posts = JSON.stringify(collection.posts);
 
           this.$store.commit('startProcess');
           submit_collection(collection).then((data) => {

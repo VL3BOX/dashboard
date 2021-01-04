@@ -20,8 +20,8 @@
         <el-col :span="18">
           <div class="m-publish-public">
             <el-divider content-position="left">可见性</el-divider>
-            <el-radio v-model="collection.public" :label="2">公开</el-radio>
-            <el-radio v-model="collection.public" :label="1">私有</el-radio>
+            <el-radio v-model="collection.public" :label="this.public.PUBLIC">公开</el-radio>
+            <el-radio v-model="collection.public" :label="this.public.PRIVATE">私有</el-radio>
           </div>
 
           <div class="m-publish-tags">
@@ -123,6 +123,7 @@
   const {__Root} = require("@jx3box/jx3box-common/js/jx3box.json");
   const {__postType, __otherType} = require("@jx3box/jx3box-common/js/jx3box");
   import Tinymce from '@jx3box/jx3box-editor/src/Tinymce'
+  import CollectionPublic from '@jx3box/jx3box-editor/service/enum/CollectionPublic'
   import pubheader from "@/components/publish/pubheader.vue";
   import post_banner from "@/components/publish/post_banner.vue";
   import draggable from "vuedraggable";
@@ -145,6 +146,7 @@
 
       return {
         source_types: source_types,
+        public: CollectionPublic,
         // 剑三小册主体
         collection: {
           id: "",

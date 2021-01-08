@@ -14,7 +14,7 @@
 
       <el-row :gutter="30">
         <el-col :span="6" class="m-publish-image">
-          <el-divider content-position="left">封面图</el-divider>
+          <el-divider content-position="left">封面图（选填）</el-divider>
           <post_banner :banner="collection.image"/>
         </el-col>
         <el-col :span="18">

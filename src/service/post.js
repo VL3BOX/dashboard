@@ -12,7 +12,7 @@ const qs = require("qs");
 function get_posts_by_type(type, params) {
     return $http({
         method: "GET",
-        url: `${JX3BOX.__helperUrl}api/posts/${type}`,
+        url: `${JX3BOX.__helperUrl}api/posts/type/${type}`,
         headers: {Accept: "application/prs.helper.v2+json"},
         params: params,
     });

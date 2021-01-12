@@ -214,7 +214,7 @@
       },
       search_handle(queryString, item) {
         if (queryString === null) item.id = queryString = '';
-        get_posts_by_type(item.type, {keyword: queryString}).then((res) => {
+        get_posts_by_type(item.type, {public: 1, keyword: queryString}).then((res) => {
           res = res.data;
           if (res.code === 200) {
             item.posts = res.data.posts;

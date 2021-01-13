@@ -87,7 +87,7 @@
                     </router-link>
                   </el-card>
                 </el-col>
-                <el-col :span="4"
+                <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/house"
                             ><img
@@ -96,7 +96,7 @@
                             /><span>家园分享</span></router-link
                         ></el-card
                     ></el-col
-                >
+                > -->
                 <el-col :span="4"
                     ><el-card
                         ><router-link

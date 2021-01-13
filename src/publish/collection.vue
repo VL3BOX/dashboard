@@ -14,7 +14,7 @@
 
       <el-row :gutter="30">
         <el-col :span="6" class="m-publish-image">
-          <el-divider content-position="left">封面图</el-divider>
+          <el-divider content-position="left">封面图（选填）</el-divider>
           <post_banner :banner="collection.image"/>
         </el-col>
         <el-col :span="18">
@@ -33,7 +33,8 @@
               </li>
             </ul>
             <div class="m-tag-add" v-if="collection.tags.length < 5">
-              <el-input class="u-tag-add-value" placeholder="请输入标签（最多为5个）" v-model="tag"></el-input>
+              <el-autocomplete class="u-tag-add-value" placeholder="请输入标签（最多为5个）" v-model="tag"
+                               :fetch-suggestions="tags_search"></el-autocomplete>
               <el-button class="u-tag-add" @click="()=>{if(tag)collection.tags.push(tag);tag='';}">
                 <i class="el-icon-plus"></i>
               </el-button>
@@ -129,7 +130,7 @@
   import draggable from "vuedraggable";
 
   // 本地依赖
-  import {get_collection, submit_collection} from "../service/collection";
+  import {get_legal_tags, get_collection, submit_collection} from "../service/collection";
   import {get_posts_by_type} from "../service/post";
 
   const qs = require("qs");
@@ -158,6 +159,7 @@
           posts: [],
         },
         tag: '',
+        legal_tags: null,
         show_description: false,
       };
     },
@@ -185,6 +187,23 @@
       }
     },
     methods: {
+      // 合法标签搜索仅请求数据一次
+      tags_search(query, cb) {
+        if (this.legal_tags === null) {
+          get_legal_tags().then((res) => {
+            res = res.data;
+            this.legal_tags = res.code === 200 ? res.data.tags : [];
+            cb(this.tags_filters(query));
+          });
+        } else cb(this.tags_filters(query));
+      },
+      tags_filters(query) {
+        let output = [];
+        for (let tag of this.legal_tags) {
+          if (tag.split(query).length > 1) output.push({value: tag});
+        }
+        return output;
+      },
       // 帖子标题填充
       title_fill(post_id, item) {
         let post = item.posts[post_id];
@@ -195,7 +214,7 @@
       },
       search_handle(queryString, item) {
         if (queryString === null) item.id = queryString = '';
-        get_posts_by_type(item.type, {keyword: queryString}).then((res) => {
+        get_posts_by_type(item.type, {public: 1, keyword: queryString}).then((res) => {
           res = res.data;
           if (res.code === 200) {
             item.posts = res.data.posts;

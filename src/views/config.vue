@@ -1,6 +1,6 @@
 <template>
     <div class="m-dashboard m-dashboard-config">
-        <h2 class="u-title">通知设置</h2>
+        <h2 class="u-title">隐私通知</h2>
         <el-form label-position="left" label-width="120px">
             <el-form-item label="评论邮件通知">
                 <el-switch v-model="conf.cmt_email" active-color="#13ce66" active-text="开启" :active-value="1" :inactive-value="0"></el-switch>

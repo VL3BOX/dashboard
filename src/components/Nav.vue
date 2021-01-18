@@ -16,8 +16,11 @@
             <a href="/dashboard/#/bb" :class="isActive('bb')">
                 <i class="el-icon-collection"></i><span>词条贡献</span>
             </a>
+            <a href="/dashboard/#/mycollection" :class="isActive('mycollection')">
+                <i class="el-icon-collection"></i><span>我的小册</span>
+            </a>
             <a href="/dashboard/#/other" :class="isActive('other')">
-                <i class="el-icon-collection"></i><span>其它贡献</span>
+                <i class="el-icon-collection"></i><span>其它创作</span>
             </a>
         </div>
 
@@ -28,9 +31,6 @@
             </a>
             <a class="u-fav" href="/dashboard/#/fav" :class="isActive('fav')">
                 <i class="el-icon-star-off"></i><span>我的收藏</span>
-            </a>
-            <a href="/dashboard/#/collection" :class="isActive('collection')">
-                <i class="el-icon-folder"></i><span>剑三小册</span>
             </a>
             <a href="/dashboard/#/feed" class="disabled" :class="isActive('feed')">
                 <i class="el-icon-view"></i><span>我的订阅</span>

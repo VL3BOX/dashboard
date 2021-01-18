@@ -33,7 +33,7 @@ const routes = [
     { name: "msg", path: "/msg", component: msg },
     { name: "feed", path: "/feed", component: feed },
     { name: "fav", path: "/fav", component: fav },
-    { name: "collection", path: "/collection", component: collection },
+    { name: "mycollection", path: "/mycollection", component: collection },
 
     { name: "profile", path: "/profile", component: profile },
     { name: "avatar", path: "/avatar", component: avatar },

@@ -19,6 +19,11 @@
         </el-input>
         <div class="m-dashboard-box" v-loading="loading">
             <template v-if="data && data.length">
+                <collection
+                    class="m-dashboard-box-list"
+                    :data="data"
+                    v-if="searchType === 'collection'"
+                />
                 <item_plan
                     class="m-dashboard-box-list"
                     :data="data"
@@ -62,14 +67,17 @@
 <script>
 import { getQuestions,getPapers } from "../service/exam";
 import { get_my_item_plans } from "../service/item_plan";
+import { get_my_collections } from "../service/collection";
 import question from "@/components/other/question.vue";
 import paper from "@/components/other/paper.vue";
 import item_plan from "@/components/other/item_plan.vue";
+import collection from "@/components/other/collection.vue";
 
 const fn = {
     question: getQuestions,
     item_plan: get_my_item_plans,
-    paper : getPapers
+    paper : getPapers,
+    collection : get_my_collections
 };
 export default {
     name: "ideas",
@@ -81,8 +89,9 @@ export default {
             page: 1,
             per: 10,
             search: "",
-            searchType: "item_plan",
+            searchType: "collection",
             types: {
+                collection : "我的小册",
                 item_plan: "我的清单",
                 question: "我的题目",
                 paper: "我的试卷",
@@ -98,7 +107,7 @@ export default {
                     title: this.search,
                     pageSize: this.per,
                 };
-            } else if (this.searchType == "item_plan") {
+            } else if (this.searchType == "item_plan" || this.searchType == 'collection') {
                 return {
                     page: this.page,
                     keyword: this.search,
@@ -123,7 +132,7 @@ export default {
         loadPosts: function(searchType) {
             this.loading = true
             fn[searchType](this.params).then((res) => {
-                if (searchType == "item_plan") {
+                if (searchType == "item_plan" || searchType == "collection") {
                     res = res.data;
                     if (res.code === 200) {
                         this.data = res.data.data;
@@ -144,7 +153,8 @@ export default {
     components: {
         question,
         item_plan,
-        paper
+        paper,
+        collection
     },
 };
 </script>

@@ -1,39 +1,38 @@
 <template>
     <ul>
         <li v-for="(plan, key) in data" :key="key" class="m-plan">
-            <div class="u-title">
-                <span
-                    v-if="plan.type == 1"
-                    class="u-type"
-                    style="background-color:#409EFF"
-                    >道具清单</span
-                >
-                <span
-                    v-if="plan.type == 2"
-                    class="u-type"
-                    style="background-color:#F0787A"
-                    >装备清单</span
-                >
-                <a
-                    class="u-name"
-                    v-text="plan.title"
-                    :href="`/item/#/plan_view/${plan.id}`"
-                ></a>
-            </div>
+            <i class="u-icon">
+                <img
+                    v-if="plan.public"
+                    svg-inline
+                    src="../../assets/img/works/repo.svg"
+                />
+                <img v-else svg-inline src="../../assets/img/works/draft.svg" />
+            </i>
             <a
-                class="u-description"
-                v-text="plan.description"
+                class="u-title"
+                target="_blank"
                 :href="`/item/#/plan_view/${plan.id}`"
-            ></a>
-            <div
-                class="u-updated"
-                v-text="
-                    '最后更新于 ' +
+                >{{ plan.title || "无标题" }}</a
+            >
+            <div class="u-desc">
+                <!-- <div class="m-tags">
+                                <div
+                                    class="m-tag"
+                                    v-for="(tag, key) in item.tags"
+                                    :key="key"
+                                    v-text="tag"
+                                ></div>
+                            </div> -->
+                <span v-if="plan.updated">
+                    最后更新:
+                    {{
                         $options.filters.dateFormat(
                             new Date(plan.updated * 1000)
                         )
-                "
-            ></div>
+                    }}</span
+                >
+            </div>
             <el-button-group class="u-action">
                 <el-button
                     size="mini"
@@ -100,40 +99,41 @@ export default {
     }
 }
 
-.m-plan {
-    padding: 10px 15px;
-    font-size: 13px;
+// .m-plan {
+//     padding: 10px 15px;
+//     font-size: 13px;
 
-    .u-updated {
-        .mt(5px);
-        opacity: 0.4;
-        font-size: 12px;
-    }
+//     .u-updated {
+//         .mt(5px);
+//         // opacity: 0.4;
+//         font-size: 12px;
+//         color: #999;
+//     }
 
-    .u-title,
-    .u-type,
-    .u-name {
-        .dbi;
-        vertical-align: middle;
-    }
+//     .u-title,
+//     .u-type,
+//     .u-name {
+//         .dbi;
+//         vertical-align: middle;
+//     }
 
-    .u-type {
-        padding: 4px;
-        color: white;
-        border-radius: 2px;
-        .fz(12px);
-    }
+//     .u-type {
+//         padding: 4px;
+//         color: white;
+//         border-radius: 2px;
+//         .fz(12px);
+//     }
 
-    .u-name {
-        .ml(8px);
-    }
+//     .u-name {
+//         .ml(8px);
+//     }
 
-    .u-description {
-        .db;
-        .mt(5px);
-        color: #3d454d;
-        font-size: 12px;
-        opacity: 0.7;
-    }
-}
+//     .u-description {
+//         .db;
+//         .mt(5px);
+//         color: #3d454d;
+//         font-size: 12px;
+//         opacity: 0.7;
+//     }
+// }
 </style>

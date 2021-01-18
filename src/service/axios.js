@@ -1,12 +1,18 @@
 import axios from "axios";
-import store from '../store/publish.js'
-import { __server,__next } from "@jx3box/jx3box-common/js/jx3box.json";
-import broadcast from '@/utils/msg.js'
+import store from "../store/publish.js";
+import {
+    __server,
+    __next,
+    __helperUrl,
+} from "@jx3box/jx3box-common/js/jx3box.json";
+import broadcast from "@/utils/msg.js";
+import { installNextInterceptors } from "@jx3box/jx3box-common/js/axios";
+
 const $ = axios.create({
-    withCredentials : true
+    withCredentials: true,
 });
-function installInterceptors(target){
-    target['interceptors']['response'].use(
+function installInterceptors(target) {
+    target["interceptors"]["response"].use(
         function(response) {
             store.commit("endProcess");
             return response;
@@ -17,13 +23,19 @@ function installInterceptors(target){
             } else {
                 broadcast.$message.error("网络请求异常");
             }
-            console.log(err)
+            console.log(err);
             store.commit("endProcess");
             return Promise.reject(err);
         }
     );
 }
-installInterceptors(axios)
-installInterceptors($)
+installInterceptors(axios);
+installInterceptors($);
 
-export { $, axios };
+const $http = axios.create({
+    withCredentials: true,
+    baseURL: process.env.NODE_ENV === "production" ? __helperUrl : "/",
+});
+installInterceptors($http);
+
+export { $, axios, $http };

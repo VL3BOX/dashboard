@@ -148,6 +148,9 @@ export default {
         },
     },
     created: function() {
+        if(this.$route.query.type){
+            this.searchType = this.$route.query.type
+        }
         this.loadPosts(this.searchType);
     },
     components: {

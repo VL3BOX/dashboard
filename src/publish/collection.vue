@@ -55,7 +55,7 @@
                                 @click="collection.posts.splice(key, 1)"
                             ></i>
                             <el-row class="m-posts-item" :gutter="10">
-                                <el-col :span="4">
+                                <el-col :span="4" class="u-collection-type">
                                     <el-select
                                         class="u-item-key"
                                         v-model="item.type"
@@ -75,7 +75,7 @@
                                         ></el-option>
                                     </el-select>
                                 </el-col>
-                                <el-col :span="8">
+                                <el-col :span="8" class="u-collection-id">
                                     <el-select
                                         v-if="item.type !== 'custom'"
                                         class="u-item-value"
@@ -105,12 +105,12 @@
                                     </el-select>
                                     <el-input
                                         class="u-item-value"
-                                        placeholder="请输入URL链接"
+                                        placeholder="请输入完整网页链接（需以HTTP或HTTPS开头）"
                                         v-else
                                         v-model="item.url"
                                     ></el-input>
                                 </el-col>
-                                <el-col :span="12" v-if="item.url">
+                                <el-col :span="12" class="u-collection-url" v-if="item.url">
                                     <el-input
                                         v-model="item.title"
                                         placeholder="请输入自定义标题"

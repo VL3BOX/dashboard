@@ -126,32 +126,46 @@
     }
 
     .u-posts-add {
-      // .pa;
-      // top: 0;
-      // right: 0;
-      // transform: translateY(-50%);
-      .mt(10px);
-      
-      line-height: initial;
-      padding: 8px 16px;
-      font-size: 12px;
-      text-align: center;
-      color: blueviolet;
-      border: 1px solid;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-      background-color: #ffffff;
-      z-index: 20;
-  
-      &:hover {
-          opacity: 0.6;
-      }
-  }
+        // .pa;
+        // top: 0;
+        // right: 0;
+        // transform: translateY(-50%);
+        .mt(10px);
+
+        line-height: initial;
+        padding: 8px 16px;
+        font-size: 12px;
+        text-align: center;
+        color: blueviolet;
+        border: 1px solid;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        background-color: #ffffff;
+        z-index: 20;
+
+        &:hover {
+            opacity: 0.6;
+        }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .m-publish-collection-posts {
+        .el-col{
+            .w(100%);
+            .mb(5px);
+        }
+        // .u-collection-type {
+        // }
+        // .u-collection-id {
+        // }
+        // .u-collection-url {
+        // }
+    }
 }
 
 @posts-border-color: #cccccc;
-
 .c-posts-item {
     .pr;
     .mb(10px);
@@ -191,6 +205,6 @@
     .pr(30px);
 }
 
-.m-publish-collection-publish{
-  .mt(20px);
+.m-publish-collection-publish {
+    .mt(20px);
 }

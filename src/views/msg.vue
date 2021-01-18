@@ -20,6 +20,7 @@
                             class="u-msg-link"
                             v-if="item.source_id && item.source_type"
                             @click="read(item)"
+                            target="_blank"
                             ><i class="el-icon-link"></i> 点击查看</a
                         >
                     </span>

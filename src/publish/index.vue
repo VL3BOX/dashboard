@@ -50,7 +50,7 @@
                 <el-col :span="4">
                     <el-card>
                         <router-link to="/collection">
-                            <img svg-inline src="../assets/img/channel/collection.svg"/>
+                            <img svg-inline src="../assets/img/publish/collection.svg"/>
                             <span>剑三小册</span>
                         </router-link>
                     </el-card>

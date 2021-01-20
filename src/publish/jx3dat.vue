@@ -169,6 +169,9 @@
                                 </div>
                                 <div class="m-data-item m-data-jx3dat">
                                     <h5 class="u-title">数据文件</h5>
+                                    <div class="u-warning">
+                                        <i class="el-icon-warning-outline"></i> 当前数据文件将作为<b>{{item.name}}</b>的文件上传，上传完后重新修改版本名称需要重新上传
+                                    </div>
                                     <input
                                         class="u-data-input"
                                         type="file"
@@ -415,7 +418,11 @@ export default {
             activeIndex: "1",
         };
     },
-    computed: {},
+    computed: {
+        totalVersions : function (){
+            return this.post.post_meta.data.length + 1
+        }
+    },
     methods: {
         // 发布
         toPublish: function() {
@@ -524,7 +531,8 @@ export default {
 
             let formdata = new FormData();
             formdata.append("jx3dat", file);
-            uploadHub(formdata, this).then((res) => {
+            formdata.append("version", item.name);
+            uploadHub(formdata).then((res) => {
                 if (res) {
                     item.file = res.data.download_url;
                     this.$message({
@@ -547,7 +555,7 @@ export default {
             }
 
             this.post.post_meta.data.push({
-                name: "",
+                name: "版本" + this.totalVersions,
                 desc: "",
                 status: true,
                 file: "",

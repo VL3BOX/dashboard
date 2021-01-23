@@ -20,8 +20,8 @@
 <script>
 import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
 import { showMinibanner } from "@jx3box/jx3box-common/js/utils";
-// const API = __server + "upload";
-const API = "http://localhost:5160/" + "upload";
+const API = __server + "upload";
+// const API = "http://localhost:5160/" + "upload";
 
 export default {
     name: "post_banner",

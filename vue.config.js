@@ -22,9 +22,9 @@ module.exports = {
             "/api": {
                 target: "https://helper.jx3box.com",
             },
-            "/upload": {
-                target: "https://server.jx3box.com",
-            },
+            // "/upload": {
+            //     target: "https://server.jx3box.com",
+            // },
         },
         disableHostCheck: true
     },

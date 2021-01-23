@@ -20,8 +20,8 @@
 <script>
 import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
 import { showMinibanner } from "@jx3box/jx3box-common/js/utils";
-const API = __server + "upload";
-// const API = "http://localhost:5160/" + "publish/upload";
+// const API = __server + "upload";
+const API = "http://localhost:5160/" + "upload";
 
 export default {
     name: "post_banner",
@@ -31,6 +31,18 @@ export default {
             post_banner: this.banner,
             url: API,
         };
+    },
+    model: {
+        prop: "banner",
+        event: "update",
+    },
+    watch: {
+        post_banner: function(newval) {
+            this.$emit("update", newval);
+        },
+        banner : function (newval){
+            this.post_banner = newval
+        }
     },
     methods: {
         done(res, file) {

@@ -7,21 +7,24 @@ module.exports = {
 
     devServer: {
         proxy: {
-            "/api": {
-                target: "https://next.jx3box.com",
-                onProxyReq: function(request) {
-                    request.setHeader("origin", "");
-                },
-            },
+            // "/api": {
+            //     target: "https://next.jx3box.com",
+            //     onProxyReq: function(request) {
+            //         request.setHeader("origin", "");
+            //     },
+            // },
             // "/api": {
             //     target: "https://pay.jx3box.com",
             //     onProxyReq: function(request) {
             //         request.setHeader("origin", "");
             //     },
             // },
-            // "/api": {
-            //     target: "https://helper.jx3box.com",
-            // },
+            "/api": {
+                target: "https://helper.jx3box.com",
+            },
+            "/upload": {
+                target: "https://server.jx3box.com",
+            },
         },
         disableHostCheck: true
     },

@@ -33,7 +33,7 @@
                 </div>
                 <div class="m-publish-primary-block">
                     <el-divider content-position="left">封面图</el-divider>
-                    <post_banner :banner="collection.image" />
+                    <post_banner v-model="collection.image" />
                 </div>
                 <div class="m-publish-primary-block m-publish-collection-posts">
                     <el-divider content-position="left">内容</el-divider>
@@ -330,6 +330,10 @@ export default {
             this.$confirm("确定提交剑三小册信息？", "提示", {
                 type: "info",
             }).then(() => {
+
+                // 标题长度限制
+                this.collection.title = this.collection.title.slice(0,20);
+
                 let collection = JSON.parse(JSON.stringify(this.collection));
 
                 if (!collection.posts.length) {

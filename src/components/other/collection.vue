@@ -9,21 +9,18 @@
                 />
                 <img v-else svg-inline src="../../assets/img/works/draft.svg" />
             </i>
-            <a
-                class="u-title"
-                target="_blank"
-                :href="item.id | getLink"
-                >{{ item.title || "无标题" }}</a
-            >
+            <a class="u-title" target="_blank" :href="item.id | getCollectionLink">{{
+                item.title || "无标题"
+            }}</a>
             <div class="u-desc">
                 <!-- <div class="m-tags">
-                                <div
-                                    class="m-tag"
-                                    v-for="(tag, key) in item.tags"
-                                    :key="key"
-                                    v-text="tag"
-                                ></div>
-                            </div> -->
+                    <div
+                        class="m-tag"
+                        v-for="(tag, key) in item.tags"
+                        :key="key"
+                        v-text="tag"
+                    ></div>
+                </div> -->
                 <span v-if="item.updated">
                     最后更新:
                     {{ (item.updated * 1000) | dateFormat }}</span
@@ -50,14 +47,13 @@
 
 <script>
 import { remove_collection } from "@/service/collection";
-import { getTypeLabel } from "@jx3box/jx3box-common/js/utils";
+import { getTypeLabel,getLink } from "@jx3box/jx3box-common/js/utils";
 import dateFormat from "@/utils/dateFormat";
 export default {
     name: "",
     props: ["data"],
     data: function() {
-        return {
-        };
+        return {};
     },
     computed: {},
     methods: {
@@ -92,9 +88,9 @@ export default {
         dateFormat: function(val) {
             return dateFormat(new Date(val));
         },
-        getLink : function (val){
-            return '/collection/' + val
-        }
+        getCollectionLink: function(val) {
+            return getLink('collection',val);
+        },
     },
     mounted: function() {},
     components: {},

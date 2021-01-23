@@ -12,7 +12,7 @@
                 <el-input
                     v-model="collection.title"
                     placeholder="请输入剑三小册标题"
-                    maxlength="20"
+                    maxlength="30"
                     show-word-limit
                 ></el-input>
             </div>
@@ -332,7 +332,7 @@ export default {
             }).then(() => {
 
                 // 标题长度限制
-                this.collection.title = this.collection.title.slice(0,20);
+                // this.collection.title = this.collection.title.slice(0,40);
 
                 let collection = JSON.parse(JSON.stringify(this.collection));
 

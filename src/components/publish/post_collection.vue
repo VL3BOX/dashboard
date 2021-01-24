@@ -1,7 +1,7 @@
 <template>
     <div class="m-publish-post-collection">
-        <el-form-item label="关联文集">
-            <el-input v-model.number="local_data" placeholder="请输入文集ID（可选，非必填）"></el-input>
+        <el-form-item label="关联小册">
+            <el-input v-model.number="local_data" placeholder="请输入小册ID（可选，非必填）"></el-input>
         </el-form-item>
     </div>
 </template>
@@ -36,5 +36,6 @@ export default {
 
 <style lang="less">
 .m-publish-post-collection {
+    .mt(10px);
 }
 </style>

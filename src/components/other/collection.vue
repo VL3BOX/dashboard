@@ -21,6 +21,9 @@
                         v-text="tag"
                     ></div>
                 </div> -->
+                <span class="u-collection-id">
+                    编号 : <b>{{item.id}}</b>
+                </span>
                 <span v-if="item.updated">
                     最后更新:
                     {{ (item.updated * 1000) | dateFormat }}</span
@@ -99,4 +102,7 @@ export default {
 
 <style scoped lang="less">
 @import "../../assets/css/work.less";
+.u-collection-id{
+    .mr(10px);
+}
 </style>

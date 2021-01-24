@@ -24,6 +24,7 @@
             :tagEnable="false"
             :notifyEnable="true"
             :bannerEnable="true"
+            :collectionEnable="true"
             @publish="toPublish"
             publish_text="发布为公开"
             @draft="toDraft"
@@ -359,6 +360,7 @@ export default {
                 post_banner: "", //头条图,管理员可见
                 post_status: "", //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
+                post_collection : '',   //文集
                 original: 0,
             },
 

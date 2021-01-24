@@ -24,6 +24,7 @@
             :tagEnable="false"
             :notifyEnable="true"
             :bannerEnable="true"
+            :collectionEnable="true"
             @publish="toPublish"
             @draft="toDraft"
         >
@@ -90,7 +91,8 @@ export default {
                 post_banner: "", //头条图,管理员可见
                 post_status: "", //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
-                original:0
+                original:0,
+                post_collection : '',   //文集
             },
 
             //扩展 - 部分栏目文章不应启用该功能

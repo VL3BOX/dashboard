@@ -1,5 +1,6 @@
 import { $ } from "./axios";
 import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
+// const __server = 'http://localhost:5160/'
 
 // 发布
 function doPublish(data, vm, skip = true) {

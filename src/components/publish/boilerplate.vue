@@ -35,10 +35,11 @@
             </div>
 
             <!-- 正文之后 -->
-            <div class="m-publish-append" v-if="excerptEnable">
+            <div class="m-publish-append" v-if="tagEnable || excerptEnable || collectionEnable">
                 <el-divider content-position="left">附加</el-divider>
                 <post_tag :tags="post.post_tags" v-if="tagEnable"></post_tag>
-                <post_excerpt :excerpt="post.post_excerpt"></post_excerpt>
+                <post_excerpt :excerpt="post.post_excerpt" v-if="excerptEnable"></post_excerpt>
+                <post_collection v-model="post.post_collection" v-if="collectionEnable"></post_collection>
                 <slot name="append"></slot>
             </div>
 
@@ -82,6 +83,7 @@ import post_excerpt from "./post_excerpt.vue";
 import post_tag from "./post_tag.vue";
 import post_notify from "./post_notify.vue";
 import post_banner from "./post_banner.vue";
+import post_collection from "./post_collection.vue";
 import User from "@jx3box/jx3box-common/js/user";
 
 export default {
@@ -101,6 +103,7 @@ export default {
         "tagEnable",
         "notifyEnable",
         "bannerEnable",
+        "collectionEnable",
 
         "publish_text",
         "draft_text",
@@ -168,6 +171,7 @@ export default {
         post_excerpt,
         post_notify,
         post_banner,
+        post_collection
     },
 };
 </script>

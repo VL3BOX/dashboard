@@ -22,7 +22,7 @@ function get_item_newest_post(item_id) {
         method: "GET",
         url: `${JX3BOX.__helperUrl}api/wiki/post`,
         headers: {Accept: "application/prs.helper.v2+json"},
-        params: {type: 'item', source_id: item_id},
+        params: {type: 'item', source_id: item_id, supply: 0},
     });
 }
 

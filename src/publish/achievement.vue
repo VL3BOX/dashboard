@@ -183,6 +183,7 @@ export default {
             return $http({
                 url: `${JX3BOX.__helperUrl}api/achievement/${achievement_id}/post`,
                 headers: {Accept: "application/prs.helper.v2+json"},
+                params: {supply: 0},
             }).catch((err) => {
                 resolve(false);
             });

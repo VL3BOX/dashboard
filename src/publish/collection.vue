@@ -1,7 +1,7 @@
 <template>
     <div class="m-publish-box">
         <!-- 头部 -->
-        <pubheader name="剑三小册" :localDraft="false">
+        <pubheader name="文集小册" :localDraft="false">
             <slot name="header"></slot>
         </pubheader>
 
@@ -11,7 +11,7 @@
                 <el-divider content-position="left">标题</el-divider>
                 <el-input
                     v-model="collection.title"
-                    placeholder="请输入剑三小册标题"
+                    placeholder="请输入小册标题"
                     maxlength="30"
                     show-word-limit
                 ></el-input>

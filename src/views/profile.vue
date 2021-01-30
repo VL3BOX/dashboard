@@ -93,6 +93,13 @@
                 ></el-input>
             </el-form-item>
 
+            <el-form-item class="u-tuilan" label="推栏ID">
+                <el-input
+                    v-model="form.tuilan_id"
+                    placeholder="请输入推栏ID"
+                ></el-input>
+            </el-form-item>
+
             <el-form-item class="u-name" label="签名">
                 <el-input
                     type="textarea"
@@ -162,6 +169,7 @@ export default {
                 address: "",
                 tv_id: "",
                 tv_type: "",
+                tuilan_id:""
             },
             position: window.innerWidth < 768 ? "top" : "left",
             tvmap,

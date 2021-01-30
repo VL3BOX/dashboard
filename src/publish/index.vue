@@ -51,7 +51,7 @@
                     <el-card>
                         <router-link to="/collection">
                             <img svg-inline src="../assets/img/publish/collection.svg"/>
-                            <span>剑三小册</span>
+                            <span>文集小册</span>
                         </router-link>
                     </el-card>
                 </el-col>

@@ -148,7 +148,7 @@
 import { JX3BOX } from "@jx3box/jx3box-common";
 import { get_posts, remove_post, get_comments, remove_comment } from "../service/wiki";
 import dateFormat from "../utils/dateFormat";
-
+import {__otherType} from '@jx3box/jx3box-common/js/jx3box.json'
 export default {
     name: "wiki",
     props: [],
@@ -260,12 +260,7 @@ export default {
             });
         },
         tab_name(type){
-            switch (type) {
-                case 'achievement':
-                    return '成就';
-                case 'item':
-                    return '物品';
-            }
+            return __otherType[type].slice(0,2)
         },
     },
     filters: {

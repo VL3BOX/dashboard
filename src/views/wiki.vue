@@ -21,7 +21,7 @@
                     v-if="achievement_post.data && achievement_post.data.length"
                 >
                     <li v-for="(post, key) in achievement_post.data" :key="key">
-                        <span class="u-tab" v-text="tab_name(post.type)"></span>
+                        <span class="u-tab" v-text="getTypeLabel(post.type)"></span>
                         <a class="u-title" target="_blank" :href="post.link">{{ post.title || "无标题" }}</a>
                         <span v-if="post.checked == 0" class="u-mark pending">⌛ 等待审核</span>
                         <span v-if="post.checked == 1" class="u-mark">✔ 审核通过</span>
@@ -97,7 +97,7 @@
                         v-if="achievement_comment.data && achievement_comment.data.length"
                 >
                     <li v-for="(comment, key) in achievement_comment.data" :key="key">
-                        <span class="u-tab" v-text="tab_name(comment.type)"></span>
+                        <span class="u-tab" v-text="getTypeLabel(comment.type)"></span>
                         <a class="u-title" target="_blank" :href="comment.link">{{ comment.title || "无标题" }}</a>
                         <span v-if="comment.checked == 0" class="u-mark pending">⌛ 等待审核</span>
                         <span v-if="comment.checked == 1" class="u-mark">✔ 审核通过</span>
@@ -145,7 +145,7 @@
 </template>
 
 <script>
-import { JX3BOX } from "@jx3box/jx3box-common";
+import { getTypeLabel } from "@jx3box/jx3box-common/js/utils";
 import { get_posts, remove_post, get_comments, remove_comment } from "../service/wiki";
 import dateFormat from "../utils/dateFormat";
 
@@ -170,8 +170,8 @@ export default {
             length: 10,
         };
     },
-    computed: {},
     methods: {
+        getTypeLabel,
         post_page_change(i = 1) {
             this.post_page = i;
             get_posts(this.achievement_post.keyword, i, this.length).then(
@@ -259,14 +259,6 @@ export default {
                 },
             });
         },
-        tab_name(type){
-            switch (type) {
-                case 'achievement':
-                    return '成就';
-                case 'item':
-                    return '物品';
-            }
-        },
     },
     filters: {
         dateFormat: function(val) {
@@ -333,13 +325,14 @@ export default {
     }
 
     li{
-        padding-left:40px;
+        padding-left:55px;
     }
 
     .u-tab {
         // float: left;
         .pa;left:10px;
-        width: 1em;
+        width: 2em;
+        line-height: 1.3em;
         margin-top: 4px;
         margin-right: 5px;
         padding: 4px 5px;

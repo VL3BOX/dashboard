@@ -115,11 +115,11 @@
                 <el-col :span="4"
                     ><el-card
                         ><router-link
-                            to="/wiki"
+                            to="/knowledge"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/wiki.svg"
-                            /><span>百科词条</span></router-link
+                                src="../assets/img/channel/knowledge.svg"
+                            /><span>百科通识</span></router-link
                         ></el-card
                     ></el-col
                 >

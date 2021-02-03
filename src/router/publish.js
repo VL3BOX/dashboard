@@ -18,7 +18,7 @@ const house = () => import("../publish/house.vue");
 const share = () => import("../publish/share.vue");
 
 const bbs = () => import("../publish/bbs.vue");
-const wiki = () => import("../publish/wiki.vue");
+const knowledge = () => import("../publish/knowledge.vue");
 
 const exam = () => import("../publish/exam.vue");
 const exam_question = () => import("../publish/exam_question.vue");
@@ -52,6 +52,12 @@ const routes = [
         name: 'item_plan',
         path: "/item/plan/:plan_id(\\d+)?",
         component: item_plan,
+    },
+
+    // 通识百科发布
+    {
+        path: "/knowledge/:source_id?",
+        component: knowledge,
     },
 
     // 剑三小册发布
@@ -125,12 +131,6 @@ const routes = [
     {
         path: "/exam/paper/:id?",
         component: exam_paper,
-    },
-
-    // 词条发布
-    {
-        path: "/wiki/:id?",
-        component: wiki,
     },
 ];
 

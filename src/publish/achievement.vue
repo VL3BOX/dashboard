@@ -1,26 +1,21 @@
 <template>
   <div class="m-publish-box">
     <!-- 头部 -->
-    <pubheader name="成就百科" :localDraft="false">
+    <pubheader name="成就百科">
       <slot name="header"></slot>
     </pubheader>
 
-    <h1 class="m-publish-cj-header">贡献攻略</h1>
-    <el-form
-        label-position="left"
-        label-width="80px"
-        class="m-publish-cj"
-    >
-      <!-- 💛 栏目字段 -->
-      <el-form-item label="成就选择">
+    <el-form class="m-publish-post">
+      <div class="m-publish-source">
+        <el-divider content-position="left">选择成就 *</el-divider>
         <el-select
-            class="u-achievement_id"
+            class="u-source-id"
             v-model="post.achievement_id"
             filterable
             remote
             :disabled="!!post.id"
             placeholder="输入成就名称/成就描述/称号/奖励物品并按『回车』进行搜索"
-            :filter-method="search_achievements_handle"
+            :remote-method="search_achievements_handle"
             :loading="options.search_loading"
         >
           <el-option
@@ -39,26 +34,37 @@
             </div>
           </el-option>
         </el-select>
-      </el-form-item>
+      </div>
 
-      <el-form-item label="综合难度">
+      <div class="m-publish-level">
+        <el-divider content-position="left">综合难度 *</el-divider>
         <el-rate v-model="post.level" class="u-level"></el-rate>
-      </el-form-item>
+      </div>
 
-      <el-form-item label="修订说明">
+      <div class="m-publish-remark">
+        <el-divider content-position="left">修订说明 *</el-divider>
         <el-input
             v-model="post.remark"
+            :maxlength="200"
+            :minlength="1"
+            show-word-limit
+            required
             placeholder="请简单描述一下本次修订的说明"
         ></el-input>
-      </el-form-item>
+      </div>
 
-      <el-form-item label="攻略正文" class="m-publish-cj-content">
+      <div class="m-publish-content">
+        <el-divider content-position="left">攻略正文 *</el-divider>
         <Tinymce
             v-model="post.content"
             :attachmentEnable="true"
             :resourceEnable="true"
             :height="400"
         />
+      </div>
+
+      <div class="m-publish-commit">
+        <el-divider content-position="left"></el-divider>
         <el-button
             class="u-publish"
             icon="el-icon-s-promotion"
@@ -66,9 +72,8 @@
             @click="toPublish"
             :disabled="processing"
         >提交攻略
-        </el-button
-        >
-      </el-form-item>
+        </el-button>
+      </div>
     </el-form>
   </div>
 </template>
@@ -80,10 +85,8 @@
   // 本地依赖
   import {$ as $http} from "../service/axios";
   import {JX3BOX} from "@jx3box/jx3box-common";
-
-  const {User} = require("@jx3box/jx3box-common");
-  const qs = require("qs");
-  const lodash = require("lodash");
+  import {create_post} from "../service/wiki_post";
+  import User from "@jx3box/jx3box-common/js/user";
 
   export default {
     name: "achievement",
@@ -140,36 +143,27 @@
         }
 
         this.$store.commit('startProcess');
-        $http({
-          method: "POST",
-          url: `${JX3BOX.__helperUrl}api/achievement/${this.post.achievement_id}/post`,
-          headers: {Accept: "application/prs.helper.v2+json"},
-          data: qs.stringify({
-            post: {
-              level: this.post.level,
-              user_nickname: User.getInfo().name,
-              content: this.post.content,
-              remark: this.post.remark,
-            },
-          }),
-        })
-            .then((data) => {
+        create_post({
+          type: 'achievement',
+          source_id: this.post.achievement_id,
+          level: this.post.level,
+          user_nickname: User.getInfo().name,
+          content: this.post.content,
+          remark: this.post.remark,
+        }).then(
+            (data) => {
               data = data.data;
               if (data.code === 200) {
                 this.$message({
-                  message: "提交成功，请等待审核",
-                  type: "success",
-                  onClose: () => {
+                  message: "提交成功，请等待审核", type: "success", onClose: () => {
                     this.$router.go(0);
-                  },
+                  }
                 });
               } else {
-                this.$message({
-                  message: `${data.message}`,
-                  type: "warning",
-                });
+                this.$message({message: `${data.message}`, type: "warning"});
               }
-            })
+            }
+        );
       },
       get_newest_post(achievement_id) {
         return $http({
@@ -239,7 +233,7 @@
                   // 数据填充
                   let post = data.data.post;
                   let achievement = data.data.source;
-                  
+
                   if (post) {
                     this.post.achievement_id = parseInt(post.source_id);
                     this.post.level = post.level || 1;
@@ -250,7 +244,7 @@
                     content = content.replace(/(<p>)?\s*◆成就攻略\s*(<\/p>)?/ig, '');
                     this.post.content = content;
                   } else {
-                    this.post.achievement_id = achievement.ID ? parseInt( achievement.ID) : "";
+                    this.post.achievement_id = this.post.achievement_id ? parseInt(this.post.achievement_id) : '';
                     this.post.level = 0;
                     this.post.remark = "";
                     this.post.content = "";
@@ -282,5 +276,5 @@
 </script>
 
 <style lang="less">
-  @import "../assets/css/publish/cj.less";
+  @import "../assets/css/publish/achievement.less";
 </style>

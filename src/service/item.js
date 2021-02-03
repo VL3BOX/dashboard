@@ -26,22 +26,4 @@ function get_item_newest_post(item_id) {
     });
 }
 
-function create_item_post(post) {
-    return $http({
-        method: "POST",
-        url: `${JX3BOX.__helperUrl}api/wiki/post`,
-        headers: {Accept: "application/prs.helper.v2+json"},
-        data: qs.stringify({
-            post: {
-                type: 'item',
-                source_id: post.source_id,
-                level: post.level,
-                user_nickname: User.getInfo().name,
-                content: post.content,
-                remark: post.remark,
-            },
-        }),
-    });
-}
-
-export {search_items, get_item_newest_post, create_item_post};
+export {search_items, get_item_newest_post};

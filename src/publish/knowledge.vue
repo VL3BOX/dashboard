@@ -283,7 +283,7 @@
                     this.post.source_id = parseInt(post.source_id);
                     this.post.remark = "";
                     this.post.content = post.content;
-                    this.post.tags = post.tags;
+                    this.post.tags = post.tags || [];
                   } else {
                     this.post.source_id = this.post.source_id ? parseInt(this.post.source_id) : '';
                     this.post.remark = "";

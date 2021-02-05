@@ -146,6 +146,7 @@
 
 <script>
 import { getTypeLabel } from "@jx3box/jx3box-common/js/utils";
+import { __wikiType } from '@jx3box/jx3box-common/js/jx3box.json'
 import { get_posts, remove_post, get_comments, remove_comment } from "../service/wiki";
 import dateFormat from "../utils/dateFormat";
 export default {
@@ -170,7 +171,9 @@ export default {
         };
     },
     methods: {
-        getTypeLabel,
+        getTypeLabel : function (val){
+            return val ? __wikiType[val] : '未知'
+        },
         post_page_change(i = 1) {
             this.post_page = i;
             get_posts(this.achievement_post.keyword, i, this.length).then(
@@ -324,13 +327,13 @@ export default {
     }
 
     li{
-        padding-left:55px;
+        padding-left:40px;
     }
 
     .u-tab {
         // float: left;
         .pa;left:10px;
-        width: 2em;
+        width: 1em;
         line-height: 1.3em;
         margin-top: 4px;
         margin-right: 5px;

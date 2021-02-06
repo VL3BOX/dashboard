@@ -116,6 +116,9 @@ export default {
             }
             return "";
         },
+        subtype : function (){
+            return this.$route.query.type || this.$route.params.subtype
+        }
     },
     watch: {
         searchType : function (){
@@ -147,9 +150,9 @@ export default {
             })
         },
     },
-    created: function() {
-        if(this.$route.query.type){
-            this.searchType = this.$route.query.type
+    mounted: function() {
+        if(this.subtype){
+            this.searchType = this.subtype
         }
         this.loadPosts(this.searchType);
     },

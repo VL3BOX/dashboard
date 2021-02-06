@@ -1,17 +1,38 @@
 <template>
     <div class="m-dashboard m-dashboard-work m-dashboard-fav">
-        <h2 class="u-title">我的收藏</h2>
+        <div class="m-dashboard-work-header">
+            <h2 class="u-title">我的收藏</h2>
+            <el-select v-model="searchType" placeholder="类型过滤" class="u-filter" size="small">
+                <el-option
+                    label="全部"
+                    value=""
+                >
+                </el-option>
+                <el-option-group
+                    v-for="group in options"
+                    :key="group.label"
+                    :label="group.label"
+                >
+                    <el-option
+                        v-for="item in group.options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    >
+                    </el-option>
+                </el-option-group>
+            </el-select>
+        </div>
         <el-input
             class="m-dashboard-work-search"
             placeholder="请输入搜索内容"
             v-model="search"
-            @change="searchPost"
         >
             <template slot="prepend">关键词</template>
             <el-button
                 slot="append"
                 icon="el-icon-search"
-                @click="searchPost"
+                @click="loadData"
             ></el-button>
         </el-input>
 
@@ -38,8 +59,14 @@
                     >
                     <div class="u-desc">
                         <span v-text="getTypeLabel(item.post_type)"></span>
-                        <span v-if="item.post_created"> | 发布于: {{ item.post_created * 1000 | dateFormat }}</span>
-                        <span v-if="item.post_updated"> | 最后更新: {{ item.post_updated * 1000 | dateFormat }}</span>
+                        <span v-if="item.post_created">
+                            | 发布于:
+                            {{ (item.post_created * 1000) | dateFormat }}</span
+                        >
+                        <span v-if="item.post_updated">
+                            | 最后更新:
+                            {{ (item.post_updated * 1000) | dateFormat }}</span
+                        >
                     </div>
                     <el-button-group class="u-action">
                         <el-button
@@ -64,8 +91,7 @@
                 class="m-dashboard-box-pages"
                 background
                 :hide-on-single-page="true"
-                @current-change="page_change"
-                :current-page="page"
+                :current-page.sync="page"
                 layout="total, prev, pager, next, jumper"
                 :total="total"
             >
@@ -84,20 +110,98 @@ export default {
     props: [],
     data: function() {
         return {
-            type: "all",
             data: [],
             total: 1,
             page: 1,
             search: "",
+            searchType: "",
+            options: [
+                {
+                    label: "文章作品",
+                    options: [
+                        {
+                            value: "macro",
+                            label: "宏库",
+                        },
+                        {
+                            value: "jx3dat",
+                            label: "插件",
+                        },
+                        {
+                            value: "fb",
+                            label: "副本",
+                        },
+                        {
+                            value: "bps",
+                            label: "职业",
+                        },
+                        {
+                            value: "tool",
+                            label: "工具",
+                        },
+                        {
+                            value: "bbs",
+                            label: "茶馆",
+                        },
+                    ],
+                },
+                {
+                    label: "百科词条",
+                    options: [
+                        {
+                            value: "achievement",
+                            label: "成就",
+                        },
+                        {
+                            value: "item",
+                            label: "物品",
+                        },
+                        {
+                            value: "quest",
+                            label: "任务",
+                        },
+                        {
+                            value: "knowledge",
+                            label: "通识",
+                        },
+                    ],
+                },
+                {
+                    label: "其它",
+                    options: [
+                        {
+                            value: "item_plan",
+                            label: "清单",
+                        },
+                        {
+                            value: "collection",
+                            label: "小册",
+                        },
+                        {
+                            value: "question",
+                            label: "题目",
+                        },
+                        {
+                            value: "paper",
+                            label: "试卷",
+                        },
+                    ],
+                },
+            ],
         };
     },
-    computed: {},
-    methods: {
-        page_change(i = 1) {
-            getMyFavs({
+    computed: {
+        params: function() {
+            return {
                 keyword: this.search,
-                page: i,
-            }).then((res) => {
+                page: this.page,
+                type: this.searchType,
+            };
+        },
+    },
+    methods: {
+        loadData() {
+            getMyFavs(this.params).then((res) => {
                 res = res.data;
                 this.data = res.code === 200 ? res.data.data : [];
                 this.total = res.code === 200 ? res.data.total : 0;
@@ -129,7 +233,22 @@ export default {
         },
     },
     mounted: function() {
-        this.page_change();
+        this.searchType = this.$route.params.subtype
+    },
+    watch: {
+        params: {
+            deep: true,
+            immediate: true,
+            handler: function() {
+                this.loadData();
+            },
+        },
+        search : function (){
+            this.page = 1
+        },
+        searchType : function (){
+            this.page = 1
+        }
     },
 };
 </script>

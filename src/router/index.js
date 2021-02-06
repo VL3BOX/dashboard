@@ -25,11 +25,11 @@ const routes = [
 
     { name: "work", path: "/work/:type?", component: work },
     { name: "wiki", path: "/wiki", component: wiki },
-    { name: "other", path: "/other", component: other },
+    { name: "other", path: "/other/:subtype?", component: other },
 
     { name: "msg", path: "/msg", component: msg },
     { name: "feed", path: "/feed", component: feed },
-    { name: "fav", path: "/fav", component: fav },
+    { name: "fav", path: "/fav/:subtype?", component: fav },
 
     { name: "profile", path: "/profile", component: profile },
     { name: "avatar", path: "/avatar", component: avatar },

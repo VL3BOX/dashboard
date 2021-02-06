@@ -198,6 +198,9 @@ export default {
                 type: this.searchType,
             };
         },
+        subtype : function (){
+            return this.$route.params.subtype || ''
+        }
     },
     methods: {
         loadData() {
@@ -233,7 +236,7 @@ export default {
         },
     },
     mounted: function() {
-        this.searchType = this.$route.params.subtype
+        if(this.subtype) this.searchType = this.subtype
     },
     watch: {
         params: {
@@ -248,6 +251,9 @@ export default {
         },
         searchType : function (){
             this.page = 1
+        },
+        subtype : function (val){
+            this.searchType = val
         }
     },
 };

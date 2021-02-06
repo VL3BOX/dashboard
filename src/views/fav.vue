@@ -235,13 +235,9 @@ export default {
             return dateFormat(new Date(val));
         },
     },
-    mounted: function() {
-        if(this.subtype) this.searchType = this.subtype
-    },
     watch: {
         params: {
             deep: true,
-            immediate: true,
             handler: function() {
                 this.loadData();
             },
@@ -254,6 +250,13 @@ export default {
         },
         subtype : function (val){
             this.searchType = val
+        }
+    },
+    mounted: function() {
+        if(this.subtype){
+            this.searchType = this.subtype
+        }else{
+            this.loadData();
         }
     },
 };

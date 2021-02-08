@@ -131,11 +131,8 @@
         }).then((data) => {
           data = data.data;
           if (data.code === 200) {
-            this.$message({
-              message: "提交成功，请等待审核", type: "success", onClose: () => {
-                this.$router.go(0);
-              }
-            });
+            this.$message({message: "提交成功，请等待审核", type: "success"});
+            location.href = JX3BOX.__Root + 'dashboard/#/wiki';
           } else {
             this.$message({message: `${data.message}`, type: "warning",});
           }

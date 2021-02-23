@@ -10,7 +10,20 @@
             <div class="u-info">
                 <h1 class="u-name">
                     {{ info.name }}
-                    <!-- TODO:vip标识 -->
+                    <el-tooltip
+                        class="item"
+                        effect="dark"
+                        content="购买/续费高级版会员"
+                        placement="top"
+                    >
+                        <a
+                            class="i-icon-vip"
+                            :class="{ on: isVIP }"
+                            href="/vip/premium?from=dashboard_index"
+                            target="_blank"
+                            >PRO</a
+                        >
+                    </el-tooltip>
                 </h1>
                 <div class="u-identity">
                     <span class="u-uid">
@@ -111,17 +124,18 @@
         </div>
 
         <!-- TODO: -->
-        <!-- 动态、任务、成就 -->
+        <!-- 积分兑换好物推荐、积分策略链接 -->
     </div>
 </template>
 
 <script>
-import { JX3BOX, User, Utils } from "@jx3box/jx3box-common";
+import { __userGroup, __imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
+import User from "@jx3box/jx3box-common/js/user";
+import { showAvatar } from "@jx3box/jx3box-common/js/utils";
 import { getUserInfo } from "../service/profile";
 import dateFormat from "../utils/dateFormat";
 import { getMyAsset, getUserMedals } from "@/service/index.js";
 import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
-import { __imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
 export default {
     name: "index",
     props: [],
@@ -144,20 +158,21 @@ export default {
             },
             medals: [],
             medal_map,
+            isVIP: false,
         };
     },
-    computed: {},
+    computed: {
+        uid: function() {
+            return this.info.uid;
+        },
+    },
     methods: {
         renderInfo: function() {
-            this.info.avatar = Utils.showAvatar(
-                User.getInfo().avatar_origin,
-                "l"
-            );
-
             let _info = User.getInfo();
-            this.info.name = _info.name || "匿名";
             this.info.uid = _info.uid || 0;
+            this.info.name = _info.name || "匿名";
             this.info.group = _info.group || 0;
+            this.info.avatar = showAvatar(_info.avatar_origin, "l");
         },
         loadAsset: function() {
             getMyAsset().then((res) => {
@@ -167,18 +182,23 @@ export default {
             });
         },
         loadMedals: function() {
-            if (!this.info.uid) return;
-            getUserMedals(this.info.uid).then((res) => {
+            if (!this.uid) return;
+            getUserMedals(this.uid).then((res) => {
                 this.medals = res.data.data;
             });
         },
+        checkPremium : function (){
+            this.uid && User.isVIP().then((data) => {
+                this.isVIP = data
+            })
+        }
     },
     filters: {
         groupicon: function(groupid) {
-            return JX3BOX.__imgPath + "image/group/" + groupid + ".svg";
+            return __imgPath + "image/group/" + groupid + ".svg";
         },
         showGroupName: function(val) {
-            return val ? JX3BOX.__userGroup[val] : "游客";
+            return val ? __userGroup[val] : "游客";
         },
         formatCredit: function(val) {
             return val ? (val / 100).toFixed(2) : "0.00";
@@ -191,6 +211,7 @@ export default {
         this.renderInfo();
         this.loadAsset();
         this.loadMedals();
+        this.checkPremium()
     },
 };
 </script>

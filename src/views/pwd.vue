@@ -92,7 +92,7 @@
 
 <script>
 import { validator } from "sterilizer";
-import { JX3BOX, User } from "@jx3box/jx3box-common";
+import User from "@jx3box/jx3box-common/js/user";
 import { updatePassword } from "../service/profile";
 
 export default {

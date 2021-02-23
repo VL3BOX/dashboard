@@ -129,7 +129,7 @@
 
 <script>
 import { validator } from "sterilizer";
-import { JX3BOX, User } from "@jx3box/jx3box-common";
+import User from "@jx3box/jx3box-common/js/user";
 import {
     sendVerifyEmail,
     sendBindEmail,

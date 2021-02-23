@@ -149,7 +149,7 @@
 </template>
 
 <script>
-import { JX3BOX, User } from "@jx3box/jx3box-common";
+import User from "@jx3box/jx3box-common/js/user";
 import { updateProfile, getProfile } from "../service/profile";
 import { sterilizer } from "sterilizer/index.js";
 import servers from "@jx3box/jx3box-data/data/server/server_list.json";

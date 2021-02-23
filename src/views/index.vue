@@ -51,7 +51,7 @@
                 <el-col :span="6"
                     ><div class="u-dot">
                         <div class="u-credit-name">
-                            <i class="el-icon-coin"></i> 积分
+                            <i class="el-icon-sugar"></i> 积分
                         </div>
                         <div class="u-credit-value">
                             <b>{{ asset.points }}</b>
@@ -106,7 +106,7 @@
                 <el-col :span="6"
                     ><div class="u-gift">
                         <div class="u-credit-name">
-                            <i class="el-icon-present"></i> 礼品/订单
+                            <i class="el-icon-present"></i> 订单
                         </div>
                         <div class="u-credit-value">
                             <b>{{ asset.gift }}</b>

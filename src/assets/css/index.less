@@ -1,5 +1,6 @@
 .m-dashboard-index {
     .m-basicinfo {
+
         .u-avatar {
             .size(120px);
             margin-right: 20px;
@@ -82,14 +83,13 @@
             .mt(5px);
         }
     }
-
     .m-credit{
         .mt(20px);
         .x;
         background-color:@bg-light;
         border:1px solid @border-hr;
-        .r(6px);
-        padding:10px;
+        .r(4px);
+        padding:5px 10px 12px 10px;
 
         .u-credit-name{
             .fz(22px,2);
@@ -119,11 +119,8 @@
 @media screen and (max-width: @phone) {
     .m-dashboard-index {
         .m-basicinfo {
-            .pr;
-            padding-left:100px;
             .u-avatar {
                 .size(80px);
-                .pa;.lt(0);
             }
             .u-name{
                 .fz(15px,24px);
@@ -138,11 +135,21 @@
         }
 
         .m-credit{
+            border:none;
+            border-bottom: 1px solid #eee;
+            background:none;
+            padding:10px 0;
+            .mt(0);
+
             .el-col{
-                .w(50%);
-                // float:none;
-                // border-bottom:1px solid #eee;
-                padding-bottom:10px;
+                .w(25%);
+            }
+
+            .u-credit-op{
+                .none;
+            }
+            .u-credit-name,.u-credit-value{
+                .fz(1rem);
             }
         }
     }

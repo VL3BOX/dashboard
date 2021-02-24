@@ -9,8 +9,16 @@
             </i>
             <div class="u-info">
                 <h1 class="u-name">
-                    {{ info.name }}
+                    <span class="u-name-txt">{{ info.name }}</span>
                     <el-tooltip
+                        class="item"
+                        effect="dark"
+                        content="修改昵称"
+                        placement="top"
+                    >
+                        <a class="u-edit-name" href="/vip/rename?from=dashboard_index"><i class="el-icon-edit-outline"></i></a>
+                    </el-tooltip>
+                    <!-- <el-tooltip
                         class="item"
                         effect="dark"
                         content="购买/续费高级版会员"
@@ -23,7 +31,7 @@
                             target="_blank"
                             >PRO</a
                         >
-                    </el-tooltip>
+                    </el-tooltip> -->
                 </h1>
                 <div class="u-identity">
                     <span class="u-uid">

@@ -28,9 +28,11 @@
 </template>
 
 <script>
-import { JX3BOX, User, Utils } from "@jx3box/jx3box-common";
 import { updateAvatar } from "../service/profile";
-const API = JX3BOX.__server;
+import User from "@jx3box/jx3box-common/js/user";
+import {__server } from '@jx3box/jx3box-common/js/jx3box'
+import { showAvatar } from "@jx3box/jx3box-common/js/utils";
+const API = __server;
 
 export default {
     name: "avatar",
@@ -50,7 +52,7 @@ export default {
                 message: "上传成功",
                 type: "success",
             });
-            this.avatar = Utils.showAvatar(res.data.list[0], "l");
+            this.avatar = showAvatar(res.data.list[0], "l");
             this.path = res.data.list[0];
         },
         fail: function(err) {
@@ -80,7 +82,7 @@ export default {
         },
     },
     mounted: function() {
-        this.avatar = Utils.showAvatar(User.getInfo().avatar_origin, "l");
+        this.avatar = showAvatar(User.getInfo().avatar_origin, "l");
         this.bak = this.avatar;
     },
 };

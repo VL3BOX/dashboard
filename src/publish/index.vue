@@ -47,14 +47,6 @@
                         ></el-card
                     ></el-col
                 >
-                <el-col :span="4">
-                    <el-card>
-                        <router-link to="/collection">
-                            <img svg-inline src="../assets/img/publish/collection.svg"/>
-                            <span>文集小册</span>
-                        </router-link>
-                    </el-card>
-                </el-col>
             </el-row>
 
             <el-divider content-position="left">PVX / PVN</el-divider>
@@ -79,14 +71,17 @@
                         ></el-card
                     ></el-col
                 >
-                <el-col :span="4">
-                  <el-card>
-                    <router-link to="/item/plan">
-                      <img svg-inline src="../assets/img/channel/item_plan.svg"/>
-                      <span>物品清单</span>
-                    </router-link>
-                  </el-card>
-                </el-col>
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link
+                            to="/knowledge"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/knowledge.svg"
+                            /><span>通识百科</span></router-link
+                        ></el-card
+                    ></el-col
+                >
                 <!-- <el-col :span="4"
                     ><el-card
                         ><router-link to="/house"
@@ -110,19 +105,8 @@
                 >
             </el-row>
 
-            <el-divider content-position="left">PVBB / 其它</el-divider>
+            <el-divider content-position="left">其它</el-divider>
             <el-row :gutter="20">
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link
-                            to="/knowledge"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/knowledge.svg"
-                            /><span>百科通识</span></router-link
-                        ></el-card
-                    ></el-col
-                >
                 <el-col :span="4"
                     ><el-card
                         ><router-link
@@ -134,17 +118,7 @@
                         ></el-card
                     ></el-col
                 >
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link
-                            to="/exam"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/100.svg"
-                            /><span>趣味题库</span></router-link
-                        ></el-card
-                    ></el-col
-                >
+                
                 <el-col :span="4"
                     ><el-card
                         ><router-link
@@ -156,39 +130,37 @@
                         ></el-card
                     ></el-col
                 >
-                <!-- <el-col :span="4"
-                    ><el-card
-                        ><router-link
-                            to="/bbs"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/memory.svg"
-                            /><span>江湖回忆</span></router-link
-                        ></el-card
-                    ></el-col
-                >
+            </el-row>
+
+            <el-divider content-position="left">应用</el-divider>
+            <el-row :gutter="20">
+                <el-col :span="4">
+                    <el-card>
+                        <router-link to="/collection">
+                            <img svg-inline src="../assets/img/publish/collection.svg"/>
+                            <span>文集小册</span>
+                        </router-link>
+                    </el-card>
+                </el-col>
+                <el-col :span="4">
+                  <el-card>
+                    <router-link to="/item/plan">
+                      <img svg-inline src="../assets/img/channel/item_plan.svg"/>
+                      <span>物品清单</span>
+                    </router-link>
+                  </el-card>
+                </el-col>
                 <el-col :span="4"
                     ><el-card
                         ><router-link
-                            to="/bbs"
+                            to="/exam"
                             ><img
                                 svg-inline
-                                src="../assets/img/channel/video.svg"
-                            /><span>同人影音</span></router-link
+                                src="../assets/img/channel/100.svg"
+                            /><span>趣味题库</span></router-link
                         ></el-card
                     ></el-col
                 >
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link
-                            to="/bbs"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/post.svg"
-                            /><span>交流讨论</span></router-link
-                        ></el-card
-                    ></el-col
-                > -->
             </el-row>
         </div>
     </div>

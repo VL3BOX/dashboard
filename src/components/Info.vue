@@ -14,7 +14,8 @@
 </template>
 
 <script>
-const { JX3BOX, User,Utils } = require("@jx3box/jx3box-common");
+import { authorLink } from "@jx3box/jx3box-common/js/utils";
+import User from "@jx3box/jx3box-common/js/user";
 export default {
     name: "Info",
     props: [],
@@ -25,12 +26,11 @@ export default {
     },
     computed: {
         home: function() {
-            return Utils.authorLink(this.uid);
+            return authorLink(this.uid);
         },
     },
     methods: {},
-    mounted: function() {
-    },
+    mounted: function() {},
 };
 </script>
 
@@ -38,16 +38,16 @@ export default {
 .c-breadcrumb {
     .u-channel-logo {
         box-sizing: border-box;
-        padding:5px;
+        padding: 5px;
         position: relative;
         top: -2px;
     }
-    .u-desc{
+    .u-desc {
         .fz(12px);
-        border:1px solid #eee;
+        border: 1px solid #eee;
         .r(3px);
         .ml(10px);
-        padding:2px 10px;
+        padding: 2px 10px;
     }
     .u-home {
         .fr;

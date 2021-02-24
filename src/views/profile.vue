@@ -13,7 +13,7 @@
                     {{ nickname }}
                     <a
                         class="u-edit el-button el-button--primary el-button--mini"
-                        href="/vip/rename"
+                        href="/vip/rename?from=dashboard_profile"
                         target="_blank"
                         ><i class="el-icon-edit"></i> 修改昵称</a
                     >
@@ -58,6 +58,25 @@
                 ></el-input>
             </el-form-item>
 
+            <el-form-item class="u-birthday">
+                <div slot="label">
+                    <el-tooltip
+                        class="item"
+                        effect="dark"
+                        content="此项不会被公开,仅用于礼品发放"
+                        placement="left"
+                    >
+                        <div><i class="el-icon-lock"></i> 生日</div>
+                    </el-tooltip>
+                </div>
+                <el-date-picker
+                    v-model="form.birthday"
+                    type="date"
+                    placeholder="选择日期"
+                >
+                </el-date-picker>
+            </el-form-item>
+
             <el-form-item class="u-phone">
                 <div slot="label">
                     <el-tooltip
@@ -93,7 +112,7 @@
                 ></el-input>
             </el-form-item>
 
-            <el-form-item class="u-tuilan" label="推栏ID">
+            <el-form-item class="u-tuilan" label="推栏">
                 <el-input
                     v-model="form.tuilan_id"
                     placeholder="请输入推栏ID"
@@ -133,7 +152,7 @@
                         ><div class="u-tv-id" style="margin-left:10px;">
                             <el-input
                                 v-model="form.tv_id"
-                                placeholder="请输入直播间"
+                                placeholder="请输入直播间房间号"
                             ></el-input></div
                     ></el-col>
                 </el-row>
@@ -169,7 +188,8 @@ export default {
                 address: "",
                 tv_id: "",
                 tv_type: "",
-                tuilan_id:""
+                tuilan_id: "",
+                birthday : ''
             },
             position: window.innerWidth < 768 ? "top" : "left",
             tvmap,

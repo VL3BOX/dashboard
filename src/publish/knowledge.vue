@@ -104,13 +104,12 @@
           <el-divider content-position="left">类别 *</el-divider>
           <el-radio-group v-if="types" v-model="knowledge.type">
             <el-radio
-                :label="type"
+                :label="key"
                 border
-                v-for="(label, type) in types"
-                :key="type"
-            >{{ label }}
-            </el-radio
-            >
+                v-for="(type, key) in types"
+                :key="type.name"
+            >{{ type.label }}
+            </el-radio>
           </el-radio-group>
         </div>
 

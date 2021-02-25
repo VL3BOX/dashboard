@@ -9,7 +9,7 @@
             tagEnable : 是否开启标签
             notifyEnable : 是否开启通知等扩展功能
             bannerEnable : 是否开启头条图功能,开启后仍旧需要签约作者及管理员才可见
-         -->
+        -->
         <boilerplate
             v-if="loaded"
             :name="name"
@@ -33,8 +33,10 @@
             <!-- 💛 栏目字段 -->
             <template>
                 <el-form-item label="原创">
-                    <el-switch v-model="post.original" active-color="#13ce66">
-                    </el-switch>
+                    <el-switch
+                        v-model="post.original"
+                        active-color="#13ce66"
+                    ></el-switch>
                 </el-form-item>
 
                 <el-form-item label="语言">
@@ -53,6 +55,7 @@
                         :key="key"
                         v-model="post.post_meta.type"
                         @change="changeSubtype(post.post_meta.type)"
+                        :disabled="(hasFeed && key=='1') || (id && post.post_subtype =='1' && key!='1')"
                         >{{ name }}</el-radio
                     >
                 </el-form-item>
@@ -82,7 +85,7 @@
                             >
                             <a
                                 class="m-data-help el-button el-button--success is-plain el-button--small"
-                                href="https://www.jx3box.com/tool/?pid=13912"
+                                href="https://www.jx3box.com/tool/13912"
                                 target="_blank"
                             >
                                 <i class="el-icon-info"></i> 点击查看发布帮助
@@ -100,10 +103,10 @@
                                 :key="i"
                                 :name="i + 1 + ''"
                             >
-                                <span slot="label" class="m-data-tab-label"
-                                    ><i class="el-icon-box"></i
-                                    >{{ item.name }}</span
-                                >
+                                <span slot="label" class="m-data-tab-label">
+                                    <i class="el-icon-box"></i>
+                                    {{ item.name }}
+                                </span>
                                 <div class="m-data-item">
                                     <h5 class="u-title">订阅名</h5>
                                     <div class="u-group">
@@ -121,18 +124,18 @@
                                                         : '版本名称'
                                                 "
                                             >
-                                                <template slot="prepend"
-                                                    ><b class="u-feed"
-                                                        >{{ user.name
+                                                <template slot="prepend">
+                                                    <b class="u-feed">
+                                                        {{ user.name
                                                         }}{{
                                                             item.name ==
                                                             "默认版"
                                                                 ? ""
                                                                 : "#" +
                                                                   item.name
-                                                        }}</b
-                                                    ></template
-                                                >
+                                                        }}
+                                                    </b>
+                                                </template>
                                             </el-input>
                                         </div>
                                         <div
@@ -142,19 +145,20 @@
                                                 v-model="item.status"
                                                 active-color="#49C10F"
                                                 inactive-color="#ff4949"
-                                            >
-                                            </el-switch>
+                                            ></el-switch>
 
                                             <el-tooltip
                                                 effect="dark"
                                                 content="设置不公开后,仍然可以通过订阅名下载,仅不做展示"
                                                 placement="top"
                                             >
-                                                <span class="u-status">{{
-                                                    item.status
-                                                        ? "公开"
-                                                        : "私有"
-                                                }}</span>
+                                                <span class="u-status">
+                                                    {{
+                                                        item.status
+                                                            ? "公开"
+                                                            : "私有"
+                                                    }}
+                                                </span>
                                             </el-tooltip>
                                         </div>
                                     </div>
@@ -171,7 +175,10 @@
                                 <div class="m-data-item m-data-jx3dat">
                                     <h5 class="u-title">数据文件</h5>
                                     <div class="u-warning">
-                                        <i class="el-icon-warning-outline"></i> 当前数据文件将作为<b>{{item.name}}</b>的文件上传，上传完后如若重新修改版本名称则需要重新上传对应文件
+                                        <i class="el-icon-warning-outline"></i>
+                                        当前数据文件将作为
+                                        <b>{{ item.name }}</b
+                                        >的文件上传，上传完后如若重新修改版本名称则需要重新上传对应文件
                                     </div>
                                     <input
                                         class="u-data-input"
@@ -187,9 +194,9 @@
                                         @click="selectDBM(i)"
                                         >上传数据文件</el-button
                                     >
-                                    <span class="u-data-remark">
-                                        {{ item.origin_name }}
-                                    </span>
+                                    <span class="u-data-remark">{{
+                                        item.origin_name
+                                    }}</span>
                                     <!-- <el-button
                                         size="small"
                                         type="primary"
@@ -197,7 +204,7 @@
                                         @click="uploadDBM(item, i)"
                                         icon="el-icon-s-promotion"
                                         >开始上传</el-button
-                                    > -->
+                                    >-->
                                     <el-input
                                         class="u-fileurl"
                                         :class="{ isUploaded: item.isUploaded }"
@@ -206,12 +213,14 @@
                                         :disabled="true"
                                         :value="item.file"
                                         v-if="item.file"
-                                        ><template slot="prepend"
-                                            ><span class="u-status">
-                                                当前文件地址</span
-                                            ></template
-                                        ><template slot="append"
-                                            ><span
+                                    >
+                                        <template slot="prepend">
+                                            <span class="u-status"
+                                                >当前文件地址</span
+                                            >
+                                        </template>
+                                        <template slot="append">
+                                            <span
                                                 class="u-copy"
                                                 v-clipboard:copy="item.file"
                                                 v-clipboard:success="onCopy"
@@ -219,10 +228,10 @@
                                             >
                                                 <i
                                                     class="el-icon-document-copy"
-                                                ></i
-                                                ><span>点击复制</span>
-                                            </span></template
-                                        >
+                                                ></i>
+                                                <span>点击复制</span>
+                                            </span>
+                                        </template>
                                     </el-input>
                                 </div>
                                 <!-- <div class="m-data-item">
@@ -232,7 +241,7 @@
                                         :disabled="true"
                                     >
                                     </el-input>
-                                </div> -->
+                                </div>-->
                             </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -244,47 +253,47 @@
                                         ? 'el-icon-arrow-up'
                                         : 'el-icon-arrow-down'
                                 "
-                            ></i
-                            ><span>其它订阅号</span>
+                            ></i>
+                            <span>其它订阅号</span>
                         </div>
                         <el-row class="u-tr" v-show="moreFeedsVisible">
-                            <el-col :span="24"
-                                ><el-input
+                            <el-col :span="24">
+                                <el-input
                                     v-model="post.post_meta.github"
                                     placeholder="(非必填)"
-                                    ><template slot="prepend"
+                                >
+                                    <template slot="prepend"
                                         >Github订阅号</template
-                                    ><template slot="append"
-                                        >@github</template
-                                    ></el-input
-                                ></el-col
-                            >
+                                    >
+                                    <template slot="append">@github</template>
+                                </el-input>
+                            </el-col>
                         </el-row>
                         <el-row class="u-tr" v-show="moreFeedsVisible">
-                            <el-col :span="24"
-                                ><el-input
+                            <el-col :span="24">
+                                <el-input
                                     v-model="post.post_meta.gitee"
                                     placeholder="(非必填)"
-                                    ><template slot="prepend"
+                                >
+                                    <template slot="prepend"
                                         >Gitee订阅号</template
-                                    ><template slot="append"
-                                        >@gitee</template
-                                    ></el-input
-                                ></el-col
-                            >
+                                    >
+                                    <template slot="append">@gitee</template>
+                                </el-input>
+                            </el-col>
                         </el-row>
                         <el-row class="u-tr" v-show="moreFeedsVisible">
-                            <el-col :span="24"
-                                ><el-input
+                            <el-col :span="24">
+                                <el-input
                                     v-model="post.post_meta.aliyun"
                                     placeholder="(非必填)"
-                                    ><template slot="prepend"
+                                >
+                                    <template slot="prepend"
                                         >Aliyun订阅号</template
-                                    ><template slot="append"
-                                        >@aliyun</template
-                                    ></el-input
-                                ></el-col
-                            >
+                                    >
+                                    <template slot="append">@aliyun</template>
+                                </el-input>
+                            </el-col>
                         </el-row>
                     </div>
                 </template>
@@ -305,30 +314,30 @@
                         @click="selectDat"
                         >上传数据文件</el-button
                     >
-                    <span class="u-data-remark">
-                        {{ post.post_meta.origin_name }}
-                    </span>
+                    <span class="u-data-remark">{{
+                        post.post_meta.origin_name
+                    }}</span>
                     <el-input
                         v-if="post.post_meta.down"
                         class="u-fileurl"
                         placeholder="数据地址"
                         :disabled="true"
                         :value="post.post_meta.down"
-                        ><template slot="prepend"
-                            ><span class="u-status">
-                                当前文件地址</span
-                            ></template
-                        ><template slot="append"
-                            ><span
+                    >
+                        <template slot="prepend">
+                            <span class="u-status">当前文件地址</span>
+                        </template>
+                        <template slot="append">
+                            <span
                                 class="u-copy"
                                 v-clipboard:copy="post.post_meta.down || ''"
                                 v-clipboard:success="onCopy"
                                 v-clipboard:error="onError"
                             >
-                                <i class="el-icon-document-copy"></i
-                                ><span>点击复制</span>
-                            </span></template
-                        >
+                                <i class="el-icon-document-copy"></i>
+                                <span>点击复制</span>
+                            </span>
+                        </template>
                     </el-input>
                 </el-form-item>
             </template>
@@ -338,8 +347,8 @@
 
 <script>
 import boilerplate from "../components/publish/boilerplate";
-
-import { uploadHub, uploadData, syncRedis } from "../service/jx3dat.js";
+import _ from 'lodash'
+import { uploadHub, uploadData, syncRedis, createPost, updatePost, hasFeed } from "../service/jx3dat.js";
 import User from "@jx3box/jx3box-common/js/user";
 import { jx3dat_types, jx3dat_tags } from "../assets/data/jx3dat.json";
 import { sterilizer } from "sterilizer/index.js";
@@ -364,7 +373,7 @@ const default_meta = {
     gitee: "",
     aliyun: "",
     down: "",
-    origin_name : ''
+    origin_name: "",
 };
 
 export default {
@@ -388,29 +397,29 @@ export default {
 
             //文章 - 主表数据
             post: {
-                ID: "", //文章ID
+                ID: "",                      //文章ID
                 // post_author               //无需设置,由token自动获取
                 // post_type:"",             //类型(默认由boilerplate托管)
-                post_subtype: "1", //子类型(过滤查询用)
-                post_title: "", //标题
-                post_content: "", //主表内容字段,由后端接口配置是否双存储至meta表
+                post_subtype: "1",           //子类型(过滤查询用)
+                post_title: "",              //标题
+                post_content: "",            //主表内容字段,由后端接口配置是否双存储至meta表
                 post_meta: default_meta,
-                post_excerpt: "", //主表摘要
-                post_mode: "tinymce", //编辑模式(会影响文章详情页渲染规则)
-                post_status: "", //由发布按钮、草稿按钮决定
-                post_banner: "", //头条图,管理员可见
-                // post_tags: [], //标签列表
+                post_excerpt: "",            //主表摘要
+                post_mode: "tinymce",        //编辑模式(会影响文章详情页渲染规则)
+                post_status: "",             //由发布按钮、草稿按钮决定
+                post_banner: "",             //头条图,管理员可见
+                // post_tags: [],            //标签列表
                 original: 0,
-                post_collection : '',   //文集
+                post_collection: "",         //文集
             },
 
             //扩展 - 部分栏目文章不应启用该功能
             extend: {
-                feedEnable: false, //是否通知订阅用户
-                followEnable: false, //是否通知粉丝
-                tencentEnable: false, //是否同步至腾讯文档
-                weiboEnable: false, //是否同步至微博头条文章
-                tuilanEnable: false, //是否同步至推栏
+                feedEnable: false,           //是否通知订阅用户
+                followEnable: false,         //是否通知粉丝
+                tencentEnable: false,        //是否同步至腾讯文档
+                weiboEnable: false,          //是否同步至微博头条文章
+                tuilanEnable: false,         //是否同步至推栏
             },
 
             // 杂项
@@ -418,39 +427,48 @@ export default {
             tempname: "",
             moreFeedsVisible: false,
             activeIndex: "1",
+            isVIP : false,
+            hasFeed : false
         };
     },
     computed: {
-        totalVersions : function (){
-            return this.post.post_meta.data.length + 1
+        totalVersions: function() {
+            return this.post.post_meta.data.length + 1;
+        },
+        id : function (){
+            return this.$route.params.id
         }
     },
     methods: {
         // 发布
         toPublish: function() {
             // console.log(this.build())
-            this.doPublish(this.build(), this, false).then((res) => {
-                if (this.post.post_subtype == 1) {
-                    syncRedis(res.data.data, this).then((redis_result) => {
-                        this.finish(res.data.msg, res.data.data.ID, this.type);
-                    });
-                } else {
-                    this.finish(res.data.msg, res.data.data.ID, this.type);
-                }
-            });
+            this.postData()
         },
         // 草稿
         toDraft: function() {
-            this.doDraft(this.build(), this, false).then((res) => {
-                if (this.post.post_subtype == 1) {
-                    syncRedis(res.data.data, this).then((redis_result) => {
-                        this.finish(res.data.msg, res.data.data.ID, this.type);
-                    });
-                } else {
+            this.postData()
+        },
+        // 提交
+        postData : function (){
+            if(this.id){
+                updatePost(this.id,this.build()).then((res) => {
+                    this.syncData(res)
+                });
+            }else{
+                createPost(this.build()).then((res) => {
+                    this.syncData(res)
+                })
+            }
+        },
+        syncData : function (res){
+            if (this.post.post_subtype == 1) {
+                syncRedis(res.data.data, this).then((redis_result) => {
                     this.finish(res.data.msg, res.data.data.ID, this.type);
-                }
-            });
-            // console.log(this.$store.state);
+                });
+            } else {
+                this.finish(res.data.msg, res.data.data.ID, this.type);
+            }
         },
         finish: function(msg, id, type) {
             this.$message({
@@ -458,50 +476,14 @@ export default {
                 type: "success",
             });
             setTimeout(() => {
-                location.href = "/" + type + "/?pid=" + id;
+                location.href = "/" + type + "/" + id;
             }, 500);
         },
-        // 加载
-        init: function() {
-            return this.doLoad(this).then((data) => {
-                // if(!data.post.post_meta){
-                //     this.$set(this.post,'post_meta',{
-                //         //新版,字段表合并至主表,减少数据库查询次数
-                //         type: "1",
-                //         data: [
-                //             {
-                //                 name: "默认版",
-                //                 desc: "",
-                //                 status: true,
-                //                 file: "",
-                //             },
-                //         ],
-                //         tag: [],
-                //         github: "",
-                //         gitee: "",
-                //         aliyun: "",
-                //         down: "",
-                //     })
-                // }
-                // if(!data.post.post_meta.data || !data.post.post_meta.data.length){
-                //     this.$set(this.post.post_meta,'data',[
-                //             {
-                //                 name: "默认版",
-                //                 desc: "",
-                //                 status: true,
-                //                 file: "",
-                //             },
-                //         ]
-                //     )
-                // }
-            });
-        },
-
         // 设置检索meta
         build: function() {
             let data = this.$store.state;
             data.post.meta_1 = data.post.post_meta.tag.toString(); //标签
-            data.post.meta_4 = data.post.post_meta.lang; //语言
+            data.post.meta_4 = data.post.post_meta.lang;           //语言
             return data;
         },
 
@@ -549,9 +531,9 @@ export default {
         // 添加行
         addDBM: function() {
             // 目前设置最多3个版本
-            if (this.post.post_meta.data.length >= 3) {
-                this.$alert("默认只能设置3个版本", "消息", {
-                    confirmButtonText: "确定",
+            if (this.post.post_meta.data.length >= 3 && !this.isVIP) {
+                this.$alert('默认只能设置3个版本，<a href="/vip/premium?from=jx3dat_feed" target="_blank">开通高级版账号</a>无限制', '消息', {
+                    dangerouslyUseHTMLString: true
                 });
                 return;
             }
@@ -613,7 +595,7 @@ export default {
             }
 
             // 显示原文件名
-            this.post.post_meta.origin_name = file.name
+            this.post.post_meta.origin_name = file.name;
 
             let formdata = new FormData();
             formdata.append("file", file);
@@ -650,14 +632,41 @@ export default {
                 message: "复制失败",
             });
         },
+
+        // 加载
+        init: function() {
+            return this.doLoad(this).then(() => {
+                // 初始化默认文章数据
+                if (isEmptyMeta(this.post.post_meta))
+                this.post.post_meta = _.cloneDeep(default_meta);
+            }).then(() => {
+                // 如果是创建模式，订阅号只允许创建1个
+                if(!this.id){
+                    hasFeed().then((res) => {
+                        this.hasFeed = !!res.data.data
+                        if(this.hasFeed){
+                            this.post.post_subtype = '2'
+                            this.post.post_meta.type = '2'
+                        }
+                    })
+                }
+            })
+        },
+    },
+    created : function (){
+        // 用户信息
+        this.user = User.getInfo();
+        User.isVIP().then((data) => {
+            this.isVIP = data
+        })
     },
     mounted: function() {
-        // 初始化默认文章数据
-        this.init().then((data) => {
-            if (isEmptyMeta(this.post.post_meta))
-                this.post.post_meta = default_meta;
-        });
-        this.user = User.getInfo();
+        this.init()
+    },
+    watch : {
+        id : function (){
+            this.init()
+        }
     },
     filters: {},
     components: {

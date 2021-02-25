@@ -7,7 +7,7 @@ function doPublish(data, vm, skip = true) {
     return $.post(__server + `post/publish`, data)
         .then((res) => {
             if (skip) {
-                this.$message({
+                vm.$message({
                     message: res.data.msg,
                     type: "success",
                 });
@@ -27,7 +27,7 @@ function doDraft(data, vm, skip = true) {
     return $.post(__server + `post/publish`, data)
         .then((res) => {
             if (skip) {
-                this.$message({
+                vm.$message({
                     message: res.data.msg,
                     type: "success",
                 });

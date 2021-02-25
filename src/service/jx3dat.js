@@ -1,23 +1,36 @@
-import { $next } from "@jx3box/jx3box-common/js/axios";
+import { $next, $server } from "@jx3box/jx3box-common/js/axios";
 import { $ } from "./axios";
 import { __next, __Root, __server } from "@jx3box/jx3box-common/js/jx3box.json";
-const plugins = __next + "api/plugins/my-team-mon/v2";
-// const plugins = "/api/plugins/my-team-mon/v2"
-const feed = __next + "api/plugins/jx3dat/publish";
-// const feed = "/api/plugins/jx3dat/publish"
+// import { __next, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
+// const __server = 'http://localhost:5160/'
 
+// 文章
+function createPost(data) {
+    return $server.post("server/jx3dat/", data)
+    // return $.post(__server + "server/jx3dat", data)
+}
+function updatePost(id, data) {
+    return $server.put(`server/jx3dat/${id}`, data);
+    // return $.put(__server + `server/jx3dat/${id}`, data);
+}
+function hasFeed(){
+    return $server.get(`server/jx3dat/feed/has`);
+    // return $.get(__server + 'server/jx3dat/feed/has')
+}
+
+// 上传
+function uploadData(formdata, vm) {
+    return $.post(__server + "upload/data", formdata);
+}
 function uploadHub(formdata) {
     return $next.post("/api/plugins/my-team-mon/v2", formdata);
 }
 
-function uploadData(formdata, vm) {
-    return $.post(__server + "upload/data", formdata);
-}
-
-function syncRedis(data, vm) {
+// 云端
+function syncRedis(data) {
     let redisData = transferForRedis(data);
     console.log("正在执行redis同步作业:", redisData);
-    return $.post(feed, redisData);
+    return $next.post("api/plugins/jx3dat/publish", redisData);
 }
 
 function transferForRedis(data) {
@@ -43,7 +56,7 @@ function transferForRedis(data) {
             version: item.version || Date.now(),
 
             data_url: item.file,
-            about: __Root + "jx3dat/?pid=" + pid,
+            about: __Root + "jx3dat/" + pid,
             status: item.status,
         };
     });
@@ -51,4 +64,4 @@ function transferForRedis(data) {
     return _;
 }
 
-export { uploadHub, uploadData, syncRedis };
+export { uploadHub, uploadData, syncRedis, updatePost, createPost,hasFeed };

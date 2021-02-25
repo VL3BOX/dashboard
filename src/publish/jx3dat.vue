@@ -454,10 +454,14 @@ export default {
             if(this.id){
                 updatePost(this.id,this.build()).then((res) => {
                     this.syncData(res)
-                });
+                }).catch((err) => {
+                    this.$store.commit('endProcess')
+                })
             }else{
                 createPost(this.build()).then((res) => {
                     this.syncData(res)
+                }).catch((err) => {
+                    this.$store.commit('endProcess')
                 })
             }
         },

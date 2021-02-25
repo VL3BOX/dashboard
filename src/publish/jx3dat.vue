@@ -55,7 +55,7 @@
                         :key="key"
                         v-model="post.post_meta.type"
                         @change="changeSubtype(post.post_meta.type)"
-                        :disabled="id && post.post_subtype =='1' && key!='1'"
+                        :disabled="id && post.post_subtype != key"
                         >{{ name }}</el-radio
                     >
                 </el-form-item>

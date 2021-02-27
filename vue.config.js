@@ -13,15 +13,15 @@ module.exports = {
             //         request.setHeader("origin", "");
             //     },
             // },
-            "/api": {
-                target: "https://pay.jx3box.com",
-                onProxyReq: function(request) {
-                    request.setHeader("origin", "");
-                },
-            },
             // "/api": {
-            //     target: "https://helper.jx3box.com",
+            //     target: "https://pay.jx3box.com",
+            //     onProxyReq: function(request) {
+            //         request.setHeader("origin", "");
+            //     },
             // },
+            "/api": {
+                target: "https://helper.jx3box.com",
+            },
             "/upload": {
                 target: "https://server.jx3box.com",
             },

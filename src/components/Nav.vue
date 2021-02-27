@@ -5,7 +5,7 @@
         </a>
         <!-- <a class="m-nav-bucket el-button el-button--primary is-plain"  href="./bucket"><img class="u-bucket" svg-inline src="../assets/img/nav/bucket.svg" /> <span>仓库</span></a> -->
 
-        <h5 class="u-title">写作台</h5>
+        <h5 class="u-title">创作台</h5>
         <div class="m-nav-group">
             <a href="/dashboard/#/work" :class="isActive('work')">
                 <i class="el-icon-collection"></i><span>我的作品</span>

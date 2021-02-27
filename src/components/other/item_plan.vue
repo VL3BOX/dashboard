@@ -91,13 +91,13 @@ export default {
 <style scoped lang="less">
 @import "../../assets/css/work.less";
 
-.m-dashboard-box-list {
-    .u-action {
-        top: 50%;
-        bottom: auto;
-        transform: translateY(-50%);
-    }
-}
+// .m-dashboard-box-list {
+//     .u-action {
+//         top: 50%;
+//         bottom: auto;
+//         transform: translateY(-50%);
+//     }
+// }
 
 // .m-plan {
 //     padding: 10px 15px;

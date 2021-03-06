@@ -7,17 +7,17 @@ module.exports = {
 
     devServer: {
         proxy: {
-            // "/api": {
-            //     target: "https://next.jx3box.com",
-            //     onProxyReq: function(request) {
-            //         request.setHeader("origin", "");
-            //     },
-            // },
             "/api/vip": {
                 target: "https://pay.jx3box.com",
                 onProxyReq: function(request) {
                     request.setHeader("origin", "");
                 },
+            },
+            "/api/my": {
+                target: "https://helper.jx3box.com",
+            },
+            "api/messages":{
+                target: "https://helper.jx3box.com",
             },
             "/api": {
                 target: "https://next.jx3box.com",
@@ -25,9 +25,6 @@ module.exports = {
                     request.setHeader("origin", "");
                 },
             },
-            // "/api": {
-            //     target: "https://helper.jx3box.com",
-            // },
             "/upload": {
                 target: "https://server.jx3box.com",
             },

@@ -150,8 +150,8 @@ import { showAvatar } from "@jx3box/jx3box-common/js/utils";
 import { getUserInfo } from "../service/profile";
 import dateFormat from "../utils/dateFormat";
 import { getUserMedals } from "@/service/index.js";
-import { getAsset, hasPRO, hasVIP } from "@jx3box/jx3box-common/js/pay";
 import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
+import { getAsset, hasPRO, hasVIP } from "@jx3box/jx3box-common/js/pay";
 import { showDate } from "@jx3box/jx3box-common/js/moment";
 export default {
     name: "index",

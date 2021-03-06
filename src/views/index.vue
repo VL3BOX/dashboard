@@ -16,22 +16,29 @@
                         content="修改昵称"
                         placement="top"
                     >
-                        <a class="u-edit-name" href="/vip/rename?from=dashboard_index"><i class="el-icon-edit-outline"></i></a>
+                        <a
+                            class="u-edit-name"
+                            href="/vip/rename?from=dashboard_index"
+                            ><i class="el-icon-edit-outline"></i
+                        ></a>
                     </el-tooltip>
-                    <!-- <el-tooltip
+                    <el-tooltip
                         class="item"
                         effect="dark"
-                        content="购买/续费高级版会员"
+                        content="购买/续费会员服务"
                         placement="top"
                     >
-                        <a
+                        <span class="u-vip">
+                            <a
                             class="i-icon-vip"
-                            :class="{ on: isVIP }"
+                            :class="{ on: isVIP || isPRO }"
                             href="/vip/premium?from=dashboard_index"
                             target="_blank"
-                            >PRO</a
+                            >{{vipType}}</a
                         >
-                    </el-tooltip> -->
+                        <span class="u-expire" v-if="expire_date">(有效期至:{{expire_date}})</span>
+                        </span>
+                    </el-tooltip>
                 </h1>
                 <div class="u-identity">
                     <span class="u-uid">
@@ -117,7 +124,7 @@
                             <i class="el-icon-present"></i> 订单
                         </div>
                         <div class="u-credit-value">
-                            <b>{{ asset.gift }}</b>
+                            <b>{{ asset.gift || 0 }}</b>
                         </div>
                         <div class="u-credit-op">
                             <a
@@ -142,8 +149,10 @@ import User from "@jx3box/jx3box-common/js/user";
 import { showAvatar } from "@jx3box/jx3box-common/js/utils";
 import { getUserInfo } from "../service/profile";
 import dateFormat from "../utils/dateFormat";
-import { getMyAsset, getUserMedals } from "@/service/index.js";
+import { getUserMedals } from "@/service/index.js";
+import { getAsset, hasPRO, hasVIP } from "@jx3box/jx3box-common/js/pay";
 import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
+import { showDate } from "@jx3box/jx3box-common/js/moment";
 export default {
     name: "index",
     props: [],
@@ -159,19 +168,44 @@ export default {
                 bio: "",
             },
             asset: {
-                points: 0, //积分
+                expire_date: "2022-03-07T00:00:00+08:00",
+                total_day: 395,
+                was_vip: 0,
+
+                pro_expire_date: "2022-03-07T00:00:00+08:00",
+                pro_total_day: 366,
+                was_pro: 0,
+
                 box_coin: 0, //盒币
                 red_packet: 0, //红包
+                points: 0, //积分
                 gift: 0, //礼品、商城订单
             },
             medals: [],
             medal_map,
-            isVIP: false,
         };
     },
     computed: {
         uid: function() {
             return this.info.uid;
+        },
+        isVIP : function (){
+            return hasVIP(this.asset) || false
+        },
+        isPRO : function (){
+            return hasPRO(this.asset) || false
+        },
+        vipType : function (){
+            return this.isPRO ? 'PRO' : 'PRE'
+        },
+        expire_date: function() {
+            if(this.isPRO){
+                return showDate(this.asset.pro_expire_date)
+            }else if(this.isVIP){
+                return showDate(this.asset.expire_date);
+            }else{
+                return ''
+            }
         },
     },
     methods: {
@@ -183,23 +217,16 @@ export default {
             this.info.avatar = showAvatar(_info.avatar_origin, "l");
         },
         loadAsset: function() {
-            getMyAsset().then((res) => {
-                this.asset.box_coin = res.data.data.box_coin;
-                this.asset.points = res.data.data.points;
-                this.asset.red_packet = res.data.data.red_packet;
+            getAsset().then((data) => {
+                this.asset = data;
             });
         },
         loadMedals: function() {
             if (!this.uid) return;
             getUserMedals(this.uid).then((res) => {
-                this.medals = res.data.data;
+                this.medals = res.data.data || [];
             });
         },
-        checkPremium : function (){
-            this.uid && User.isVIP().then((data) => {
-                this.isVIP = data
-            })
-        }
     },
     filters: {
         groupicon: function(groupid) {
@@ -219,7 +246,6 @@ export default {
         this.renderInfo();
         this.loadAsset();
         this.loadMedals();
-        this.checkPremium()
     },
 };
 </script>

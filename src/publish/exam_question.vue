@@ -132,11 +132,15 @@ export default {
                 updateQuestion(this.id, this.primary, this).then((res) => {
                     this.success(res);
                     location.href = '/exam/#/question/' + this.id
+                }).catch(err => {
+                    this.$store.commit('endProcess')
                 });
             } else {
                 createQuestion(this.primary, this).then((res) => {
                     this.success(res);
                     location.href = '/exam/#/question/' + res.data.data.id
+                }).catch(err => {
+                    this.$store.commit('endProcess')
                 });
             }
         },

@@ -71,7 +71,7 @@
 
 <script>
 import uc from "@/components/uc.vue";
-import { updateAvatar, uploadAvatar, getFrames } from "@/service/profile";
+import { updateAvatar, uploadAvatar, getFrames,getUserOverview } from "@/service/profile";
 import User from "@jx3box/jx3box-common/js/user";
 import { showAvatar, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 import { isVIP } from "@jx3box/jx3box-common/js/pay";
@@ -89,6 +89,7 @@ export default {
             frame: "",
             // VIP
             isVIP: false,
+            uid : User.getInfo().uid,
             // 头像框
             frames,
         };
@@ -140,11 +141,15 @@ export default {
             }
         },
         init: function() {
-            this.bak = this.avatar = User.getInfo().avatar_origin;
             this.loadFrames();
             isVIP().then((data) => {
                 this.isVIP = data;
             });
+
+            this.avatar = this.bak = User.getInfo().avatar_origin;
+            getUserOverview(this.uid).then((res) => {
+                this.frame = res.data.data.avatar_frame || ''
+            })
         },
     },
     filters: {

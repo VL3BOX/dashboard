@@ -5,7 +5,6 @@
                 <i class="u-avatar-avt"
                     ><img class="u-avatar-avt-pic" :src="info.avatar"
                 /></i>
-                <!-- TODO:头像框 <i class="u-avatar-frame"><img class="u-avatar-frame-pic" src="../assets/img/1.png" /></i> -->
             </i>
             <div class="u-info">
                 <h1 class="u-name">

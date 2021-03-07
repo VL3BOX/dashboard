@@ -28,6 +28,9 @@ function uploadAvatar(data){
 function getFrames(){
     return axios.get(__dataPath + 'data/box/user_avatar_frame.json')
 }
+function getUserOverview(uid){
+    return axios.get(__server + `user/overview/${uid}`)
+}
 
 
 // 3.密码
@@ -81,5 +84,6 @@ export {
     unbindOAuth,
     checkOAuth,
     uploadAvatar,
-    getFrames
+    getFrames,
+    getUserOverview
 };

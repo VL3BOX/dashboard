@@ -1,5 +1,7 @@
 <template>
-    <el-alert title="即将登场" type="warning" show-icon> </el-alert>
+    <div class="m-dashboard-feed">
+        <el-alert title="即将登场" type="warning" show-icon> </el-alert>
+    </div>
 </template>
 
 <script>

@@ -24,7 +24,11 @@ module.exports = {
                     request.setHeader("origin", "");
                 },
             },
+            // SERVER by iRuxu
             "/profile": {
+                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5160" : "https://server.jx3box.com"
+            },
+            "/cms/my":{
                 target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5160" : "https://server.jx3box.com"
             },
             "/upload": {

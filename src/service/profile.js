@@ -58,7 +58,6 @@ function unbindOAuth(data) {
 }
 
 
-
 // 信息
 function getUserInfo() {
     return $profile.get("user/me");
@@ -68,20 +67,6 @@ function updateAvatar(data) {
     return $profile.post("dashboard/avatar/update", data);
 }
 
-
-
-
-
-
-
-// 用户设置
-function getConf() {
-    return $profile.get("dashboard/config");
-}
-
-function setConf(data) {
-    return $profile.post("dashboard/config", data);
-}
 
 export {
     getUserInfo,
@@ -95,6 +80,4 @@ export {
     sendBindEmail,
     unbindOAuth,
     checkOAuth,
-    getConf,
-    setConf,
 };

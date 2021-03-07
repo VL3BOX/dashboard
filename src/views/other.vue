@@ -1,5 +1,5 @@
 <template>
-    <div class="m-dashboard m-dashboard-work">
+    <div class="m-dashboard m-dashboard-work m-dashboard-other">
         <el-tabs v-model="searchType">
             <el-tab-pane
                 :label="item"
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { getQuestions,getPapers } from "../service/exam";
+import { getQuestions, getPapers } from "../service/exam";
 import { get_my_item_plans } from "../service/item_plan";
 import { get_my_collections } from "../service/collection";
 import question from "@/components/other/question.vue";
@@ -76,8 +76,8 @@ import collection from "@/components/other/collection.vue";
 const fn = {
     question: getQuestions,
     item_plan: get_my_item_plans,
-    paper : getPapers,
-    collection : get_my_collections
+    paper: getPapers,
+    collection: get_my_collections,
 };
 export default {
     name: "ideas",
@@ -91,12 +91,12 @@ export default {
             search: "",
             searchType: "collection",
             types: {
-                collection : "我的小册",
+                collection: "我的小册",
                 item_plan: "我的清单",
                 question: "我的题目",
                 paper: "我的试卷",
             },
-            loading : false
+            loading: false,
         };
     },
     computed: {
@@ -107,7 +107,10 @@ export default {
                     title: this.search,
                     pageSize: this.per,
                 };
-            } else if (this.searchType == "item_plan" || this.searchType == 'collection') {
+            } else if (
+                this.searchType == "item_plan" ||
+                this.searchType == "collection"
+            ) {
                 return {
                     page: this.page,
                     keyword: this.search,
@@ -116,13 +119,13 @@ export default {
             }
             return "";
         },
-        subtype : function (){
-            return this.$route.query.type || this.$route.params.subtype
-        }
+        subtype: function() {
+            return this.$route.query.type || this.$route.params.subtype;
+        },
     },
     watch: {
-        searchType : function (){
-            this.page = 1  
+        searchType: function() {
+            this.page = 1;
         },
         params: {
             deep: true,
@@ -133,26 +136,31 @@ export default {
     },
     methods: {
         loadPosts: function(searchType) {
-            this.loading = true
-            fn[searchType](this.params).then((res) => {
-                if (searchType == "item_plan" || searchType == "collection") {
-                    res = res.data;
-                    if (res.code === 200) {
+            this.loading = true;
+            fn[searchType](this.params)
+                .then((res) => {
+                    if (
+                        searchType == "item_plan" ||
+                        searchType == "collection"
+                    ) {
+                        res = res.data;
+                        if (res.code === 200) {
+                            this.data = res.data.data;
+                            this.total = res.data.total;
+                        }
+                    } else {
                         this.data = res.data.data;
-                        this.total = res.data.total;
+                        this.total = res.data.page.total;
                     }
-                } else {
-                    this.data = res.data.data;
-                    this.total = res.data.page.total;
-                }
-            }).finally(() => {
-                this.loading = false
-            })
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
         },
     },
     mounted: function() {
-        if(this.subtype){
-            this.searchType = this.subtype
+        if (this.subtype) {
+            this.searchType = this.subtype;
         }
         this.loadPosts(this.searchType);
     },
@@ -160,12 +168,15 @@ export default {
         question,
         item_plan,
         paper,
-        collection
+        collection,
     },
 };
 </script>
 
 <style lang="less">
+.m-dashboard-other{
+    padding:20px;
+}
 .m-dashboard-work-search {
     .mb(10px);
 }

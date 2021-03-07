@@ -1,30 +1,28 @@
 import { $ } from "./axios";
+
+import axios from "axios";
 import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
+import { installNextInterceptors } from "@jx3box/jx3box-common/js/axios";
+const $cms = axios.create({
+    withCredentials: true,
+    baseURL: process.env.NODE_ENV === "production" ? __server : "/",
+});
+installNextInterceptors($cms);
 
 function getWorks(query) {
-    return $.get(__server + "post/mywork", {
+    return $cms.get("cms/my/post", {
         params: query,
     });
 }
 
 function delPost(id) {
-    return $.post(__server + "post/delete", {
-        pid: id,
+    return $cms.delete(`/cms/my/post/${id}`);
+}
+
+function checkPost(id,status) {
+    return $cms.put(`/cms/my/post/${id}/check`, {
+        status,
     });
 }
 
-function hidePost(id) {
-    return $.post(__server + "post/status", {
-        pid: id,
-        status: "draft",
-    });
-}
-
-function publishPost(id) {
-    return $.post(__server + "post/status", {
-        pid: id,
-        status: "publish",
-    });
-}
-
-export { getWorks, delPost, hidePost, publishPost };
+export { getWorks, delPost, checkPost };

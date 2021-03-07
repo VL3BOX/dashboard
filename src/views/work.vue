@@ -1,5 +1,5 @@
 <template>
-    <div class="m-dashboard m-dashboard-work">
+    <div class="m-dashboard-work m-dashboard-cms">
         <el-tabs v-model="searchType">
             <el-tab-pane label="全部作品" name="all"></el-tab-pane>
             <el-tab-pane
@@ -16,10 +16,7 @@
             v-model="search"
         >
             <span slot="prepend">关键词</span>
-            <el-button
-                slot="append"
-                icon="el-icon-search"
-            ></el-button>
+            <el-button slot="append" icon="el-icon-search"></el-button>
         </el-input>
 
         <div class="m-dashboard-box">
@@ -112,7 +109,7 @@
 </template>
 
 <script>
-import { getWorks, delPost, hidePost, publishPost } from "../service/work";
+import { getWorks, delPost, checkPost } from "../service/work";
 import { editLink } from "@jx3box/jx3box-common/js/utils";
 import {
     __v2,
@@ -141,18 +138,18 @@ export default {
             return {
                 per: this.per,
                 title: this.search,
-                type: this.searchType == 'all' ? '' : this.searchType,
+                type: this.searchType == "all" ? "" : this.searchType,
                 page: this.page,
             };
         },
     },
-    watch : {
-        params : {
-            deep : true,
-            handler: function (newval){
-                this.loadPosts()
-            }
-        }
+    watch: {
+        params: {
+            deep: true,
+            handler: function(newval) {
+                this.loadPosts();
+            },
+        },
     },
     methods: {
         loadPosts: function() {
@@ -181,7 +178,7 @@ export default {
             });
         },
         draft: function(id, i) {
-            hidePost(id).then((res) => {
+            checkPost(id, "draft").then((res) => {
                 this.$message({
                     type: "success",
                     message: `操作成功`,
@@ -190,7 +187,7 @@ export default {
             });
         },
         publish: function(id, i) {
-            publishPost(id).then((res) => {
+            checkPost(id, "publish").then((res) => {
                 this.$message({
                     type: "success",
                     message: `操作成功`,
@@ -199,7 +196,7 @@ export default {
             });
         },
         postLink: function(type, id) {
-            return __Root + type + "/?pid=" + id;
+            return __Root + type + "/" + id;
         },
     },
     filters: {

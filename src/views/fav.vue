@@ -263,5 +263,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../assets/css/work.less";
+@import "../assets/css/fav.less";
 </style>

@@ -29,13 +29,13 @@
             <a class="u-fav" href="/dashboard/#/fav" :class="isActive('fav')">
                 <i class="el-icon-star-off"></i><span>我的收藏</span>
             </a>
-            <a
+            <!-- <a
                 href="/dashboard/#/feed"
                 class="disabled"
                 :class="isActive('feed')"
             >
                 <i class="el-icon-view"></i><span>我的订阅</span>
-            </a>
+            </a> -->
         </div>
 
         <h5 class="u-title">账号中心</h5>
@@ -43,13 +43,13 @@
             <a href="/dashboard/#/profile" :class="isProfile">
                 <i class="el-icon-user"></i><span>资料设置</span>
             </a>
-            <a
+            <!-- <a
                 href="/dashboard/#/config"
                 class="disabled"
                 :class="isActive('config')"
             >
                 <i class="el-icon-setting"></i><span>同步设置</span>
-            </a>
+            </a> -->
             <a :href="feedback" target="_blank">
                 <i class="el-icon-phone-outline"></i><span>需要帮助</span>
                 <!-- <img class="u-blank" svg-inline src="../assets/img/nav/blank.svg"/> -->

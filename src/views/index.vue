@@ -34,10 +34,16 @@
                                 :class="{ on: isVIP || isPRO }"
                                 href="/vip/premium?from=dashboard_index"
                                 target="_blank"
+                                v-if="isVIP || isPRO"
                                 >{{ vipType }}</a
                             >
                             <span class="u-expire" v-if="expire_date"
                                 >(有效期至:{{ expire_date }})</span
+                            ><a
+                                class="u-upgrade"
+                                href="/vip/premium?from=dashboard_index"
+                                target="_blank"
+                                >升级账号类型</a
                             >
                         </span>
                     </el-tooltip>
@@ -149,7 +155,6 @@
 import { __userGroup, __imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { showAvatar } from "@jx3box/jx3box-common/js/utils";
-import { getUserInfo } from "../service/profile";
 import dateFormat from "../utils/dateFormat";
 import { getUserMedals } from "@/service/index.js";
 import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
@@ -246,7 +251,7 @@ export default {
     },
     mounted: function() {
         this.renderInfo();
-        this.loadAsset();
+        // this.loadAsset();
         this.loadMedals();
     },
 };

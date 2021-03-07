@@ -72,7 +72,7 @@
                         <el-button
                             size="mini"
                             icon="el-icon-delete"
-                            title="删除"
+                            title="取消收藏"
                             @click="del(item.post_type, item.post_id)"
                         ></el-button>
                     </el-button-group>

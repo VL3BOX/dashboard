@@ -1,89 +1,160 @@
 <template>
-    <div class="m-dashboard-profile m-dashboard-avatar">
-        <div class="u-preview">
-            <img class="u-avatar u-avatar-l" :src="avatar" />
-            <!-- <img class="u-avatar u-avatar-m" :src="avatar" /> -->
-            <!-- <img class="u-avatar u-avatar-s" :src="avatar" /> -->
-        </div>
-        <el-upload
-            class="u-upload"
-            drag
-            :action="upload_url"
-            with-credentials
-            :on-success="success"
-            :on-error="fail"
-            accept="image/png,image/gif,image/jpeg"
-        >
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-                将文件拖到此处，或<em>点击上传</em><br />
-                <span class="u-tip">只能上传jpg/png/gif文件</span>
+    <uc class="m-dashboard-avatar">
+        <div class="m-profile-avatar">
+            <div class="m-profile-avatar-primary">
+                <div class="u-avatar">
+                    <img
+                        class="u-avatar u-avatar-l"
+                        :src="avatar | showAvatar"
+                    />
+                </div>
+                <el-upload
+                    class="u-upload"
+                    drag
+                    accept="image/png,image/gif,image/jpeg"
+                    :on-change="upload"
+                    action="upload/avatar"
+                    :auto-upload="false"
+                >
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">
+                        将文件拖到此处，或<em>点击上传</em><br />
+                        <span class="u-tip">只能上传jpg/png/gif文件</span>
+                    </div>
+                </el-upload>
+                <p class="u-btng">
+                    <el-button type="primary" @click="submit">确认</el-button>
+                    <el-button @click="reset">重置</el-button>
+                </p>
             </div>
-        </el-upload>
-        <p class="u-btng">
-            <el-button type="primary" @click="submit">确认</el-button>
-            <el-button @click="reset">重置</el-button>
-        </p>
-    </div>
+            <div class="m-profile-avatar-frame">
+                <h3 class="u-title">
+                    自定义头像框
+                    <span class="u-limit" :class="{ on: isVIP }"
+                        >(
+                        <i
+                            :class="isVIP ? 'el-icon-unlock' : 'el-icon-lock'"
+                        ></i>
+                        仅高级/专业版账户适用 )</span
+                    >
+                </h3>
+                <div class="u-list" v-if="frames && frames.length">
+                    <li
+                        class="u-item"
+                        :class="{ on: i == focus_frame_index }"
+                        v-for="(item, i) in frames"
+                        :key="i"
+                        @click="selectFrame(item.name, i)"
+                    >
+                        <img
+                            :src="avatar | showSmallAvatar"
+                            v-if="i == focus_frame_index"
+                            class="u-pic"
+                        />
+                        <i class="u-frame"
+                            ><img :src="showFrame(item.name, item.files.s.file)"
+                        /></i>
+                    </li>
+                    <i class="u-mask" v-if="!isVIP"></i>
+                </div>
+            </div>
+        </div>
+    </uc>
 </template>
 
 <script>
-import { updateAvatar } from "../service/profile";
+import uc from "@/components/uc.vue";
+import { updateAvatar, uploadAvatar, getFrames } from "@/service/profile";
 import User from "@jx3box/jx3box-common/js/user";
-import {__server } from '@jx3box/jx3box-common/js/jx3box'
-import { showAvatar } from "@jx3box/jx3box-common/js/utils";
-const API = __server;
-
+import { showAvatar,getThumbnail } from "@jx3box/jx3box-common/js/utils";
+import { isVIP } from "@jx3box/jx3box-common/js/pay";
+import frames from "@jx3box/jx3box-data/data/box/user_avatar_frame.json";
+import { __imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
 export default {
     name: "avatar",
     props: [],
     data: function() {
         return {
-            avatar: "",
+            // 备份
             bak: "",
-            upload_url: API + "upload/avatar",
-            path: "",
+            // 数据
+            avatar: "",
+            frame: "",
+            // VIP
+            isVIP: false,
+            // 头像框
+            frames,
+            focus_frame_index: -1,
         };
     },
-    computed: {},
-    methods: {
-        success: function(res) {
-            this.$message({
-                message: "上传成功",
-                type: "success",
-            });
-            this.avatar = showAvatar(res.data.list[0], "l");
-            this.path = res.data.list[0];
+    computed: {
+        data: function() {
+            return {
+                user_avatar: this.avatar,
+                user_avatar_frame: this.frame,
+            };
         },
-        fail: function(err) {
-            this.$message.error("上传失败,网络异常或非法请求");
+    },
+    methods: {
+        upload: function(file, fileList) {
+            let formdata = new FormData();
+            let filedata = file.raw;
+            formdata.append("file", filedata);
+            uploadAvatar(formdata).then((res) => {
+                this.$message({
+                    message: "上传成功",
+                    type: "success",
+                });
+                this.avatar = res.data.data.list[0];
+            });
         },
         reset: function() {
             this.avatar = this.bak;
         },
         submit: function() {
-            updateAvatar({
-                path: this.path,
-            })
-                .then((res) => {
-                    if(!res.data.code){
-                        User.refresh("avatar", this.path);
-                        this.$message({
-                            message: "头像更新成功",
-                            type: "success",
-                        });
-                    }else{
-                        this.$message({
-                            message: res.data.msg,
-                            type: "error",
-                        });
-                    }
-                })
+            updateAvatar(this.data).then((res) => {
+                User.refresh("avatar", this.avatar);
+                this.$message({
+                    message: "头像更新成功",
+                    type: "success",
+                });
+            });
+        },
+        loadFrames: function() {
+            getFrames().then((res) => {
+                this.frames = res.data;
+            });
+        },
+        showFrame: function(name, filename) {
+            return __imgPath + `image/avatar/${name}/${filename}`;
+        },
+        selectFrame: function(name, i) {
+            if (this.isVIP) {
+                this.focus_frame_index = i;
+                this.frame = name;
+            }
+        },
+        init: function() {
+            this.bak = this.avatar = User.getInfo().avatar_origin;
+            this.loadFrames();
+            isVIP().then((data) => {
+                this.isVIP = data;
+            });
         },
     },
-    mounted: function() {
-        this.avatar = showAvatar(User.getInfo().avatar_origin, "l");
-        this.bak = this.avatar;
+    filters: {
+        showAvatar: function(val) {
+            return showAvatar(val, "l");
+        },
+        showSmallAvatar : function (val){
+            return getThumbnail(val,68,true)
+        }
+    },
+    created: function() {
+        this.init();
+    },
+    components: {
+        uc,
     },
 };
 </script>

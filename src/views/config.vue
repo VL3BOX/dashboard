@@ -11,7 +11,7 @@
             <el-form-item label="游戏设置">
                 <el-switch v-model="conf.game_setting" active-color="#13ce66" active-text="同步"  :active-value="1" :inactive-value="0" disabled></el-switch>
             </el-form-item>
-            <el-form-item label="自定义界面设置">
+            <el-form-item label="自定义界面">
                 <el-switch v-model="conf.custom_ui" active-color="#13ce66" active-text="同步"  :active-value="1" :inactive-value="0" disabled></el-switch>
             </el-form-item>
             <el-form-item label="插件设置">

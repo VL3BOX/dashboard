@@ -12,17 +12,15 @@ module.exports = {
                     request.setHeader("origin", "");
                 },
             },
+            // HELPER by Kuguats
             "/api/my": {
                 target: "https://helper.jx3box.com",
             },
-            "api/messages": {
+            "/api/messages": {
                 target: "https://helper.jx3box.com",
             },
             "/api": {
                 target: "https://next.jx3box.com",
-                onProxyReq: function(request) {
-                    request.setHeader("origin", "");
-                },
             },
             // SERVER by iRuxu
             "/profile": {

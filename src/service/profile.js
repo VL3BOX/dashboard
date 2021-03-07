@@ -1,5 +1,5 @@
 import axios from "axios";
-import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __server,__dataPath } from "@jx3box/jx3box-common/js/jx3box.json";
 import { installNextInterceptors } from "@jx3box/jx3box-common/js/axios";
 const $profile = axios.create({
     withCredentials: true,
@@ -15,6 +15,18 @@ function getProfile() {
 }
 function updateProfile(data) {
     return $profile.post("profile", data);
+}
+
+// 2.头像
+// -------------------------------
+function updateAvatar(data) {
+    return $profile.put("profile/avatar", data);
+}
+function uploadAvatar(data){
+    return $profile.post("upload/avatar", data);
+}
+function getFrames(){
+    return axios.get(__dataPath + 'data/box/user_avatar_frame.json')
 }
 
 
@@ -57,19 +69,7 @@ function unbindOAuth(data) {
     return $profile.post("profile/oauth/unbind", data);
 }
 
-
-// 信息
-function getUserInfo() {
-    return $profile.get("user/me");
-}
-// 头像
-function updateAvatar(data) {
-    return $profile.post("dashboard/avatar/update", data);
-}
-
-
 export {
-    getUserInfo,
     updateProfile,
     getProfile,
     updateAvatar,
@@ -80,4 +80,6 @@ export {
     sendBindEmail,
     unbindOAuth,
     checkOAuth,
+    uploadAvatar,
+    getFrames
 };

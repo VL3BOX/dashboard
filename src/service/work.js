@@ -1,5 +1,3 @@
-import { $ } from "./axios";
-
 import axios from "axios";
 import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
 import { installNextInterceptors } from "@jx3box/jx3box-common/js/axios";

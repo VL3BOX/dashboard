@@ -110,7 +110,7 @@
 
 <script>
 import { getWorks, delPost, checkPost } from "../service/work";
-import { editLink } from "@jx3box/jx3box-common/js/utils";
+import { editLink,getLink } from "@jx3box/jx3box-common/js/utils";
 import {
     __v2,
     __Root,
@@ -196,7 +196,7 @@ export default {
             });
         },
         postLink: function(type, id) {
-            return __Root + type + "/" + id;
+            return getLink(type,id);
         },
     },
     filters: {

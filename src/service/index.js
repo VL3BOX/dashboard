@@ -1,4 +1,4 @@
-import { $pay,$next } from "@jx3box/jx3box-common/js/axios";
+import { $pay, $next, $server } from "@jx3box/jx3box-common/js/axios";
 
 function getMyAsset() {
     return $pay.get("api/vip/i");

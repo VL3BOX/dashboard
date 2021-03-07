@@ -17,7 +17,7 @@
         >
         <el-tab-pane name="email"
             ><span slot="label"
-                ><img class="u-mail" svg-inline src="../assets/img/nav/mail.svg" /> 邮箱设置</span
+                ><i class="el-icon-message"></i> 邮箱设置</span
             ></el-tab-pane
         >
         <el-tab-pane name="connect"

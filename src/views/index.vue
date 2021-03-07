@@ -30,13 +30,15 @@
                     >
                         <span class="u-vip">
                             <a
-                            class="i-icon-vip"
-                            :class="{ on: isVIP || isPRO }"
-                            href="/vip/premium?from=dashboard_index"
-                            target="_blank"
-                            >{{vipType}}</a
-                        >
-                        <span class="u-expire" v-if="expire_date">(有效期至:{{expire_date}})</span>
+                                class="i-icon-vip"
+                                :class="{ on: isVIP || isPRO }"
+                                href="/vip/premium?from=dashboard_index"
+                                target="_blank"
+                                >{{ vipType }}</a
+                            >
+                            <span class="u-expire" v-if="expire_date"
+                                >(有效期至:{{ expire_date }})</span
+                            >
                         </span>
                     </el-tooltip>
                 </h1>
@@ -189,22 +191,22 @@ export default {
         uid: function() {
             return this.info.uid;
         },
-        isVIP : function (){
-            return hasVIP(this.asset) || false
+        isVIP: function() {
+            return hasVIP(this.asset) || false;
         },
-        isPRO : function (){
-            return hasPRO(this.asset) || false
+        isPRO: function() {
+            return hasPRO(this.asset) || false;
         },
-        vipType : function (){
-            return this.isPRO ? 'PRO' : 'PRE'
+        vipType: function() {
+            return this.isPRO ? "PRO" : "PRE";
         },
         expire_date: function() {
-            if(this.isPRO){
-                return showDate(this.asset.pro_expire_date)
-            }else if(this.isVIP){
+            if (this.isPRO) {
+                return showDate(this.asset.pro_expire_date);
+            } else if (this.isVIP) {
                 return showDate(this.asset.expire_date);
-            }else{
-                return ''
+            } else {
+                return "";
             }
         },
     },

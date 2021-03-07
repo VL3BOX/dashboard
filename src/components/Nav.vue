@@ -1,6 +1,9 @@
 <template>
     <nav class="m-nav">
-        <a class="m-nav-publish el-button el-button--primary" href="/dashboard/publish">
+        <a
+            class="m-nav-publish el-button el-button--primary"
+            href="/dashboard/publish"
+        >
             <i class="el-icon-edit-outline"></i><span>发布中心</span>
         </a>
         <!-- <a class="m-nav-bucket el-button el-button--primary is-plain"  href="./bucket"><img class="u-bucket" svg-inline src="../assets/img/nav/bucket.svg" /> <span>仓库</span></a> -->
@@ -26,21 +29,26 @@
             <a class="u-fav" href="/dashboard/#/fav" :class="isActive('fav')">
                 <i class="el-icon-star-off"></i><span>我的收藏</span>
             </a>
-            <a href="/dashboard/#/feed" class="disabled" :class="isActive('feed')">
+            <a
+                href="/dashboard/#/feed"
+                class="disabled"
+                :class="isActive('feed')"
+            >
                 <i class="el-icon-view"></i><span>我的订阅</span>
             </a>
         </div>
 
         <h5 class="u-title">账号中心</h5>
         <div class="m-nav-group">
-            <a href="/dashboard/#/profile" :class="isActive('profile')">
+            <a href="/dashboard/#/profile" :class="isProfile">
                 <i class="el-icon-user"></i><span>资料设置</span>
             </a>
-            <a href="/dashboard/#/config" :class="isActive('config')">
-                <i class="el-icon-setting"></i><span>隐私通知</span>
-            </a>
-            <a href="/vip/credit" target="_blank">
-                <i class="el-icon-coin"></i><span>积分中心</span>
+            <a
+                href="/dashboard/#/config"
+                class="disabled"
+                :class="isActive('config')"
+            >
+                <i class="el-icon-setting"></i><span>同步设置</span>
             </a>
             <a :href="feedback" target="_blank">
                 <i class="el-icon-phone-outline"></i><span>需要帮助</span>
@@ -51,23 +59,26 @@
 </template>
 
 <script>
-const { JX3BOX } = require("@jx3box/jx3box-common");
+import { feedback } from "@jx3box/jx3box-common/js/jx3box.json";
+const profile_rooutes = ["profile", "avatar", "pwd", "connect", "email"];
 export default {
     name: "Nav",
     data: function() {
         return {
-            feedback: JX3BOX.feedback,
+            feedback,
         };
     },
     computed: {
+        isProfile: function(val) {
+            return profile_rooutes.includes(this.$route.name) ? 'on' : '';
+        },
     },
     methods: {
-        isActive : function (val){
-            return this.$route.name == val ? 'on' : ''
-        }
+        isActive: function(val) {
+            return this.$route.name == val ? "on" : "";
+        },
     },
-    mounted: function() {
-    },
+    mounted: function() {},
 };
 </script>
 

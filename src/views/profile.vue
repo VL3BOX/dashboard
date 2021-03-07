@@ -1,9 +1,7 @@
 <template>
-    <div class="m-dashboard-profile">
-        <!-- <h1>资料</h1> -->
-
+    <uc>
         <el-form
-            class="m-profile-name"
+            class="m-profile-basic"
             ref="form"
             label-width="100px"
             :label-position="position"
@@ -164,10 +162,11 @@
                 >
             </el-form-item>
         </el-form>
-    </div>
+    </uc>
 </template>
 
 <script>
+import uc from '@/components/uc.vue'
 import User from "@jx3box/jx3box-common/js/user";
 import { updateProfile, getProfile } from "../service/profile";
 import { sterilizer } from "sterilizer/index.js";
@@ -200,30 +199,28 @@ export default {
         // 提交资料
         submit() {
             updateProfile(this.form).then((res) => {
-                if (!res.data.code) {
-                    // User.refresh("bio", this.form.user_bio);
-                    this.$message({
-                        message: "资料修改成功",
-                        type: "success",
-                    });
-                }
+                this.$message({
+                    message: "资料修改成功",
+                    type: "success",
+                });
             });
         },
         // 获取资料
         getProfile() {
             getProfile().then((res) => {
-                if (!res.data.code) {
-                    this.form = res.data.data;
-                }
+                this.form = res.data.data;
             });
         },
     },
     mounted: function() {
         this.getProfile();
     },
+    components:{
+        uc
+    }
 };
 </script>
 
 <style lang="less">
-@import "../assets/css/dashboard/profile.less";
+@import "../assets/css/profile/profile.less";
 </style>

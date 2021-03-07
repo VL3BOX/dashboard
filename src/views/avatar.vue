@@ -1,5 +1,5 @@
 <template>
-    <div class="m-dashboard m-dashboard-avatar">
+    <div class="m-dashboard-profile m-dashboard-avatar">
         <div class="u-preview">
             <img class="u-avatar u-avatar-l" :src="avatar" />
             <!-- <img class="u-avatar u-avatar-m" :src="avatar" /> -->
@@ -89,5 +89,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "../assets/css/dashboard/avatar.less";
+@import "../assets/css/profile/avatar.less";
 </style>

@@ -1,8 +1,7 @@
-.m-dashboard-profile {
+.m-profile-basic{
     max-width:800px;
-    // .auto(x);
 
-    padding:10px 20px;
+    padding:5px 10px;
 
     .u-name {
         .u-value {
@@ -71,9 +70,12 @@
         padding-top:10px;
         padding-bottom:10px;
     }
+    .u-tip{
+        .mb(10px);
+    }
 }
 @media screen and (max-width: @phone) {
-    .m-dashboard-profile{
+    .m-profile-basic{
         padding:0;
         .el-form-item__label {
             .x(left);
@@ -86,15 +88,3 @@
         }
     }
 }
-
-.m-profile-name{
-    .u-tip{
-        .mb(10px);
-    }
-    .mb(40px);
-}
-
-.m-profile-other.disabled{
-    .tm(0.4);
-}
-

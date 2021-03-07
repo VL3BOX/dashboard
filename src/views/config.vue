@@ -1,10 +1,10 @@
 <template>
     <div class="m-dashboard m-dashboard-config">
-        <h2 class="u-title">隐私通知</h2>
+        <h2 class="u-title">同步设置</h2>
         <el-form label-position="left" label-width="120px">
-            <el-form-item label="评论邮件通知">
+            <!-- <el-form-item label="评论邮件通知">
                 <el-switch v-model="conf.cmt_email" active-color="#13ce66" active-text="开启" :active-value="1" :inactive-value="0"></el-switch>
-            </el-form-item>
+            </el-form-item> -->
             <!-- <el-form-item label="茗伊插件设置">
                 <el-switch v-model="conf.tinymins_status" active-color="#13ce66" active-text="公开"  :active-value="1" :inactive-value="0"></el-switch>
             </el-form-item> -->
@@ -58,5 +58,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "../assets/css/dashboard/config.less";
+@import "../assets/css/profile/config.less";
 </style>

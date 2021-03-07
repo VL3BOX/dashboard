@@ -1,36 +1,38 @@
-import { $ } from "./axios";
+import axios from "axios";
 import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
-// const __server = 'http://localhost:5160/'
+import { installNextInterceptors } from "@jx3box/jx3box-common/js/axios";
+const $profile = axios.create({
+    withCredentials: true,
+    baseURL: process.env.NODE_ENV === "production" ? __server : "/",
+});
+installNextInterceptors($profile);
 
-// 信息
-function getUserInfo() {
-    return $.get(__server + "user/me");
-}
-// 资料
-function getProfile(){
-    return $.get(__server + "dashboard/profile")
+
+// 1.资料
+// -------------------------------
+function getProfile() {
+    return $profile.get("profile");
 }
 function updateProfile(data) {
-    return $.post(__server + "dashboard/profile", data);
+    return $profile.post("profile", data);
 }
 
-// 头像
-function updateAvatar(data) {
-    return $.post(__server + "dashboard/avatar/update", data);
-}
 
-// 密码
+// 3.密码
+// -------------------------------
 function updatePassword(data) {
-    return $.post(__server + "dashboard/password/update", data);
+    return $profile.post("profile/password", data);
 }
 
-// 邮箱
+
+// 4.邮箱
+// -------------------------------
 function checkEmailStatus() {
-    return $.get(__server + "dashboard/email/check");
+    return $profile.get("profile/email/check");
 }
 
 function checkEmailAvailable(email) {
-    return $.get(__server + "account/email/check", {
+    return $profile.get("profile/email/available", {
         params: {
             user_email: email,
         },
@@ -38,30 +40,47 @@ function checkEmailAvailable(email) {
 }
 
 function sendBindEmail(data) {
-    return $.post(__server + "dashboard/email/bind", data);
+    return $profile.post("profile/email/bind", data);
 }
 
 function sendVerifyEmail() {
-    return $.post(__server + "dashboard/email/verify");
+    return $profile.post("profile/email/verify");
 }
 
-// 互联
+
+// 5.互联
 function checkOAuth() {
-    return $.get(__server + "dashboard/oauth/check");
+    return $profile.get("profile/oauth/check");
 }
 
 function unbindOAuth(data) {
-    return $.post(__server + "dashboard/oauth/unbind", data);
+    return $profile.post("profile/oauth/unbind", data);
 }
+
+
+
+// 信息
+function getUserInfo() {
+    return $profile.get("user/me");
+}
+// 头像
+function updateAvatar(data) {
+    return $profile.post("dashboard/avatar/update", data);
+}
+
+
+
+
+
 
 
 // 用户设置
-function getConf(){
-    return $.get(__server + "dashboard/config");
+function getConf() {
+    return $profile.get("dashboard/config");
 }
 
-function setConf(data){
-    return $.post(__server + "dashboard/config",data);
+function setConf(data) {
+    return $profile.post("dashboard/config", data);
 }
 
 export {
@@ -77,5 +96,5 @@ export {
     unbindOAuth,
     checkOAuth,
     getConf,
-    setConf
+    setConf,
 };

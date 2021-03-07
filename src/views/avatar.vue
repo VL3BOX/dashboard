@@ -38,17 +38,24 @@
                         仅高级/专业版账户适用 )</span
                     >
                 </h3>
-                <div class="u-list" v-if="frames && frames.length">
+                <div class="u-list" v-if="frames">
+                    <li class="u-item" :class="{ on: !frame }" @click="selectFrame('')" title="无边框">
+                        <img
+                            :src="avatar | showSmallAvatar"
+                            class="u-pic"
+                        />
+                        <i class="u-frame u-frame-none"></i>
+                    </li>
                     <li
                         class="u-item"
-                        :class="{ on: i == focus_frame_index }"
-                        v-for="(item, i) in frames"
-                        :key="i"
-                        @click="selectFrame(item.name, i)"
+                        :class="{ on: name == frame }"
+                        v-for="(item, name) in frames"
+                        :key="name"
+                        @click="selectFrame(name)"
                     >
                         <img
                             :src="avatar | showSmallAvatar"
-                            v-if="i == focus_frame_index"
+                            v-if="name == frame"
                             class="u-pic"
                         />
                         <i class="u-frame"
@@ -66,7 +73,7 @@
 import uc from "@/components/uc.vue";
 import { updateAvatar, uploadAvatar, getFrames } from "@/service/profile";
 import User from "@jx3box/jx3box-common/js/user";
-import { showAvatar,getThumbnail } from "@jx3box/jx3box-common/js/utils";
+import { showAvatar, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 import { isVIP } from "@jx3box/jx3box-common/js/pay";
 import frames from "@jx3box/jx3box-data/data/box/user_avatar_frame.json";
 import { __imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
@@ -84,7 +91,6 @@ export default {
             isVIP: false,
             // 头像框
             frames,
-            focus_frame_index: -1,
         };
     },
     computed: {
@@ -128,9 +134,8 @@ export default {
         showFrame: function(name, filename) {
             return __imgPath + `image/avatar/${name}/${filename}`;
         },
-        selectFrame: function(name, i) {
+        selectFrame: function(name) {
             if (this.isVIP) {
-                this.focus_frame_index = i;
                 this.frame = name;
             }
         },
@@ -146,9 +151,9 @@ export default {
         showAvatar: function(val) {
             return showAvatar(val, "l");
         },
-        showSmallAvatar : function (val){
-            return getThumbnail(val,68,true)
-        }
+        showSmallAvatar: function(val) {
+            return getThumbnail(val, 68, true);
+        },
     },
     created: function() {
         this.init();

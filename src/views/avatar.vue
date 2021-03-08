@@ -42,6 +42,7 @@
                     <li class="u-item" :class="{ on: !frame }" @click="selectFrame('')" title="无边框">
                         <img
                             :src="avatar | showSmallAvatar"
+                            v-if="!frame"
                             class="u-pic"
                         />
                         <i class="u-frame u-frame-none"></i>

@@ -1,6 +1,6 @@
 <template>
     <div class="m-publish-banner">
-        <el-alert class="u-tip" title="图片尺寸180*100像素，非必选，部分栏目不会展示海报，分享功能将使用该图作为预览图" type="info" show-icon> </el-alert>
+        <el-alert class="u-tip" title="首页海报尺寸1100*300，非必选，部分栏目不会展示海报，分享功能将使用该图作为预览图" type="info" show-icon> </el-alert>
         <el-upload
             class="avatar-uploader"
             :action="url"

@@ -1,6 +1,20 @@
 <template>
     <div class="m-dashboard m-dashboard-work m-dashboard-msg">
-        <h2 class="u-title">我的消息</h2>
+        <div class="m-dashboard-msg-header">
+            <h2 class="u-title">
+                我的消息
+            </h2>
+            <el-button
+                class="u-read-all"
+                type="primary"
+                size="mini"
+                @click="read(null)"
+                :disabled="!unread_total"
+            >
+                <i class="el-icon el-icon-check"></i>
+                <span v-text="'全部设为已读'"></span>
+            </el-button>
+        </div>
         <ul class="m-dashboard-box-list" v-if="data.length">
             <li
                 v-for="(item, i) in data"
@@ -65,16 +79,6 @@
             :total="total"
         >
         </el-pagination>
-        <el-button
-            class="u-read-all"
-            type="primary"
-            size="mini"
-            @click="read(null)"
-            :disabled="!unread_total"
-        >
-            <i class="el-icon el-icon-check"></i>
-            <span v-text="'全部设为已读'"></span>
-        </el-button>
     </div>
 </template>
 

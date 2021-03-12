@@ -1,5 +1,5 @@
 import axios from "axios";
-import { __server,__dataPath } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __server,__imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
 import { installNextInterceptors } from "@jx3box/jx3box-common/js/axios";
 const $profile = axios.create({
     withCredentials: true,
@@ -26,7 +26,7 @@ function uploadAvatar(data){
     return $profile.post("upload/avatar", data);
 }
 function getFrames(){
-    return axios.get(__dataPath + 'data/box/user_avatar_frame.json')
+    return axios.get(__imgPath + 'data/user_avatar_frame.json')
 }
 function getUserOverview(uid){
     return axios.get(__server + `user/overview/${uid}`)

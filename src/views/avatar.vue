@@ -58,6 +58,7 @@
                             :src="avatar | showSmallAvatar"
                             v-if="name == frame"
                             class="u-pic"
+                            :class="{isCircle:item.style=='circle'}"
                         />
                         <i class="u-frame"
                             ><img :src="showFrame(item.name, item.files.s.file)"
@@ -76,7 +77,7 @@ import { updateAvatar, uploadAvatar, getFrames,getUserOverview } from "@/service
 import User from "@jx3box/jx3box-common/js/user";
 import { showAvatar, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 import { isVIP } from "@jx3box/jx3box-common/js/pay";
-import frames from "@jx3box/jx3box-data/data/box/user_avatar_frame.json";
+import frames from "@jx3box/jx3box-common/data/avatar_frame.json";
 import { __imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
 export default {
     name: "avatar",
@@ -89,7 +90,7 @@ export default {
             avatar: "",
             frame: "",
             // VIP
-            isVIP: false,
+            isVIP: true,
             uid : User.getInfo().uid,
             // 头像框
             frames,

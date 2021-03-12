@@ -53,11 +53,13 @@
                         v-for="(item, name) in frames"
                         :key="name"
                         @click="selectFrame(name)"
+                        :title="item.desc"
                     >
                         <img
                             :src="avatar | showSmallAvatar"
                             v-if="name == frame"
                             class="u-pic"
+                            :class="{isCircle:item.style=='circle'}"
                         />
                         <i class="u-frame"
                             ><img :src="showFrame(item.name, item.files.s.file)"

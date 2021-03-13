@@ -34,21 +34,23 @@
                         placement="top"
                     >
                         <span class="u-vip">
+                            <template v-if="isVIP || isPRO">
                             <a
                                 class="i-icon-vip"
                                 :class="{ on: isVIP || isPRO }"
                                 href="/vip/premium?from=dashboard_index"
                                 target="_blank"
-                                v-if="isVIP || isPRO"
                                 >{{ vipType }}</a
                             >
                             <span class="u-expire" v-if="expire_date"
                                 >(有效期至:{{ expire_date }})</span
                             >
+                            </template>
                             <a
                                 class="u-upgrade"
                                 href="/vip/premium?from=dashboard_index"
                                 target="_blank"
+                                v-else
                                 >升级账号类型</a
                             >
                         </span>

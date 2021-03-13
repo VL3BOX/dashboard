@@ -1,9 +1,12 @@
 # 个人中心
 
-本地测试：
+## Dev
 ```
-disableHostCheck: true
-```
+$ npm i
+$ npm run serve
 
-## TODO
-- [ ] vip头像框
+//user center
+$ open http://localhost:8080
+//publish center
+$ open http://localhost:8080/publish
+```

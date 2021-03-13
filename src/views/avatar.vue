@@ -37,7 +37,11 @@
                         <i
                             :class="isVIP ? 'el-icon-unlock' : 'el-icon-lock'"
                         ></i>
-                        仅高级/专业版账户适用 )
+                        仅<a
+                            href="/vip/rename?from=dashboard_avatar"
+                            target="_blank"
+                            >高级/专业版</a
+                        >账户适用 )
                     </span>
                 </h3>
                 <div class="u-list" v-if="frames">
@@ -77,7 +81,7 @@
                             placement="top"
                             :open-delay="300"
                         >
-                            <div :class="{'u-blocked':!item.status}">
+                            <div :class="{ 'u-blocked': !item.status }">
                                 <img
                                     :src="avatar | showSmallAvatar"
                                     v-if="name == frame"
@@ -100,7 +104,10 @@
                         </el-tooltip>
                     </li>
                 </div>
-                <div class="u-tip"><i class="el-icon-warning-outline"></i> 「限定头像框」仅在指定时间段可选择激活。</div>
+                <div class="u-tip">
+                    <i class="el-icon-warning-outline"></i>
+                    「限定头像框」仅在指定时间段可选择激活。
+                </div>
             </div>
         </div>
     </uc>
@@ -161,8 +168,15 @@ export default {
             this.avatar = this.bak;
         },
         submit: function() {
-            if(!this.isVIP){
-                this.frame = ''
+            if (!this.isVIP) {
+                if (this.frame) {
+                    this.$notify({
+                        title: "头像框未生效",
+                        message: "头像框仅高级/专业账号可用",
+                        type: "warning",
+                    });
+                }
+                this.frame = "";
             }
             updateAvatar(this.data).then((res) => {
                 User.refresh("avatar", this.avatar);
@@ -178,14 +192,15 @@ export default {
             });
         },
         showFrame: function(name, filename) {
-            return __imgPath + `image/avatar/${name}/${filename}`;
+            // return __imgPath + `image/avatar/${name}/${filename}`;
+            return `temp/avatar/${name}/${filename}`;
         },
         selectFrame: function(item) {
-            if(!item){
-                this.frame = ''
-                return 
+            if (!item) {
+                this.frame = "";
+                return;
             }
-            if(item.status){
+            if (item.status) {
                 this.frame = item.name;
             }
         },

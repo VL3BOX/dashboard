@@ -100,6 +100,7 @@
                         </el-tooltip>
                     </li>
                 </div>
+                <div class="u-tip"><i class="el-icon-warning-outline"></i> 「限定头像框」仅在指定时间段可选择激活。</div>
             </div>
         </div>
     </uc>
@@ -180,6 +181,10 @@ export default {
             return __imgPath + `image/avatar/${name}/${filename}`;
         },
         selectFrame: function(item) {
+            if(!item){
+                this.frame = ''
+                return 
+            }
             if(item.status){
                 this.frame = item.name;
             }

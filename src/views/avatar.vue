@@ -192,7 +192,7 @@ export default {
             });
         },
         showFrame: function(name, filename) {
-            // return __imgPath + `image/avatar/${name}/${filename}`;
+            return __imgPath + `image/avatar/${name}/${filename}`;
             return `temp/avatar/${name}/${filename}`;
         },
         selectFrame: function(item) {

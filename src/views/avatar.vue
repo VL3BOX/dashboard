@@ -11,14 +11,16 @@
                 <el-upload
                     class="u-upload"
                     drag
-                    accept="image/png,image/gif,image/jpeg"
+                    accept="image/png, image/gif, image/jpeg"
                     :on-change="upload"
                     action="upload/avatar"
                     :auto-upload="false"
                 >
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">
-                        将文件拖到此处，或<em>点击上传</em><br />
+                        将文件拖到此处，或
+                        <em>点击上传</em>
+                        <br />
                         <span class="u-tip">只能上传jpg/png/gif文件</span>
                     </div>
                 </el-upload>
@@ -30,42 +32,73 @@
             <div class="m-profile-avatar-frame">
                 <h3 class="u-title">
                     自定义头像框
-                    <span class="u-limit" :class="{ on: isVIP }"
-                        >(
+                    <span class="u-limit" :class="{ on: isVIP }">
+                        (
                         <i
                             :class="isVIP ? 'el-icon-unlock' : 'el-icon-lock'"
                         ></i>
-                        仅高级/专业版账户适用 )</span
-                    >
+                        仅高级/专业版账户适用 )
+                    </span>
                 </h3>
                 <div class="u-list" v-if="frames">
-                    <li class="u-item" :class="{ on: !frame }" @click="selectFrame('')" title="无边框">
-                        <img
-                            :src="avatar | showSmallAvatar"
-                            v-if="!frame"
-                            class="u-pic"
-                        />
-                        <i class="u-frame u-frame-none"></i>
+                    <li
+                        class="u-item"
+                        :class="{ on: !frame }"
+                        @click="selectFrame('')"
+                    >
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="无边框"
+                            placement="top"
+                            :open-delay="200"
+                        >
+                            <div>
+                                <img
+                                    :src="avatar | showSmallAvatar"
+                                    v-if="!frame"
+                                    class="u-pic"
+                                />
+                                <i class="u-frame u-frame-none"></i>
+                            </div>
+                        </el-tooltip>
                     </li>
                     <li
                         class="u-item"
                         :class="{ on: name == frame }"
                         v-for="(item, name) in frames"
                         :key="name"
-                        @click="selectFrame(name)"
-                        :title="item.desc"
+                        @click="selectFrame(item)"
                     >
-                        <img
-                            :src="avatar | showSmallAvatar"
-                            v-if="name == frame"
-                            class="u-pic"
-                            :class="{isCircle:item.style=='circle'}"
-                        />
-                        <i class="u-frame"
-                            ><img :src="showFrame(item.name, item.files.s.file)"
-                        /></i>
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            :content="item.desc"
+                            placement="top"
+                            :open-delay="300"
+                        >
+                            <div :class="{'u-blocked':!item.status}">
+                                <img
+                                    :src="avatar | showSmallAvatar"
+                                    v-if="name == frame"
+                                    class="u-pic"
+                                    :class="{
+                                        isCircle: item.style == 'circle',
+                                    }"
+                                />
+                                <i class="u-frame">
+                                    <img
+                                        :src="
+                                            showFrame(
+                                                item.name,
+                                                item.files.s.file
+                                            )
+                                        "
+                                    />
+                                </i>
+                            </div>
+                        </el-tooltip>
                     </li>
-                    <i class="u-mask" v-if="!isVIP"></i>
                 </div>
             </div>
         </div>
@@ -74,7 +107,12 @@
 
 <script>
 import uc from "@/components/uc.vue";
-import { updateAvatar, uploadAvatar, getFrames,getUserOverview } from "@/service/profile";
+import {
+    updateAvatar,
+    uploadAvatar,
+    getFrames,
+    getUserOverview,
+} from "@/service/profile";
 import User from "@jx3box/jx3box-common/js/user";
 import { showAvatar, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 import { isVIP } from "@jx3box/jx3box-common/js/pay";
@@ -91,8 +129,8 @@ export default {
             avatar: "",
             frame: "",
             // VIP
-            isVIP: true,
-            uid : User.getInfo().uid,
+            isVIP: false,
+            uid: User.getInfo().uid,
             // 头像框
             frames,
         };
@@ -122,6 +160,9 @@ export default {
             this.avatar = this.bak;
         },
         submit: function() {
+            if(!this.isVIP){
+                this.frame = ''
+            }
             updateAvatar(this.data).then((res) => {
                 User.refresh("avatar", this.avatar);
                 this.$message({
@@ -138,9 +179,9 @@ export default {
         showFrame: function(name, filename) {
             return __imgPath + `image/avatar/${name}/${filename}`;
         },
-        selectFrame: function(name) {
-            if (this.isVIP) {
-                this.frame = name;
+        selectFrame: function(item) {
+            if(item.status){
+                this.frame = item.name;
             }
         },
         init: function() {
@@ -151,8 +192,8 @@ export default {
 
             this.avatar = this.bak = User.getInfo().avatar_origin;
             getUserOverview(this.uid).then((res) => {
-                this.frame = res.data.data.avatar_frame || ''
-            })
+                this.frame = res.data.data.avatar_frame || "";
+            });
         },
     },
     filters: {

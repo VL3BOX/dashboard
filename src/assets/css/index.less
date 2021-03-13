@@ -5,23 +5,25 @@
     .m-basicinfo {
 
         .u-avatar {
-            .size(120px);
             margin-right: 20px;
             .fl;
-            .u-avatar-avt{
-                .db;.size(100%);
-                .r(100%);
-                padding:6px;
-                box-sizing: border-box;
-                img{.r(100%);}
-            }
             .pr;
-            .u-avatar-frame{
-                .pa;.lt(0);
-                .size(100%);
-                
+
+            .u-avatar-pic{
+                .size(120px);
+                .db;
+
+                &.isCircle{
+                    .r(100%);
+                }
             }
-            img{.size(100%);}
+            .u-avatar-frame{
+                .pa;.lt(-8px);
+                .size(136px);
+                img{
+                    .size(100%);
+                }
+            }
         }
 
         line-height:1.8;
@@ -137,8 +139,14 @@
 @media screen and (max-width: @phone) {
     .m-dashboard-index {
         .m-basicinfo {
-            .u-avatar {
-                .size(80px);
+            .u-avatar{
+                .u-avatar-pic{
+                    .size(80px);
+                }
+                .u-avatar-frame{
+                    .pa;.lt(-8px);
+                    .size(100px);
+                }
             }
             .u-name{
                 .fz(15px,24px);

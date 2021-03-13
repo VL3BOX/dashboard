@@ -2,9 +2,14 @@
     <div class="m-dashboard m-dashboard-index">
         <div class="m-basicinfo">
             <i class="u-avatar">
-                <i class="u-avatar-avt"
-                    ><img class="u-avatar-avt-pic" :src="info.avatar"
-                /></i>
+                <img
+                    class="u-avatar-pic"
+                    :src="info.avatar | showAvatar"
+                    :class="{ isCircle }"
+                />
+                <i class="u-avatar-frame" v-if="frameName">
+                    <img :src="frameUrl" />
+                </i>
             </i>
             <div class="u-info">
                 <h1 class="u-name">
@@ -18,8 +23,9 @@
                         <a
                             class="u-edit-name"
                             href="/vip/rename?from=dashboard_index"
-                            ><i class="el-icon-edit-outline"></i
-                        ></a>
+                        >
+                            <i class="el-icon-edit-outline"></i>
+                        </a>
                     </el-tooltip>
                     <el-tooltip
                         class="item"
@@ -38,7 +44,8 @@
                             >
                             <span class="u-expire" v-if="expire_date"
                                 >(有效期至:{{ expire_date }})</span
-                            ><a
+                            >
+                            <a
                                 class="u-upgrade"
                                 href="/vip/premium?from=dashboard_index"
                                 target="_blank"
@@ -49,29 +56,32 @@
                 </h1>
                 <div class="u-identity">
                     <span class="u-uid">
-                        <em>UID</em><b>{{ info.uid }}</b>
+                        <em>UID</em>
+                        <b>{{ info.uid }}</b>
                     </span>
                     <span class="u-group">
-                        <em>Group</em><b>{{ info.group | showGroupName }}</b>
+                        <em>Group</em>
+                        <b>{{ info.group | showGroupName }}</b>
                     </span>
                     <!-- TODO: 等级 -->
                     <!-- <span class="u-level">
                         <em>Level</em><b>{{ level }}</b>
-                    </span> -->
+                    </span>-->
                 </div>
                 <div class="u-medals" v-if="medals && medals.length">
-                    <span class="u-medal" v-for="(item, i) in medals" :key="i"
-                        ><img
+                    <span class="u-medal" v-for="(item, i) in medals" :key="i">
+                        <img
                             :src="item.medal | showTeamMedal"
                             :title="medal_map[item.medal]"
-                    /></span>
+                        />
+                    </span>
                 </div>
             </div>
         </div>
         <div class="m-credit">
             <el-row :gutter="20">
-                <el-col :span="6"
-                    ><div class="u-dot">
+                <el-col :span="6">
+                    <div class="u-dot">
                         <div class="u-credit-name">
                             <i class="el-icon-sugar"></i> 积分
                         </div>
@@ -81,14 +91,14 @@
                         <div class="u-credit-op">
                             <a
                                 class="el-button el-button--primary el-button--mini is-disabled"
-                                href=""
+                                href
                                 >兑换</a
                             >
                         </div>
-                    </div></el-col
-                >
-                <el-col :span="6"
-                    ><div class="u-coin">
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="u-coin">
                         <div class="u-credit-name">
                             <i class="el-icon-coin"></i> 盒币
                         </div>
@@ -98,18 +108,19 @@
                         <div class="u-credit-op">
                             <a
                                 class="el-button el-button--primary el-button--mini is-disabled"
-                                href=""
+                                href
                                 >充值</a
-                            ><a
+                            >
+                            <a
                                 class="el-button el-button--primary el-button--mini is-disabled"
-                                href=""
+                                href
                                 >提现</a
                             >
                         </div>
-                    </div></el-col
-                >
-                <el-col :span="6"
-                    ><div class="u-packet">
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="u-packet">
                         <div class="u-credit-name">
                             <i class="el-icon-bank-card"></i> 红包
                         </div>
@@ -123,10 +134,10 @@
                                 >提现</a
                             >
                         </div>
-                    </div></el-col
-                >
-                <el-col :span="6"
-                    ><div class="u-gift">
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="u-gift">
                         <div class="u-credit-name">
                             <i class="el-icon-present"></i> 订单
                         </div>
@@ -136,12 +147,12 @@
                         <div class="u-credit-op">
                             <a
                                 class="el-button el-button--primary el-button--mini is-disabled"
-                                href=""
+                                href
                                 >查看</a
                             >
                         </div>
-                    </div></el-col
-                >
+                    </div>
+                </el-col>
             </el-row>
         </div>
 
@@ -151,27 +162,35 @@
 </template>
 
 <script>
-import { __userGroup, __imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __userGroup, __imgPath,default_avatar } from "@jx3box/jx3box-common/js/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
-import { showAvatar } from "@jx3box/jx3box-common/js/utils";
+import { getThumbnail } from "@jx3box/jx3box-common/js/utils";
 import dateFormat from "../utils/dateFormat";
-import { getUserMedals } from "@/service/index.js";
+import { getUserMedals, getUserInfo } from "@/service/index.js";
+import { getFrames } from "@/service/profile.js";
 import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
 import { getAsset, hasPRO, hasVIP } from "@jx3box/jx3box-common/js/pay";
 import { showDate } from "@jx3box/jx3box-common/js/moment";
+import frames from "@jx3box/jx3box-common/data/user_avatar_frame.json";
 export default {
     name: "index",
     props: [],
     data: function() {
         return {
+            uid: User.getInfo().uid,
             info: {
-                avatar: "",
-                name: "",
-                uid: "",
+                uid: 8,
+                name: "匿名",
+                avatar: "https://img.jx3box.com/image/common/avatar.png",
+                avatar_frame: "default",
                 group: 0,
-                level: "-",
-                join: "",
-                bio: "",
+                exp: 0,
+                status: 0,
+                verify_email: 0,
+                verify_phone: 0,
+                bio: "-",
+                server: "蝶恋花",
+                created_at: "2019-08-28T01:03:51.000Z",
             },
             asset: {
                 expire_date: "2022-03-07T00:00:00+08:00",
@@ -189,12 +208,10 @@ export default {
             },
             medals: [],
             medal_map,
+            frames,
         };
     },
     computed: {
-        uid: function() {
-            return this.info.uid;
-        },
         isVIP: function() {
             return hasVIP(this.asset) || false;
         },
@@ -213,14 +230,29 @@ export default {
                 return "";
             }
         },
+        frameName: function() {
+            return this.info.avatar_frame && this.frames[this.info.avatar_frame]
+                ? this.info.avatar_frame
+                : "";
+        },
+        frameUrl: function() {
+            if (this.frameName) {
+                let fileName = this.frames[this.frameName].files.m.file;
+                return __imgPath + `image/avatar/${this.frameName}/${fileName}`;
+            }
+            return "";
+        },
+        isCircle: function() {
+            return (
+                this.frameName && this.frames[this.frameName].style == "circle"
+            );
+        },
     },
     methods: {
-        renderInfo: function() {
-            let _info = User.getInfo();
-            this.info.uid = _info.uid || 0;
-            this.info.name = _info.name || "匿名";
-            this.info.group = _info.group || 0;
-            this.info.avatar = showAvatar(_info.avatar_origin, "l");
+        loadUserInfo: function() {
+            getUserInfo(this.uid).then((res) => {
+                this.info = res.data.data;
+            });
         },
         loadAsset: function() {
             getAsset().then((data) => {
@@ -231,6 +263,13 @@ export default {
             if (!this.uid) return;
             getUserMedals(this.uid).then((res) => {
                 this.medals = res.data.data || [];
+            });
+        },
+        loadFrames: function() {
+            getFrames().then((res) => {
+                if (res.data) {
+                    this.frames = res.data || [];
+                }
             });
         },
     },
@@ -247,11 +286,15 @@ export default {
         showTeamMedal: function(val) {
             return __imgPath + "image/medals/team/" + val + "-20.gif";
         },
+        showAvatar : function (val){
+            return val && getThumbnail(val,120,true) || getThumbnail(default_avatar,120,true)
+        }
     },
     mounted: function() {
-        this.renderInfo();
-        // this.loadAsset();
+        this.loadUserInfo();
+        this.loadAsset();
         this.loadMedals();
+        this.loadFrames();
     },
 };
 </script>

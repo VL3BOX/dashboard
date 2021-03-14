@@ -38,7 +38,7 @@
                             :class="isVIP ? 'el-icon-unlock' : 'el-icon-lock'"
                         ></i>
                         仅<a
-                            href="/vip/rename?from=dashboard_avatar"
+                            href="/vip/premium?from=dashboard_avatar"
                             target="_blank"
                             >高级/专业版</a
                         >账户适用 )

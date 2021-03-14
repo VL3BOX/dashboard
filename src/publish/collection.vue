@@ -209,8 +209,8 @@
 </template>
 
 <script>
-const { __Root } = require("@jx3box/jx3box-common/js/jx3box.json");
-const { __postType, __otherType } = require("@jx3box/jx3box-common/js/jx3box");
+const { __Root } = require("@jx3box/jx3box-common/data/jx3box.json");
+const { __postType, __otherType } = require("@jx3box/jx3box-common/data/jx3box.json");
 import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
 import CollectionPublic from "@jx3box/jx3box-editor/service/enum/CollectionPublic";
 import pubheader from "@/components/publish/pubheader.vue";

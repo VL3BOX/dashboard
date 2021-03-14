@@ -123,9 +123,8 @@ import {
 } from "@/service/profile";
 import User from "@jx3box/jx3box-common/js/user";
 import { showAvatar, getThumbnail } from "@jx3box/jx3box-common/js/utils";
-import { isVIP } from "@jx3box/jx3box-common/js/pay";
 import frames from "@jx3box/jx3box-common/data/user_avatar_frame.json";
-import { __imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "avatar",
     props: [],
@@ -206,7 +205,7 @@ export default {
         },
         init: function() {
             this.loadFrames();
-            isVIP().then((data) => {
+            User.isVIP().then((data) => {
                 this.isVIP = data;
             });
 

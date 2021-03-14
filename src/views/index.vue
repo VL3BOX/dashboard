@@ -35,16 +35,16 @@
                     >
                         <span class="u-vip">
                             <template v-if="isVIP || isPRO">
-                            <a
-                                class="i-icon-vip"
-                                :class="{ on: isVIP || isPRO }"
-                                href="/vip/premium?from=dashboard_index"
-                                target="_blank"
-                                >{{ vipType }}</a
-                            >
-                            <span class="u-expire" v-if="expire_date"
-                                >(有效期至:{{ expire_date }})</span
-                            >
+                                <a
+                                    class="i-icon-vip"
+                                    :class="{ on: isVIP || isPRO }"
+                                    href="/vip/premium?from=dashboard_index"
+                                    target="_blank"
+                                    >{{ vipType }}</a
+                                >
+                                <span class="u-expire" v-if="expire_date"
+                                    >(有效期至:{{ expire_date }})</span
+                                >
                             </template>
                             <a
                                 class="u-upgrade"
@@ -164,14 +164,17 @@
 </template>
 
 <script>
-import { __userGroup, __imgPath,default_avatar } from "@jx3box/jx3box-common/js/jx3box.json";
+import {
+    __userGroup,
+    __imgPath,
+    default_avatar,
+} from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { getThumbnail } from "@jx3box/jx3box-common/js/utils";
 import dateFormat from "../utils/dateFormat";
 import { getUserMedals, getUserInfo } from "@/service/index.js";
 import { getFrames } from "@/service/profile.js";
 import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
-import { getAsset, hasPRO, hasVIP } from "@jx3box/jx3box-common/js/pay";
 import { showDate } from "@jx3box/jx3box-common/js/moment";
 import frames from "@jx3box/jx3box-common/data/user_avatar_frame.json";
 export default {
@@ -215,10 +218,10 @@ export default {
     },
     computed: {
         isVIP: function() {
-            return hasVIP(this.asset) || false;
+            return User._isVIP(this.asset) || false;
         },
         isPRO: function() {
-            return hasPRO(this.asset) || false;
+            return User._isPRO(this.asset) || false;
         },
         vipType: function() {
             return this.isPRO ? "PRO" : "PRE";
@@ -257,7 +260,7 @@ export default {
             });
         },
         loadAsset: function() {
-            getAsset().then((data) => {
+            User.getAsset().then((data) => {
                 this.asset = data;
             });
         },
@@ -288,9 +291,12 @@ export default {
         showTeamMedal: function(val) {
             return __imgPath + "image/medals/team/" + val + "-20.gif";
         },
-        showAvatar : function (val){
-            return val && getThumbnail(val,120,true) || getThumbnail(default_avatar,120,true)
-        }
+        showAvatar: function(val) {
+            return (
+                (val && getThumbnail(val, 120, true)) ||
+                getThumbnail(default_avatar, 120, true)
+            );
+        },
     },
     mounted: function() {
         this.loadUserInfo();

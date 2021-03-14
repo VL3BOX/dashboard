@@ -92,7 +92,7 @@
 
 <script>
 import boilerplate from "@/components/publish/boilerplate";
-import { __ossMirror } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __ossMirror } from "@jx3box/jx3box-common/data/jx3box.json";
 import album from "@/components/publish/album.vue";
 // import lodash from "lodash";
 import { uploadData, parseData } from "../service/share.js";

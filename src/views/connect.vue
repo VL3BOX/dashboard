@@ -35,8 +35,8 @@
 <script>
 import uc from "@/components/uc.vue";
 import links from "@jx3box/jx3box-common/js/connect";
-import oauth from "@jx3box/jx3box-common/js/oauth.json";
-import { __imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
+import oauth from "@jx3box/jx3box-common/data/oauth.json";
+import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import { unbindOAuth, checkOAuth } from "../service/profile";
 
 export default {

@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { feedback } from "@jx3box/jx3box-common/js/jx3box.json";
+import { feedback } from "@jx3box/jx3box-common/data/jx3box.json";
 const profile_rooutes = ["profile", "avatar", "pwd", "connect", "email"];
 export default {
     name: "Nav",

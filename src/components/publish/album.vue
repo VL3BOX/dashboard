@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import allow_types from "@jx3box/jx3box-common/js/conf";
-import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
+import allow_types from "@jx3box/jx3box-common/data/conf";
+import { __server } from "@jx3box/jx3box-common/data/jx3box.json";
 import {axios} from "@/service/axios";
 // import draggable from 'vuedraggable'
 const imgtypes = ["jpg", "png", "gif", "bmp"];

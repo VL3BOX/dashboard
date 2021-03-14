@@ -102,7 +102,7 @@ import {
     __ossMirror,
     __iconPath,
     __imgPath,
-} from "@jx3box/jx3box-common/js/jx3box.json";
+} from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import lodash from "lodash";
 import isEmptyMeta from '@/utils/isEmptyMeta.js'

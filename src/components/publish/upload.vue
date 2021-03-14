@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import allow_types from "@jx3box/jx3box-common/js/conf";
+import allow_types from "@jx3box/jx3box-common/data/conf";
 import { JX3BOX } from "@jx3box/jx3box-common";
 import axios from "axios";
 const imgtypes = ["jpg", "png", "gif", "bmp"];

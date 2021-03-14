@@ -1,41 +1,29 @@
-import axios from "axios";
-import store from "../store/publish.js";
-import {
-    __server,
-    __next,
-    __helperUrl,
-} from "@jx3box/jx3box-common/js/jx3box.json";
-import broadcast from "@/utils/msg.js";
-import { installNextInterceptors } from "@jx3box/jx3box-common/js/axios";
-
-const $ = axios.create({
-    withCredentials: true,
+import axios from 'axios'
+import { $https, $_https } from "@jx3box/jx3box-common/js/https.js";
+const $helper = $https("helper", {
+    proxy: false,
+    interceptor: "helper",
 });
-function installInterceptors(target) {
-    target["interceptors"]["response"].use(
-        function(response) {
-            store.commit("endProcess");
-            return response;
-        },
-        function(err) {
-            if (err.response && err.response.data) {
-                broadcast.$message.error(`${err.response.data.msg}`);
-            } else {
-                broadcast.$message.error("网络请求异常");
-            }
-            console.log(err);
-            store.commit("endProcess");
-            return Promise.reject(err);
-        }
-    );
-}
-installInterceptors(axios);
-installInterceptors($);
-
-const $http = axios.create({
-    withCredentials: true,
-    baseURL: process.env.NODE_ENV === "production" ? __helperUrl : "/",
+const $_helper = $https("helper", {
+    proxy: false,
+    interceptor: "helper",
 });
-installInterceptors($http);
-
-export { $, axios, $http };
+const $server = $https("server", {
+    proxy: false,
+});
+const $_server = $https("server", {
+    proxy: false,
+});
+const $next = $https("next", {
+    proxy: true,
+    interceptor: "next",
+});
+const $_next = $https("next", {
+    proxy: true,
+    interceptor: "next",
+});
+const $_pay = $_https("pay", {
+    proxy: true,
+    interceptor: "next",
+});
+export { axios,$helper, $server, $next, $_helper, $_server, $_next,$_pay };

@@ -225,7 +225,7 @@
 
 <script>
 import { getTypeLabel } from "@jx3box/jx3box-common/js/utils";
-import { __wikiType } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __wikiType } from "@jx3box/jx3box-common/data/jx3box.json";
 import {
     get_posts,
     remove_post,

@@ -116,7 +116,7 @@ import {
     __Root,
     __Links,
     __postType,
-} from "@jx3box/jx3box-common/js/jx3box";
+} from "@jx3box/jx3box-common/data/jx3box.json";
 import dateFormat from "../utils/dateFormat";
 
 export default {

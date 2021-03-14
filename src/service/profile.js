@@ -1,53 +1,44 @@
-import axios from "axios";
-import { __server,__imgPath } from "@jx3box/jx3box-common/js/jx3box.json";
-import { installNextInterceptors } from "@jx3box/jx3box-common/js/axios";
-const $profile = axios.create({
-    withCredentials: true,
-    baseURL: process.env.NODE_ENV === "production" ? __server : "/",
-});
-installNextInterceptors($profile);
-
+import { axios, $server, $_server } from "./axios";
+import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 
 // 1.资料
 // -------------------------------
 function getProfile() {
-    return $profile.get("profile");
+    return $server.get("profile");
 }
 function updateProfile(data) {
-    return $profile.post("profile", data);
+    return $_server.post("profile", data);
 }
 
 // 2.头像
 // -------------------------------
 function updateAvatar(data) {
-    return $profile.put("profile/avatar", data);
+    return $_server.put("profile/avatar", data);
 }
-function uploadAvatar(data){
-    return $profile.post("upload/avatar", data);
+function uploadAvatar(data) {
+    return $_server.post("upload/avatar", data);
 }
-function getFrames(){
-    return axios.get(__imgPath + 'data/user_avatar_frame.json')
+function getFrames() {
+    return axios.get(__imgPath + "data/user_avatar_frame.json");
 }
-function getUserOverview(uid){
-    return axios.get(__server + `user/overview/${uid}`)
+function getUserOverview(uid) {
+    return $server.get(`user/overview/${uid}`);
 }
-
 
 // 3.密码
 // -------------------------------
 function updatePassword(data) {
-    return $profile.post("profile/password", data);
+    return $_server.post("profile/password", data);
 }
-
 
 // 4.邮箱
 // -------------------------------
 function checkEmailStatus() {
-    return $profile.get("profile/email/check");
+    return $_server.get("profile/email/check");
 }
 
 function checkEmailAvailable(email) {
-    return $profile.get("profile/email/available", {
+    return $_server.get("profile/email/available", {
         params: {
             user_email: email,
         },
@@ -55,21 +46,20 @@ function checkEmailAvailable(email) {
 }
 
 function sendBindEmail(data) {
-    return $profile.post("profile/email/bind", data);
+    return $_server.post("profile/email/bind", data);
 }
 
 function sendVerifyEmail() {
-    return $profile.post("profile/email/verify");
+    return $_server.post("profile/email/verify");
 }
-
 
 // 5.互联
 function checkOAuth() {
-    return $profile.get("profile/oauth/check");
+    return $_server.get("profile/oauth/check");
 }
 
 function unbindOAuth(data) {
-    return $profile.post("profile/oauth/unbind", data);
+    return $_server.post("profile/oauth/unbind", data);
 }
 
 export {
@@ -85,5 +75,5 @@ export {
     checkOAuth,
     uploadAvatar,
     getFrames,
-    getUserOverview
+    getUserOverview,
 };

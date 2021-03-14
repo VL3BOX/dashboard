@@ -160,7 +160,7 @@ import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
 import User from "@jx3box/jx3box-common/js/user";
 import { get_menus, get_list, create_knowledge } from "../service/knowledge";
 import { get_newest_post, create_post } from "../service/wiki_post";
-import {__Root} from '@jx3box/jx3box-common/js/jx3box.json'
+import {__Root} from '@jx3box/jx3box-common/data/jx3box.json'
 
 export default {
     name: "knowledge",

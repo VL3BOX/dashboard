@@ -1,10 +1,8 @@
-import { $ } from "./axios";
-import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
-// const __server = 'http://localhost:5160/'
+import { $_server } from "./axios";
 
 // 发布
 function doPublish(data, vm, skip = true) {
-    return $.post(__server + `post/publish`, data)
+    return $_server.post(`/post/publish`, data)
         .then((res) => {
             if (skip) {
                 vm.$message({
@@ -24,7 +22,7 @@ function doPublish(data, vm, skip = true) {
 
 // 草稿
 function doDraft(data, vm, skip = true) {
-    return $.post(__server + `post/publish`, data)
+    return $_server.post(`/post/publish`, data)
         .then((res) => {
             if (skip) {
                 vm.$message({
@@ -57,7 +55,7 @@ function doLoad(vm, oldMetaKeys) {
     let id = vm.$route.params.id;
 
     if (id) {
-        return $.get(__server + `post/query`, {
+        return $_server.get(`/post/query`, {
             params: {
                 id: id,
             },

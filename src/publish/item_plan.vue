@@ -257,7 +257,7 @@ import { get_item_plan, save_item_plan } from "../service/item_plan";
 
 const qs = require("qs");
 const $_ = require("lodash");
-const { __Root } = require("@jx3box/jx3box-common/js/jx3box.json");
+const { __Root } = require("@jx3box/jx3box-common/data/jx3box.json");
 import EquipPosition from '@jx3box/jx3box-editor/service/enum/EquipPosition';
 
 export default {

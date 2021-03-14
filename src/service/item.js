@@ -1,29 +1,23 @@
-import {$ as $http} from "./axios";
-import {JX3BOX} from "@jx3box/jx3box-common";
-
-const {User} = require("@jx3box/jx3box-common");
-const qs = require("qs");
+import { $helper } from "./axios";
 
 // 物品搜索
 function search_items(keyword, length, fields, is_equip = null) {
-    let params = {keyword: keyword, limit: length, fields: fields};
+    let params = { keyword: keyword, limit: length, fields: fields };
     if (is_equip !== null) params.is_equip = is_equip ? 1 : 0;
 
-    return $http({
+    return $helper({
         method: "GET",
-        url: `${JX3BOX.__helperUrl}api/item/search`,
-        headers: {Accept: "application/prs.helper.v2+json"},
+        url: `/api/item/search`,
         params: params,
     });
 }
 
 function get_item_newest_post(item_id) {
-    return $http({
+    return $helper({
         method: "GET",
-        url: `${JX3BOX.__helperUrl}api/wiki/post`,
-        headers: {Accept: "application/prs.helper.v2+json"},
-        params: {type: 'item', source_id: item_id, supply: 0},
+        url: `/api/wiki/post`,
+        params: { type: "item", source_id: item_id, supply: 0 },
     });
 }
 
-export {search_items, get_item_newest_post};
+export { search_items, get_item_newest_post };

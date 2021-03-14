@@ -1,35 +1,27 @@
-import {$http} from "./axios";
-
-const qs = require("qs");
+import { $_helper } from "./axios";
+import qs from "qs";
 
 function get_menus() {
-  return $http({
-    method: "GET",
-    url: `/api/knowledge/menus`,
-    headers: {Accept: "application/prs.helper.v2+json"},
-  });
+    return $_helper({
+        method: "GET",
+        url: `/api/knowledge/menus`,
+    });
 }
 
 function get_list(params) {
-  return $http({
-    method: "GET",
-    url: `/api/knowledges`,
-    headers: {Accept: "application/prs.helper.v2+json"},
-    params: params,
-  });
+    return $_helper({
+        method: "GET",
+        url: `/api/knowledges`,
+        params: params,
+    });
 }
 
 function create_knowledge(params) {
-  return $http({
-    method: "POST",
-    url: `/api/knowledge`,
-    headers: {Accept: "application/prs.helper.v2+json"},
-    data: qs.stringify({knowledge: params}),
-  });
+    return $_helper({
+        method: "POST",
+        url: `/api/knowledge`,
+        data: qs.stringify({ knowledge: params }),
+    });
 }
 
-export {
-  get_menus,
-  get_list,
-  create_knowledge
-};
+export { get_menus, get_list, create_knowledge };

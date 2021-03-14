@@ -1,11 +1,8 @@
-import { $http } from "./axios";
-// import { __helperUrl } from "@jx3box/jx3box-common/js/jx3box.json";
-
-const qs = require("qs");
+import { $_helper } from "./axios";
+import qs from "qs";
 
 function getMsgs(i = 1) {
-    return $http.get("/api/messages", {
-        headers: { Accept: "application/prs.helper.v2+json" },
+    return $_helper.get("/api/messages", {
         params: {
             // length : 2,
             page: i,
@@ -17,20 +14,15 @@ function readMsg(ids) {
     let data = {};
     if (ids) data.ids = ids;
 
-    return $http.put(`/api/messages/read`, qs.stringify(data), {
-        headers: { Accept: "application/prs.helper.v2+json" },
-    });
+    return $_helper.put(`/api/messages/read`, qs.stringify(data));
 }
 
 function removeMsg(ids) {
-    return $http.put(
+    return $_helper.put(
         `/api/messages/remove`,
         qs.stringify({
             ids: ids,
-        }),
-        {
-            headers: { Accept: "application/prs.helper.v2+json" },
-        }
+        })
     );
 }
 

@@ -1,8 +1,7 @@
-import { $, axios } from "./axios";
-import { __node, __Root, __server } from "@jx3box/jx3box-common/js/jx3box.json";
+import { $_server } from "./axios";
 
 function uploadData(formdata, vm) {
-    return $.post(__server + "upload/data", formdata);
+    return $_server.post("/upload/data", formdata);
 }
 
 

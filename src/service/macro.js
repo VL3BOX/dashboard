@@ -1,15 +1,12 @@
-import { $ } from "./axios";
-import { __next, __Root } from "@jx3box/jx3box-common/js/jx3box.json";
-import User from "@jx3box/jx3box-common/js/user";
+import { $_next } from "./axios";
+import { __Root } from "@jx3box/jx3box-common/data/jx3box.json";
 import dateFormat from "../utils/dateFormat";
 import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
-const API = __next + "api/macro/publish";
-// const API = '/api/macro/publish'
 
 function syncRedis(data, vm) {
     let redisData = transferForRedis(data);
     console.log("正在执行redis同步作业:", redisData);
-    return $.post(API, redisData);
+    return $_next.post("/api/macro/publish", redisData);
 }
 
 function transferForRedis(data) {
@@ -23,7 +20,7 @@ function transferForRedis(data) {
         post_status: data.post_status,
         data: {},
         lang: data.post_meta.lang,
-        original : data.original
+        original: data.original,
     };
 
     let xf = xfmap[data.post_subtype]["id"] + "";

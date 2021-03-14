@@ -215,7 +215,7 @@
 
 <script>
 import boilerplate from "@/components/publish/boilerplate";
-import { __server } from "@jx3box/jx3box-common/js/jx3box.json";
+import { __server } from "@jx3box/jx3box-common/data/jx3box.json";
 const API = __server + "upload";
 import { uploadData } from "../service/house";
 import album from "@/components/publish/album.vue";

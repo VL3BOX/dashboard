@@ -16,9 +16,6 @@ module.exports = {
             "/api/my": {
                 target: "https://helper.jx3box.com",
             },
-            "/api/messages": {
-                target: "https://helper.jx3box.com",
-            },
             "/api": {
                 target: "https://next.jx3box.com",
             },

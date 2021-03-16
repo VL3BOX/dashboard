@@ -2,7 +2,7 @@
     <nav class="m-nav">
         <a
             class="m-nav-publish el-button el-button--primary"
-            href="/dashboard/publish"
+            :href="publish_url"
         >
             <i class="el-icon-edit-outline"></i><span>发布中心</span>
         </a>
@@ -69,8 +69,11 @@ export default {
         };
     },
     computed: {
-        isProfile: function(val) {
+        isProfile: function() {
             return profile_rooutes.includes(this.$route.name) ? 'on' : '';
+        },
+        publish_url : function (){
+            return process.env == 'production' ? '/dashboard/publish' : '/publish'
         },
     },
     methods: {

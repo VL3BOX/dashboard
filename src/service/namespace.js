@@ -1,4 +1,4 @@
-import { $_helper } from './axios'
+import { $_helper,$helper } from './axios'
 
 function getNamespace() {
   return $_helper({
@@ -7,4 +7,14 @@ function getNamespace() {
   })
 }
 
-export { getNamespace }
+function getNamespaceByKey(key) {
+  return $helper({
+    method: 'GET',
+    url: `/api/namespace`,
+    params:{
+      key
+    },
+  })
+}
+
+export { getNamespace, getNamespaceByKey }

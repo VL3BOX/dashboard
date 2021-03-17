@@ -161,6 +161,14 @@
                         ></el-card
                     ></el-col
                 >
+                   <el-col :span="4"
+                    ><el-card
+                        ><router-link
+                            to="/namespace"
+                            ><i class="el-icon-postcard"></i><span>剑三铭牌</span></router-link
+                        ></el-card
+                    ></el-col
+                >
             </el-row>
         </div>
     </div>

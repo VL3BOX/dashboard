@@ -14,7 +14,7 @@
         <time class="u-time u-desc-subitem">提交于: {{ item.created | dateFormat }}</time>
       </div>
       <el-button-group class="u-action">
-        <el-button size="mini" icon="el-icon-edit" title="编辑" @click="edit(item.ID)"></el-button>
+        <el-button size="mini" icon="el-icon-edit" title="编辑" @click="edit(item.ID)" v-if="isNotSpecal(item)"></el-button>
       </el-button-group>
     </li>
   </ul>
@@ -41,9 +41,12 @@ export default {
   },
   computed: {},
   methods: {
+    isNotSpecal: function(item) {
+      return item.source_type != 'team'
+    },
     edit: function(id) {
-        console.log(id)
-    //   location.href = './publish/#/exam/question/' + id
+      console.log(id)
+      //   location.href = './publish/#/exam/question/' + id
     },
     getNamespaceList() {
       //   getNamespace

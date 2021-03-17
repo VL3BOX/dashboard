@@ -5,7 +5,7 @@ const $helper = $https("helper", {
     interceptor: "helper",
 });
 const $_helper = $_https("helper", {
-    proxy: false,
+    proxy: true,
     interceptor: "helper",
 });
 const $server = $https("server", {

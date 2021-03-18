@@ -32,6 +32,9 @@ module.exports = {
             "/cms/my":{
                 target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5160" : "https://server.jx3box.com"
             },
+            "/api/cms":{
+                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5120" : "https://cms.jx3box.com"
+            },
             "/upload": {
                 target: "https://server.jx3box.com",
             },

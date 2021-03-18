@@ -8,15 +8,7 @@ function getNamespace() {
     });
 }
 
-function getNamespaceByKey(key) {
-    return $helper({
-        method: "GET",
-        url: `/api/namespace`,
-        params: {
-            key,
-        },
-    });
-}
+
 
 function createNamespace(data) {
     return $cms().post("/api/cms/namespace", data);
@@ -26,14 +18,21 @@ function updateNamespace(id, data) {
     return $cms().put(`/api/cms/namespace/${id}`, data);
 }
 
-function queryNamespace(id) {
+function getNamespaceById(id) {
     return $cms().get(`/api/cms/namespace/${id}`);
+}
+function getNamespaceByKey(key) {
+    return $cms().get(`/api/cms/namespace-key`,{
+        params:{
+            key
+        }
+    });
 }
 
 export {
     getNamespace,
     getNamespaceByKey,
-    queryNamespace,
+    getNamespaceById,
     createNamespace,
     updateNamespace,
 };

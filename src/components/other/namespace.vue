@@ -45,8 +45,7 @@ export default {
       return item.source_type != 'team'
     },
     edit: function(id) {
-      console.log(id)
-      //   location.href = './publish/#/exam/question/' + id
+        location.href = './publish/#/namespace/' + id
     },
     getNamespaceList() {
       //   getNamespace

@@ -33,7 +33,7 @@
 <script>
 import { sterilizer } from 'sterilizer/index.js'
 import pubheader from '@/components/publish/pubheader'
-import { getNamespaceByKey } from '@/service/namespace'
+import { getNamespace, getNamespaceByKey, queryNamespace, createNamespace, updateNamespace } from '@/service/namespace'
 import User from '@jx3box/jx3box-common/js/user'
 
 export default {
@@ -51,9 +51,8 @@ export default {
   computed: {
     data: function() {
       return {
-        ID: '',
         key: this.form.key,
-        desc: this.form.desc || '',
+        desc: this.form.desc,
         link: 'https://' + this.form.link,
         source_type: 'custom',
       }
@@ -69,7 +68,7 @@ export default {
       this.form.key = sterilizer(this.form.key).kill()
       this.form.key = sterilizer(this.form.key).removeSpace()
       this.checkAvailable()
-      this.getKey(this.form.key)
+      //   this.getKey(this.form.key)
     },
     checkLink: function(val) {
       if (!val) return
@@ -88,7 +87,15 @@ export default {
         }
       })
     },
-    onSubmit: function() {},
+    onSubmit: function() {
+      if (this.form.desc == '') {
+        let profile = User.getInfo()
+        this.data.desc = profile.name + '创建'
+      }
+      createNamespace(this.data).then((res) => {
+        console.log(res, '...')
+      })
+    },
   },
   watch: {
     'form.key': function(val) {
@@ -99,11 +106,17 @@ export default {
     },
   },
   created() {
-      User.getAsset().then((data) => {
-          this.count = data.namespace_card_count
-      })
+    User.getAsset().then((data) => {
+      this.count = data.namespace_card_count
+    })
   },
-  mounted: function() {},
+  mounted: function() {
+    if (this.$route.params.id) {
+      queryNamespace(this.$route.params.id).then((res) => {
+        console.log(res)
+      })
+    }
+  },
 
   components: {
     pubheader,

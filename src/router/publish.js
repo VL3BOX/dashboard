@@ -9,7 +9,6 @@ const fb = () => import('../publish/fb.vue')
 const bps = () => import('../publish/bps.vue')
 const tool = () => import('../publish/tool.vue')
 const collection = () => import('../publish/collection.vue')
-const namespace = () => import('../publish/namespace.vue')
 
 const achievement = () => import('../publish/achievement.vue')
 const item = () => import('../publish/item.vue')
@@ -23,6 +22,9 @@ const knowledge = () => import('../publish/knowledge.vue')
 const exam = () => import('../publish/exam.vue')
 const exam_question = () => import('../publish/exam_question.vue')
 const exam_paper = () => import('../publish/exam_paper.vue')
+
+const namespace = () => import('../publish/namespace.vue')
+
 
 Vue.use(VueRouter)
 

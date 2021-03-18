@@ -16,15 +16,15 @@ module.exports = {
             "/api/my": {
                 target: "https://helper.jx3box.com",
             },
-            "/api": {
-                target: "https://next.jx3box.com",
-            },
             // SERVER by iRuxu
             "/profile": {
                 target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5160" : "https://server.jx3box.com"
             },
             "/cms/my":{
                 target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5160" : "https://server.jx3box.com"
+            },
+            "/api/cms":{
+                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5120" : "https://cms.jx3box.com"
             },
             "/upload": {
                 target: "https://server.jx3box.com",
@@ -34,6 +34,9 @@ module.exports = {
             },
             "/post": {
                 target: "https://server.jx3box.com",
+            },
+            "/api": {
+                target: "https://next.jx3box.com",
             },
         },
         disableHostCheck: true,

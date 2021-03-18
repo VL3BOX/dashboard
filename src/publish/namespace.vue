@@ -101,15 +101,20 @@ export default {
         this.data.desc = profile.name + '创建'
       }
 
-      if (this.key_cache) {
-        updateNamespace(this.key_id,this.data).then((res) => {
-            console.log(res)
-        })
-        return
-      }
-
-      createNamespace(this.data).then((res) => {
-        console.log(res, '...')
+      this.key_cache
+        ? updateNamespace(this.key_id, this.data).then(() => {
+            this.submitMessage()
+          })
+        : createNamespace(this.data).then(() => {
+            this.submitMessage()
+          })
+    },
+    submitMessage() {
+      location.href = './other?subtype=namespace'
+      this.$notify.success({
+        title: 'success',
+        message: '提交成功',
+        showClose: false,
       })
     },
   },

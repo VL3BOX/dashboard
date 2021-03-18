@@ -45,7 +45,7 @@ export default {
       return item.source_type != 'team'
     },
     edit: function(id) {
-        location.href = './publish/#/namespace/' + id
+      location.href = './publish/#/namespace/' + id
     },
     getNamespaceList() {
       //   getNamespace

@@ -118,7 +118,7 @@ import {
     __postType,
 } from "@jx3box/jx3box-common/data/jx3box.json";
 import dateFormat from "../utils/dateFormat";
-
+import dashboardLink from '@/utils/dashboardLink.js'
 export default {
     name: "work",
     props: [],
@@ -159,7 +159,8 @@ export default {
             });
         },
         edit: function(type, id) {
-            location.href = __Links.dashboard.publish + "#/" + type + "/" + id;
+            console.log(dashboardLink('publish' + "#/" + type + "/" + id))
+            // location.href = dashboardLink('publish' + "#/" + type + "/" + id);
         },
         del: function(id) {
             this.$alert("确定要删除吗？", "确认信息", {

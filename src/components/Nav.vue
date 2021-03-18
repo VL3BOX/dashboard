@@ -10,23 +10,23 @@
 
         <h5 class="u-title">创作台</h5>
         <div class="m-nav-group">
-            <a href="/dashboard/#/work" :class="isActive('work')">
+            <a :href="catg_url('work')" :class="isActive('work')">
                 <i class="el-icon-collection"></i><span>我的作品</span>
             </a>
-            <a href="/dashboard/#/wiki" :class="isActive('wiki')">
+            <a :href="catg_url('wiki')" :class="isActive('wiki')">
                 <i class="el-icon-collection"></i><span>百科贡献</span>
             </a>
-            <a href="/dashboard/#/other" :class="isActive('other')">
+            <a :href="catg_url('other')" :class="isActive('other')">
                 <i class="el-icon-collection"></i><span>其它创作</span>
             </a>
         </div>
 
         <h5 class="u-title">仓库</h5>
         <div class="m-nav-group">
-            <a href="/dashboard/#/msg" :class="isActive('msg')">
+            <a :href="catg_url('msg')" :class="isActive('msg')">
                 <i class="el-icon-bell"></i><span>我的消息</span>
             </a>
-            <a class="u-fav" href="/dashboard/#/fav" :class="isActive('fav')">
+            <a :href="catg_url('fav')" :class="isActive('fav')">
                 <i class="el-icon-star-off"></i><span>我的收藏</span>
             </a>
             <!-- <a
@@ -40,7 +40,7 @@
 
         <h5 class="u-title">账号中心</h5>
         <div class="m-nav-group">
-            <a href="/dashboard/#/profile" :class="isProfile">
+            <a :href="catg_url('profile')" :class="isProfile">
                 <i class="el-icon-user"></i><span>资料设置</span>
             </a>
             <!-- <a
@@ -61,6 +61,7 @@
 <script>
 import { feedback } from "@jx3box/jx3box-common/data/jx3box.json";
 const profile_rooutes = ["profile", "avatar", "pwd", "connect", "email"];
+import {dashboardLink} from '@/utils/dashboardLink.js'
 export default {
     name: "Nav",
     data: function() {
@@ -80,6 +81,9 @@ export default {
         isActive: function(val) {
             return this.$route.name == val ? "on" : "";
         },
+        catg_url : function (val){
+            return process.env == 'production' ? `/dashboard/#/${val}` : `#/${val}`
+        }
     },
     mounted: function() {},
 };

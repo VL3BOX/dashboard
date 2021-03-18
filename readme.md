@@ -4,6 +4,7 @@
 ```
 $ npm i
 $ npm run serve
+$ npm run dev  (BE Development Only)
 
 //user center
 $ open http://localhost:8080

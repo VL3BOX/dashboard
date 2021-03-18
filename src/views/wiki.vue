@@ -77,13 +77,13 @@
                             </div>
 
                             <el-button-group class="u-action">
-                                <el-button
+                                <!-- <el-button
                                     size="mini"
                                     icon="el-icon-edit"
                                     :disabled="post.checked != 0"
                                     title="编辑"
                                     @click="post_edit('achievement', post)"
-                                ></el-button>
+                                ></el-button> -->
                                 <el-button
                                     size="mini"
                                     icon="el-icon-delete"

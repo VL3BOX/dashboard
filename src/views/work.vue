@@ -159,8 +159,7 @@ export default {
             });
         },
         edit: function(type, id) {
-            console.log(dashboardLink('publish' + "#/" + type + "/" + id))
-            // location.href = dashboardLink('publish' + "#/" + type + "/" + id);
+            location.href = './publish' + "#/" + type + "/" + id;
         },
         del: function(id) {
             this.$alert("确定要删除吗？", "确认信息", {

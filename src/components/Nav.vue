@@ -61,7 +61,7 @@
 <script>
 import { feedback } from "@jx3box/jx3box-common/data/jx3box.json";
 const profile_rooutes = ["profile", "avatar", "pwd", "connect", "email"];
-import {dashboardLink} from '@/utils/dashboardLink.js'
+import dashboardLink from '@/utils/dashboardLink.js'
 export default {
     name: "Nav",
     data: function() {
@@ -74,7 +74,7 @@ export default {
             return profile_rooutes.includes(this.$route.name) ? 'on' : '';
         },
         publish_url : function (){
-            return process.env == 'production' ? '/dashboard/publish' : '/publish'
+            return dashboardLink(`publish`)
         },
     },
     methods: {
@@ -82,7 +82,7 @@ export default {
             return this.$route.name == val ? "on" : "";
         },
         catg_url : function (val){
-            return process.env == 'production' ? `/dashboard/#/${val}` : `#/${val}`
+            return dashboardLink(`#/${val}`)
         }
     },
     mounted: function() {},

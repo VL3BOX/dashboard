@@ -8,8 +8,6 @@ function getNamespace() {
     });
 }
 
-
-
 function createNamespace(data) {
     return $cms().post("/api/cms/namespace", data);
 }

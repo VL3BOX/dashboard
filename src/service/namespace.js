@@ -19,7 +19,7 @@ function getNamespaceByKey(key) {
 }
 
 function createNamespace(data) {
-    return $cms().post("/api/cms/namespace", data);
+    return $cms({proxy:true}).post("/api/cms/namespace", data);
 }
 
 function updateNamespace(id, data) {

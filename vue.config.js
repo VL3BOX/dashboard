@@ -6,6 +6,7 @@ const { JX3BOX, SEO } = require("@jx3box/jx3box-common");
 module.exports = {
     devServer: {
         proxy: {
+            // PAY by LT
             "/api/vip": {
                 target: "https://pay.jx3box.com",
                 onProxyReq: function(request) {
@@ -17,14 +18,16 @@ module.exports = {
                 target: "https://helper.jx3box.com",
             },
             // SERVER by iRuxu
+            "/api/cms":{
+                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5120" : "https://cms.jx3box.com"
+            },
+
+            // 待替换
             "/profile": {
                 target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5160" : "https://server.jx3box.com"
             },
             "/cms/my":{
                 target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5160" : "https://server.jx3box.com"
-            },
-            "/api/cms":{
-                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5120" : "https://cms.jx3box.com"
             },
             "/upload": {
                 target: "https://server.jx3box.com",
@@ -35,6 +38,8 @@ module.exports = {
             "/post": {
                 target: "https://server.jx3box.com",
             },
+
+            // 默认NEXT服务
             "/api": {
                 target: "https://next.jx3box.com",
             },

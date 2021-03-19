@@ -25,10 +25,9 @@ import { getNamespace } from '@/service/namespace'
 import { getTypeLabel, getLink } from '@jx3box/jx3box-common/js/utils'
 import dateFormat from '@/utils/dateFormat'
 const statusmap = {
-  '-2': '已删除',
-  '-1': '未通过审核',
   '0': '待审核',
   '1': '正常启用',
+  '2': '未通过审核',
 }
 export default {
   name: 'namespace',
@@ -72,13 +71,13 @@ export default {
 <style scoped lang="less">
 @import '../../assets/css/work.less';
 .m-namespace .u-desc {
-  .status1 {
-    color: #49c10f;
-  }
   .status0 {
     color: #fba524;
   }
-  .status-1 {
+  .status1 {
+    color: #49c10f;
+  }
+  .status2 {
     color: #fc3c3c;
   }
 }

@@ -81,11 +81,15 @@ export default {
   },
   methods: {
     checkKey: function(val) {
-      if (!val) return
+      if (!val) {
+        this.available = true
+        return
+      }
       this.form.key = sterilizer(this.form.key).kill()
       this.form.key = sterilizer(this.form.key).removeSpace()
       if (this.form.key == this.key_cache) {
         this.available = true
+        return
       }
       this.checkAvailable()
     },
@@ -115,7 +119,7 @@ export default {
       }
       this.processing = true
       if (this.isEditMode) {
-        updateNamespace(this.key_id, this.data)
+        updateNamespace(this.namespace_id, this.data)
           .then(() => {
             this.onSuccess()
           })
@@ -157,11 +161,11 @@ export default {
     })
   },
   mounted: function() {
-    if (this.$route.params.id) {
-      getNamespaceById(this.$route.params.id).then((res) => {
+    this.namespace_id = this.$route.params.id
+    if (this.namespace_id) {
+      getNamespaceById(this.namespace_id).then((res) => {
         const { key, desc, link } = res.data.data
         this.key_cache = key
-        this.key_id = this.$route.params.id
         this.form = {
           key,
           desc,

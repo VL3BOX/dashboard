@@ -208,6 +208,8 @@ export default {
                         type: "warning",
                     });
                 }
+            }).finally(()=>{
+                this.$store.commit('endProcess');
             });
         },
         search_handle(keyword) {
@@ -252,11 +254,11 @@ export default {
                         },
                     });
                 } else {
-                    this.$message({
-                        message: `${data.message}`,
-                        type: "warning",
-                    });
+                    this.$message({message: `${data.message}`, type: "warning"});
+                    this.$store.commit('endProcess');
                 }
+            }).catch(()=>{
+                this.$store.commit('endProcess');
             });
         },
         showInput() {

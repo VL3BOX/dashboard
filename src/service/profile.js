@@ -4,7 +4,7 @@ import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 // 1.资料
 // -------------------------------
 function getProfile() {
-    return $server.get("profile");
+    return $_server.get("profile");
 }
 function updateProfile(data) {
     return $_server.post("profile", data);

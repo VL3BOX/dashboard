@@ -83,7 +83,7 @@ import pubheader from "@/components/publish/pubheader.vue";
 import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
 
 // 本地依赖
-import { $ as $helper } from "../service/axios";
+import { $helper } from "../service/axios";
 import { JX3BOX } from "@jx3box/jx3box-common";
 import { create_post } from "../service/wiki_post";
 import User from "@jx3box/jx3box-common/js/user";
@@ -170,7 +170,7 @@ export default {
             });
         },
         get_newest_post(achievement_id) {
-            return $http({
+            return $helper({
                 method: "GET",
                 url: `${JX3BOX.__helperUrl}api/wiki/post`,
                 headers: { Accept: "application/prs.helper.v2+json" },
@@ -189,33 +189,29 @@ export default {
             }
         },
         async search_achievements_handle(keyword) {
-            this.options.search_loading = true;
-            let data = await this.search_achievements(keyword, 10);
-            this.options.achievements = data.achievements;
-            this.options.search_loading = false;
+            this.search_achievements(keyword, 10)
         },
         // 成就搜索
         search_achievements(keyword, length) {
-            return new Promise((resolve, reject) => {
-                $http({
-                    method: "GET",
-                    url: `${JX3BOX.__helperUrl}api/achievement/search`,
-                    headers: { Accept: "application/prs.helper.v2+json" },
-                    params: { keyword: keyword, limit: length },
-                }).then(
-                    function(data) {
-                        data = data.data;
-                        resolve(data.code === 200 ? data.data : false);
-                    },
-                    function() {
-                        resolve(false);
+            this.options.search_loading = true;
+            $helper({
+                method: "GET",
+                url: `${JX3BOX.__helperUrl}api/achievement/search`,
+                headers: {Accept: "application/prs.helper.v2+json"},
+                params: {keyword: keyword, limit: length},
+            }).then(
+                (res) => {
+                    res = res.data;
+                    if (res.code === 200) {
+                        this.options.achievements = res.data.achievements;
+                        this.options.search_loading = false;
                     }
-                );
-            });
+                }
+            );
         },
     },
-    async mounted() {
-        await this.search_achievements_handle("");
+    mounted() {
+        this.search_achievements_handle("");
 
         // 获取成就ID并通过watch获取攻略
         let id = this.$route.params.achievement_id;

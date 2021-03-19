@@ -60,7 +60,7 @@
 
 <script>
 import { feedback } from "@jx3box/jx3box-common/data/jx3box.json";
-const profile_rooutes = ["profile", "avatar", "pwd", "connect", "email"];
+const profile_routes = ["profile", "avatar", "pwd", "connect", "email"];
 import dashboardLink from '@/utils/dashboardLink.js'
 export default {
     name: "Nav",
@@ -71,7 +71,7 @@ export default {
     },
     computed: {
         isProfile: function() {
-            return profile_rooutes.includes(this.$route.name) ? 'on' : '';
+            return profile_routes.includes(this.$route.name) ? 'on' : '';
         },
         publish_url : function (){
             return dashboardLink(`publish`)

@@ -18,7 +18,7 @@ const $next = $https("next", {
     proxy: true,
     interceptor: "next",
 });
-const $_next = $https("next", {
+const $_next = $_https("next", {
     proxy: true,
     interceptor: "next",
 });

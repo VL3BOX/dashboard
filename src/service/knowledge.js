@@ -1,15 +1,15 @@
-import { $helper } from "./axios";
+import { $http } from "./axios";
 import qs from "qs";
 
 function get_menus() {
-    return $helper({
+    return $http({
         method: "GET",
         url: `/api/knowledge/menus`,
     });
 }
 
 function get_list(params) {
-    return $helper({
+    return $http({
         method: "GET",
         url: `/api/knowledges`,
         params: params,
@@ -17,7 +17,7 @@ function get_list(params) {
 }
 
 function create_knowledge(params) {
-    return $helper({
+    return $http({
         method: "POST",
         url: `/api/knowledge`,
         data: qs.stringify({ knowledge: params }),

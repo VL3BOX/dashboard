@@ -1,23 +1,23 @@
-import { $helper } from "./axios";
+import { $http } from "./axios";
 
 const qs = require("qs");
 
 function get_legal_tags() {
-    return $helper({
+    return $http({
         method: "GET",
         url: `/api/post/collection/legal_tags`,
     });
 }
 
 function get_collection(collection_id) {
-    return $helper({
+    return $http({
         method: "GET",
         url: `/api/post/collection/${collection_id}`,
     });
 }
 
 function get_my_collections(params) {
-    return $helper({
+    return $http({
         method: "GET",
         url: `/api/my/post/collections`,
         params: params,
@@ -25,7 +25,7 @@ function get_my_collections(params) {
 }
 
 function submit_collection(collection) {
-    return $helper({
+    return $http({
         method: "POST",
         url: `/api/post/collection`,
         data: qs.stringify({
@@ -37,7 +37,7 @@ function submit_collection(collection) {
 
 function remove_collection(collection_id) {
     if (collection_id) {
-        return $helper({
+        return $http({
             method: "PUT",
             url: `/api/post/collection/remove`,
             data: qs.stringify({ id: collection_id }),

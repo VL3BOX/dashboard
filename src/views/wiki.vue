@@ -226,13 +226,13 @@
 <script>
 import { getTypeLabel } from "@jx3box/jx3box-common/js/utils";
 import { __wikiType } from "@jx3box/jx3box-common/data/jx3box.json";
+import dateFormat from "@/utils/dateFormat";
 import {
     get_posts,
     remove_post,
     get_comments,
     remove_comment,
-} from "../service/wiki";
-import dateFormat from "../utils/dateFormat";
+} from "@/service/wiki";
 export default {
     name: "wiki",
     props: [],

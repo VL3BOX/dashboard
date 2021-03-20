@@ -1,8 +1,8 @@
-import { $helper } from "./axios";
+import { $http } from "./axios";
 import { $cms } from "@jx3box/jx3box-common/js/https";
 
 function getNamespace() {
-    return $helper({
+    return $http({
         method: "GET",
         url: `/api/my/namespaces`,
     });

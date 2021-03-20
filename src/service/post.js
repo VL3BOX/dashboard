@@ -1,4 +1,4 @@
-import { $helper } from "./axios";
+import { $http } from "./axios";
 
 /**
  * 根据文章类型获取文章列表
@@ -7,7 +7,7 @@ import { $helper } from "./axios";
  * @returns {AxiosPromise}
  */
 function get_posts_by_type(type, params) {
-    return $helper({
+    return $http({
         method: "GET",
         url: `/api/posts/type/${type}`,
         params: params,

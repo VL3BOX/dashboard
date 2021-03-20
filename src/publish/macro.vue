@@ -480,15 +480,14 @@ export default {
             })
         },
         checkDataName: function(data) {
-            let name = sterilizer(data.name).removeSpace();
+            let name = sterilizer(data.name).removeSpace().kill().toString();
             if (!name) {
                 this.$notify.error({
                     title: "错误",
-                    message: "宏名称不能为空",
+                    message: "宏名称不允许包含特殊字符,不能为空",
                 });
                 return;
             }
-            name = sterilizer(name).kill();
             this.$set(data, "name", name);
         },
         checkTalent: function(data) {

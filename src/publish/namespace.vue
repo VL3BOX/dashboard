@@ -129,8 +129,7 @@ export default {
                 this.available = true;
                 return;
             }
-            this.form.key = sterilizer(this.form.key).kill();
-            this.form.key = sterilizer(this.form.key).removeSpace();
+            this.form.key = sterilizer(this.form.key).kill().removeSpace().toString();
             if (this.form.key == this.key_cache) {
                 this.available = true;
                 return;

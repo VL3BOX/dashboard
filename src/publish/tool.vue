@@ -36,6 +36,13 @@
                     >
                     </el-switch>
                 </el-form-item>
+
+                <el-form-item label="版本">
+                    <el-radio-group v-model="post.client">
+                        <el-radio label="std">正式服</el-radio>
+                        <el-radio label="origin">怀旧服</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 
                 <el-form-item label="类型">
                     <el-radio-group v-model="post.post_subtype">
@@ -91,8 +98,9 @@ export default {
                 post_banner: "", //头条图,管理员可见
                 post_status: "", //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
-                original:0,
-                post_collection : '',   //文集
+                post_collection: "", //文集
+                original: 0, //是否原创
+                client: "std", //空为正式服,origin为怀旧服
             },
 
             //扩展 - 部分栏目文章不应启用该功能

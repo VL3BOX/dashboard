@@ -1,13 +1,11 @@
 <template>
     <div class="m-publish-index">
         <div class="u-nav">
-
             <el-divider content-position="left">PVE / PVP</el-divider>
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
-                        ><router-link
-                            to="/macro"
+                        ><router-link to="/macro"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/macro.svg"
@@ -17,8 +15,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link
-                            to="/jx3dat"
+                        ><router-link to="/jx3dat"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/jx3dat.svg"
@@ -38,8 +35,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link
-                            to="/bps"
+                        ><router-link to="/bps"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/bps.svg"
@@ -73,8 +69,7 @@
                 >
                 <el-col :span="4"
                     ><el-card
-                        ><router-link
-                            to="/knowledge"
+                        ><router-link to="/knowledge"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/knowledge.svg"
@@ -94,8 +89,7 @@
                 > -->
                 <el-col :span="4"
                     ><el-card
-                        ><router-link
-                            to="/share"
+                        ><router-link to="/share"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/share.svg"
@@ -109,20 +103,18 @@
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
-                        ><router-link
-                            to="/tool"
+                        ><router-link to="/tool"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/tool.svg"
-                            /><span>工具资源</span></router-link
+                            /><span>教程工具</span></router-link
                         ></el-card
                     ></el-col
                 >
-                
+
                 <el-col :span="4"
                     ><el-card
-                        ><router-link
-                            to="/bbs"
+                        ><router-link to="/bbs"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/post.svg"
@@ -137,23 +129,28 @@
                 <el-col :span="4">
                     <el-card>
                         <router-link to="/collection">
-                            <img svg-inline src="../assets/img/publish/collection.svg"/>
+                            <img
+                                svg-inline
+                                src="../assets/img/publish/collection.svg"
+                            />
                             <span>文集小册</span>
                         </router-link>
                     </el-card>
                 </el-col>
                 <el-col :span="4">
-                  <el-card>
-                    <router-link to="/item/plan">
-                      <img svg-inline src="../assets/img/channel/item_plan.svg"/>
-                      <span>物品清单</span>
-                    </router-link>
-                  </el-card>
+                    <el-card>
+                        <router-link to="/item/plan">
+                            <img
+                                svg-inline
+                                src="../assets/img/channel/item_plan.svg"
+                            />
+                            <span>物品清单</span>
+                        </router-link>
+                    </el-card>
                 </el-col>
                 <el-col :span="4"
                     ><el-card
-                        ><router-link
-                            to="/exam"
+                        ><router-link to="/exam"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/100.svg"
@@ -161,11 +158,11 @@
                         ></el-card
                     ></el-col
                 >
-                   <el-col :span="4"
+                <el-col :span="4"
                     ><el-card
-                        ><router-link
-                            to="/namespace"
-                            ><i class="el-icon-postcard"></i><span>剑三铭牌</span></router-link
+                        ><router-link to="/namespace"
+                            ><i class="el-icon-postcard"></i
+                            ><span>剑三铭牌</span></router-link
                         ></el-card
                     ></el-col
                 >

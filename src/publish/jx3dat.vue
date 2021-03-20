@@ -497,8 +497,7 @@ export default {
         },
         // 检查版本名
         checkDataName: function(data) {
-            let name = sterilizer(data.name).removeSpace();
-            name = sterilizer(name).kill();
+            let name = sterilizer(data.name).removeSpace().kill().toString();
             this.$set(data, "name", name);
         },
         // 上传DBM

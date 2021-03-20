@@ -4,10 +4,6 @@ const $helper = $https("helper", {
     proxy: false,
     interceptor: "helper",
 });
-const $_helper = $_https("helper", {
-    proxy: true,
-    interceptor: "helper",
-});
 const $server = $https("server", {
     proxy: false,
 });
@@ -26,4 +22,4 @@ const $_pay = $_https("pay", {
     proxy: true,
     interceptor: "next",
 });
-export { axios, $helper, $server, $next, $_helper, $_server, $_next, $_pay };
+export { axios, $helper, $server, $next, $_server, $_next, $_pay };

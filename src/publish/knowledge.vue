@@ -157,14 +157,16 @@
 <script>
 import pubheader from "@/components/publish/pubheader.vue";
 import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
+
+// 本地依赖
+import {JX3BOX} from "@jx3box/jx3box-common";
+import {WikiPost} from "@jx3box/jx3box-common/js/helper";
 import User from "@jx3box/jx3box-common/js/user";
-import { get_menus, get_list, create_knowledge } from "../service/knowledge";
-import { get_newest_post, create_post } from "../service/wiki_post";
-import {__Root} from '@jx3box/jx3box-common/data/jx3box.json'
+import {get_menus, get_list, create_knowledge} from "../service/knowledge";
 
 export default {
     name: "knowledge",
-    data: function() {
+    data() {
         return {
             dialogVisible: false,
             knowledge: null,
@@ -212,7 +214,8 @@ export default {
                 this.$store.commit('endProcess');
             });
         },
-        search_handle(keyword) {
+        // 通识搜索
+        search_handle(keyword = '') {
             this.options.loading = true;
             get_list({
                 keyword: keyword,
@@ -235,26 +238,22 @@ export default {
             // 表单校验
             if (!this.validate()) return;
             this.$store.commit("startProcess");
-            create_post({
+            WikiPost.save({
                 type: "knowledge",
                 source_id: this.post.source_id,
                 user_nickname: User.getInfo().name,
                 content: this.post.content,
                 remark: this.post.remark,
                 tags: this.post.tags,
-            }).then((data) => {
-                data = data.data;
-                if (data.code === 200) {
-                    this.$message({
-                        message: "提交成功，请等待审核",
-                        type: "success",
-                        onClose: () => {
-                            // this.$router.go(0);
-                            location.href = __Root + '/dashboard/#/wiki'
-                        },
-                    });
+            }).then((res) => {
+                res = res.data;
+                if (res.code === 200) {
+                    this.$message({message: "提交成功，请等待审核", type: "success"});
+                    setTimeout(() => {
+                        location.href = JX3BOX.__Root + '/dashboard/#/wiki';
+                    }, 500);
                 } else {
-                    this.$message({message: `${data.message}`, type: "warning"});
+                    this.$message({message: `${res.message}`, type: "warning"});
                     this.$store.commit('endProcess');
                 }
             }).catch(()=>{
@@ -277,26 +276,22 @@ export default {
         },
     },
     created() {
+        // 初始化搜索列表
+        this.search_handle('');
+        // 获取百科ID并通过watch获取攻略
         let id = this.$route.params.source_id;
         this.post.source_id = id ? id : "";
-
-        // 初始化搜索列表
-        this.search_handle("");
 
         get_menus().then((res) => {
             res = res.data;
             if (res.code === 200) this.types = res.data.menus;
         });
     },
-    components: {
-        pubheader,
-        Tinymce,
-    },
     watch: {
         "post.source_id": {
             handler() {
                 if (!this.post.source_id) return;
-                get_newest_post("knowledge", this.post.source_id).then(
+                WikiPost.newest("knowledge", this.post.source_id, 0).then(
                     (res) => {
                         let data = res.data;
                         if (data.code === 200) {
@@ -324,10 +319,7 @@ export default {
                                 this.options.sources =
                                     this.options.sources || [];
                                 for (let index in this.options.sources) {
-                                    if (
-                                        this.options.sources[index].id ==
-                                        source.id
-                                    ) {
+                                    if (this.options.sources[index].id == source.id) {
                                         exist = true;
                                         break;
                                     }
@@ -339,6 +331,10 @@ export default {
                 );
             },
         },
+    },
+    components: {
+        pubheader,
+        Tinymce,
     },
 };
 </script>

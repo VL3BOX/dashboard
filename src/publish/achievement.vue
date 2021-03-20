@@ -10,16 +10,16 @@
                 <el-divider content-position="left">选择成就 *</el-divider>
                 <el-select
                     class="u-source-id"
-                    v-model="post.achievement_id"
+                    v-model="post.source_id"
                     filterable
                     remote
                     :disabled="!!post.id"
                     placeholder="输入成就名称/成就描述/称号/奖励物品并按『回车』进行搜索"
-                    :remote-method="search_achievements_handle"
-                    :loading="options.search_loading"
+                    :remote-method="search_handle"
+                    :loading="options.loading"
                 >
                     <el-option
-                        v-for="item in options.achievements"
+                        v-for="item in options.sources"
                         :key="item.ID"
                         :label="item.Name"
                         :value="item.ID"
@@ -83,27 +83,26 @@ import pubheader from "@/components/publish/pubheader.vue";
 import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
 
 // 本地依赖
-import { $helper } from "../service/axios";
-import { JX3BOX } from "@jx3box/jx3box-common";
-import { create_post } from "../service/wiki_post";
+import {JX3BOX} from "@jx3box/jx3box-common";
+import {WikiPost} from "@jx3box/jx3box-common/js/helper";
 import User from "@jx3box/jx3box-common/js/user";
+import {search_achievements} from "../service/achievement";
 
 export default {
     name: "achievement",
-    props: [],
-    data: function() {
+    data() {
         return {
             //选项 - 加载可选项
             options: {
-                achievements: null,
-                search_loading: false,
+                sources: null,
+                loading: false,
             },
 
             //文章 - 主表数据
             post: {
                 id: "", // 文章ID
                 content: "",
-                achievement_id: "",
+                source_id: "",
                 level: 0,
                 remark: "",
             },
@@ -116,7 +115,7 @@ export default {
     },
     methods: {
         toPublish: function() {
-            if (!this.post.achievement_id) {
+            if (!this.post.source_id) {
                 this.$message({
                     message: "请选择要修订攻略的成就",
                     type: "warning",
@@ -146,9 +145,9 @@ export default {
             }
 
             this.$store.commit("startProcess");
-            create_post({
+            WikiPost.save({
                 type: "achievement",
-                source_id: this.post.achievement_id,
+                source_id: this.post.source_id,
                 level: this.post.level,
                 user_nickname: User.getInfo().name,
                 content: this.post.content,
@@ -156,29 +155,16 @@ export default {
             }).then((data) => {
                 data = data.data;
                 if (data.code === 200) {
-                    this.$message({
-                        message: "提交成功，请等待审核",
-                        type: "success",
-                    });
-                    location.href = JX3BOX.__Root + "dashboard/#/wiki";
+                    this.$message({message: "提交成功，请等待审核", type: "success"});
+                    setTimeout(() => {
+                        location.href = JX3BOX.__Root + '/dashboard/#/wiki';
+                    }, 500);
                 } else {
-                    this.$message({
-                        message: `${data.message}`,
-                        type: "warning",
-                    });
+                    this.$message({message: `${data.message}`, type: "warning"});
+                    this.$store.commit('endProcess');
                 }
-            });
-        },
-        get_newest_post(achievement_id) {
-            return $helper({
-                method: "GET",
-                url: `${JX3BOX.__helperUrl}api/wiki/post`,
-                headers: { Accept: "application/prs.helper.v2+json" },
-                params: {
-                    type: "achievement",
-                    source_id: achievement_id,
-                    supply: 0,
-                },
+            }).catch(()=>{
+                this.$store.commit('endProcess');
             });
         },
         icon_url_filter(icon_id) {
@@ -188,49 +174,31 @@ export default {
                 return `${JX3BOX.__iconPath}icon/${icon_id}.png`;
             }
         },
-        async search_achievements_handle(keyword) {
-            this.search_achievements(keyword, 10)
-        },
         // 成就搜索
-        search_achievements(keyword, length) {
-            this.options.search_loading = true;
-            $helper({
-                method: "GET",
-                url: `${JX3BOX.__helperUrl}api/achievement/search`,
-                headers: {Accept: "application/prs.helper.v2+json"},
-                params: {keyword: keyword, limit: length},
-            }).then(
-                (res) => {
-                    res = res.data;
-                    if (res.code === 200) {
-                        this.options.achievements = res.data.achievements;
-                        this.options.search_loading = false;
-                    }
-                }
-            );
+        search_handle(keyword = '') {
+            this.options.loading = true;
+            search_achievements({
+                keyword: keyword,
+                limit: 10
+            }).then((res) => {
+                res = res.data;
+                if (res.code === 200) this.options.sources = res.data.achievements;
+                this.options.loading = false;
+            });
         },
     },
-    mounted() {
-        this.search_achievements_handle("");
-
+    created() {
+        // 初始化搜索列表
+        this.search_handle('');
         // 获取成就ID并通过watch获取攻略
         let id = this.$route.params.achievement_id;
-        this.post.achievement_id = id ? parseInt(id) : null;
-
-        // 去掉标题
-        document.getElementsByClassName("m-publish-title").forEach((item) => {
-            item.remove();
-        });
-        // 去掉草稿
-        document.getElementsByClassName("el-button--plain").forEach((item) => {
-            item.remove();
-        });
+        this.post.source_id = id ? parseInt(id) : null;
     },
     watch: {
-        "post.achievement_id": {
+        "post.source_id": {
             handler() {
-                if (!this.post.achievement_id) return;
-                this.get_newest_post(this.post.achievement_id).then((res) => {
+                if (!this.post.source_id) return;
+                WikiPost.newest("achievement", this.post.source_id, 0).then((res) => {
                     let data = res.data;
                     if (data.code === 200) {
                         // 数据填充
@@ -238,7 +206,7 @@ export default {
                         let achievement = data.data.source;
 
                         if (post) {
-                            this.post.achievement_id = parseInt(post.source_id);
+                            this.post.source_id = parseInt(post.source_id);
                             this.post.level = post.level || 1;
                             this.post.remark = "";
                             let content = post.content;
@@ -256,8 +224,8 @@ export default {
                             );
                             this.post.content = content;
                         } else {
-                            this.post.achievement_id = this.post.achievement_id
-                                ? parseInt(this.post.achievement_id)
+                            this.post.source_id = this.post.source_id
+                                ? parseInt(this.post.source_id)
                                 : "";
                             this.post.level = 0;
                             this.post.remark = "";
@@ -267,19 +235,16 @@ export default {
                         if (achievement) {
                             // 将选择项恢复至下拉框
                             let exist = false;
-                            this.options.achievements =
-                                this.options.achievements || [];
-                            for (let index in this.options.achievements) {
-                                if (
-                                    this.options.achievements[index].ID ==
-                                    achievement.ID
-                                ) {
+                            this.options.sources =
+                                this.options.sources || [];
+                            for (let index in this.options.sources) {
+                                if (this.options.sources[index].ID == achievement.ID) {
                                     exist = true;
                                     break;
                                 }
                             }
                             if (!exist)
-                                this.options.achievements.push(achievement);
+                                this.options.sources.push(achievement);
                         }
                     }
                 });

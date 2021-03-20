@@ -68,7 +68,7 @@
                 <el-button
                     class="u-publish"
                     icon="el-icon-s-promotion"
-                    type="success"
+                    type="primary"
                     @click="toPublish"
                     :disabled="processing"
                     >提交攻略
@@ -83,10 +83,10 @@ import pubheader from "@/components/publish/pubheader.vue";
 import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
 
 // 本地依赖
-import {JX3BOX} from "@jx3box/jx3box-common";
-import {WikiPost} from "@jx3box/jx3box-common/js/helper";
+import { JX3BOX } from "@jx3box/jx3box-common";
+import { WikiPost } from "@jx3box/jx3box-common/js/helper";
 import User from "@jx3box/jx3box-common/js/user";
-import {search_achievements} from "../service/achievement";
+import { search_achievements } from "../service/achievement";
 
 export default {
     name: "achievement",
@@ -152,20 +152,28 @@ export default {
                 user_nickname: User.getInfo().name,
                 content: this.post.content,
                 remark: this.post.remark,
-            }).then((data) => {
-                data = data.data;
-                if (data.code === 200) {
-                    this.$message({message: "提交成功，请等待审核", type: "success"});
-                    setTimeout(() => {
-                        location.href = JX3BOX.__Root + '/dashboard/#/wiki';
-                    }, 500);
-                } else {
-                    this.$message({message: `${data.message}`, type: "warning"});
-                    this.$store.commit('endProcess');
-                }
-            }).catch(()=>{
-                this.$store.commit('endProcess');
-            });
+            })
+                .then((data) => {
+                    data = data.data;
+                    if (data.code === 200) {
+                        this.$message({
+                            message: "提交成功，请等待审核",
+                            type: "success",
+                        });
+                        setTimeout(() => {
+                            location.href = JX3BOX.__Root + "/dashboard/#/wiki";
+                        }, 500);
+                    } else {
+                        this.$message({
+                            message: `${data.message}`,
+                            type: "warning",
+                        });
+                        this.$store.commit("endProcess");
+                    }
+                })
+                .catch(() => {
+                    this.$store.commit("endProcess");
+                });
         },
         icon_url_filter(icon_id) {
             if (isNaN(parseInt(icon_id))) {
@@ -175,21 +183,22 @@ export default {
             }
         },
         // 成就搜索
-        search_handle(keyword = '') {
+        search_handle(keyword = "") {
             this.options.loading = true;
             search_achievements({
                 keyword: keyword,
-                limit: 10
+                limit: 10,
             }).then((res) => {
                 res = res.data;
-                if (res.code === 200) this.options.sources = res.data.achievements;
+                if (res.code === 200)
+                    this.options.sources = res.data.achievements;
                 this.options.loading = false;
             });
         },
     },
     created() {
         // 初始化搜索列表
-        this.search_handle('');
+        this.search_handle("");
         // 获取成就ID并通过watch获取攻略
         let id = this.$route.params.achievement_id;
         this.post.source_id = id ? parseInt(id) : null;
@@ -198,56 +207,61 @@ export default {
         "post.source_id": {
             handler() {
                 if (!this.post.source_id) return;
-                WikiPost.newest("achievement", this.post.source_id, 0).then((res) => {
-                    let data = res.data;
-                    if (data.code === 200) {
-                        // 数据填充
-                        let post = data.data.post;
-                        let achievement = data.data.source;
+                WikiPost.newest("achievement", this.post.source_id, 0).then(
+                    (res) => {
+                        let data = res.data;
+                        if (data.code === 200) {
+                            // 数据填充
+                            let post = data.data.post;
+                            let achievement = data.data.source;
 
-                        if (post) {
-                            this.post.source_id = parseInt(post.source_id);
-                            this.post.level = post.level || 1;
-                            this.post.remark = "";
-                            let content = post.content;
-                            content = content.replace(
-                                /(<p>)?\s*◆成就难度 [★]+\s*(<\/p>)?/gi,
-                                ""
-                            );
-                            content = content.replace(
-                                /(<p>)?\s*◆花费时长 [★]+\s*(<\/p>)?/gi,
-                                ""
-                            );
-                            content = content.replace(
-                                /(<p>)?\s*◆成就攻略\s*(<\/p>)?/gi,
-                                ""
-                            );
-                            this.post.content = content;
-                        } else {
-                            this.post.source_id = this.post.source_id
-                                ? parseInt(this.post.source_id)
-                                : "";
-                            this.post.level = 0;
-                            this.post.remark = "";
-                            this.post.content = "";
-                        }
-
-                        if (achievement) {
-                            // 将选择项恢复至下拉框
-                            let exist = false;
-                            this.options.sources =
-                                this.options.sources || [];
-                            for (let index in this.options.sources) {
-                                if (this.options.sources[index].ID == achievement.ID) {
-                                    exist = true;
-                                    break;
-                                }
+                            if (post) {
+                                this.post.source_id = parseInt(post.source_id);
+                                this.post.level = post.level || 1;
+                                this.post.remark = "";
+                                let content = post.content;
+                                content = content.replace(
+                                    /(<p>)?\s*◆成就难度 [★]+\s*(<\/p>)?/gi,
+                                    ""
+                                );
+                                content = content.replace(
+                                    /(<p>)?\s*◆花费时长 [★]+\s*(<\/p>)?/gi,
+                                    ""
+                                );
+                                content = content.replace(
+                                    /(<p>)?\s*◆成就攻略\s*(<\/p>)?/gi,
+                                    ""
+                                );
+                                this.post.content = content;
+                            } else {
+                                this.post.source_id = this.post.source_id
+                                    ? parseInt(this.post.source_id)
+                                    : "";
+                                this.post.level = 0;
+                                this.post.remark = "";
+                                this.post.content = "";
                             }
-                            if (!exist)
-                                this.options.sources.push(achievement);
+
+                            if (achievement) {
+                                // 将选择项恢复至下拉框
+                                let exist = false;
+                                this.options.sources =
+                                    this.options.sources || [];
+                                for (let index in this.options.sources) {
+                                    if (
+                                        this.options.sources[index].ID ==
+                                        achievement.ID
+                                    ) {
+                                        exist = true;
+                                        break;
+                                    }
+                                }
+                                if (!exist)
+                                    this.options.sources.push(achievement);
+                            }
                         }
                     }
-                });
+                );
             },
         },
     },

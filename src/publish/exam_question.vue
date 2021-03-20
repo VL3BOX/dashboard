@@ -1,11 +1,11 @@
 <template>
     <div class="m-publish-box">
         <!-- 头部 -->
-        <pubheader name="趣味题库" :localDraft="false"
+        <pubheader name="趣味题库·题目" :localDraft="false"
             ><slot name="header"></slot
         ></pubheader>
 
-        <h1 class="m-publish-exam-header">贡献题目</h1>
+        <!-- <h1 class="m-publish-exam-header">贡献题目</h1> -->
         <el-form
             label-position="left"
             label-width="80px"
@@ -80,7 +80,7 @@
                 <el-button
                     class="u-publish"
                     icon="el-icon-s-promotion"
-                    type="success"
+                    type="primary"
                     @click="publish"
                     :disabled="processing"
                     >提交题目</el-button

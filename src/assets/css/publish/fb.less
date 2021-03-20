@@ -26,6 +26,17 @@
             }
         }
     }
+    .u-level{
+        .fz(12px);
+        color:#999;
+        .ml(3px);
+        &::before{
+            content:'('
+        }
+        &::after{
+            content:')'
+        }
+    }
 }
 
 @media screen and (max-width:@phone){

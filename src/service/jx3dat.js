@@ -1,18 +1,16 @@
-import { $_next, $_server, $server } from "./axios";
+import { $_server } from "./axios";
+import { $next } from "@jx3box/jx3box-common/js/https";
 import { __Root } from "@jx3box/jx3box-common/data/jx3box.json";
 
 // 文章
 function createPost(data) {
     return $_server.post("/server/jx3dat/", data);
-    // return $.post(__server + "server/jx3dat", data)
 }
 function updatePost(id, data) {
     return $_server.put(`/server/jx3dat/${id}`, data);
-    // return $.put(__server + `server/jx3dat/${id}`, data);
 }
 function hasFeed() {
-    return $server.get(`/server/jx3dat/feed/has`);
-    // return $.get(__server + 'server/jx3dat/feed/has')
+    return $_server.get(`/server/jx3dat/feed/has`);
 }
 
 // 上传
@@ -20,14 +18,14 @@ function uploadData(formdata, vm) {
     return $_server.post("/upload/data", formdata);
 }
 function uploadHub(formdata) {
-    return $_next.post("/api/plugins/my-team-mon/v2", formdata);
+    return $next().post("/api/plugins/my-team-mon/v2", formdata);
 }
 
 // 云端
 function syncRedis(data) {
     let redisData = transferForRedis(data);
     console.log("正在执行redis同步作业:", redisData);
-    return $_next.post("/api/plugins/jx3dat/publish", redisData);
+    return $next().post("/api/plugins/jx3dat/publish", redisData);
 }
 
 function transferForRedis(data) {

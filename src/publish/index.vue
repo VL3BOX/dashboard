@@ -150,18 +150,26 @@
                 </el-col>
                 <el-col :span="4"
                     ><el-card
-                        ><router-link to="/exam"
+                        ><router-link to="/exam/question"
+                            ><i class="el-icon-s-opportunity"></i
+                            ><span>剑三题目</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link to="/exam/paper"
                             ><img
                                 svg-inline
                                 src="../assets/img/channel/100.svg"
-                            /><span>趣味题库</span></router-link
+                            /><span>剑三试卷</span></router-link
                         ></el-card
                     ></el-col
                 >
                 <el-col :span="4"
                     ><el-card
                         ><router-link to="/namespace"
-                            ><i class="el-icon-postcard"></i
+                            ><i class="el-icon-s-order"></i
                             ><span>剑三铭牌</span></router-link
                         ></el-card
                     ></el-col

@@ -110,7 +110,8 @@
                                             :class="{
                                                 empty:
                                                     !position.data ||
-                                                    position.data && !position.data.length,
+                                                    (position.data &&
+                                                        !position.data.length),
                                             }"
                                             ghost-class="ghost"
                                         >
@@ -133,7 +134,11 @@
                                             </li>
                                         </draggable>
                                         <span
-                                            v-if="!position.data || position.data && !position.data.length"
+                                            v-if="
+                                                !position.data ||
+                                                    (position.data &&
+                                                        !position.data.length)
+                                            "
                                             class="u-tip"
                                             >拖拽所需道具到此处</span
                                         >
@@ -193,7 +198,9 @@
                                             :class="{
                                                 empty:
                                                     !equip_relation[key] ||
-                                                    equip_relation[key] && !equip_relation[key].length,
+                                                    (equip_relation[key] &&
+                                                        !equip_relation[key]
+                                                            .length),
                                             }"
                                             ghost-class="ghost"
                                         >
@@ -220,8 +227,12 @@
                                             </li>
                                         </draggable>
                                         <span
-                                            v-if="!equip_relation[key] ||
-                                                  equip_relation[key] && !equip_relation[key].length"
+                                            v-if="
+                                                !equip_relation[key] ||
+                                                    (equip_relation[key] &&
+                                                        !equip_relation[key]
+                                                            .length)
+                                            "
                                             class="u-tip"
                                             >拖拽所需装备到此处</span
                                         >
@@ -236,7 +247,7 @@
                 <el-button
                     class="u-publish"
                     icon="el-icon-s-promotion"
-                    type="success"
+                    type="primary"
                     @click="submit"
                     :loading="$store.state.processing"
                     >提交物品清单
@@ -258,32 +269,37 @@ import { get_item_plan, save_item_plan } from "../service/item_plan";
 const qs = require("qs");
 const $_ = require("lodash");
 const { __Root } = require("@jx3box/jx3box-common/data/jx3box.json");
-import EquipPosition from '@jx3box/jx3box-editor/service/enum/EquipPosition';
+import EquipPosition from "@jx3box/jx3box-editor/service/enum/EquipPosition";
 
 export default {
     name: "item",
     props: [],
     data: function() {
         let positions = [
-          [EquipPosition.MELEE_WEAPON, EquipPosition.RANGE_WEAPON],
-          [EquipPosition.HELM, EquipPosition.CHEST, EquipPosition.WAIST],
-          [EquipPosition.BANGLE, EquipPosition.PANTS, EquipPosition.BOOTS],
-          [EquipPosition.AMULET, EquipPosition.PENDANT, EquipPosition.RING_1, EquipPosition.RING_2],
+            [EquipPosition.MELEE_WEAPON, EquipPosition.RANGE_WEAPON],
+            [EquipPosition.HELM, EquipPosition.CHEST, EquipPosition.WAIST],
+            [EquipPosition.BANGLE, EquipPosition.PANTS, EquipPosition.BOOTS],
+            [
+                EquipPosition.AMULET,
+                EquipPosition.PENDANT,
+                EquipPosition.RING_1,
+                EquipPosition.RING_2,
+            ],
         ];
         // 重置键名
         let all_positions = EquipPosition.all();
-        for (let i in positions){
-          let _output = {}
-          for (let key in positions[i]){
-            let type = $_.get(positions, `${i}.${key}`);
-            _output[type] = all_positions[type];
-          }
-          $_.set(positions, i, _output);
+        for (let i in positions) {
+            let _output = {};
+            for (let key in positions[i]) {
+                let type = $_.get(positions, `${i}.${key}`);
+                _output[type] = all_positions[type];
+            }
+            $_.set(positions, i, _output);
         }
 
         // 构建装备清单结构
         let equip_relation = {};
-        for(let i in all_positions){
+        for (let i in all_positions) {
             let position = all_positions[i];
             equip_relation[position.type] = [];
         }
@@ -397,7 +413,10 @@ export default {
             save_item_plan(this.plan).then((data) => {
                 data = data.data;
                 if (data.code === 200) {
-                    this.$message({message: "物品清单提交成功", type: "success"});
+                    this.$message({
+                        message: "物品清单提交成功",
+                        type: "success",
+                    });
                     location.href = `${__Root}item/#/plan_view/${data.data.id}`;
                 } else {
                     this.$message({

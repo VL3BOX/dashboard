@@ -1,4 +1,4 @@
-import { $_next } from "./axios";
+import { $next } from "@jx3box/jx3box-common/js/https";
 import { __Root } from "@jx3box/jx3box-common/data/jx3box.json";
 import dateFormat from "../utils/dateFormat";
 import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
@@ -6,7 +6,7 @@ import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
 function syncRedis(data, vm) {
     let redisData = transferForRedis(data);
     console.log("正在执行redis同步作业:", redisData);
-    return $_next.post("/api/macro/publish", redisData);
+    return $next().post("/api/macro/publish", redisData);
 }
 
 function transferForRedis(data) {

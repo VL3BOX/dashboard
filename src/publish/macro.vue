@@ -34,8 +34,10 @@
             <template>
                 <el-form-item label="原创">
                     <el-switch
-                        v-model="post.original"
+                        v-model.number="post.original"
                         active-color="#13ce66"
+                        :active-value="1"
+                        :inactive-value="0"
                     ></el-switch>
                 </el-form-item>
 
@@ -43,6 +45,13 @@
                     <el-radio-group v-model="post.post_meta.lang">
                         <el-radio label="cn">简体中文</el-radio>
                         <el-radio label="tr">繁體中文</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+
+                <el-form-item label="版本">
+                    <el-radio-group v-model="post.client">
+                        <el-radio label>正式服</el-radio>
+                        <el-radio label="origin">怀旧服</el-radio>
                     </el-radio-group>
                 </el-form-item>
 
@@ -174,7 +183,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="m-macro-talent m-macro-item">
+                            <div
+                                class="m-macro-talent m-macro-item"
+                                v-if="!post.client"
+                            >
                                 <h5 class="u-title">奇穴方案</h5>
                                 <div class="m-macro-talent-simulator">
                                     <div class="qx-container"></div>
@@ -292,19 +304,25 @@
 </template>
 
 <script>
-import boilerplate from "@/components/publish/boilerplate";
+// 依赖工具包
+import lodash from "lodash";
+import { sterilizer } from "sterilizer/index.js";
+import User from "@jx3box/jx3box-common/js/user";
+import isEmptyMeta from "@/utils/isEmptyMeta.js";
+// 静态数据
 import xfmap from "@jx3box/jx3box-data/data/xf/xf.json";
+import zlps from "@jx3box/jx3box-common/data/zlps.json";
 import {
     __ossMirror,
     __iconPath,
     __imgPath,
 } from "@jx3box/jx3box-common/data/jx3box.json";
-import User from "@jx3box/jx3box-common/js/user";
-import { syncRedis } from "../service/macro.js";
-import { sterilizer } from "sterilizer/index.js";
-import isEmptyMeta from "@/utils/isEmptyMeta.js";
-import lodash from "lodash";
-import zlps from '@jx3box/jx3box-common/data/zlps.json'
+// 本地模块
+import boilerplate from "@/components/publish/boilerplate";
+// 数据逻辑
+import { syncRedis } from "@/service/macro.js";
+import { getZlps } from "@/service/common.js";
+// META空模板
 const default_meta = {
     zlp: zlps[0],
     lang: "cn",
@@ -360,8 +378,9 @@ export default {
                 post_banner: "", //头条图,管理员可见
                 post_status: "", //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
-                post_collection : '',   //文集
-                original: 0,
+                post_collection: "", //文集
+                original: 0, //是否原创
+                client: "", //空为正式服,origin为怀旧服
             },
 
             //扩展 - 部分栏目文章不应启用该功能
@@ -373,44 +392,49 @@ export default {
                 tuilanEnable: false, //是否同步至推栏
             },
 
-            // 其它
+            // 杂项
             activeMacroIndex: "1",
             nickname: User.getInfo().name,
         };
     },
     computed: {},
     methods: {
+        // 加载
+        init: function() {
+            return this.doLoad(this).then(() => {
+                if (isEmptyMeta(this.post.post_meta))
+                    this.post.post_meta = default_meta;
+                console.log("Init Post:", this.post);
+            });
+        },
         // 发布
         toPublish: function() {
-            this.check()
-            this.doPublish(this.build(), this, false).then((res) => {
-                syncRedis(res.data.data, this).then((redis_result) => {
-                    this.finish(res.data.msg, res.data.data.ID, this.type);
-                });
-            });
+            this.postData()
         },
         // 草稿
         toDraft: function() {
-            this.check()
-            this.doDraft(this.build(), this, false).then((res) => {
+            this.postData()
+        },
+        // 提交
+        postData : function (){
+            this.check();
+            this.doPublish(this.build(), this, false).then((res) => {
                 syncRedis(res.data.data, this).then((redis_result) => {
-                    this.finish(res.data.msg, res.data.data.ID, this.type);
+                    this.finish(res.data.msg, res.data.data.ID);
                 });
             });
         },
-        finish: function(msg, id, type) {
+        // 跳转
+        finish: function(msg, id) {
             this.$message({
                 message: msg,
                 type: "success",
             });
             setTimeout(() => {
-                location.href = "/" + type + "/?pid=" + id;
+                location.href = "/" + this.type + "/" + id;
             }, 500);
         },
-        // 加载
-        init: function() {
-            return this.doLoad(this).then((data) => {});
-        },
+
         // 设置检索meta
         build: function() {
             let data = this.$store.state;
@@ -469,18 +493,21 @@ export default {
         },
 
         // 检查版本名
-        check : function (){
-            if(!this.post.post_title){
-                this.post.post_title = User.getInfo().name + '的宏'
+        check: function() {
+            if (!this.post.post_title) {
+                this.post.post_title = User.getInfo().name + "的宏";
             }
-            this.post.post_meta.data.forEach((item,i) => {
-                if(!item.name){
-                    item.name = '未标题-' + i
+            this.post.post_meta.data.forEach((item, i) => {
+                if (!item.name) {
+                    item.name = "未标题-" + i;
                 }
-            })
+            });
         },
         checkDataName: function(data) {
-            let name = sterilizer(data.name).removeSpace().kill().toString();
+            let name = sterilizer(data.name)
+                .removeSpace()
+                .kill()
+                .toString();
             if (!name) {
                 this.$notify.error({
                     title: "错误",
@@ -520,10 +547,10 @@ export default {
     },
     mounted: function() {
         // 初始化默认文章数据
-        this.init().then(() => {
-            if (isEmptyMeta(this.post.post_meta))
-                this.post.post_meta = default_meta;
-            console.log("Init Post:", this.post);
+        this.init()
+        // 加载最新资料片
+        getZlps().then((res) => {
+            this.options.zlps = res.data;
         });
     },
     components: {

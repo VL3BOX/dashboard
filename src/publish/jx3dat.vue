@@ -34,8 +34,10 @@
             <template>
                 <el-form-item label="原创">
                     <el-switch
-                        v-model="post.original"
+                        v-model.number="post.original"
                         active-color="#13ce66"
+                        :active-value="1"
+                        :inactive-value="0"
                     ></el-switch>
                 </el-form-item>
 
@@ -43,6 +45,13 @@
                     <el-radio-group v-model="post.post_meta.lang">
                         <el-radio label="cn">简体中文</el-radio>
                         <el-radio label="tr">繁體中文</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+
+                <el-form-item label="版本">
+                    <el-radio-group v-model="post.client">
+                        <el-radio label>正式服</el-radio>
+                        <el-radio label="origin">怀旧服</el-radio>
                     </el-radio-group>
                 </el-form-item>
 
@@ -346,13 +355,18 @@
 </template>
 
 <script>
-import boilerplate from "../components/publish/boilerplate";
+// 依赖工具包
 import _ from 'lodash'
-import { uploadHub, uploadData, syncRedis, createPost, updatePost, hasFeed } from "../service/jx3dat.js";
-import User from "@jx3box/jx3box-common/js/user";
-import { jx3dat_types, jx3dat_tags } from "../assets/data/jx3dat.json";
 import { sterilizer } from "sterilizer/index.js";
+import User from "@jx3box/jx3box-common/js/user";
 import isEmptyMeta from "@/utils/isEmptyMeta.js";
+// 静态数据
+import { jx3dat_types, jx3dat_tags } from "../assets/data/jx3dat.json";
+// 本地模块
+import boilerplate from "../components/publish/boilerplate";
+// 数据逻辑
+import { uploadHub, uploadData, syncRedis, createPost, updatePost, hasFeed } from "../service/jx3dat.js";
+// META空模板
 const default_meta = {
     //新版,字段表合并至主表,减少数据库查询次数
     type: "1",
@@ -409,8 +423,9 @@ export default {
                 post_status: "",             //由发布按钮、草稿按钮决定
                 post_banner: "",             //头条图,管理员可见
                 // post_tags: [],            //标签列表
-                original: 0,
-                post_collection: "",         //文集
+                post_collection: "", //文集
+                original: 0, //是否原创
+                client: "", //空为正式服,origin为怀旧服
             },
 
             //扩展 - 部分栏目文章不应启用该功能
@@ -437,9 +452,31 @@ export default {
         },
         id : function (){
             return this.$route.params.id
+        },
+        hasOneFeed : function (){
+            return this.id && this.hasFeed
         }
     },
     methods: {
+        // 加载
+        init: function() {
+            return this.doLoad(this).then(() => {
+                // 初始化默认文章数据
+                if (isEmptyMeta(this.post.post_meta))
+                this.post.post_meta = _.cloneDeep(default_meta);
+            }).then(() => {
+                // 如果是创建模式，订阅号只允许创建1个
+                if(!this.id){
+                    hasFeed().then((res) => {
+                        this.hasFeed = !!res.data.data
+                        if(this.hasFeed){
+                            this.post.post_subtype = '2'
+                            this.post.post_meta.type = '2'
+                        }
+                    })
+                }
+            })
+        },
         // 发布
         toPublish: function() {
             // console.log(this.build())
@@ -474,6 +511,7 @@ export default {
                 this.finish(res.data.msg, res.data.data.ID, this.type);
             }
         },
+        // 跳转
         finish: function(msg, id, type) {
             this.$message({
                 message: msg,
@@ -483,6 +521,7 @@ export default {
                 location.href = "/" + type + "/" + id;
             }, 500);
         },
+
         // 设置检索meta
         build: function() {
             let data = this.$store.state;
@@ -491,16 +530,11 @@ export default {
             return data;
         },
 
-        // 子类型
-        changeSubtype: function(subtype) {
-            this.$store.commit("changeSubtype", subtype);
-        },
-        // 检查版本名
+        // 上传DBM
         checkDataName: function(data) {
             let name = sterilizer(data.name).removeSpace().kill().toString();
             this.$set(data, "name", name);
         },
-        // 上传DBM
         selectDBM: function(i) {
             let fileInput = document.getElementById("jx3dat_" + i);
             fileInput.dispatchEvent(new MouseEvent("click"));
@@ -531,7 +565,6 @@ export default {
                 }
             });
         },
-        // 添加行
         addDBM: function() {
             // 目前设置最多3个版本
             if (this.post.post_meta.data.length >= 3 && !this.isVIP) {
@@ -551,7 +584,6 @@ export default {
             let index = this.post.post_meta.data.length + 1 + "";
             this.activeMacroIndex = index;
         },
-        // 删除行
         delDBM: function(name) {
             // this.post.post_meta.data.splice(i, 1);
 
@@ -582,7 +614,11 @@ export default {
                 },
             });
         },
+
         // 上传其他数据
+        changeSubtype: function(subtype) {
+            this.$store.commit("changeSubtype", subtype);
+        },
         selectDat: function() {
             let fileInput = document.getElementById("otherdata");
             fileInput.dispatchEvent(new MouseEvent("click"));
@@ -634,26 +670,6 @@ export default {
                 title: "复制失败",
                 message: "复制失败",
             });
-        },
-
-        // 加载
-        init: function() {
-            return this.doLoad(this).then(() => {
-                // 初始化默认文章数据
-                if (isEmptyMeta(this.post.post_meta))
-                this.post.post_meta = _.cloneDeep(default_meta);
-            }).then(() => {
-                // 如果是创建模式，订阅号只允许创建1个
-                if(!this.id){
-                    hasFeed().then((res) => {
-                        this.hasFeed = !!res.data.data
-                        if(this.hasFeed){
-                            this.post.post_subtype = '2'
-                            this.post.post_meta.type = '2'
-                        }
-                    })
-                }
-            })
         },
     },
     created : function (){

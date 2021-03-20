@@ -30,12 +30,17 @@
         >
             <template>
                 <el-form-item label="原创">
-                    <el-switch
-                        v-model="post.original"
-                        active-color="#13ce66"
-                    >
+                    <el-switch v-model="post.original" active-color="#13ce66">
                     </el-switch>
                 </el-form-item>
+
+                <el-form-item label="版本">
+                    <el-radio-group v-model="post.client">
+                        <el-radio label>正式服</el-radio>
+                        <el-radio label="origin">怀旧服</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+
                 <el-form-item label="类型">
                     <el-radio-group v-model="post.post_subtype">
                         <el-radio
@@ -43,6 +48,7 @@
                             border
                             v-for="(type, key) in options.types"
                             :key="key"
+                            v-show="canSee(key)"
                             >{{ type }}</el-radio
                         >
                     </el-radio-group>
@@ -55,8 +61,8 @@
 <script>
 import boilerplate from "@/components/publish/boilerplate";
 import { __ossMirror } from "@jx3box/jx3box-common/data/jx3box.json";
-// import lodash from "lodash";
 import types from "../assets/data/bbs.json";
+import User from "@jx3box/jx3box-common/js/user";
 
 export default {
     name: "bbs",
@@ -90,8 +96,9 @@ export default {
                 post_banner: "", //头条图,管理员可见
                 post_status: "", //由发布按钮、草稿按钮决定
                 // post_tags: [],            //标签列表
-                original:0,
-                post_collection : '',   //文集
+                post_collection: "", //文集
+                original: 0, //是否原创
+                client: "", //空为正式服,origin为怀旧服
             },
 
             //扩展 - 部分栏目文章不应启用该功能
@@ -102,10 +109,17 @@ export default {
                 weiboEnable: false, //是否同步至微博头条文章
                 tuilanEnable: false, //是否同步至推栏
             },
+
+            // 杂项
+            isAdmin: User.isAdmin(),
         };
     },
     computed: {},
     methods: {
+        // 加载
+        init: function() {
+            return this.doLoad(this).then((data) => {});
+        },
         // 发布
         toPublish: function() {
             // console.log(this.build());
@@ -120,9 +134,13 @@ export default {
             let data = this.$store.state;
             return data;
         },
-        // 加载
-        init: function() {
-            return this.doLoad(this).then((data) => {});
+
+        // 公告分类
+        canSee(key) {
+            if (key == "6") {
+                return this.isAdmin;
+            }
+            return true;
         },
     },
     filters: {},

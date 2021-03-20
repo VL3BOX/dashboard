@@ -110,7 +110,11 @@
                                         v-model="item.url"
                                     ></el-input>
                                 </el-col>
-                                <el-col :span="12" class="u-collection-url" v-if="item.url">
+                                <el-col
+                                    :span="12"
+                                    class="u-collection-url"
+                                    v-if="item.url"
+                                >
                                     <el-input
                                         v-model="item.title"
                                         placeholder="请输入自定义标题"
@@ -198,7 +202,7 @@
                 <el-button
                     class="m-publish-collection-publish u-publish"
                     icon="el-icon-s-promotion"
-                    type="success"
+                    type="primary"
                     @click="submit"
                     :loading="$store.state.processing"
                     >提交剑三小册
@@ -209,8 +213,11 @@
 </template>
 
 <script>
-const { __Root } = require("@jx3box/jx3box-common/data/jx3box.json");
-const { __postType, __otherType } = require("@jx3box/jx3box-common/data/jx3box.json");
+import {
+    __Root,
+    __postType,
+    __otherType,
+} from "@jx3box/jx3box-common/data/jx3box.json";
 import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
 import CollectionPublic from "@jx3box/jx3box-editor/service/enum/CollectionPublic";
 import pubheader from "@/components/publish/pubheader.vue";
@@ -330,7 +337,6 @@ export default {
             this.$confirm("确定提交剑三小册信息？", "提示", {
                 type: "info",
             }).then(() => {
-
                 // 标题长度限制
                 // this.collection.title = this.collection.title.slice(0,40);
 

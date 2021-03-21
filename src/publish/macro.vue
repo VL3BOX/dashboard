@@ -185,7 +185,6 @@
                             </div>
                             <div
                                 class="m-macro-talent m-macro-item"
-                                v-if="!post.client"
                             >
                                 <h5 class="u-title">奇穴方案</h5>
                                 <div class="m-macro-talent-simulator">

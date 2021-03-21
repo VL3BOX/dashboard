@@ -13,7 +13,7 @@
             >当前可建铭牌数： <b>{{ count }}</b> 个</span
           >
           <a href="/vip/namespace?from=dashboard_namespace_create" target="_blank" class="u-btn-buy el-button el-button--primary el-button--mini"><span class="el-icon-shopping-cart-2"></span>购买铭牌</a>
-          <a href="/vip/namespace/#discount?from=dashboard_namespace_create" class="u-skip" target="_blank"><span class="el-icon-connection"></span>限时0.99元抢注10个铭牌</a>
+          <a href="/vip/namespace/?from=dashboard_namespace_create" class="u-skip" target="_blank"><span class="el-icon-connection"></span>限时0.99元抢注10个铭牌</a>
         </div>
       </header>
       <div class="m-namspace-tips" v-if="success">

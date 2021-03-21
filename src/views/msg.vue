@@ -32,7 +32,7 @@
                         <a
                             :href="item | msgLink"
                             class="u-msg-link"
-                            v-if="item.source_id && item.source_type"
+                            v-if="hasLink(item)"
                             @click="read(item)"
                             target="_blank"
                             ><i class="el-icon-link"></i> 点击查看</a
@@ -86,6 +86,7 @@
 import { getMsgs, readMsg, removeMsg } from "../service/msg.js";
 import { showDate, showTime } from "@jx3box/jx3box-common/js/moment.js";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
+const ignoreLinkTypes = ['namespace']
 export default {
     name: "msg",
     props: [],
@@ -132,6 +133,14 @@ export default {
         dateFormat: function(val) {
             return showTime(new Date(val * 1000));
         },
+        hasLink : function (item){
+            if(ignoreLinkTypes.includes(item.source_type)){
+                return false
+            }else if(item.source_id && item.source_type){
+                return true
+            }
+            return false
+        }
     },
     filters: {
         msgLink: function(item) {

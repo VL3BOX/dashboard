@@ -13,7 +13,7 @@
         <time class="u-time u-desc-subitem">提交于: {{ item.created | dateFormat }}</time>
       </div>
       <el-button-group class="u-action">
-        <el-button size="mini" icon="el-icon-edit" title="编辑" @click="edit(item.ID, item.source_type)"></el-button>
+        <el-button size="mini" icon="el-icon-edit" title="编辑" @click="edit(item.ID, item.source_type, item.source_id)"></el-button>
       </el-button-group>
     </li>
   </ul>
@@ -42,9 +42,9 @@ export default {
     // isNotSpecal: function(item) {
     //   return item.source_type != 'team'
     // },
-    edit: function(id, type) {
+    edit: function(id, type, teamid) {
       if (type == 'team') {
-        location.href = '/team/org/edit/' + id + '?tab=other'
+        location.href = '/team/org/edit/' + teamid + '?tab=other'
         return
       }
       location.href = './publish/#/namespace/' + id
@@ -53,6 +53,7 @@ export default {
   mounted: function() {
     getNamespace().then((res) => {
       this.list = res.data.data.data
+      console.log(this.list)
     })
   },
   filters: {

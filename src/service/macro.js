@@ -58,7 +58,7 @@ function transferForRedis(data) {
             data: item.macro,
             desc: desc,
 
-            about: __Root + "macro/?pid=" + pid,
+            about: __Root + "macro/" + pid,
         };
     });
 

@@ -12,7 +12,7 @@ function doPublish(data, vm, skip = true) {
 
                 setTimeout(() => {
                     location.href =
-                        "/" + data.post.post_type + "/?pid=" + res.data.data.ID;
+                        "/" + data.post.post_type + "/" + res.data.data.ID;
                 }, 500);
             }
 
@@ -32,7 +32,7 @@ function doDraft(data, vm, skip = true) {
 
                 setTimeout(() => {
                     location.href =
-                        "/" + data.post.post_type + "/?pid=" + res.data.data.ID;
+                        "/" + data.post.post_type + "/" + res.data.data.ID;
                 }, 500);
             }
 

@@ -39,20 +39,18 @@ function transferForRedis(data) {
         post_status: data.post_status,
         data: {},
         lang: data.post_meta.lang,
-        original: data.original,
+        original: !!data.original,
     };
 
     data.post_meta.data.forEach((item, i) => {
         _.data[item.name] = {
             author: author,
             key: item.name,
-
-            name: item.desc,
-            version: item.version || Date.now(),
-
             data_url: item.file,
             about: __Root + "jx3dat/" + pid,
-            status: item.status,
+            name: item.desc,
+            version: item.version || Date.now(),
+            status: !!item.status,
         };
     });
 

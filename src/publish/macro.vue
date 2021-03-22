@@ -234,7 +234,7 @@
                                     配装方案
                                     <a
                                         class="u-icon-links"
-                                        href="/tool/?pid=19309#/"
+                                        href="/tool/19309"
                                         target="_blank"
                                     >
                                         <i class="el-icon-question"></i>

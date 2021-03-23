@@ -51,7 +51,7 @@
                 <el-form-item label="版本">
                     <el-radio-group v-model="post.client">
                         <el-radio label="std">正式服</el-radio>
-                        <el-radio label="origin">怀旧服</el-radio>
+                        
                     </el-radio-group>
                 </el-form-item>
 

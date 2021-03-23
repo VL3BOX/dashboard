@@ -52,6 +52,7 @@
                     <el-radio-group v-model="post.client">
                         <el-radio label="std">正式服</el-radio>
                         <el-radio label="origin">怀旧服</el-radio>
+                        <el-radio label="all">全部</el-radio>
                     </el-radio-group>
                 </el-form-item>
 

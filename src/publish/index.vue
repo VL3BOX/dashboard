@@ -122,6 +122,24 @@
                         ></el-card
                     ></el-col
                 >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link to="/exam/question"
+                            ><i class="el-icon-s-opportunity"></i
+                            ><span>剑三题目</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+                <el-col :span="4"
+                    ><el-card
+                        ><router-link to="/exam/paper"
+                            ><img
+                                svg-inline
+                                src="../assets/img/channel/100.svg"
+                            /><span>剑三试卷</span></router-link
+                        ></el-card
+                    ></el-col
+                >
             </el-row>
 
             <el-divider content-position="left">应用</el-divider>
@@ -148,24 +166,6 @@
                         </router-link>
                     </el-card>
                 </el-col>
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link to="/exam/question"
-                            ><i class="el-icon-s-opportunity"></i
-                            ><span>剑三题目</span></router-link
-                        ></el-card
-                    ></el-col
-                >
-                <el-col :span="4"
-                    ><el-card
-                        ><router-link to="/exam/paper"
-                            ><img
-                                svg-inline
-                                src="../assets/img/channel/100.svg"
-                            /><span>剑三试卷</span></router-link
-                        ></el-card
-                    ></el-col
-                >
                 <el-col :span="4"
                     ><el-card
                         ><router-link to="/namespace"

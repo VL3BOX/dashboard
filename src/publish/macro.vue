@@ -34,10 +34,8 @@
             <template>
                 <el-form-item label="原创">
                     <el-switch
-                        v-model.number="post.original"
+                        v-model="post.original"
                         active-color="#13ce66"
-                        :active-value="1"
-                        :inactive-value="0"
                     ></el-switch>
                 </el-form-item>
 

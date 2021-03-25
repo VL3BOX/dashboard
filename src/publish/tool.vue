@@ -39,9 +39,9 @@
 
                 <el-form-item label="版本">
                     <el-radio-group v-model="post.client">
-                        <el-radio label="std">正式服</el-radio>
+                        <el-radio label="std" :disabled="isOriginPlugin">正式服</el-radio>
                         <el-radio label="origin">怀旧服</el-radio>
-                        <el-radio label="all">全部</el-radio>
+                        <el-radio label="all" :disabled="isOriginPlugin">全部</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 
@@ -52,6 +52,7 @@
                             border
                             v-for="(type, key) in options.types"
                             :key="key"
+                            :disabled="isOriginPlugin && key!= 5"
                             >{{ type }}</el-radio
                         >
                     </el-radio-group>
@@ -112,6 +113,8 @@ export default {
                 weiboEnable: false, //是否同步至微博头条文章
                 tuilanEnable: false, //是否同步至推栏
             },
+
+            isOriginPlugin : false
         };
     },
     computed: {},
@@ -141,6 +144,14 @@ export default {
         this.init().then(() => {
             console.log("Init Post:", this.post);
         });
+
+        // 怀旧服插件
+        if(!this.$route.params.id){
+            this.post.post_subtype = this.$route.query.subtype
+            this.post.client = 'origin'
+            this.name = '插件下载'
+            this.isOriginPlugin = true
+        }
     },
     components: {
         boilerplate,

@@ -103,6 +103,14 @@
             <el-row :gutter="20">
                 <el-col :span="4"
                     ><el-card
+                        ><router-link to="/tool?subtype=5"
+                            ><i class="el-icon-attract"></i><span>插件下载</span></router-link
+                        ></el-card
+                    ></el-col
+                >
+
+                <el-col :span="4"
+                    ><el-card
                         ><router-link to="/tool"
                             ><img
                                 svg-inline

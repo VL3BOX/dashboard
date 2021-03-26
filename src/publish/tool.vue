@@ -52,7 +52,7 @@
                             border
                             v-for="(type, key) in options.types"
                             :key="key"
-                            :disabled="isOriginPlugin && key!= 5"
+                            v-show="isAdminMode(key) || isToolMode(key) || isPluginMode(key)"
                             >{{ type }}</el-radio
                         >
                     </el-radio-group>
@@ -67,7 +67,7 @@ import boilerplate from "@/components/publish/boilerplate";
 import { __ossMirror,__imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 // import lodash from "lodash";
 import types from "../assets/data/tool.json";
-
+import User from '@jx3box/jx3box-common/js/user'
 export default {
     name: "tool",
     props: [],
@@ -117,7 +117,9 @@ export default {
             isOriginPlugin : false
         };
     },
-    computed: {},
+    computed: {
+        
+    },
     methods: {
         // 发布
         toPublish: function() {
@@ -137,6 +139,16 @@ export default {
         init: function() {
             return this.doLoad(this).then((data) => {});
         },
+
+        isPluginMode : function (key){
+            return this.isOriginPlugin && key== 5
+        },
+        isToolMode : function (key){
+            return !this.isOriginPlugin && key!= 5 && key!=4
+        },
+        isAdminMode : function (key){
+            return !this.isOriginPlugin && key!= 5 && User.isAdmin()
+        }
     },
     filters: {},
     mounted: function() {
@@ -146,7 +158,7 @@ export default {
         });
 
         // 怀旧服插件
-        if(!this.$route.params.id){
+        if(!this.$route.params.id && this.$route.query.subtype == 5){
             this.post.post_subtype = this.$route.query.subtype
             this.post.client = 'origin'
             this.name = '插件下载'

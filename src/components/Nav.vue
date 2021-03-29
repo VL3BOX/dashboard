@@ -43,6 +43,9 @@
             <a :href="catg_url('profile')" :class="isProfile">
                 <i class="el-icon-user"></i><span>资料设置</span>
             </a>
+              <a href="/dashboard/#/whitelist" class="">
+                <i class="el-icon-ship"></i><span>亲友设置</span>
+            </a>
             <!-- <a
                 href="/dashboard/#/config"
                 class="disabled"

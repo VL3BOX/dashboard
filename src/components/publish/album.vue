@@ -17,7 +17,7 @@
             <i slot="default" class="el-icon-plus"></i>
         </el-upload>
         <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="" />
+            <img width="100%" :src="dialogImageUrl" alt />
         </el-dialog>
     </div>
 </template>
@@ -25,14 +25,14 @@
 <script>
 import allow_types from "@jx3box/jx3box-common/data/conf";
 import { __server } from "@jx3box/jx3box-common/data/jx3box.json";
-import {axios} from "@/service/axios";
+import { axios } from "@/service/axios";
 // import draggable from 'vuedraggable'
 const imgtypes = ["jpg", "png", "gif", "bmp"];
 const API = __server + "upload";
 export default {
     name: "album",
     props: ["imgList"],
-    data: function() {
+    data: function () {
         return {
             API,
             fileList: this.imgList || [],
@@ -44,7 +44,7 @@ export default {
     },
     computed: {},
     methods: {
-        change: function(file, fileList) {
+        change: function (file, fileList) {
             if (file.status != "success") {
                 // 判断大小
                 if (file.size > this.sizeLimit) {
@@ -85,7 +85,7 @@ export default {
                         file.status = "success";
                         this.fileList.push(file);
                         this.$emit("albumChange", this.fileList);
-                    })
+                    });
             }
         },
         handleRemove(file, fileList) {
@@ -96,7 +96,7 @@ export default {
             this.dialogImageUrl = file.url;
             this.dialogVisible = true;
         },
-        removeFile: function(fileList, uid) {
+        removeFile: function (fileList, uid) {
             fileList.forEach((file, i) => {
                 if (file.uid == uid) {
                     fileList.splice(i, 1);
@@ -104,7 +104,7 @@ export default {
             });
         },
     },
-    mounted: function() {},
+    mounted: function () {},
     components: {
         // draggable
     },

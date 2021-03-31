@@ -1,4 +1,5 @@
 import { axios, $server, $_server } from "./axios";
+import { $cms } from "@jx3box/jx3box-common/js/https.js";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 
 // 1.资料
@@ -61,6 +62,9 @@ function checkOAuth() {
 function unbindOAuth(data) {
     return $_server.post("profile/oauth/unbind", data);
 }
+
+// 6.亲友设置
+
 
 export {
     updateProfile,

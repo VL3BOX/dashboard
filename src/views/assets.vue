@@ -20,26 +20,10 @@
         </el-input>
         <div class="m-dashboard-box" v-loading="loading">
             <template v-if="data && data.length">
-                <collection
+                <namespace
                     class="m-dashboard-box-list"
                     :data="data"
-                    v-if="searchType === 'collection'"
-                />
-                <item_plan
-                    class="m-dashboard-box-list"
-                    :data="data"
-                    v-if="searchType === 'item_plan'"
-                    @refresh="loadPosts(searchType)"
-                />
-                <question
-                    class="m-dashboard-box-list"
-                    :data="data"
-                    v-if="searchType === 'question'"
-                />
-                <paper
-                    class="m-dashboard-box-list"
-                    :data="data"
-                    v-if="searchType === 'paper'"
+                    v-if="searchType === 'namespace'"
                 />
             </template>
             <el-alert
@@ -66,22 +50,14 @@
 </template>
 
 <script>
-import { getQuestions, getPapers } from "../service/exam";
-import { get_my_item_plans } from "../service/item_plan";
-import { get_my_collections } from "../service/collection";
-import question from "@/components/other/question.vue";
-import paper from "@/components/other/paper.vue";
-import item_plan from "@/components/other/item_plan.vue";
-import collection from "@/components/other/collection.vue";
+import { getNamespace } from "../service/namespace";
+import namespace from "@/components/other/namespace.vue";
 
 const fn = {
-    question: getQuestions,
-    item_plan: get_my_item_plans,
-    paper: getPapers,
-    collection: get_my_collections,
+    namespace: getNamespace,
 };
-const next_list = ["question", "paper"];
-const helper_list = ["collection", "item_plan"];
+const next_list = [];
+const helper_list = ["namespace"];
 export default {
     name: "ideas",
     props: [],
@@ -92,12 +68,9 @@ export default {
             page: 1,
             per: 10,
             search: "",
-            searchType: "collection",
+            searchType: "namespace",
             types: {
-                collection: "我的小册",
-                item_plan: "我的清单",
-                question: "我的题目",
-                paper: "我的试卷",
+                namespace: "我的铭牌",
             },
             loading: false,
         };
@@ -164,10 +137,7 @@ export default {
         this.loadPosts(this.searchType);
     },
     components: {
-        question,
-        item_plan,
-        paper,
-        collection,
+        namespace,
     },
 };
 </script>

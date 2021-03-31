@@ -19,6 +19,9 @@
             <a :href="catg_url('other')" :class="isActive('other')">
                 <i class="el-icon-collection"></i><span>其它创作</span>
             </a>
+            <a :href="catg_url('assets')" :class="isActive('assets')">
+                <i class="el-icon-collection"></i><span>特殊资产</span>
+            </a>
         </div>
 
         <h5 class="u-title">仓库</h5>
@@ -50,6 +53,9 @@
             >
                 <i class="el-icon-setting"></i><span>同步设置</span>
             </a> -->
+            <a :href="catg_url('whitelist')" :class="isActive('whitelist')">
+                <i class="el-icon-ship"></i><span>亲友设置</span>
+            </a>
             <a :href="feedback" target="_blank">
                 <i class="el-icon-phone-outline"></i><span>需要帮助</span>
                 <!-- <img class="u-blank" svg-inline src="../assets/img/nav/blank.svg"/> -->

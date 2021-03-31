@@ -1,20 +1,23 @@
 import { $cms } from '@jx3box/jx3box-common/js/https'
 
 function getWhitelist() {
-  return $cms({ proxy: true }).get('/api/cms/user/kith/my')
+  return $cms().get('/api/cms/user/kith/my')
 }
 function getWhitelistById(id) {
-  return $cms({ proxy: true }).get(`api/cms/user/${id}/info`)
+  return $cms().get(`api/cms/user/${id}/info`)
 }
 
 function delWhitelist(id) {
-  return $cms({ proxy: true }).delete(`/api/cms/user/kith/${id}`)
+  return $cms().delete(`/api/cms/user/kith/${id}`)
 }
 function addWhitelist(id) {
-  return $cms({ proxy: true }).post(`/api/cms/user/kith/${id}`)
+  return $cms().post(`/api/cms/user/kith/${id}`)
+}
+function updateWhitelists(data) {
+  return $cms().put('/api/cms/user/kith', data)
 }
 function editWhitelist(id, data) {
-  return $cms({ proxy: true }).put(`/api/cms/user/kith/${id}`, data)
+  return $cms().put(`/api/cms/user/kith/${id}`, data)
 }
 
-export { getWhitelist, editWhitelist, delWhitelist, addWhitelist ,getWhitelistById}
+export { getWhitelist, editWhitelist, delWhitelist, addWhitelist, getWhitelistById, updateWhitelists }

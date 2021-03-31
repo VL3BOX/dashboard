@@ -6,7 +6,6 @@ const index = () => import("../views/index.vue");
 const work = () => import("../views/work.vue");
 const wiki = () => import("../views/wiki.vue");
 const other = () => import("../views/other.vue");
-const assets = () => import("../views/assets.vue");
 
 const msg = () => import("../views/msg.vue");
 const feed = () => import("../views/feed.vue");
@@ -28,7 +27,6 @@ const routes = [
     { name: "work", path: "/work/:type?", component: work },
     { name: "wiki", path: "/wiki", component: wiki },
     { name: "other", path: "/other/:subtype?", component: other },
-    { name: "assets", path: "/assets/:subtype?", component: assets },
 
     { name: "msg", path: "/msg", component: msg },
     { name: "feed", path: "/feed", component: feed },

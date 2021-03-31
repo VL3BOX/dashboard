@@ -14,16 +14,16 @@ function updateProfile(data) {
 // 2.头像
 // -------------------------------
 function updateAvatar(data) {
-    return $_server.put("profile/avatar", data);
+    return $cms({proxy:true}).put("/api/cms/user/my/avatar", data);
 }
 function uploadAvatar(data) {
-    return $_server.post("upload/avatar", data);
+    return $cms({proxy:true}).post("/api/cms/upload/avatar", data);
 }
 function getFrames() {
     return axios.get(__imgPath + "data/user_avatar_frame.json");
 }
 function getUserOverview(uid) {
-    return $server.get(`user/overview/${uid}`);
+    return $cms({proxy:true}).get(`/api/cms/user/${uid}/info`);
 }
 
 // 3.密码

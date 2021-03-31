@@ -3,10 +3,7 @@
         <div class="m-profile-avatar">
             <div class="m-profile-avatar-primary">
                 <div class="u-avatar">
-                    <img
-                        class="u-avatar u-avatar-l"
-                        :src="avatar | showAvatar"
-                    />
+                    <img class="u-avatar u-avatar-l" :src="avatar | showAvatar" />
                 </div>
                 <el-upload
                     class="u-upload"
@@ -34,22 +31,16 @@
                     自定义头像框
                     <span class="u-limit" :class="{ on: isVIP }">
                         (
-                        <i
-                            :class="isVIP ? 'el-icon-unlock' : 'el-icon-lock'"
-                        ></i>
-                        仅<a
+                        <i :class="isVIP ? 'el-icon-unlock' : 'el-icon-lock'"></i>
+                        仅
+                        <a
                             href="/vip/premium?from=dashboard_avatar"
                             target="_blank"
-                            >高级/专业版</a
-                        >账户适用 )
+                        >高级/专业版</a>账户适用 )
                     </span>
                 </h3>
                 <div class="u-list" v-if="frames">
-                    <li
-                        class="u-item"
-                        :class="{ on: !frame }"
-                        @click="selectFrame('')"
-                    >
+                    <li class="u-item" :class="{ on: !frame }" @click="selectFrame('')">
                         <el-tooltip
                             class="item"
                             effect="dark"
@@ -58,11 +49,7 @@
                             :open-delay="200"
                         >
                             <div>
-                                <img
-                                    :src="avatar | showSmallAvatar"
-                                    v-if="!frame"
-                                    class="u-pic"
-                                />
+                                <img :src="avatar | showSmallAvatar" v-show="!frame" class="u-pic" />
                                 <i class="u-frame u-frame-none"></i>
                             </div>
                         </el-tooltip>
@@ -84,21 +71,12 @@
                             <div :class="{ 'u-blocked': !item.status }">
                                 <img
                                     :src="avatar | showSmallAvatar"
-                                    v-if="name == frame"
+                                    v-show="name == frame"
                                     class="u-pic"
-                                    :class="{
-                                        isCircle: item.style == 'circle',
-                                    }"
+                                    :class="{isCircle: item.style == 'circle',}"
                                 />
                                 <i class="u-frame">
-                                    <img
-                                        :src="
-                                            showFrame(
-                                                item.name,
-                                                item.files.s.file
-                                            )
-                                        "
-                                    />
+                                    <img :src="showFrame(item.name,item.files.s.file)" />
                                 </i>
                             </div>
                         </el-tooltip>
@@ -128,7 +106,7 @@ import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "avatar",
     props: [],
-    data: function() {
+    data: function () {
         return {
             // 备份
             bak: "",
@@ -143,7 +121,7 @@ export default {
         };
     },
     computed: {
-        data: function() {
+        data: function () {
             return {
                 user_avatar: this.avatar,
                 user_avatar_frame: this.frame,
@@ -151,22 +129,22 @@ export default {
         },
     },
     methods: {
-        upload: function(file, fileList) {
+        upload: function (file, fileList) {
             let formdata = new FormData();
             let filedata = file.raw;
-            formdata.append("file", filedata);
+            formdata.append("avatar", filedata);
             uploadAvatar(formdata).then((res) => {
                 this.$message({
                     message: "上传成功",
                     type: "success",
                 });
-                this.avatar = res.data.data.list[0];
+                this.avatar = res.data.data[0];
             });
         },
-        reset: function() {
+        reset: function () {
             this.avatar = this.bak;
         },
-        submit: function() {
+        submit: function () {
             if (!this.isVIP) {
                 if (this.frame) {
                     this.$notify({
@@ -185,16 +163,16 @@ export default {
                 });
             });
         },
-        loadFrames: function() {
+        loadFrames: function () {
             getFrames().then((res) => {
                 this.frames = res.data;
             });
         },
-        showFrame: function(name, filename) {
+        showFrame: function (name, filename) {
             return __imgPath + `image/avatar/${name}/${filename}`;
             return `temp/avatar/${name}/${filename}`;
         },
-        selectFrame: function(item) {
+        selectFrame: function (item) {
             if (!item) {
                 this.frame = "";
                 return;
@@ -203,7 +181,7 @@ export default {
                 this.frame = item.name;
             }
         },
-        init: function() {
+        init: function () {
             this.loadFrames();
             User.isVIP().then((data) => {
                 this.isVIP = data;
@@ -211,19 +189,19 @@ export default {
 
             this.avatar = this.bak = User.getInfo().avatar_origin;
             getUserOverview(this.uid).then((res) => {
-                this.frame = res.data.data.avatar_frame || "";
+                this.frame = res.data.data.user_avatar_frame || "";
             });
         },
     },
     filters: {
-        showAvatar: function(val) {
+        showAvatar: function (val) {
             return showAvatar(val, "l");
         },
-        showSmallAvatar: function(val) {
+        showSmallAvatar: function (val) {
             return getThumbnail(val, 68, true);
         },
     },
-    created: function() {
+    created: function () {
         this.init();
     },
     components: {

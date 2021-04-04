@@ -3,26 +3,10 @@
         <a
             class="m-nav-publish el-button el-button--primary"
             :href="publish_url"
+            target="_blank"
         >
             <i class="el-icon-edit-outline"></i><span>发布中心</span>
         </a>
-        <!-- <a class="m-nav-bucket el-button el-button--primary is-plain"  href="./bucket"><img class="u-bucket" svg-inline src="../assets/img/nav/bucket.svg" /> <span>仓库</span></a> -->
-
-        <h5 class="u-title">创作台</h5>
-        <div class="m-nav-group">
-            <a :href="catg_url('work')" :class="isActive('work')">
-                <i class="el-icon-collection"></i><span>我的作品</span>
-            </a>
-            <a :href="catg_url('wiki')" :class="isActive('wiki')">
-                <i class="el-icon-collection"></i><span>百科贡献</span>
-            </a>
-            <a :href="catg_url('other')" :class="isActive('other')">
-                <i class="el-icon-collection"></i><span>其它创作</span>
-            </a>
-            <a :href="catg_url('assets')" :class="isActive('assets')">
-                <i class="el-icon-collection"></i><span>特殊资产</span>
-            </a>
-        </div>
 
         <h5 class="u-title">仓库</h5>
         <div class="m-nav-group">

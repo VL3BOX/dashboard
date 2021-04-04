@@ -21,7 +21,7 @@
 
       <!--  正常显示-->
       <div class="u-box" v-else>
-        <div class="u-item" v-for="(item, i) in list" :key="i">
+        <div class="u-item" v-for="item in list" :key="item.kith_id">
           <div class="u-item-box">
             <img :src="item.kith_info.user_avatar | showAvatar" />
             <div class="u-item-txt">
@@ -134,8 +134,8 @@ export default {
           })
         }
         updateWhitelists(arr).then(() => {
-          this.successTxt('调整排序成功!')
           this.dragList = false
+          this.successTxt('调整排序成功!')
         })
       }
     },
@@ -147,17 +147,20 @@ export default {
       }
     },
     addWhitelistBtn(user) {
-      let n = {
+      let list = this.list
+      let kith = {
         kith_id: user.ID,
         kith_info: {
           display_name: user.display_name,
           user_avatar: user.user_avatar,
         },
-        level: this.list.length,
+        remark: '',
+        level: list.length,
       }
-      addWhitelist(this.uid).then((res) => {
+      addWhitelist(this.uid).then(() => {
+        list.unshift(kith)
+        this.list = list
         this.successTxt('亲友添加成功!')
-        this.list.unshift(n)
       })
     },
     delWhitelistBtn(val) {
@@ -169,42 +172,44 @@ export default {
       })
         .then(() => {
           delWhitelist(val).then(() => {
-            this.successTxt('删除成功!')
             for (let i = 0; i < list.length; i++) {
               if (list[i].kith_id == val) {
                 list.splice(i, 1)
               }
             }
             this.list = list
+            this.successTxt('删除成功!')
           })
         })
         .catch(() => {})
     },
     editWhitelistBtn(id) {
+      let list = this.list
       this.$prompt('请输入备注', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
       })
         .then((val) => {
           editWhitelist(id, { remark: val.value }).then(() => {
-            this.successTxt('备注添加成功!')
-            for (let i = 0; i < this.list.length; i++) {
-              if (this.list[i].kith_id == id) {
-                this.list[i].remark = val.value
+            for (let i = 0; i < list.length; i++) {
+              if (list[i].kith_id == id) {
+                list[i].remark = val.value
               }
             }
+            this.list = list
+            this.successTxt('备注添加成功!')
           })
         })
         .catch(() => {})
     },
     successTxt(TXT) {
-      this.uid = ''
-      this.userInfo = ''
       this.$notify({
         title: '成功',
         message: TXT,
         type: 'success',
       })
+      this.uid = ''
+      this.userInfo = ''
     },
     getList() {
       getWhitelist().then((res) => {

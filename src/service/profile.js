@@ -5,25 +5,25 @@ import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 // 1.资料
 // -------------------------------
 function getProfile() {
-    return $_server.get("profile");
+    return $cms().get("/api/cms/user/my/profile");
 }
 function updateProfile(data) {
-    return $_server.post("profile", data);
+    return $cms().put("/api/cms/user/my/profile", data);
 }
 
 // 2.头像
 // -------------------------------
 function updateAvatar(data) {
-    return $cms({proxy:true}).put("/api/cms/user/my/avatar", data);
+    return $cms().put("/api/cms/user/my/avatar", data);
 }
 function uploadAvatar(data) {
-    return $cms({proxy:true}).post("/api/cms/upload/avatar", data);
+    return $cms().post("/api/cms/upload/avatar", data);
 }
 function getFrames() {
     return axios.get(__imgPath + "data/user_avatar_frame.json");
 }
 function getUserOverview(uid) {
-    return $cms({proxy:true}).get(`/api/cms/user/${uid}/info`);
+    return $cms().get(`/api/cms/user/${uid}/info`);
 }
 
 // 3.密码

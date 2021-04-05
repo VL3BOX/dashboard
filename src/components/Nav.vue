@@ -2,10 +2,10 @@
     <nav class="m-nav">
         <a
             class="m-nav-publish el-button el-button--primary"
-            :href="publish_url"
+            href="/publish"
             target="_blank"
         >
-            <i class="el-icon-edit-outline"></i><span>发布中心</span>
+            <i class="el-icon-edit-outline"></i><span>创作中心</span>
         </a>
 
         <h5 class="u-title">仓库</h5>

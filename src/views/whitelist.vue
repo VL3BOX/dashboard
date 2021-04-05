@@ -166,6 +166,7 @@ export default {
     delWhitelistBtn(val) {
       let list = this.list
       this.$confirm('是否继续删除该亲友?', '提示', {
+        customClass: 'dashboard-whitelist-message-logout',
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
@@ -249,4 +250,12 @@ export default {
 
 <style scoped lang="less">
 @import '../assets/css/whitelist.less';
+</style>
+
+<style lang="less">
+@media screen and (max-width: @phone) {
+  .dashboard-whitelist-message-logout {
+    width: 300px;
+  }
+}
 </style>

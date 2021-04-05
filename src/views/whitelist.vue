@@ -187,6 +187,7 @@ export default {
     editWhitelistBtn(id) {
       let list = this.list
       this.$prompt('请输入备注', '提示', {
+        customClass: 'dashboard-whitelist-message-logout',
         confirmButtonText: '确定',
         cancelButtonText: '取消',
       })

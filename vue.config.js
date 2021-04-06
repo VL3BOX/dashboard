@@ -58,12 +58,12 @@ module.exports = {
             template: "public/index.html",
             filename: "index.html",
         },
-        publish: {
-            title: "发布中心 - JX3BOX",
-            entry: "src/driver/publish.js",
-            template: "public/publish.html",
-            filename: "publish/index.html",
-        },
+        // publish: {
+        //     title: "发布中心 - JX3BOX",
+        //     entry: "src/driver/publish.js",
+        //     template: "public/publish.html",
+        //     filename: "publish/index.html",
+        // },
     },
 
     //❤️ define path for static files ~

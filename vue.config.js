@@ -13,6 +13,12 @@ module.exports = {
                     request.setHeader("origin", "");
                 },
             },
+            "/api/order": {
+                target: "https://pay.jx3box.com",
+                onProxyReq: function(request) {
+                    request.setHeader("origin", "");
+                },
+            },
             // HELPER by Kuguats
             "/api/my": {
                 target: "https://helper.jx3box.com",

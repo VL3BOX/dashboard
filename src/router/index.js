@@ -15,6 +15,8 @@ const connect = () => import("../views/connect.vue");
 const config = () => import("../views/config.vue");
 const whitelist = () => import("../views/whitelist.vue");
 
+const order = () => import("../views/orders.vue");
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -31,6 +33,7 @@ const routes = [
     { name: "connect", path: "/connect", component: connect },
     { name: "config", path: "/config", component: config },
     { name: "whitelist", path: "/whitelist", component: whitelist },
+    { name: "orders", path: "/order", component: order },
 ];
 
 const router = new VueRouter({

@@ -41,6 +41,7 @@ export default {
         padding: 5px;
         position: relative;
         top: -2px;
+        .mr(3px);
     }
     .u-desc {
         .fz(12px);

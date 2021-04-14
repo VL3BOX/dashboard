@@ -1,20 +1,21 @@
-.m-dashboard-orders {
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  .m-dashboard-orders-cont {
-    flex: 1;
-    margin-right: 20px;
-    .u-title {
-      margin: 0;
-      border-bottom: 1px solid #e4e7ed;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
+.m-order-list {
+    table {
+        .w(100%);
+        border-collapse: collapse;
+        .fz(14px,2);
+        .x;
     }
-    .m-pages {
-      padding: 40px 0;
-      flex: 1;
-      .x;
+    td,
+    th {
+        border: 1px solid #eee;
+        padding:8px 10px;
     }
-  }
+    th {
+        background-color:@bg-gray;
+        .bold;
+    }
+}
+.m-order-pages{
+    .mt(20px);
+    .x;
 }

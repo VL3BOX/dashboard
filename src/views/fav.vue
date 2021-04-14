@@ -1,7 +1,7 @@
 <template>
     <div class="m-dashboard m-dashboard-work m-dashboard-fav">
         <div class="m-dashboard-work-header">
-            <h2 class="u-title">我的收藏</h2>
+            <h2 class="u-title"><i class="el-icon-star-off"></i> 我的收藏</h2>
             <el-select v-model="searchType" placeholder="类型过滤" class="u-filter" size="small">
                 <el-option
                     label="全部"

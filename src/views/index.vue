@@ -4,7 +4,7 @@
             <i class="u-avatar">
                 <img
                     class="u-avatar-pic"
-                    :src="info.avatar | showAvatar"
+                    :src="info.user_avatar | showAvatar"
                     :class="{ isCircle }"
                 />
                 <i class="u-avatar-frame" v-if="frameName">
@@ -13,7 +13,7 @@
             </i>
             <div class="u-info">
                 <h1 class="u-name">
-                    <span class="u-name-txt">{{ info.name }}</span>
+                    <span class="u-name-txt">{{ info.display_name }}</span>
                     <el-tooltip
                         class="item"
                         effect="dark"
@@ -59,11 +59,11 @@
                 <div class="u-identity">
                     <span class="u-uid">
                         <em>UID</em>
-                        <b>{{ info.uid }}</b>
+                        <b>{{ uid }}</b>
                     </span>
                     <span class="u-group">
                         <em>Group</em>
-                        <b>{{ info.group | showGroupName }}</b>
+                        <b>{{ group | showGroupName }}</b>
                     </span>
                     <!-- TODO: 等级 -->
                     <!-- <span class="u-level">
@@ -183,19 +183,13 @@ export default {
     data: function() {
         return {
             uid: User.getInfo().uid,
+            group : User.getInfo().group,
             info: {
                 uid: 8,
                 name: "匿名",
-                avatar: "https://img.jx3box.com/image/common/avatar.png",
-                avatar_frame: "default",
-                group: 0,
-                exp: 0,
-                status: 0,
-                verify_email: 0,
-                verify_phone: 0,
+                user_avatar: "https://img.jx3box.com/image/common/avatar.png",
+                user_avatar_frame: "default",
                 bio: "-",
-                server: "蝶恋花",
-                created_at: "2019-08-28T01:03:51.000Z",
             },
             asset: {
                 expire_date: "2022-03-07T00:00:00+08:00",
@@ -236,8 +230,8 @@ export default {
             }
         },
         frameName: function() {
-            return this.info.avatar_frame && this.frames[this.info.avatar_frame]
-                ? this.info.avatar_frame
+            return this.info.user_avatar_frame && this.frames[this.info.user_avatar_frame]
+                ? this.info.user_avatar_frame
                 : "";
         },
         frameUrl: function() {

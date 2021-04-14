@@ -1,15 +1,15 @@
-import { $http } from "./axios";
-import qs from 'qs'
+import { $helper } from "@jx3box/jx3box-common/js/https";
+import qs from "qs";
 
 function getMyFavs(query) {
-    return $http.get(`/api/my/post/favorites`, {
+    return $helper().get(`/api/my/post/favorites`, {
         params: query,
     });
 }
 
 function delFav(post_type, post_id) {
     if (post_type && post_id) {
-        return $http.post(
+        return $helper().post(
             `/api/post/favorite`,
             qs.stringify({
                 post_type: post_type,

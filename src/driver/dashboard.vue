@@ -8,7 +8,7 @@
         <LeftSidebar>
             <Nav />
         </LeftSidebar>
-        <Main :withoutRight="true"  class="m-dashboard-container">
+        <Main :withoutRight="true" class="m-dashboard-container">
             <router-view />
         </Main>
     </div>
@@ -17,7 +17,7 @@
 <script>
 import Info from "@/components/Info.vue";
 import Nav from "@/components/Nav.vue";
-import checkLogin from '../utils/checkLogin'
+import checkLogin from "../utils/checkLogin";
 export default {
     name: "dashboard",
     props: [],
@@ -26,7 +26,7 @@ export default {
     },
     methods: {},
     created: function () {
-        checkLogin()
+        checkLogin();
     },
     components: {
         Info,
@@ -34,3 +34,7 @@ export default {
     },
 };
 </script>
+
+<style lang="less">
+@import "../assets/css/dashboard.less";
+</style>

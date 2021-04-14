@@ -2,7 +2,7 @@
     <div class="m-dashboard m-dashboard-work m-dashboard-msg">
         <div class="m-dashboard-msg-header">
             <h2 class="u-title">
-                我的消息
+                <i class="el-icon-bell"></i> 我的消息
             </h2>
             <el-button
                 class="u-read-all"

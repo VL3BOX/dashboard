@@ -10,6 +10,13 @@ module.exports = {
             "/api/cms":{
                 target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5120" : "https://cms.jx3box.com"
             },
+            // NEXT服务
+            "/api/user": {
+                target: "https://next.jx3box.com",
+                onProxyReq: function(request) {
+                    request.setHeader("origin", "");
+                },
+            },
             // 默认PAY服务
             "/api": {
                 target: "https://pay.jx3box.com",

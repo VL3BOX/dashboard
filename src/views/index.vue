@@ -130,10 +130,10 @@
                             <b>{{ asset.red_packet | formatCredit }}</b>
                         </div>
                         <div class="u-credit-op">
-                            <a
+                            <router-link
                                 class="el-button el-button--primary el-button--mini"
-                                href="/vip/credit#/packet"
-                                >提现</a
+                                to="/packet"
+                                >提现</router-link
                             >
                         </div>
                     </div>
@@ -147,10 +147,10 @@
                             <b>{{ asset.gift || 0 }}</b>
                         </div>
                         <div class="u-credit-op">
-                            <a
-                                class="el-button el-button--primary el-button--mini is-disabled"
-                                href
-                                >查看</a
+                            <router-link
+                                class="el-button el-button--primary el-button--mini"
+                                to="/order"
+                                >查看</router-link
                             >
                         </div>
                     </div>

@@ -11,8 +11,8 @@
             <div class="m-order-list" v-if="list && list.length">
                 <table>
                     <thead>
-                        <th>订单编号</th>
                         <th>产品</th>
+                        <th>订单编号</th>
                         <th>金额</th>
                         <th>支付方式</th>
                         <th>交易号</th>
@@ -21,8 +21,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item,i) in list" :key="i">
-                            <td>{{item.id}}</td>
                             <td>{{item.product_id | showProduct}}</td>
+                            <td>{{item.id}}</td>
                             <td>¥{{item.total_fee | showPrice}}</td>
                             <td>{{item.pay_type | showPayType}}</td>
                             <td>{{item.transaction_id}}</td>

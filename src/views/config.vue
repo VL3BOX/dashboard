@@ -20,11 +20,11 @@
             <el-form-item label="成就进度">
                 <el-switch v-model="conf.achievement_process" active-color="#13ce66" active-text="同步"  :active-value="1" :inactive-value="0" disabled></el-switch>
             </el-form-item>
-            <el-form-item label="" class="u-btns">
+            <!-- <el-form-item label="" class="u-btns">
                 <el-button class="u-publish" type="primary" @click="submit" disabled
-                    >提交</el-button
+                    >保存</el-button
                 >
-            </el-form-item>
+            </el-form-item> -->
         </el-form>
     </div>
 </template>

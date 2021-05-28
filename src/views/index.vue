@@ -230,7 +230,7 @@ export default {
             }
         },
         frameName: function() {
-            return this.info.user_avatar_frame && this.frames[this.info.user_avatar_frame]
+            return this.info && this.info.user_avatar_frame && this.frames[this.info.user_avatar_frame]
                 ? this.info.user_avatar_frame
                 : "";
         },
@@ -250,7 +250,9 @@ export default {
     methods: {
         loadUserInfo: function() {
             getUserInfo(this.uid).then((res) => {
-                this.info = res.data.data;
+                if(res.data.data){
+                    this.info = res.data.data;
+                }
             });
         },
         loadAsset: function() {

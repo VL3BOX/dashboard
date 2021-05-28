@@ -42,16 +42,13 @@
                 <i class="el-icon-user"></i>
                 <span>资料设置</span>
             </a>
-            <!-- <a
-                href="/dashboard/#/config"
-                class="disabled"
-                :class="isActive('config')"
-            >
-                <i class="el-icon-setting"></i><span>同步设置</span>
-            </a>-->
             <router-link to="whitelist">
                 <i class="el-icon-ship"></i>
                 <span>亲友设置</span>
+            </router-link>
+            <router-link to="config">
+                <i class="el-icon-setting"></i>
+                <span>同步设置</span>
             </router-link>
             <a :href="feedback" target="_blank">
                 <i class="el-icon-phone-outline"></i>

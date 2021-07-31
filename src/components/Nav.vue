@@ -54,6 +54,10 @@
                 <i class="el-icon-setting"></i>
                 <span>同步设置</span>
             </router-link>
+            <!-- <router-link to="cooperation">
+                <i class="el-icon-reading"></i>
+                <span>签约作者</span>
+            </router-link> -->
             <a :href="feedback" target="_blank">
                 <i class="el-icon-phone-outline"></i>
                 <span>需要帮助</span>

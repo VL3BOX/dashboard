@@ -5,7 +5,7 @@
             <span>创作中心</span>
         </a>
 
-        <h5 class="u-title">仓库</h5>
+        <h5 class="u-title">我的仓库</h5>
         <div class="m-nav-group">
             <router-link to="msg">
                 <i class="el-icon-bell"></i>
@@ -24,7 +24,7 @@
             </a>-->
         </div>
 
-        <h5 class="u-title">资产中心</h5>
+        <h5 class="u-title">权益中心</h5>
         <div class="m-nav-group">
             <router-link to="order">
                 <i class="el-icon-shopping-bag-1"></i>
@@ -34,17 +34,17 @@
                 <i class="el-icon-present"></i>
                 <span>我的红包</span>
             </router-link>
+            <router-link to="cooperation">
+                <i class="el-icon-reading"></i>
+                <span>签约作者</span>
+            </router-link>
         </div>
 
         <h5 class="u-title">账号中心</h5>
         <div class="m-nav-group">
-            <a :href="catg_url('profile')" :class="isProfile">
+            <router-link to="/profile" :class="isProfile">
                 <i class="el-icon-user"></i>
                 <span>资料设置</span>
-            </a>
-            <router-link to="cooperation">
-                <i class="el-icon-reading"></i>
-                <span>签约作者</span>
             </router-link>
             <router-link to="whitelist">
                 <i class="el-icon-ship"></i>

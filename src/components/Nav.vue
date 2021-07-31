@@ -42,6 +42,10 @@
                 <i class="el-icon-user"></i>
                 <span>资料设置</span>
             </a>
+            <router-link to="cooperation">
+                <i class="el-icon-reading"></i>
+                <span>签约作者</span>
+            </router-link>
             <router-link to="whitelist">
                 <i class="el-icon-ship"></i>
                 <span>亲友设置</span>

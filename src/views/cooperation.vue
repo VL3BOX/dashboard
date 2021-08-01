@@ -44,7 +44,7 @@
                 description="请填写有效的联系方式与作品，不符合要求的作品将不会受理。"
                 show-icon
                 :closable="false"
-                v-if="!isSuperAuthor && checked === 2"
+                v-if="!isSuperAuthor && checked == 2"
             >
             </el-alert>
             <h3>【认证信息】</h3>
@@ -89,6 +89,7 @@
                         class="u-submit"
                         @click="submitForm('form')"
                         icon="el-icon-s-promotion"
+                        :disabled="processing"
                     >提交签约申请</el-button>
                 </el-form-item>
             </el-form>
@@ -141,13 +142,20 @@ export default {
             isSuperAuthor: false, // 是否为签约作者
 
             // 请求成功的一次
-            checked: 0,
+            checked: -1,
 
             // 签约记录
-            logs: []
+            logs: [],
+
+            processing : false
         };
     },
-    computed: {},
+    computed: {
+        // 最近一次申请记录
+        log : function (){
+            return this.logs && this.logs[0]
+        }
+    },
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
@@ -158,10 +166,14 @@ export default {
                             ...this.form
                         }
                     }
+                    this.processing = true
                     contractAuthorApply(data).then(res => {
+                        this.checked = 0
                         this.$message.success('提交申请成功，请等待管理审核。')
                     }).catch(e => {
                         this.$message.error(e.message)
+                    }).finally(() => {
+                        this.processing = false
                     })
                 }
             });
@@ -173,40 +185,45 @@ export default {
                     this.isSuperAuthor = res.data.data
                 })
         },
+        // 加载申请记录
         loadContractAuthorLogs: function() {
             getContractAuthorLogs().then(res => {
                 this.logs = res.data.data.data;
+                if(this.logs && this.logs.length){
+                    this.checked = this.logs[0]['checked']
+                    this.form = this.logs[0]
+                }
             })
         },
         // 初始化
         init: function() {
-            this.loadContractAuthorLogs();
+            this.loadContractAuthorLogs()
             this.checkSuperUser();
         }
     },
     mounted: function () {
         this.init()
     },
-    watch: {
-        'logs': {
-            deep: true,
-            handler(val) {
-                const len = val.length
-                if (len) {
-                    const keys = ['nickname', 'qq', 'phone', 'weibo', 'description'];
-                    keys.forEach(key => {
-                        // 将最新值放入form
-                        this.form[key] = val[0][key];
-                    })
-                    this.checked = val[0]?.checked
-                } else {
-                    // 未进行申请的状态
-                    // HACK: 此处仅为前端状态，事实上不存在4这个状态
-                    this.checked = 4
-                }
-            }
-        }
-    }
+    // watch: {
+    //     'logs': {
+    //         deep: true,
+    //         handler(val) {
+    //             const len = val.length
+    //             if (len) {
+    //                 const keys = ['nickname', 'qq', 'phone', 'weibo', 'description'];
+    //                 keys.forEach(key => {
+    //                     // 将最新值放入form
+    //                     this.form[key] = val[0][key];
+    //                 })
+    //                 this.checked = val[0]?.checked
+    //             } else {
+    //                 // 未进行申请的状态
+    //                 // HACK: 此处仅为前端状态，事实上不存在4这个状态
+    //                 this.checked = 4
+    //             }
+    //         }
+    //     }
+    // }
 };
 </script>
 <style scoped lang="less">

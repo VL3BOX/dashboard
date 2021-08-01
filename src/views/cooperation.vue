@@ -26,7 +26,7 @@
                 description="签约为每赛季审核一次，过期后如不满足条件的将会被取消资格。"
                 show-icon
                 :closable="false"
-                v-if="isSuperAuthor && checked === 1"
+                v-if="isSuperAuthor"
             >
             </el-alert>
             <el-alert
@@ -44,7 +44,7 @@
                 description="请填写有效的联系方式与作品，不符合要求的作品将不会受理。"
                 show-icon
                 :closable="false"
-                v-if="checked === 2"
+                v-if="!isSuperAuthor && checked === 2"
             >
             </el-alert>
             <h3>【认证信息】</h3>

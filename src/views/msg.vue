@@ -86,6 +86,7 @@
 import { getMsgs, readMsg, removeMsg } from "../service/msg.js";
 import { showDate, showTime } from "@jx3box/jx3box-common/js/moment.js";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
+import {Base64 } from 'js-base64';
 const ignoreLinkTypes = ['namespace']
 export default {
     name: "msg",
@@ -146,7 +147,11 @@ export default {
         msgLink: function(item) {
             let id = item.source_id;
             let type = item.source_type;
-            return getLink(type, id);
+            if(type == 'birthday'){
+                return `/author/${item.user_id}/#/birthday?code=` + Base64.encode(id)
+            }else{
+                return getLink(type, id);
+            }
         },
     },
     mounted: function() {

@@ -61,6 +61,9 @@
                         <em>UID</em>
                         <b>{{ uid }}</b>
                     </span>
+                    <span class="u-superauth" v-if="isSuperAuthor" title="签约作者">
+                        <img :src="super_author_icon" alt="superAuthor">
+                    </span>
                     <span class="u-group">
                         <em>Group</em>
                         <b>{{ group | showGroupName }}</b>
@@ -171,8 +174,8 @@ import {
 } from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { getThumbnail } from "@jx3box/jx3box-common/js/utils";
-import dateFormat from "../utils/dateFormat";
 import { getUserMedals, getUserInfo } from "@/service/index.js";
+import { getSuperAuthorState } from "@/service/cooperation"
 import { getFrames } from "@/service/profile.js";
 import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
 import { showDate } from "@jx3box/jx3box-common/js/moment";
@@ -208,6 +211,7 @@ export default {
             medals: [],
             medal_map,
             frames,
+            isSuperAuthor: false
         };
     },
     computed: {
@@ -246,6 +250,9 @@ export default {
                 this.frameName && this.frames[this.frameName].style == "circle"
             );
         },
+        super_author_icon: function() {
+            return __imgPath + 'image/user/' + 'superauthor.svg';
+        },
     },
     methods: {
         loadUserInfo: function() {
@@ -273,6 +280,18 @@ export default {
                 }
             });
         },
+        checkSuperAuthor: function() {
+            getSuperAuthorState(this.uid).then(res => {
+                this.isSuperAuthor = res.data.data
+            })
+        },
+        init: function() {
+            this.loadUserInfo();
+            this.loadAsset();
+            this.loadMedals();
+            this.loadFrames();
+            this.checkSuperAuthor()
+        }
     },
     filters: {
         groupicon: function(groupid) {
@@ -295,10 +314,7 @@ export default {
         },
     },
     mounted: function() {
-        this.loadUserInfo();
-        this.loadAsset();
-        this.loadMedals();
-        this.loadFrames();
+        this.init()
     },
 };
 </script>

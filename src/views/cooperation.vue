@@ -20,6 +20,33 @@
                 <p>3、当成功接受申请后，会有管理邀请加入签约作者群，不定期发放奖励或其它通知。</p>
             </div>
             <hr>
+            <el-alert
+                title="签约成功！"
+                type="success"
+                description="签约为每赛季审核一次，过期后如不满足条件的将会被取消资格。"
+                show-icon
+                :closable="false"
+                v-if="isSuperAuthor && checked === 1"
+            >
+            </el-alert>
+            <el-alert
+                title="等待审核！"
+                type="warning"
+                description="签约申请提交成功，请耐心等待审核！"
+                show-icon
+                :closable="false"
+                v-if="!isSuperAuthor && !checked"
+            >
+            </el-alert>
+            <el-alert
+                title="申请被驳回"
+                type="error"
+                description="请填写有效的联系方式与作品，不符合要求的作品将不会受理。"
+                show-icon
+                :closable="false"
+                v-if="checked === 2"
+            >
+            </el-alert>
             <h3>【认证信息】</h3>
             <el-form
                 :model="form"
@@ -27,6 +54,7 @@
                 ref="form"
                 label-width="100px"
                 :label-position="position"
+                :disabled="isSuperAuthor || !checked"
             >
                 <el-form-item class="u-item" label="昵称" prop="nickname">
                     <el-input v-model="form.nickname" placeholder="请输入昵称"></el-input>
@@ -36,7 +64,7 @@
                     <el-input v-model="form.qq" placeholder="请输入联系QQ"></el-input>
                 </el-form-item>
 
-                <el-form-item class="u-item" label="联系电话" prop="phone">
+                <el-form-item class="u-item" label="电话" prop="phone">
                     <el-input v-model="form.phone" placeholder="请输入联系电话"></el-input>
                 </el-form-item>
 
@@ -69,7 +97,7 @@
 </template>
 <script>
 import User from "@jx3box/jx3box-common/js/user";
-import { contractAuthorApply } from '@/service/cooperation'
+import { contractAuthorApply, getSuperAuthorState, getContractAuthorLogs } from '@/service/cooperation'
 export default {
     name: "cooperation",
     props: [],
@@ -97,7 +125,7 @@ export default {
                 phone: [
                     {
                         required: true,
-                        message: "请输入手机号码",
+                        message: "请输入联系电话",
                         trigger: "blur",
                     },
                 ],
@@ -109,6 +137,14 @@ export default {
                     },
                 ],
             },
+            user: User, // 用户信息
+            isSuperAuthor: false, // 是否为签约作者
+
+            // 请求成功的一次
+            checked: 0,
+
+            // 签约记录
+            logs: []
         };
     },
     computed: {},
@@ -116,23 +152,61 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    const obj = {
+                    const data = {
                         action: 'create',
                         log: {
                             ...this.form
                         }
                     }
-                    contractAuthorApply(obj).then(res => {
+                    contractAuthorApply(data).then(res => {
                         this.$message.success('提交申请成功，请等待管理审核。')
-                        // TODO: 跳转？
                     }).catch(e => {
                         this.$message.error(e.message)
                     })
                 }
             });
         },
+        // 是否为签约作者
+        checkSuperUser: function() {
+            getSuperAuthorState(this.user?.profile?.uid)
+                .then(res => {
+                    this.isSuperAuthor = res.data.data
+                })
+        },
+        loadContractAuthorLogs: function() {
+            getContractAuthorLogs().then(res => {
+                this.logs = res.data.data.data;
+            })
+        },
+        // 初始化
+        init: function() {
+            this.loadContractAuthorLogs();
+            this.checkSuperUser();
+        }
     },
-    mounted: function () {},
+    mounted: function () {
+        this.init()
+    },
+    watch: {
+        'logs': {
+            deep: true,
+            handler(val) {
+                const len = val.length
+                if (len) {
+                    const keys = ['nickname', 'qq', 'phone', 'weibo', 'description'];
+                    keys.forEach(key => {
+                        // 将最新值放入form
+                        this.form[key] = val[0][key];
+                    })
+                    this.checked = val[0]?.checked
+                } else {
+                    // 未进行申请的状态
+                    // HACK: 此处仅为前端状态，事实上不存在4这个状态
+                    this.checked = 4
+                }
+            }
+        }
+    }
 };
 </script>
 <style scoped lang="less">

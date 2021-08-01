@@ -44,13 +44,13 @@
                     <el-input v-model="form.weibo" placeholder="请输入微博/B站地址"></el-input>
                 </el-form-item>
 
-                <el-form-item class="u-item" label="自述" prop="desc">
+                <el-form-item class="u-item" label="自述" prop="description">
                     <el-input
                         type="textarea"
                         :rows="8"
-                        maxlength="800"
+                        :maxlength="800"
                         placeholder="详述自己的一些作品"
-                        v-model="form.desc"
+                        v-model="form.description"
                         show-word-limit
                     ></el-input>
                 </el-form-item>
@@ -69,6 +69,7 @@
 </template>
 <script>
 import User from "@jx3box/jx3box-common/js/user";
+import { contractAuthorApply } from '@/service/cooperation'
 export default {
     name: "cooperation",
     props: [],
@@ -80,7 +81,7 @@ export default {
                 qq: "",
                 phone: "",
                 weibo: "",
-                desc: "",
+                description: "",
             },
             rules: {
                 nickname: [
@@ -93,14 +94,14 @@ export default {
                         trigger: "blur",
                     },
                 ],
-                // phone: [
-                //     {
-                //         required: true,
-                //         message: "请输入手机号码",
-                //         trigger: "blur",
-                //     },
-                // ],
-                desc: [
+                phone: [
+                    {
+                        required: true,
+                        message: "请输入手机号码",
+                        trigger: "blur",
+                    },
+                ],
+                description: [
                     {
                         required: true,
                         message: "请认真填写，否则将申请将不会被通过",
@@ -113,7 +114,22 @@ export default {
     computed: {},
     methods: {
         submitForm(formName) {
-            this.$refs[formName].validate((valid) => {});
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    const obj = {
+                        action: 'create',
+                        log: {
+                            ...this.form
+                        }
+                    }
+                    contractAuthorApply(obj).then(res => {
+                        this.$message.success('提交申请成功，请等待管理审核。')
+                        // TODO: 跳转？
+                    }).catch(e => {
+                        this.$message.error(e.message)
+                    })
+                }
+            });
         },
     },
     mounted: function () {},
@@ -137,6 +153,6 @@ export default {
         line-height: 22px;
     }
 }
-.m-cooperation {
-}
+// .m-cooperation {
+// }
 </style>

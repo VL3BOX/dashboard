@@ -36,7 +36,8 @@
                         <el-radio label="10000" border>10000通宝</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label><div class="u-tip"><i class="el-icon-info"></i>1盒币可兑换1通宝，所有兑换申请将在每月28号统一处理。</div></el-form-item>
+                <!-- TODO:1-3不能申请，1-3号处理上一个月的全部申请记录 -->
+                <el-form-item label><div class="u-tip"><i class="el-icon-info"></i>1盒币可兑换1通宝，所有兑换申请将在每月1-3号统一处理。</div></el-form-item>
                 <el-form-item label>
                     <el-button
                         type="primary"

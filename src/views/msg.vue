@@ -149,6 +149,8 @@ export default {
             let type = item.source_type;
             if(type == 'birthday'){
                 return `/author/${item.user_id}/#/birthday?code=` + Base64.encode(id)
+            }else if(type== 'sign'){
+                return `/dashboard/#/cooperation`
             }else{
                 return getLink(type, id);
             }

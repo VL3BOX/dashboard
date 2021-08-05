@@ -30,6 +30,10 @@
                 <i class="el-icon-shopping-bag-1"></i>
                 <span>我的订单</span>
             </router-link>
+            <!-- <router-link to="boxcoin">
+                <i class="el-icon-coin"></i>
+                <span>我的盒币</span>
+            </router-link> -->
             <router-link to="packet">
                 <i class="el-icon-present"></i>
                 <span>我的红包</span>

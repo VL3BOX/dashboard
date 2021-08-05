@@ -1,62 +1,55 @@
 <template>
-    <div class="m-credit m-packet">
+    <div class="m-credit m-boxcoin">
         <h2 class="u-title">
-            <i class="el-icon-present"></i> 我的红包
+            <i class="el-icon-coin"></i> 我的盒币
         </h2>
         <div class="m-credit-total m-packet-total">
             余额 :
-            <b :class="{ hasLeft: hasLeft }">{{ money | formatMoney }}</b>
+            <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
             <el-button
                 class="u-btn"
                 type="primary"
                 @click="togglePullBox"
                 size="mini"
                 :disabled="!money"
-                >提现</el-button
-            >
+            >兑换</el-button>
         </div>
-        <div class="m-credit-pull m-packet-pull" v-if="showPullBox">
+        <div class="m-credit-pull" v-if="showPullBox">
             <el-form label-position="left" label-width="80px">
-                <el-form-item label="类型">
-                    <el-select v-model="pull.pay_type" placeholder="请选择">
+                <el-form-item label="游戏大区">
+                    <el-select v-model="pull.zone" placeholder="请选择所在大区">
                         <el-option
-                            v-for="(label, key) in pay_types"
+                            v-for="(label, key) in zones"
                             :key="key"
                             :label="label"
                             :value="key"
-                        >
-                        </el-option>
+                        ></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="账号">
-                    <el-input
-                        v-model="pull.account"
-                        placeholder="请务必填写正确的收款账号"
-                    ></el-input>
+                <el-form-item label="游戏账号">
+                    <el-input v-model="pull.account" placeholder="请务必填写正确的账号"></el-input>
                 </el-form-item>
-                <el-form-item label="姓名">
-                    <el-input
-                        v-model="pull.username"
-                        placeholder="请务必填写正确的收款人"
-                    ></el-input>
+                <el-form-item label="兑换数目">
+                    <el-radio-group v-model="pull.cash">
+                        <el-radio label="3000" border>3000通宝</el-radio>
+                        <el-radio label="6000" border>6000通宝</el-radio>
+                        <el-radio label="10000" border>10000通宝</el-radio>
+                    </el-radio-group>
                 </el-form-item>
-                <el-form-item label="">
+                <el-form-item label><div class="u-tip"><i class="el-icon-info"></i>1盒币可兑换1通宝，所有兑换申请将在每月28号统一处理。</div></el-form-item>
+                <el-form-item label>
                     <el-button
                         type="primary"
                         @click="openConfirmBox"
                         :disabled="!money || lockStatus"
-                        >提交申请</el-button
-                    >
+                    >提交申请</el-button>
                 </el-form-item>
             </el-form>
         </div>
         <div class="m-credit-table m-packet-table" v-loading="loading">
             <el-tabs v-model="activeName" @tab-click="changeType" type="border-card">
-                <el-tab-pane label="红包记录" name="my_packet_list">
-                    <div
-                        class="m-packet-table"
-                        v-if="my_packet_list && my_packet_list.length"
-                    >
+                <el-tab-pane label="获取记录" name="in">
+                    <div class="m-packet-table" v-if="my_packet_list && my_packet_list.length">
                         <table class="m-packet-in-list">
                             <tr>
                                 <th>收入金额</th>
@@ -84,8 +77,7 @@
                         type="info"
                         center
                         show-icon
-                    >
-                    </el-alert>
+                    ></el-alert>
                     <el-pagination
                         class="m-credit-pages m-packet-pages"
                         background
@@ -94,15 +86,9 @@
                         :current-page.sync="page"
                         layout="total, prev, pager, next, jumper"
                         :total="total"
-                    >
-                    </el-pagination>
+                    ></el-pagination>
                 </el-tab-pane>
-                <el-tab-pane label="提现记录" name="my_packet_history">
-                    <!-- <el-alert
-                        title="所有提现申请72小时(工作日)内会处理完毕"
-                        type="info"
-                        show-icon
-                    ></el-alert> -->
+                <el-tab-pane label="兑换记录" name="out">
                     <div
                         class="m-packet-table"
                         v-if="my_packet_history && my_packet_history.length"
@@ -121,23 +107,19 @@
                                     <b>{{ item.money | formatMoney }}</b>
                                 </td>
                                 <td>{{ item.pay_type | formatPaytype }}</td>
-                                <td>
-                                    {{ item.accept_account | encryptAccount }}
-                                </td>
+                                <td>{{ item.accept_account | encryptAccount }}</td>
                                 <td
                                     :class="{
                                         isFinished: item.status == 1,
                                         isProcessing: !item.status,
                                         isPending: item.status > 1,
                                     }"
-                                >
-                                    {{ item.status | formatHistoryStatus }}
-                                </td>
+                                >{{ item.status | formatHistoryStatus }}</td>
                                 <td>
                                     {{
-                                        item.status == 1
-                                            ? item.transaction_id
-                                            : item.why
+                                    item.status == 1
+                                    ? item.transaction_id
+                                    : item.why
                                     }}
                                 </td>
                                 <td>{{ item.created_at | formatDate }}</td>
@@ -152,8 +134,7 @@
                         type="info"
                         center
                         show-icon
-                    >
-                    </el-alert>
+                    ></el-alert>
                     <el-pagination
                         class="m-credit-pages m-packet-pages"
                         background
@@ -162,8 +143,7 @@
                         :current-page.sync="page"
                         layout="total, prev, pager, next, jumper"
                         :total="total"
-                    >
-                    </el-pagination>
+                    ></el-pagination>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -192,19 +172,16 @@ import { authorLink } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "Packet",
     props: [],
-    data: function() {
+    data: function () {
         return {
             // 公共
             loading: false,
-            activeName: "my_packet_list",
-            isSuperAdmin: User.getInfo().group >= 512,
+            activeName: "in",
             money: 0,
 
             // 记录列表
-            my_packet_list: [],
-            my_packet_history: [],
-            all_packet: [],
-            all_history: [],
+            in_list: [],
+            out_list: [],
             page: 1,
             per: 15,
             total: 1,
@@ -218,7 +195,7 @@ export default {
             },
 
             // 提现表单
-            pay_types: paytypes,
+            zones: [],
             pull: {
                 pay_type: "alipay",
                 account: "",
@@ -226,35 +203,13 @@ export default {
             },
             showPullBox: false,
             lockStatus: false,
-
-            // 管理操作
-            paystatus,
-            showPushBox: false,
-            push: {
-                status: "1",
-                why: "",
-                transaction_id: "",
-            },
-            checkId: "",
-            checkItem: "",
-            optypes,
-
-            // 红包发放
-            showGiftBox: false,
-            gift: {
-                category: "",
-                batchNo: "",
-                money: "",
-                ids: "",
-                describe: "",
-            },
         };
     },
     computed: {
-        hasLeft: function() {
+        hasLeft: function () {
             return this.money > 0;
         },
-        params: function() {
+        params: function () {
             let params = {
                 pageIndex: this.page,
                 pageSize: this.per,
@@ -267,31 +222,31 @@ export default {
             });
             return params;
         },
-        pulldata: function() {
+        pulldata: function () {
             return {
                 username: this.pull.username,
                 account: this.pull.account,
                 pay_type: this.pull.pay_type,
             };
         },
-        pushdata: function() {
+        pushdata: function () {
             return {
                 status: ~~this.push.status,
                 why: this.push.why,
                 transaction_id: this.push.transaction_id,
             };
         },
-        giftdata: function() {
+        giftdata: function () {
             let gift = _.cloneDeep(this.gift);
             gift.money = parseFloat(gift.money) * 100;
             return gift;
         },
     },
     methods: {
-        togglePullBox: function() {
+        togglePullBox: function () {
             this.showPullBox = !this.showPullBox;
         },
-        loadData: function() {
+        loadData: function () {
             this.loading = true;
             const fns = {
                 my_packet_list: getMyPacketList,
@@ -308,12 +263,12 @@ export default {
                     this.loading = false;
                 });
         },
-        changeType: function() {
+        changeType: function () {
             this.page = 1;
             this.$route.query.tab = this.activeName;
             this.loadData();
         },
-        openConfirmBox: function() {
+        openConfirmBox: function () {
             this.$alert(
                 `<div class="m-packet-msg">请确认收款账号和收款人 <br/> 收款账号<b>${this.pull.account}</b> <br/> 收款人<b>${this.pull.username}</b></div>`,
                 "确认信息",
@@ -342,12 +297,12 @@ export default {
                 }
             );
         },
-        check: function(item) {
+        check: function (item) {
             this.showPushBox = true;
             this.checkItem = item;
             this.checkId = item.id;
         },
-        submit: function(val) {
+        submit: function (val) {
             this.lockStatus = true;
             this.loading = true;
             checkPacket(this.checkId, this.pushdata, this.params)
@@ -364,10 +319,10 @@ export default {
                     this.loading = false;
                 });
         },
-        toggleGiftBox: function() {
+        toggleGiftBox: function () {
             this.showGiftBox = !this.showGiftBox;
         },
-        present: function() {
+        present: function () {
             this.lockStatus = true;
             this.loading = true;
             pushPacket(this.giftdata)
@@ -383,7 +338,7 @@ export default {
                     this.loading = false;
                 });
         },
-        recycle: function(item) {
+        recycle: function (item) {
             recyclePacket({
                 ids: item.id,
                 reason: User.getInfo().uid, //由哪个管理操作
@@ -392,36 +347,36 @@ export default {
                     message: `收回数量` + res.data.data.successCount,
                     type: "success",
                 });
-                item.status = -1
+                item.status = -1;
             });
         },
     },
     filters: {
-        formatDate: function(val) {
+        formatDate: function (val) {
             return showTime(val);
         },
-        formatStatus: function(val) {
+        formatStatus: function (val) {
             return val ? "已提现" : "未提现";
         },
-        formatHistoryStatus: function(val) {
+        formatHistoryStatus: function (val) {
             return val ? paystatus[val] : "审核中";
         },
-        formatPaytype: function(val) {
+        formatPaytype: function (val) {
             return val ? paytypes[val] : val;
         },
-        encryptAccount: function(val) {
+        encryptAccount: function (val) {
             return val.slice(0, 3) + "******";
         },
-        formatMoney: function(val) {
+        formatMoney: function (val) {
             return val ? (val / 100).toFixed(2) : 0;
         },
-        formatPayStatus: function(val) {
+        formatPayStatus: function (val) {
             val += "";
             return val && paystatus[val];
         },
         authorLink,
     },
-    created: function() {
+    created: function () {
         this.activeName = this.$route.query.tab || "my_packet_list";
         getMyPacket().then((res) => {
             this.money = res.data.data.red_packet;
@@ -443,4 +398,10 @@ export default {
 
 <style lang="less">
 @import "../assets/css/packet.less";
+</style>
+
+<style scoped lang="less">
+.u-tip{
+    color:#fba524;
+}
 </style>

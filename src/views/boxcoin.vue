@@ -31,13 +31,18 @@
                 </el-form-item>
                 <el-form-item label="兑换数目">
                     <el-radio-group v-model="pull.cash">
+                        <el-radio label="1500" border>1500通宝</el-radio>
                         <el-radio label="3000" border>3000通宝</el-radio>
-                        <el-radio label="6000" border>6000通宝</el-radio>
+                        <el-radio label="5000" border>5000通宝</el-radio>
                         <el-radio label="10000" border>10000通宝</el-radio>
+                        <el-radio label="50000" border>50000通宝</el-radio>
                     </el-radio-group>
                 </el-form-item>
+                <el-form-item label="邮箱地址">
+                    <el-input v-model="pull.email" placeholder="请务必填写正确的邮箱"></el-input>
+                </el-form-item>
                 <!-- TODO:1-3不能申请，1-3号处理上一个月的全部申请记录 -->
-                <el-form-item label><div class="u-tip"><i class="el-icon-info"></i>1盒币可兑换1通宝，所有兑换申请将在每月1-3号统一处理。</div></el-form-item>
+                <el-form-item label><div class="u-tip"><i class="el-icon-info"></i>1盒币可兑换1通宝，所有兑换申请将在每月1-3号统一处理。如发放为金山一卡通方式，则会发送邮件至邮箱。请在https://charge.xoyo.com/pay?item=jx3&way=kcard进行充值</div></el-form-item>
                 <el-form-item label>
                     <el-button
                         type="primary"
@@ -175,35 +180,26 @@ export default {
     props: [],
     data: function () {
         return {
-            // 公共
-            loading: false,
-            activeName: "in",
+            // 提现表单
             money: 0,
+            zones: [],
+            pull: {
+                zone:'',
+                account: "",
+                cash: "",
+                email:'',
+            },
+            showPullBox: false,
+            lockStatus: false,
 
             // 记录列表
+            loading: false,
+            activeName: "in",
             in_list: [],
             out_list: [],
             page: 1,
             per: 15,
             total: 1,
-
-            // 查询参数
-            query: {
-                user_id: "",
-                category: "",
-                batch_no: "",
-                status: "",
-            },
-
-            // 提现表单
-            zones: [],
-            pull: {
-                pay_type: "alipay",
-                account: "",
-                username: "",
-            },
-            showPullBox: false,
-            lockStatus: false,
         };
     },
     computed: {

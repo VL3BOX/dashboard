@@ -125,7 +125,7 @@
                             placement="top"
                         >
                             <div class="u-credit-name">
-                                <i class="el-icon-bank-card"></i> 红包
+                                <i class="el-icon-wallet"></i> 红包
                             </div>
                         </el-tooltip>
                         <div class="u-credit-value">

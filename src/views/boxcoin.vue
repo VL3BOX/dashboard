@@ -35,7 +35,6 @@
                         <el-radio label="3000" border>3000通宝</el-radio>
                         <el-radio label="5000" border>5000通宝</el-radio>
                         <el-radio label="10000" border>10000通宝</el-radio>
-                        <el-radio label="50000" border>50000通宝</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="邮箱地址">

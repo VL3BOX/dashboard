@@ -302,6 +302,10 @@ export default {
                                     this.showPullBox = false;
                                     this.money = this.money - this.pull.cash;
                                 })
+                                .then(() => {
+                                    // 重载数据
+                                    this.loadData()
+                                })
                                 .finally(() => {
                                     this.lockStatus = false;
                                     this.loading = false;

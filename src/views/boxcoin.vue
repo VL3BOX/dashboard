@@ -119,6 +119,7 @@
                                 <th>账号</th>
                                 <th>邮箱</th>
                                 <th>处理状态</th>
+                                <th>备注</th>
                                 <th>申请时间</th>
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
@@ -135,6 +136,7 @@
                                         isPending: item.status > 1,
                                     }"
                                 >{{ item.status | formatHistoryStatus }}</td>
+                                <td>{{ item.remark }}</td>
                                 <td>{{ item.created_at | formatDate }}</td>
                             </tr>
                         </table>

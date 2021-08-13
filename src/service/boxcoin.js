@@ -1,11 +1,15 @@
 import { $pay } from "@jx3box/jx3box-common/js/https";
 
-function getBoxcoinCashHistory() {
-    return $pay().get(`/api/my/boxcoin/cashout/history`);
+function getBoxcoinCashHistory(params) {
+    return $pay().get(`/api/my/boxcoin/cashout/history`,{
+        params 
+    });
 }
 
-function getBoxcoinGotHistory(){
-    return $pay().get(`/api/my/boxcoin/bill`)
+function getBoxcoinGotHistory(params){
+    return $pay().get(`/api/my/boxcoin/bill`,{
+        params
+    })
 }
 
 function cashBoxcoin(data){

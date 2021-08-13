@@ -244,7 +244,7 @@ export default {
                 in: getBoxcoinGotHistory,
                 out: getBoxcoinCashHistory,
             };
-            fn[this.tab]()
+            fn[this.tab](this.params)
                 .then((res) => {
                     this.list = res.data.data.list;
                     this.total = res.data.data.page.total;

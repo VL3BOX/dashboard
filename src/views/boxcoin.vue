@@ -331,7 +331,7 @@ export default {
             }
         },
         formatHistoryStatus : function (val){
-            return statusMap[val]
+            return statusMap[val] || val
         }
     },
     created: function () {

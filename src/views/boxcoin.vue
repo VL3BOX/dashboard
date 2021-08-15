@@ -6,6 +6,7 @@
         <div class="m-credit-total m-packet-total">
             余额 :
             <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
+            <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/boxcoin" target="_blank">充值</a>
             <el-button
                 class="u-btn"
                 type="primary"

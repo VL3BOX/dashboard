@@ -71,9 +71,9 @@
                                 <td>{{ item.action_type | formatType }}</td>
                                 <td
                                     class="u-count"
-                                    :class="{isNegative:Number(item.action_type)<0}"
+                                    :class="{isNegative:Number(item.count)<0}"
                                 >
-                                    <span>{{Number(item.action_type)>0 ? '+' : ''}}</span>
+                                    <span>{{Number(item.count)>0 ? '+' : ''}}</span>
                                     <b>{{ item.count }}</b>
                                 </td>
                                 <td>

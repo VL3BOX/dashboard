@@ -160,7 +160,63 @@
 
         <!-- TODO: -->
         <!-- 积分兑换好物推荐，滚屏 -->
-        <!-- 用户资产变动日志 -->
+
+        <div class="m-index-asset-logs">
+            <h2 class="u-title">
+                <i class="el-icon-bell"></i> 资产动态
+                <div class="u-dates">
+                    <i class="el-icon-date"></i>
+                    <el-radio-group v-model="date">
+                        <el-radio
+                            v-for="(item,i) in dates"
+                            :key="i"
+                            :label="item.value"
+                        >{{item.label}}</el-radio>
+                    </el-radio-group>
+                </div>
+            </h2>
+            <ul class="u-list">
+                <li class="u-item" v-for="(item,i) in asset_logs" :key="i">
+                    <i :class="item.type | showAssetIcon"></i>
+                    <span class="u-type">{{item.type | showAssetType}}</span>
+                    <span class="u-div">／</span>
+
+                    <!-- 盒币 -->
+                    <span class="u-boxcoin" v-if="item.type == 'boxcoin'">
+                        类型：[{{item.data.action_type | showBoxcoinType}}]
+                        <b
+                            :class="{isNegative:item.data.count < 0}"
+                        >{{item.data.count}}</b>
+                        ，
+                        补充信息：{{item.data.remark || '-'}}
+                        <a
+                            class="u-link"
+                            :href="getPostLink(item)"
+                            v-if="item.data.post_type && item.data.post_id"
+                        >
+                            <i class="el-icon-link"></i> 查看详情
+                        </a>
+                    </span>
+
+                    <!-- 订单 -->
+                    <span class="u-order" v-if="item.type == 'order'">
+                        产品：{{item.data.product_id | showProduct}}，
+                        金额：¥
+                        <b>{{item.data.total_fee | showPrice}}</b>
+                        ，
+                        状态：{{item.data.pay_status | showPayStatus}}
+                    </span>
+
+                    <!-- 红包 -->
+                    <span class="u-redpack" v-if="item.type == 'redpack'">
+                        金额：¥
+                        <b>{{item.data.money | showPrice}}</b>
+                        ，
+                        补充信息：{{item.data.describe || '-'}}
+                    </span>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -171,13 +227,17 @@ import {
     default_avatar,
 } from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
-import { getThumbnail } from "@jx3box/jx3box-common/js/utils";
-import { getUserMedals, getUserInfo } from "@/service/index.js";
+import { getThumbnail, getLink } from "@jx3box/jx3box-common/js/utils";
+import { getUserMedals, getUserInfo, getMyAssetLogs } from "@/service/index.js";
 import { getSuperAuthorState } from "@/service/cooperation";
 import { getFrames } from "@/service/profile.js";
 import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
 import { showDate } from "@jx3box/jx3box-common/js/moment";
 import frames from "@jx3box/jx3box-common/data/user_avatar_frame.json";
+import asset_types from "@/assets/data/asset_log_types.json";
+import boxcoin_types from "@/assets/data/boxcoin_types.json";
+import { products, pay_status, pay_types } from "@/assets/data/pay_order.json";
+import dayjs from "dayjs";
 export default {
     name: "index",
     props: [],
@@ -210,6 +270,14 @@ export default {
             medal_map,
             frames,
             isSuperAuthor: false,
+            asset_logs: [],
+            asset_types,
+            boxcoin_types,
+            products,
+            pay_status,
+            pay_types,
+
+            date: dayjs().format("YYYYMMDD"),
         };
     },
     computed: {
@@ -253,6 +321,22 @@ export default {
         super_author_icon: function () {
             return __imgPath + "image/user/" + "superauthor.svg";
         },
+        dates: function () {
+            return [
+                {
+                    label: "今天",
+                    value: dayjs().format("YYYYMMDD"),
+                },
+                {
+                    label: "7天",
+                    value: dayjs().subtract(7, 'days').format("YYYYMMDD"),
+                },
+                {
+                    label: "30天",
+                    value: dayjs().subtract(30, 'days').format("YYYYMMDD"),
+                }
+            ];
+        },
     },
     methods: {
         loadUserInfo: function () {
@@ -285,12 +369,21 @@ export default {
                 this.isSuperAuthor = res.data.data;
             });
         },
+        loadAssetLogs: function () {
+            getMyAssetLogs(this.date).then((res) => {
+                this.asset_logs = res.data.data.list || [];
+            });
+        },
         init: function () {
             this.loadUserInfo();
             this.loadAsset();
             this.loadMedals();
             this.loadFrames();
             this.checkSuperAuthor();
+            this.loadAssetLogs();
+        },
+        getPostLink: function (item) {
+            return getLink(item.data.post_type, item.data.post_id);
         },
     },
     filters: {
@@ -312,10 +405,36 @@ export default {
                 getThumbnail(default_avatar, 120, true)
             );
         },
+        showAssetType: function (val) {
+            return asset_types[val]["label"] || val;
+        },
+        showAssetIcon: function (val) {
+            return asset_types[val]["icon"] || "el-icon-box";
+        },
+        showBoxcoinType: function (val) {
+            return boxcoin_types[val] || val;
+        },
+        showProduct: function (val) {
+            return products[val];
+        },
+        showPayStatus: function (val) {
+            return pay_status[val];
+        },
+        showPayType: function (val) {
+            return pay_types[val];
+        },
+        showPrice: function (val) {
+            return val ? (val / 100).toFixed(2) : "0.00";
+        },
     },
     mounted: function () {
         this.init();
     },
+    watch : {
+        date : function (){
+            this.loadAssetLogs()
+        }
+    }
 };
 </script>
 

@@ -12,7 +12,7 @@ module.exports = {
             },
             // NEXT服务
             "/api/user": {
-                target: "https://next.jx3box.com",
+                target: "https://next2.jx3box.com",
                 onProxyReq: function(request) {
                     request.setHeader("origin", "");
                 },

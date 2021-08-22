@@ -175,7 +175,7 @@
                     </el-radio-group>
                 </div>
             </h2>
-            <ul class="u-list">
+            <ul class="u-list" v-if="asset_logs && asset_logs.length">
                 <li class="u-item" v-for="(item,i) in asset_logs" :key="i">
                     <i :class="item.type | showAssetIcon"></i>
                     <span class="u-type">{{item.type | showAssetType}}</span>
@@ -216,6 +216,7 @@
                     </span>
                 </li>
             </ul>
+            <div class="u-null" v-else><i class="el-icon-warning-outline"></i> 当前时间范围内无记录</div>
         </div>
     </div>
 </template>

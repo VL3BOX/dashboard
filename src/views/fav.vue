@@ -144,6 +144,22 @@ export default {
                             value: "bbs",
                             label: "茶馆",
                         },
+                        {
+                            value: "joke",
+                            label: "骚话",
+                        },
+                        {
+                            value: "emotion",
+                            label: "表情",
+                        },
+                        {
+                            value: "notice",
+                            label: "公告",
+                        },
+                        {
+                            value: "feedback",
+                            label: "反馈",
+                        },
                     ],
                 },
                 {

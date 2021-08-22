@@ -201,7 +201,7 @@ export default {
             tab: "in",
             list: [],
             page: 1,
-            per: 20,
+            per: 10,
             total: 1,
 
             // Options

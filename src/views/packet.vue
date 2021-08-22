@@ -206,7 +206,7 @@ export default {
             all_packet: [],
             all_history: [],
             page: 1,
-            per: 15,
+            per: 10,
             total: 1,
 
             // 查询参数

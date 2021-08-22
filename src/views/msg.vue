@@ -15,6 +15,19 @@
                 <span v-text="'全部设为已读'"></span>
             </el-button>
         </div>
+        <el-input
+            class="m-dashboard-work-search"
+            placeholder="请输入搜索内容"
+            v-model="keyword"
+            @keyup.enter.native="changePage(1)"
+        >
+            <template slot="prepend">关键词</template>
+            <el-button
+                slot="append"
+                icon="el-icon-search"
+                @click="changePage(1)"
+            ></el-button>
+        </el-input>
         <ul class="m-dashboard-box-list" v-if="data.length">
             <li
                 v-for="(item, i) in data"
@@ -93,6 +106,7 @@ export default {
     props: [],
     data: function() {
         return {
+            keyword: '',
             type: "all",
             data: [],
             unread_total: 0,
@@ -103,7 +117,12 @@ export default {
     methods: {
         changePage: function(i = 1) {
             this.page = i;
-            getMsgs(i).then((res) => {
+            getMsgs({
+                where: {
+                    content: this.keyword
+                },
+                page: i,
+            }).then((res) => {
                 this.unread_total = res.data.data.unread_count;
                 this.total = res.data.data.total;
                 this.data = res.data.data.messages;

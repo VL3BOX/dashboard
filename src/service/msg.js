@@ -1,13 +1,8 @@
 import { $helper } from "@jx3box/jx3box-common/js/https";
 import qs from "qs";
 
-function getMsgs(i = 1) {
-    return $helper().get("/api/messages", {
-        params: {
-            // length : 2,
-            page: i,
-        },
-    });
+function getMsgs(params) {
+    return $helper().get(`/api/messages?${qs.stringify(params)}`);
 }
 
 function readMsg(ids) {

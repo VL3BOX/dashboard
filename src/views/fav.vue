@@ -27,6 +27,7 @@
             class="m-dashboard-work-search"
             placeholder="请输入搜索内容"
             v-model="search"
+            @keyup.enter.native="loadData"
         >
             <template slot="prepend">关键词</template>
             <el-button

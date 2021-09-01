@@ -1,4 +1,4 @@
-import { $pay } from "@jx3box/jx3box-common/js/https";
+import { $pay,$cms } from "@jx3box/jx3box-common/js/https";
 
 function getBoxcoinCashHistory(params) {
     return $pay().get(`/api/my/boxcoin/cashout/history`,{
@@ -16,4 +16,12 @@ function cashBoxcoin(data){
     return $pay().post(`/api/my/boxcoin/cashout`,data)
 }
 
-export { getBoxcoinCashHistory,getBoxcoinGotHistory,cashBoxcoin };
+function getBoxcoinConfig(){
+    return $cms().get(`/api/cms/config`,{
+        params : {
+            key : 'boxcoin_cashout_forbid_date'
+        }
+    })
+}
+
+export { getBoxcoinCashHistory,getBoxcoinGotHistory,cashBoxcoin ,getBoxcoinConfig};

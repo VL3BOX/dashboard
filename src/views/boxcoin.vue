@@ -17,7 +17,7 @@
         </div>
         <div class="m-credit-pull" v-if="showPullBox">
             <el-alert class="m-boxcoin-tip" title="1盒币可兑换1通宝，不可折现" type="warning" show-icon>
-                所有兑换申请将在每月1-5号统一处理，每月1-5日将不能提交兑换申请。默认通宝将通过直充进入游戏账号（不会计入充销），如发放为金山一卡通方式，则会发送卡密邮件至邮箱（请自行在
+                所有兑换申请将在每月{{start_date}}-{{end_date}}号统一处理，每月1-5日将不能提交兑换申请。默认通宝将通过直充进入游戏账号（不会计入充销），如发放为金山一卡通方式，则会发送卡密邮件至邮箱（请自行在
                 <a
                     href="https://charge.xoyo.com/pay?item=jx3&way=kcard"
                     target="_blank"
@@ -50,7 +50,7 @@
                         :disabled="!ready || lockStatus"
                     >提交申请</el-button>
                     <span class="u-tip" v-if="!isAllowDate">
-                        <i class="el-icon-warning-outline"></i> 每月1-5日结算期间不能进行兑换申请
+                        <i class="el-icon-warning-outline"></i> 每月{{start_date}}-{{end_date}}日结算期间不能进行兑换申请
                     </span>
                 </el-form-item>
             </el-form>
@@ -177,6 +177,7 @@ import {
     getBoxcoinCashHistory,
     getBoxcoinGotHistory,
     cashBoxcoin,
+    getBoxcoinConfig
 } from "@/service/boxcoin.js";
 export default {
     name: "Boxcoin",
@@ -207,6 +208,7 @@ export default {
             // Options
             types,
             zones,
+            dates : []
         };
     },
     computed: {
@@ -222,7 +224,7 @@ export default {
         },
         isAllowDate: function () {
             let d = new Date().getDate();
-            return d > 5;
+            return !this.dates.includes(d)
         },
         canCash: function () {
             return this.hasLeft && this.isAllowDate && this.money >= this.min;
@@ -230,10 +232,19 @@ export default {
         ready: function () {
             return this.canCash && this.formStatus;
         },
+        start_date : function (){
+            return this.dates[0]
+        },
+        end_date : function (){
+            return this.dates[this.dates.length - 1]
+        }
     },
     methods: {
         // 初始化
         init: function () {
+            getBoxcoinConfig().then((res) => {
+                this.dates = JSON.parse(res.data.data.val)
+            })
             this.loadAsset();
             this.loadData();
         },

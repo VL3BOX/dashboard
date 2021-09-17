@@ -26,10 +26,6 @@
 
         <h5 class="u-title">权益中心</h5>
         <div class="m-nav-group">
-            <router-link to="order">
-                <i class="el-icon-shopping-bag-1"></i>
-                <span>我的订单</span>
-            </router-link>
             <router-link to="boxcoin">
                 <i class="el-icon-coin"></i>
                 <span>我的盒币</span>
@@ -37,6 +33,10 @@
             <router-link to="packet">
                 <i class="el-icon-wallet"></i>
                 <span>我的红包</span>
+            </router-link>
+            <router-link to="order">
+                <i class="el-icon-shopping-bag-1"></i>
+                <span>我的订单</span>
             </router-link>
         </div>
 

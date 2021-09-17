@@ -164,14 +164,17 @@ export default {
     },
     filters: {
         msgLink: function(item) {
-            let id = item.source_id;
-            let type = item.source_type;
-            if(type == 'birthday'){
-                return `/author/${item.user_id}/#/birthday?code=` + Base64.encode(id)
-            }else if(type== 'sign'){
+            let source_id = item.source_id;
+            let source_type = item.source_type;
+            if(source_type == 'birthday'){
+                return `/author/${item.user_id}/#/birthday?code=` + Base64.encode(source_id)
+            }else if(source_type== 'sign'){
                 return `/dashboard/#/cooperation`
+            }else if(source_type == 'callback'){
+                let info = encodeURIComponent(Base64.encode(JSON.stringify(item)))
+                return `/dashboard/#/${item.type}/${item.subtype}?info=${info}`
             }else{
-                return getLink(type, id);
+                return getLink(source_type, source_id);
             }
         },
     },

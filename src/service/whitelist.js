@@ -1,30 +1,31 @@
 import { $cms } from "@jx3box/jx3box-common/js/https";
 
-function getWhitelist() {
+function getKithList() {
     return $cms().get("/api/cms/user/kith/my");
 }
-function getWhitelistById(id) {
+function searchUserById(id) {
     return $cms().get(`/api/cms/user/${id}/info`);
 }
-
-function delWhitelist(id) {
-    return $cms().delete(`/api/cms/user/kith/${id}`);
-}
-function addWhitelist(id) {
+function addKith(id) {
     return $cms().post(`/api/cms/user/kith/${id}`);
 }
-function updateWhitelists(data) {
+
+function removeKith(id) {
+    return $cms().delete(`/api/cms/user/kith/${id}`);
+}
+
+function sortKith(data) {
     return $cms().put("/api/cms/user/kith", data);
 }
-function editWhitelist(id, data) {
+function editKith(id, data) {
     return $cms().put(`/api/cms/user/kith/${id}`, data);
 }
 
 export {
-    getWhitelist,
-    editWhitelist,
-    delWhitelist,
-    addWhitelist,
-    getWhitelistById,
-    updateWhitelists,
+    getKithList,
+    editKith,
+    removeKith,
+    addKith,
+    searchUserById,
+    sortKith,
 };

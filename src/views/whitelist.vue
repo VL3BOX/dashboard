@@ -1,282 +1,278 @@
 <template>
-    <div class="m-dashboard m-dashboard-work m-dashboard-whitelist">
-        <div class="m-dashboard-whitelist-cont">
-            <!-- title -->
-            <h2 class="u-title">
-                <span class="i-title">
-                    <i class="el-icon-ship"></i> 我的亲友
-                </span>
-                <span class="u-sort" @click="isDrag = true" v-if="!isDrag">
-                    <i class="el-icon-sort"></i> 开启排序
-                </span>
-                <span class="u-sort u-drag" @click="exitDrag" v-else>
-                    <i class="el-icon-finished"></i> 退出排序
+    <div class="m-dashboard m-dashboard-profile m-dashboard-work m-dashboard-whitelist">
+        <div class="m-whitelist-primary" v-loading="loading">
+            <h2 class="m-whitelist-title u-title">
+                <i class="el-icon-ship"></i> 我的亲友
+                <span
+                    class="u-sort"
+                    @click="isDraggable = !isDraggable"
+                    :class="{on:isDraggable}"
+                >
+                    <i class="el-icon-sort"></i>
+                    {{isDraggable ? '退出' : '开启'}}排序
                 </span>
             </h2>
-            <!-- 拖动显示 -->
+
             <draggable
-                class="m-drag"
-                element="div"
+                class="m-whitelist-list u-list"
                 :list="list"
+                draggable=".u-item"
                 v-bind="{ animation: 150, scrollSensitivity: 200 }"
-                v-if="isDrag"
-                @start="dragStart"
+                :disabled="!isDraggable"
+                :class="{isDraggable:isDraggable}"
+                @end="sort"
             >
                 <transition-group type="transition">
-                    <div class="u-item" v-for="item in list" :key="item.kith_id">
-                        <div class="u-item-box">
-                            <img :src="item.kith_info.user_avatar | showAvatar" />
-                            <div class="u-txt">{{ item.remark || item.kith_info.display_name }}</div>
+                    <div class="u-item" v-for="(item,i) in list" :key="item.kith_id">
+                        <a class="u-item-pic" :href="item.kith_id | authorLink" target="_blank">
+                            <img
+                                class="u-item-avatar"
+                                :src="item.kith_info.user_avatar | showAvatar"
+                            />
+                            <!-- <i class="u-item-status el-icon-loading"></i> -->
+                        </a>
+                        <a
+                            class="u-item-name"
+                            :href="item.kith_id | authorLink"
+                            target="_blank"
+                        >{{ item.kith_info.display_name }}</a>
+                        <span class="u-item-remark" v-if="item.status">备注：{{ item.remark || '无' }}</span>
+                        <span class="u-item-remark" v-else>
+                            <i class="el-icon-loading"></i> 等待确认中...
+                        </span>
+                        <div class="u-item-btns">
+                            <el-popconfirm title="确认删除亲友关系吗？" @confirm="remove(item.kith_id,i)">
+                                <el-button
+                                    slot="reference"
+                                    type="warning"
+                                    size="mini"
+                                    icon="el-icon-delete"
+                                >删除</el-button>
+                            </el-popconfirm>
+
+                            <el-button
+                                @click="edit(item.kith_id,item)"
+                                size="mini"
+                                icon="el-icon-edit"
+                                class="u-btn-edit"
+                            >编辑</el-button>
                         </div>
                     </div>
                 </transition-group>
             </draggable>
-
-            <!--  正常显示-->
-            <div class="u-box" v-else>
-                <div class="u-item" v-for="item in list" :key="item.kith_id">
-                    <div class="u-item-box">
-                        <img :src="item.kith_info.user_avatar | showAvatar" />
-                        <div class="u-item-txt">
-                            <div class="u-item-name">
-                                <span>{{ item.kith_info.display_name }}</span>
-                                <span>备注：{{ item.remark || '无' }}</span>
-                            </div>
-                            <div class="u-item-btn">
-                                <el-button type="warning" @click="delWhitelistBtn(item.kith_id)">删除</el-button>
-                                <el-button @click="editWhitelistBtn(item.kith_id)">编辑</el-button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <!-- 添加亲友 -->
-        <div class="m-dashboard-whitelist-add">
+        <div class="m-whitelist-sidebar">
             <div class="u-title">
                 <i class="el-icon-news"></i> 添加亲友
             </div>
             <el-input
                 class="u-input"
-                v-model="uid"
+                v-model.number="uid"
                 placeholder="输入UID添加"
-                :disabled="isDrag"
                 suffix-icon="el-icon-search"
-                @input="searchUid"
+                @keyup.enter.native="addKith"
             ></el-input>
-            <div class="u-box u-user" v-if="hasUser">
-                <img :src="userInfo.user_avatar | showAvatar" alt="userInfo.display_name" />
-                <div class="u-txt">
-                    <span>UID：{{ userInfo.ID }}</span>
-                    <span>{{ userInfo.display_name }}</span>
+            <div class="u-list" v-if="userdata">
+                <div class="u-item">
+                    <img
+                        class="u-item-avatar"
+                        :src="userdata.user_avatar | showAvatar"
+                        :alt="userdata.display_name"
+                    />
+                    <div class="u-item-info">
+                        <span class="u-item-uid">UID：{{ userdata.ID }}</span>
+                        <b class="u-item-name">{{ userdata.display_name }}</b>
+                    </div>
                 </div>
             </div>
-            <div class="u-box" v-else>
-                <el-alert title="暂无亲友" type="info" show-icon :closable="false"></el-alert>
+            <div class="u-null" v-if="isNull">
+                <el-alert title="无搜索结果" type="info" show-icon :closable="false"></el-alert>
+            </div>
+            <div class="u-null" v-if="!isNewKith">
+                <el-alert title="已添加过该亲友" type="info" show-icon :closable="false"></el-alert>
             </div>
             <el-button
+                class="u-submit"
                 type="success"
                 :disabled="!allowAppend"
-                @click="addWhitelistBtn(userInfo)"
-            >添加亲友 ({{ list.length }} / {{ hasNum }})</el-button>
+                @click="addKith"
+            >添加亲友 ({{ total }} / {{ limit }})</el-button>
         </div>
     </div>
 </template>
 <script>
 import {
-    getWhitelist,
-    editWhitelist,
-    delWhitelist,
-    addWhitelist,
-    getWhitelistById,
-    updateWhitelists,
+    searchUserById,
+    addKith,
+    getKithList,
+    editKith,
+    removeKith,
+    sortKith,
 } from "@/service/whitelist.js";
 import User from "@jx3box/jx3box-common/js/user.js";
 import draggable from "vuedraggable";
-import { showAvatar } from "@jx3box/jx3box-common/js/utils";
+import { showAvatar, authorLink } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "whitelist",
     props: [],
     data: function () {
         return {
+            // 列表区
+            isDraggable: false,
+            list: [],
+            loading: false,
+
+            // 侧边栏
             uid: "",
-            list: {},
-            userInfo: "",
-            isvip: false,
-            ispro: false,
-            isDrag: false,
-            dragList: false,
+            userdata: "",
+
+            // 上限
+            limit_map : {
+                member : 5,
+                vip : 20,
+                pro : 100,
+            },
+            identity : 'member'
         };
     },
     computed: {
-        isVerify: function () {
-            if (this.uid == "") {
-                return false;
-            }
-            if (this.userInfo == null) {
-                return false;
-            }
-            return true;
-        },
-        hasUser: function () {
-            return this.userInfo;
-        },
         allowAppend: function () {
-            let len = this.list.length;
-            if (this.isDrag == false) {
-                if (len < 5) {
-                    return true;
-                } else if (len < 20) {
-                    return this.isvip;
-                } else if (len < 100) {
-                    return this.ispro;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
+            // 有搜索结果
+            // 且未达到上限
+            // 且未重复添加
+            return this.userdata && (this.total < this.limit) && this.isNewKith
         },
-        draglist: function () {
-            return this.list;
+        // 未重复
+        isNewKith : function (){
+            let kith_id = this.userdata?.ID
+            return !this.currentIdList.includes(kith_id)
         },
-        hasNum: function () {
-            if (this.ispro) {
-                return 100;
-            }
-            if (this.isvip) {
-                return 20;
-            }
-            return 5;
+        // 当前用户UID列表
+        currentIdList : function (){
+            return this.list.map((item) => {return item.kith_id})
+        },
+        // 上限
+        limit: function () {
+            return this.limit_map[this.identity] || 5
+        },
+        // 当前亲友总数
+        total: function () {
+            return this.list?.length;
+        },
+        // 当前排序索引
+        sortArray: function () {
+            let list = this.list;
+            let len = list?.length;
+            let _list = [];
+            list.forEach((item, i) => {
+                _list.push({
+                    level: len - i,
+                    kith_id: item.kith_id,
+                });
+            });
+            return _list;
+        },
+        // 无搜索结果
+        isNull: function () {
+            return this.uid && !this.userdata;
         },
     },
     methods: {
-        dragStart() {
-            this.dragList = true;
-        },
-        exitDrag() {
-            this.isDrag = false;
-            if (this.dragList == true) {
-                let list = this.list;
-                let arr = [];
-                for (let i = 0; i < list.length; i++) {
-                    list[i].level = list.length - i;
-                    arr.push({
-                        level: list[i].level,
-                        kith_id: list[i].kith_id,
-                    });
-                }
-                updateWhitelists(arr).then(() => {
-                    this.dragList = false;
-                    this.successTxt("调整排序成功!");
+        // 添加亲友
+        addKith() {
+            this.allowAppend && addKith(this.uid).then(() => {
+                this.$notify({
+                    title: "成功",
+                    message: "添加成功",
+                    type: "success",
                 });
-            }
-        },
-        searchUid() {
-            if (this.uid) {
-                getWhitelistById(this.uid).then((res) => {
-                    this.userInfo = res.data.data;
-                });
-            }
-        },
-        addWhitelistBtn(user) {
-            let list = this.list;
-            let kith = {
-                kith_id: user.ID,
-                kith_info: {
-                    display_name: user.display_name,
-                    user_avatar: user.user_avatar,
-                },
-                remark: "",
-                level: list.length,
-            };
-            addWhitelist(this.uid).then(() => {
-                list.unshift(kith);
-                this.list = list;
-                this.successTxt("亲友添加成功!");
+                this.list.push({
+                    kith_id : this.uid,
+                    level : 0,
+                    status : 0,
+                    kith_info : this.userdata
+                })
             });
         },
-        delWhitelistBtn(val) {
-            let list = this.list;
-            this.$confirm("是否继续删除该亲友?", "提示", {
-                customClass: "dashboard-whitelist-message-logout",
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                type: "warning",
-            })
-                .then(() => {
-                    delWhitelist(val).then(() => {
-                        for (let i = 0; i < list.length; i++) {
-                            if (list[i].kith_id == val) {
-                                list.splice(i, 1);
-                            }
-                        }
-                        this.list = list;
-                        this.successTxt("删除成功!");
+        // 加载亲友列表
+        loadList() {
+            this.loading = true;
+            getKithList()
+                .then((res) => {
+                    let list = res.data.data;
+                    list = list.sort((a, b) => {
+                        return b.level - a.level;
                     });
+                    this.list = list;
                 })
-                .catch(() => {});
+                .finally(() => {
+                    this.loading = false;
+                });
         },
-        editWhitelistBtn(id) {
-            let list = this.list;
-            this.$prompt("请输入备注", "提示", {
-                customClass: "dashboard-whitelist-message-logout",
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-            })
-                .then((val) => {
-                    editWhitelist(id, { remark: val.value }).then(() => {
-                        for (let i = 0; i < list.length; i++) {
-                            if (list[i].kith_id == id) {
-                                list[i].remark = val.value;
-                            }
-                        }
-                        this.list = list;
-                        this.successTxt("备注添加成功!");
-                    });
-                })
-                .catch(() => {});
-        },
-        successTxt(TXT) {
-            this.$notify({
-                title: "成功",
-                message: TXT,
-                type: "success",
+        // 删除亲友
+        remove(kith_id, i) {
+            removeKith(kith_id).then(() => {
+                this.$notify({
+                    title: "成功",
+                    message: "删除成功",
+                    type: "success",
+                });
+                this.list.splice(i, 1);
             });
-            this.uid = "";
-            this.userInfo = "";
         },
-        getList() {
-            getWhitelist().then((res) => {
-                let list = res.data.data;
-                for (let i = list.length - 1; i > 0; i--) {
-                    for (let j = list.length - 1 - i; j > 0; j--) {
-                        if (list[j].level > list[j - 1].level) {
-                            let temp = list[j];
-                            list[j] = list[j - 1];
-                            list[j - 1] = temp;
-                        }
-                    }
-                }
-                this.list = list;
+        // 编辑备注
+        edit(kith_id, item) {
+            this.$prompt("请输入备注", "设置", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+            }).then(({ value }) => {
+                editKith(kith_id, { remark: value }).then(() => {
+                    this.$notify({
+                        title: "成功",
+                        message: "编辑成功",
+                        type: "success",
+                    });
+                    item.remark = value;
+                });
+            });
+        },
+        // 更新排序
+        sort() {
+            sortKith(this.sortArray).then(() => {
+                this.$notify({
+                    title: "成功",
+                    message: "排序更新成功",
+                    type: "success",
+                });
+            });
+        },
+    },
+    watch: {
+        uid: function (val) {
+            if (!val || isNaN(val)) return;
+            searchUserById(val).then((res) => {
+                this.userdata = res.data.data;
             });
         },
     },
     mounted: function () {
-        this.getList();
-        User.getAsset().then(() => {
-            User.isVIP().then((data) => {
-                this.isvip = data;
-            });
-            User.isPRO().then((data) => {
-                this.ispro = data;
-            });
+        this.loadList();
+        User.getAsset().then((asset) => {
+            if(User._isPRO(asset)){
+                this.identity = 'pro'
+            }else if(User._isVIP(asset)){
+                this.identity = 'vip'
+            }else{
+                this.identity = 'member'
+            }
         });
     },
     filters: {
         showAvatar: function (val) {
             return showAvatar(val, 80);
         },
+        authorLink,
     },
     components: { draggable },
 };
@@ -284,12 +280,4 @@ export default {
 
 <style scoped lang="less">
 @import "../assets/css/whitelist.less";
-</style>
-
-<style lang="less">
-@media screen and (max-width: @phone) {
-    .dashboard-whitelist-message-logout {
-        width: 300px;
-    }
-}
 </style>

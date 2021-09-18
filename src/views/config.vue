@@ -1,6 +1,6 @@
 <template>
     <div class="m-dashboard m-dashboard-config">
-        <h2 class="u-title"><i class="el-icon-setting"></i> 同步设置</h2>
+        <h2 class="u-title"><i class="el-icon-setting"></i> 全局设置</h2>
         <el-form label-position="left" label-width="120px">
             <!-- <el-form-item label="评论邮件通知">
                 <el-switch v-model="conf.cmt_email" active-color="#13ce66" active-text="开启" :active-value="1" :inactive-value="0"></el-switch>

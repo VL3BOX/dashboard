@@ -31,12 +31,15 @@
         }
     }
 
+    .clearfix;
     & > span {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        // display: flex;
+        // flex-wrap: wrap;
+        // justify-content: space-around;
+        .db;
     }
     .u-item {
+        .fl;
 
         .r(3px);
         background-color: #f9f9f9;
@@ -44,7 +47,7 @@
         margin: 0 10px 10px 0;
         padding: 40px 10px;
         width: 200px;
-        flex-grow: 1;
+        // flex-grow: 1;
 
         .x;
         .u-item-pic {
@@ -152,26 +155,43 @@
     }
 }
 
-// @media screen and (max-width: @phone) {
-//     .m-dashboard-whitelist {
-//         flex-direction: column;
-//         align-items: center;
-//         .m-dashboard-whitelist-add {
-//             order: 1;
-//         }
-//         .m-dashboard-whitelist-cont {
-//             padding-top: 20px;
-//             order: 2;
-//             .u-box {
-//                 flex-direction: column;
-//                 align-items: center;
-//                 .u-item {
-//                     width: 100%;
-//                 }
-//             }
-//             .m-drag .u-item {
-//                 width: 100%;
-//             }
-//         }
-//     }
-// }
+@media screen and (max-width: @phone) {
+    .m-whitelist {
+        flex-direction: column;
+        align-items: center;
+        .m-whitelist-sidebar {
+            order: 1;
+            .w(100%);
+        }
+        .m-whitelist-primary {
+            order: 2;
+            .mt(20px);
+            .w(100%);
+            .mr(0);
+
+            .u-item{
+                .mr(0);
+                .w(100%);
+                box-sizing: border-box;
+                float:none;
+                padding:10px;
+                min-height: 68px + 20px;
+
+                .pr;
+                padding-left:90px;
+                
+                .u-item-pic{
+                    .pa;
+                    .lt(10px);
+                }
+                *{
+                    .x(left);
+                }
+
+                .u-item-btns{
+                    .pa;.rb(10px);
+                }
+            }
+        }
+    }
+}

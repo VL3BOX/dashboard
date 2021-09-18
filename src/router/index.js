@@ -21,6 +21,7 @@ const whitelist = () => import("../views/whitelist.vue");
 const cooperation = () => import("../views/cooperation.vue");
 
 const invitation_creators = () => import("../views/callback/invitation_creators.vue");
+const invitation_kith = () => import("../views/callback/invitation_kith.vue");
 
 Vue.use(VueRouter);
 
@@ -45,6 +46,7 @@ const routes = [
     { name: "whitelist", path: "/whitelist", component: whitelist },
 
     { name: "invitation_creators", path: "/invitation/creators", component: invitation_creators },
+    { name: "invitation_kith", path: "/invitation/kith", component: invitation_kith },
 ];
 
 const router = new VueRouter({

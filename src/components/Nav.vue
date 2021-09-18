@@ -7,11 +7,11 @@
 
         <h5 class="u-title">我的仓库</h5>
         <div class="m-nav-group">
-            <router-link to="msg">
+            <router-link to="/msg">
                 <i class="el-icon-bell"></i>
                 <span>我的消息</span>
             </router-link>
-            <router-link to="fav">
+            <router-link to="/fav">
                 <i class="el-icon-star-off"></i>
                 <span>我的收藏</span>
             </router-link>
@@ -26,15 +26,15 @@
 
         <h5 class="u-title">权益中心</h5>
         <div class="m-nav-group">
-            <router-link to="boxcoin">
+            <router-link to="/boxcoin">
                 <i class="el-icon-coin"></i>
                 <span>我的盒币</span>
             </router-link>
-            <router-link to="packet">
+            <router-link to="/packet">
                 <i class="el-icon-wallet"></i>
                 <span>我的红包</span>
             </router-link>
-            <router-link to="order">
+            <router-link to="/order">
                 <i class="el-icon-shopping-bag-1"></i>
                 <span>我的订单</span>
             </router-link>
@@ -46,7 +46,7 @@
                 <i class="el-icon-user"></i>
                 <span>资料设置</span>
             </router-link>
-            <router-link to="whitelist">
+            <router-link to="/whitelist">
                 <i class="el-icon-ship"></i>
                 <span>亲友设置</span>
             </router-link>
@@ -54,7 +54,7 @@
                 <i class="el-icon-setting"></i>
                 <span>同步设置</span>
             </router-link> -->
-            <router-link to="cooperation">
+            <router-link to="/cooperation">
                 <i class="el-icon-reading"></i>
                 <span>签约作者</span>
             </router-link>

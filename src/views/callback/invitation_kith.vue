@@ -1,20 +1,23 @@
 <template>
-    <div class="m-callback m-invitation-creators">
+    <div class="m-callback m-invitation-kith">
         <h1 class="u-title">
             <i class="el-icon-message"></i> 邀请
         </h1>
-        <p class="u-desc">你收到了一条联合创作邀请。</p>
+        <p class="u-desc">你收到了一条亲友邀请。</p>
         <div class="u-post">
             <div class="u-post-avatar">
                 <img :src="userdata.user_avatar | showAvatar" />
             </div>
             <div class="u-post-info">
-                <a class="u-post-title" :href="data | postLink" target="_blank">{{data.post_title}}</a>
-                <a class="u-post-desc" :href="uid | authorLink" target="_blank">
-                    @
-                    <b>{{userdata.display_name}}</b>
+                <a
+                    class="u-post-title"
+                    :href="uid | authorLink"
+                    target="_blank"
+                >{{userdata.display_name}}</a>
+                <div class="u-post-desc">
+                    <i class="el-icon-date"></i>
                     <time class="u-post-time">{{info.updated | dateFormat}}</time>
-                </a>
+                </div>
             </div>
         </div>
         <div class="u-btns">
@@ -24,7 +27,7 @@
                 :disabled="isNotExist || alreadyAccept"
                 @click="accept"
             >接受</el-button>
-            <el-button type="info" icon="el-icon-close" @click="quit" :disabled="isNotExist">拒绝</el-button>
+            <el-button type="info" icon="el-icon-close" @click="refuse" :disabled="isNotExist">拒绝</el-button>
         </div>
     </div>
 </template>
@@ -32,11 +35,10 @@
 <script>
 import { Base64 } from "js-base64";
 import {
-    getPost,
     getUser,
-    quitUnionPost,
-    isExistPostInvitation,
-    acceptPostInvitation,
+    isExistKithInvitation,
+    refuseKithInvitation,
+    acceptKithInvitation,
 } from "@/service/callback.js";
 import {
     getLink,
@@ -45,12 +47,11 @@ import {
 } from "@jx3box/jx3box-common/js/utils";
 import dateFormat from "@/utils/dateFormat";
 export default {
-    name: "CallbackCreators",
+    name: "InvitationKith",
     props: [],
     components: {},
     data: function () {
         return {
-            data: "",
             userdata: "",
             record: null,
         };
@@ -61,11 +62,8 @@ export default {
                 Base64.decode(decodeURIComponent(this.$route.query.info))
             );
         },
-        id: function () {
-            return ~~this.info.source_id;
-        },
         uid: function () {
-            return this.data?.post_author;
+            return this.info?.source_id;
         },
         isNotExist: function () {
             return !this.record;
@@ -73,12 +71,9 @@ export default {
         alreadyAccept: function () {
             return !!(this.record && this.record.status);
         },
-        post_link: function () {
-            return getLink(this.data?.post_type, this.data?.ID);
-        },
     },
     watch: {
-        id: {
+        uid: {
             immediate: true,
             handler: function (val) {
                 if (val) {
@@ -90,44 +85,35 @@ export default {
     },
     methods: {
         loadData: function () {
-            getPost(this.id)
-                .then((res) => {
-                    this.data = res.data?.data;
-                })
-                .then(() => {
-                    getUser(this.uid).then((res) => {
-                        this.userdata = res.data?.data;
-                    });
-                });
-        },
-        quit: function () {
-            quitUnionPost(this.id).then(() => {
-                this.$message({
-                    message: "操作成功",
-                    type: "success",
-                });
+            getUser(this.uid).then((res) => {
+                this.userdata = res.data?.data;
             });
-            this.$router.push("/msg");
         },
         check: function () {
-            isExistPostInvitation(this.id).then((res) => {
+            isExistKithInvitation(this.uid).then((res) => {
                 this.record = res.data?.data;
             });
         },
-        accept: function () {
-            acceptPostInvitation(this.id).then((res) => {
+        refuse: function () {
+            refuseKithInvitation(this.uid).then(() => {
                 this.$message({
                     message: "操作成功",
                     type: "success",
                 });
-                location.href = this.post_link;
+            });
+            this.$router.push("/whitelist");
+        },
+        accept: function () {
+            acceptKithInvitation(this.uid).then((res) => {
+                this.$message({
+                    message: "操作成功",
+                    type: "success",
+                });
+                this.$router.push("/whitelist");
             });
         },
     },
     filters: {
-        postLink: function (post) {
-            return getLink(post.post_type, post.ID);
-        },
         authorLink,
         showAvatar,
         dateFormat: function (val) {
@@ -140,7 +126,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.m-invitation-creators {
+.m-invitation-kith {
     padding: 100px 0;
     max-width: 1280px;
     .auto(x);

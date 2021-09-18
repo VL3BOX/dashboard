@@ -1,5 +1,5 @@
 <template>
-    <div class="m-dashboard m-dashboard-profile m-dashboard-work m-dashboard-whitelist">
+    <div class="m-dashboard m-dashboard-profile m-dashboard-work m-dashboard-whitelist m-whitelist">
         <div class="m-whitelist-primary" v-loading="loading">
             <h2 class="m-whitelist-title u-title">
                 <i class="el-icon-ship"></i> 我的亲友

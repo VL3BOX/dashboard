@@ -143,23 +143,7 @@ export default {
                         {
                             value: "bbs",
                             label: "茶馆",
-                        },
-                        {
-                            value: "joke",
-                            label: "骚话",
-                        },
-                        {
-                            value: "emotion",
-                            label: "表情",
-                        },
-                        {
-                            value: "notice",
-                            label: "公告",
-                        },
-                        {
-                            value: "feedback",
-                            label: "反馈",
-                        },
+                        }
                     ],
                 },
                 {
@@ -187,12 +171,24 @@ export default {
                     label: "其它",
                     options: [
                         {
+                            value: "collection",
+                            label: "小册",
+                        },
+                        {
+                            value: "pz",
+                            label: "配装",
+                        },
+                        {
                             value: "item_plan",
                             label: "清单",
                         },
                         {
-                            value: "collection",
-                            label: "小册",
+                            value: "joke",
+                            label: "骚话",
+                        },
+                        {
+                            value: "emotion",
+                            label: "表情",
                         },
                         {
                             value: "question",

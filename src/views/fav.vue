@@ -168,7 +168,7 @@ export default {
                     ],
                 },
                 {
-                    label: "其它",
+                    label: "其它应用",
                     options: [
                         {
                             value: "collection",

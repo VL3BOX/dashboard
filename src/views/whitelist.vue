@@ -71,7 +71,8 @@
                 v-model.number="uid"
                 placeholder="输入UID添加"
                 suffix-icon="el-icon-search"
-                @keyup.enter.native="addKith"
+                @keyup.enter.native="search"
+                @change="search"
             ></el-input>
             <div class="u-list" v-if="userdata">
                 <div class="u-item">
@@ -84,13 +85,11 @@
                         <span class="u-item-uid">UID：{{ userdata.ID }}</span>
                         <b class="u-item-name">{{ userdata.display_name }}</b>
                     </div>
+                    <i class="u-item-exist" v-if="!isNewKith">已添加</i>
                 </div>
             </div>
             <div class="u-null" v-if="isNull">
                 <el-alert title="无搜索结果" type="info" show-icon :closable="false"></el-alert>
-            </div>
-            <div class="u-null" v-if="!isNewKith">
-                <el-alert title="已添加过该亲友" type="info" show-icon :closable="false"></el-alert>
             </div>
             <el-button
                 class="u-submit"
@@ -126,6 +125,7 @@ export default {
             // 侧边栏
             uid: "",
             userdata: "",
+            flag : false,
 
             // 上限
             limit_map : {
@@ -175,10 +175,21 @@ export default {
         },
         // 无搜索结果
         isNull: function () {
-            return this.uid && !this.userdata;
+            return this.uid && !this.userdata && this.flag;
         },
     },
     methods: {
+        // 搜索
+        search(val){
+            if (!val || isNaN(val)) return;
+
+            this.flag = false
+            searchUserById(val).then((res) => {
+                this.userdata = res.data.data;
+            }).finally(() => {
+                this.flag = true
+            })
+        },
         // 添加亲友
         addKith() {
             this.allowAppend && addKith(this.uid).then(() => {
@@ -249,12 +260,6 @@ export default {
         },
     },
     watch: {
-        uid: function (val) {
-            if (!val || isNaN(val)) return;
-            searchUserById(val).then((res) => {
-                this.userdata = res.data.data;
-            });
-        },
     },
     mounted: function () {
         this.loadList();

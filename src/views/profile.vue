@@ -208,7 +208,10 @@ export default {
         // 获取资料
         getProfile() {
             getProfile().then((res) => {
-                this.form = res.data.data;
+                let data = res.data.data;
+                let birth = new Date(data.birthday)
+                data.birthday = birth
+                this.form = data
             });
         },
     },

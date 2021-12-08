@@ -159,6 +159,8 @@ export default {
                     Base64.encode(JSON.stringify(item))
                 );
                 return `/dashboard/#/${item.type}/${item.subtype}?info=${info}`;
+            } else if(source_type == 'box_coin'){
+                return `/dashboard/#/boxcoin`;
             } else {
                 return getLink(source_type, source_id);
             }

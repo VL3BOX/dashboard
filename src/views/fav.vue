@@ -143,7 +143,11 @@ export default {
                         {
                             value: "bbs",
                             label: "茶馆",
-                        }
+                        },
+                        {
+                            value: "share",
+                            label: "捏脸",
+                        },
                     ],
                 },
                 {
@@ -171,16 +175,8 @@ export default {
                     label: "其它应用",
                     options: [
                         {
-                            value: "collection",
-                            label: "小册",
-                        },
-                        {
                             value: "pz",
                             label: "配装",
-                        },
-                        {
-                            value: "item_plan",
-                            label: "清单",
                         },
                         {
                             value: "joke",
@@ -189,6 +185,14 @@ export default {
                         {
                             value: "emotion",
                             label: "表情",
+                        },
+                        {
+                            value: "collection",
+                            label: "小册",
+                        },
+                        {
+                            value: "item_plan",
+                            label: "清单",
                         },
                         {
                             value: "question",

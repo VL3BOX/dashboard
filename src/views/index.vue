@@ -58,7 +58,7 @@
                 </div>
                 <div class="u-medals" v-if="medals && medals.length">
                     <span class="u-medal" v-for="(item, i) in medals" :key="i">
-                        <img :src="item.medal | showTeamMedal" :title="medal_map[item.medal]" />
+                        <img :src="item.medal | showMedalIcon" :title="item | showMedalDesc" />
                     </span>
                 </div>
             </div>
@@ -157,10 +157,6 @@
                 </el-col>
             </el-row>
         </div>
-
-        <!-- TODO: -->
-        <!-- 积分兑换好物推荐，滚屏 -->
-
         <div class="m-index-asset-logs">
             <h2 class="u-title">
                 <i class="el-icon-bell"></i> 资产动态
@@ -268,7 +264,6 @@ export default {
                 gift: 0, //礼品、商城订单
             },
             medals: [],
-            medal_map,
             frames,
             isSuperAuthor: false,
             asset_logs: [],
@@ -397,8 +392,11 @@ export default {
         formatCredit: function (val) {
             return val ? (val / 100).toFixed(2) : "0.00";
         },
-        showTeamMedal: function (val) {
-            return __imgPath + "image/medals/team/" + val + "-20.gif";
+        showMedalIcon: function (val) {
+            return __imgPath + "image/medals/user/" + val + ".gif";
+        },
+        showMedalDesc : function (item){
+            return item.medal_desc || medal_map[item.medal] || ''
         },
         showAvatar: function (val) {
             return (

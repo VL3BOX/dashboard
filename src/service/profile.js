@@ -63,8 +63,6 @@ function unbindOAuth(data) {
     return $_server.post("profile/oauth/unbind", data);
 }
 
-// 6.亲友设置
-
 
 export {
     updateProfile,

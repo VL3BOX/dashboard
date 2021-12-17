@@ -1,8 +1,12 @@
 <template>
     <nav class="m-nav">
-        <a class="m-nav-publish el-button el-button--primary" href="/publish" target="_blank">
-            <i class="el-icon-edit-outline"></i>
-            <span>创作中心</span>
+        <a
+            class="m-nav-publish el-button el-button--primary"
+            href="/publish"
+            target="_blank"
+        >
+            <!-- <i class="el-icon-edit-outline"></i> -->
+            <span>前往创作中心</span>
         </a>
 
         <h5 class="u-title">我的仓库</h5>
@@ -15,6 +19,7 @@
                 <i class="el-icon-star-off"></i>
                 <span>我的收藏</span>
             </router-link>
+            <!-- TODO: -->
             <!-- <a
                 href="/dashboard/#/feed"
                 class="disabled"
@@ -30,14 +35,22 @@
                 <i class="el-icon-coin"></i>
                 <span>我的盒币</span>
             </router-link>
+            <router-link to="/points">
+                <i class="el-icon-present"></i>
+                <span>积分兑换</span>
+            </router-link>
             <router-link to="/packet">
                 <i class="el-icon-wallet"></i>
                 <span>我的红包</span>
             </router-link>
-            <router-link to="/order">
+            <router-link to="/cooperation">
+                <i class="el-icon-reading"></i>
+                <span>签约作者</span>
+            </router-link>
+            <!-- <router-link to="/order">
                 <i class="el-icon-shopping-bag-1"></i>
                 <span>我的订单</span>
-            </router-link>
+            </router-link> -->
         </div>
 
         <h5 class="u-title">账号中心</h5>
@@ -46,20 +59,16 @@
                 <i class="el-icon-user"></i>
                 <span>资料设置</span>
             </router-link>
-            <router-link to="/cooperation">
-                <i class="el-icon-reading"></i>
-                <span>签约作者</span>
-            </router-link>
             <router-link to="/whitelist">
                 <i class="el-icon-ship"></i>
                 <span>亲友设置</span>
             </router-link>
-            <!-- <router-link to="config">
+            <router-link to="config">
                 <i class="el-icon-setting"></i>
                 <span>全局设置</span>
-            </router-link> -->
+            </router-link>
             <a :href="feedback" target="_blank">
-                <i class="el-icon-phone-outline"></i>
+                <i class="el-icon-message"></i>
                 <span>需要帮助</span>
                 <!-- <img class="u-blank" svg-inline src="../assets/img/nav/blank.svg"/> -->
             </a>

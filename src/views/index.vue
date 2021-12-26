@@ -179,12 +179,12 @@
 
                     <!-- 盒币 -->
                     <span class="u-boxcoin" v-if="item.type == 'boxcoin'">
-                        类型：[{{item.data.action_type | showBoxcoinType}}]
+                        <span class="u-boxcoin-type">{{item.data.action_type | showBoxcoinType}}</span>
                         <b
                             :class="{isNegative:item.data.count < 0}"
                         >{{item.data.count}}</b>
-                        ，
-                        补充信息：{{item.data.remark || '-'}}
+                        ,
+                        <span class="u-boxcoin-remark">{{item.data.remark || '-'}}</span>
                         <a
                             class="u-link"
                             :href="getPostLink(item)"

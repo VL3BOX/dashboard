@@ -273,7 +273,7 @@ export default {
             pay_status,
             pay_types,
 
-            date: dayjs().format("YYYYMMDD"),
+            date: dayjs().subtract(30, 'days').format("YYYYMMDD"),
         };
     },
     computed: {

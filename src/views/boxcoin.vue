@@ -1,27 +1,21 @@
 <template>
     <div class="m-credit m-boxcoin">
-        <h2 class="u-title">
-            <i class="el-icon-coin"></i> 我的盒币
-        </h2>
+        <h2 class="u-title"><i class="el-icon-coin"></i> 我的盒币</h2>
         <div class="m-credit-total m-packet-total">
             余额 :
             <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
-            <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/boxcoin" target="_blank">充值</a>
-            <el-button
-                class="u-btn"
-                type="primary"
-                @click="togglePullBox"
-                size="mini"
-                :disabled="!money"
-            >兑换</el-button>
+            <!-- <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/boxcoin" target="_blank">充值</a> -->
+            <el-button class="u-btn" type="primary" @click="togglePullBox" size="mini" :disabled="!money">兑换</el-button>
         </div>
         <div class="m-credit-pull" v-if="showPullBox">
+            <el-alert class="m-boxcoin-ac" type="error" show-icon :closable="false" v-if="breadcrumb" size="mini">
+                <slot name="title"><div v-html="breadcrumb"></div></slot>
+            </el-alert>
             <el-alert class="m-boxcoin-tip" title="1盒币可兑换1通宝，不可折现" type="warning" show-icon>
-                所有兑换申请将在每月{{start_date}}-{{end_date}}号统一处理，每月1-5日将不能提交兑换申请。默认通宝将通过直充进入游戏账号（不会计入充销），如发放为金山一卡通方式，则会发送卡密邮件至邮箱（请自行在
-                <a
-                    href="https://charge.xoyo.com/pay?item=jx3&way=kcard"
-                    target="_blank"
-                >一卡通充值页面</a>进行充值。）
+                所有兑换申请将在每月{{ start_date }}-{{
+                    end_date
+                }}号统一处理，每月1-5日将不能提交兑换申请。默认通宝将通过直充进入游戏账号（不会计入充销），如发放为金山一卡通方式，则会发送卡密邮件至邮箱（请自行在
+                <a href="https://charge.xoyo.com/pay?item=jx3&way=kcard" target="_blank">一卡通充值页面</a>进行充值。）
             </el-alert>
             <el-form label-position="left" label-width="80px" class="m-boxcoin-form">
                 <el-form-item label="游戏大区">
@@ -44,14 +38,8 @@
                     <el-input v-model="pull.email" placeholder="请务必填写正确的邮箱，如发放的是一卡通形式则会发送卡密邮件至此邮箱"></el-input>
                 </el-form-item>
                 <el-form-item label>
-                    <el-button
-                        type="primary"
-                        @click="openConfirmBox"
-                        :disabled="!ready || lockStatus"
-                    >提交申请</el-button>
-                    <span class="u-tip" v-if="!isAllowDate">
-                        <i class="el-icon-warning-outline"></i> 每月{{start_date}}-{{end_date}}日结算期间不能进行兑换申请
-                    </span>
+                    <el-button type="primary" @click="openConfirmBox" :disabled="!ready || lockStatus">提交申请</el-button>
+                    <span class="u-tip" v-if="!isAllowDate"> <i class="el-icon-warning-outline"></i> 每月{{ start_date }}-{{ end_date }}日结算期间不能进行兑换申请 </span>
                 </el-form-item>
             </el-form>
         </div>
@@ -69,38 +57,22 @@
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
                                 <td>{{ item.action_type | formatType }}</td>
-                                <td
-                                    class="u-count"
-                                    :class="{isNegative:Number(item.count)<0}"
-                                >
-                                    <span>{{Number(item.count)>0 ? '+' : ''}}</span>
+                                <td class="u-count" :class="{ isNegative: Number(item.count) < 0 }">
+                                    <span>{{ Number(item.count) > 0 ? "+" : "" }}</span>
                                     <b>{{ item.count }}</b>
                                 </td>
                                 <td>
-                                    <a
-                                        :href="getPostLink(item)"
-                                        target="_blank"
-                                        v-if="getPostLink(item)"
-                                    >
-                                        <i class="el-icon-link"></i> 点击查看
-                                    </a>
+                                    <a :href="getPostLink(item)" target="_blank" v-if="getPostLink(item)"> <i class="el-icon-link"></i> 点击查看 </a>
                                     <span v-else>-</span>
                                 </td>
                                 <td>
-                                    <span :title="item.remark">{{item.remark | formatRemark}}</span>
+                                    <span :title="item.remark">{{ item.remark | formatRemark }}</span>
                                 </td>
                                 <td>{{ item.created_at | formatDate }}</td>
                             </tr>
                         </table>
                     </div>
-                    <el-alert
-                        v-else
-                        class="m-credit-null m-packet-null"
-                        title="没有找到相关条目"
-                        type="info"
-                        center
-                        show-icon
-                    ></el-alert>
+                    <el-alert v-else class="m-credit-null m-packet-null" title="没有找到相关条目" type="info" center show-icon></el-alert>
                     <el-pagination
                         class="m-credit-pages m-packet-pages"
                         background
@@ -125,7 +97,7 @@
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
                                 <td>
-                                    <b>{{ item.cash}}通宝</b>
+                                    <b>{{ item.cash }}通宝</b>
                                 </td>
                                 <td>{{ item.zone }}</td>
                                 <td>{{ item.account }}</td>
@@ -136,21 +108,16 @@
                                         isProcessing: !item.status,
                                         isPending: item.status > 1,
                                     }"
-                                >{{ item.status | formatHistoryStatus }}</td>
+                                >
+                                    {{ item.status | formatHistoryStatus }}
+                                </td>
                                 <td>{{ item.remark }}</td>
                                 <td>{{ item.created_at | formatDate }}</td>
                             </tr>
                         </table>
                     </div>
 
-                    <el-alert
-                        v-else
-                        class="m-credit-null m-packet-null"
-                        title="没有找到相关条目"
-                        type="info"
-                        center
-                        show-icon
-                    ></el-alert>
+                    <el-alert v-else class="m-credit-null m-packet-null" title="没有找到相关条目" type="info" center show-icon></el-alert>
                     <el-pagination
                         class="m-credit-pages m-packet-pages"
                         background
@@ -172,17 +139,13 @@ import { getLink } from "@jx3box/jx3box-common/js/utils";
 import { showTime } from "@jx3box/jx3box-common/js/moment";
 import types from "@/assets/data/boxcoin_types.json";
 import zones from "@jx3box/jx3box-data/data/server/server_zones.json";
-import statusMap from '@/assets/data/boxcoin_status.json'
-import {
-    getBoxcoinCashHistory,
-    getBoxcoinGotHistory,
-    cashBoxcoin,
-    getBoxcoinConfig
-} from "@/service/boxcoin.js";
+import statusMap from "@/assets/data/boxcoin_status.json";
+import { getBoxcoinCashHistory, getBoxcoinGotHistory, cashBoxcoin, getBoxcoinConfig } from "@/service/boxcoin.js";
+import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc.js";
 export default {
     name: "Boxcoin",
     props: [],
-    data: function () {
+    data: function() {
         return {
             // 提现表单
             money: 0,
@@ -208,49 +171,53 @@ export default {
             // Options
             types,
             zones,
-            dates : []
+            dates: [],
+
+            // 杂项
+            breadcrumb: "",
         };
     },
     computed: {
-        params: function () {
+        params: function() {
             let params = {
                 pageIndex: this.page,
                 pageSize: this.per,
             };
             return params;
         },
-        hasLeft: function () {
+        hasLeft: function() {
             return this.money > 0;
         },
-        isAllowDate: function () {
+        isAllowDate: function() {
             let d = new Date().getDate();
-            return !this.dates.includes(d)
+            return !this.dates.includes(d);
         },
-        canCash: function () {
+        canCash: function() {
             return this.hasLeft && this.isAllowDate && this.money >= this.min;
         },
-        ready: function () {
+        ready: function() {
             return this.canCash && this.formStatus;
         },
-        start_date : function (){
-            return this.dates[0]
+        start_date: function() {
+            return this.dates[0];
         },
-        end_date : function (){
-            return this.dates[this.dates.length - 1]
-        }
+        end_date: function() {
+            return this.dates[this.dates.length - 1];
+        },
     },
     methods: {
         // 初始化
-        init: function () {
+        init: function() {
             getBoxcoinConfig().then((res) => {
-                this.dates = JSON.parse(res.data.data.val)
-            })
+                this.dates = JSON.parse(res.data.data.val);
+            });
             this.loadAsset();
             this.loadData();
+            this.loadAc();
         },
 
         // 加载列表数据
-        loadData: function () {
+        loadData: function() {
             this.loading = true;
             let fn = {
                 in: getBoxcoinGotHistory,
@@ -265,7 +232,7 @@ export default {
                     this.loading = false;
                 });
         },
-        changeType: function () {
+        changeType: function() {
             this.page = 1;
             this.loadData();
         },
@@ -274,18 +241,18 @@ export default {
         },
 
         // 提现操作
-        loadAsset: function () {
+        loadAsset: function() {
             User.getAsset().then((data) => {
                 this.money = data?.box_coin || 0;
             });
         },
-        togglePullBox: function () {
+        togglePullBox: function() {
             this.showPullBox = !this.showPullBox;
         },
-        canSelect: function (val) {
+        canSelect: function(val) {
             return ~~this.money >= ~~val;
         },
-        checkForm: function () {
+        checkForm: function() {
             for (let key in this.pull) {
                 if (!this.pull[key]) {
                     this.formStatus = false;
@@ -294,7 +261,7 @@ export default {
             }
             this.formStatus = true;
         },
-        openConfirmBox: function () {
+        openConfirmBox: function() {
             this.$alert(
                 `<div class="m-boxcoin-msg">大区：<b>${this.pull.zone}</b> <br/> 账号：<b>${this.pull.account}</b> <br/> 邮箱：<b>${this.pull.email}</b> <br/> 兑换：<b>${this.pull.cash}通宝</b></div>`,
                 "确认信息",
@@ -316,7 +283,7 @@ export default {
                                 })
                                 .then(() => {
                                     // 重载数据
-                                    this.loadData()
+                                    this.loadData();
                                 })
                                 .finally(() => {
                                     this.lockStatus = false;
@@ -327,15 +294,22 @@ export default {
                 }
             );
         },
+
+        // 杂项
+        loadAc: function() {
+            getBreadcrumb("dashboard-boxcoin").then((data) => {
+                this.breadcrumb = data;
+            });
+        },
     },
     filters: {
-        formatDate: function (val) {
+        formatDate: function(val) {
             return showTime(val);
         },
-        formatType: function (val) {
+        formatType: function(val) {
             return (val && types[val]) || "未知";
         },
-        formatRemark: function (str) {
+        formatRemark: function(str) {
             if (str) {
                 if (str.length > 12) {
                     return str.slice(12) + "...";
@@ -346,11 +320,11 @@ export default {
                 return "-";
             }
         },
-        formatHistoryStatus : function (val){
-            return statusMap[val] || val
-        }
+        formatHistoryStatus: function(val) {
+            return statusMap[val] || val;
+        },
     },
-    created: function () {
+    created: function() {
         this.tab = this.$route.query.tab || "in";
         this.init();
     },
@@ -364,7 +338,7 @@ export default {
         },
         pull: {
             deep: true,
-            handler: function () {
+            handler: function() {
                 this.checkForm();
             },
         },
@@ -376,4 +350,3 @@ export default {
 @import "../assets/css/packet.less";
 @import "../assets/css/boxcoin.less";
 </style>
-

@@ -1,6 +1,11 @@
-import { axios, $server, $_server } from "./axios";
-import { $cms } from "@jx3box/jx3box-common/js/https.js";
+import { $cms,$_https } from "@jx3box/jx3box-common/js/https.js";
+
+import axios from 'axios'
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
+
+const $server = $_https('server', {
+    proxy: false,
+})
 
 // 1.资料
 // -------------------------------
@@ -29,17 +34,17 @@ function getUserOverview(uid) {
 // 3.密码
 // -------------------------------
 function updatePassword(data) {
-    return $_server.post("profile/password", data);
+    return $cms().post("profile/password", data);
 }
 
 // 4.邮箱
 // -------------------------------
 function checkEmailStatus() {
-    return $_server.get("profile/email/check");
+    return $server.get("profile/email/check");
 }
 
 function checkEmailAvailable(email) {
-    return $_server.get("profile/email/available", {
+    return $server.get("profile/email/available", {
         params: {
             user_email: email,
         },
@@ -47,20 +52,20 @@ function checkEmailAvailable(email) {
 }
 
 function sendBindEmail(data) {
-    return $_server.post("profile/email/bind", data);
+    return $server.post("profile/email/bind", data);
 }
 
 function sendVerifyEmail() {
-    return $_server.post("profile/email/verify");
+    return $server.post("profile/email/verify");
 }
 
 // 5.互联
 function checkOAuth() {
-    return $_server.get("profile/oauth/check");
+    return $server.get("profile/oauth/check");
 }
 
 function unbindOAuth(data) {
-    return $_server.post("profile/oauth/unbind", data);
+    return $server.post("profile/oauth/unbind", data);
 }
 
 

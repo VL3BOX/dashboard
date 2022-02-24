@@ -1,51 +1,51 @@
-import { $_pay } from "./axios";
+import { $pay } from "@jx3box/jx3box-common/js/https";
 
 function getMyPacket() {
-    return $_pay.get("/api/vip/i");
+    return $pay().get("/api/vip/i");
 }
 
 function getMyPacketList(params) {
-    return $_pay.get("/api/red-packet/history", {
+    return $pay().get("/api/red-packet/history", {
         params: params,
     });
 }
 
 function getMyPacketHistory(params) {
-    return $_pay.get("/api/cash-out/history", {
+    return $pay().get("/api/cash-out/history", {
         params: params,
     });
 }
 
 function getAllPacket(params) {
-    return $_pay.get("/api/red-packet/list", {
+    return $pay().get("/api/red-packet/list", {
         params: params,
     });
 }
 
 function getAllHistory(params) {
-    return $_pay.get("/api/cash-out/manage/list", {
+    return $pay().get("/api/cash-out/manage/list", {
         params: params,
     });
 }
 
 function pullMyPacket(data) {
-    return $_pay.post("/api/cash-out/red-packet", data);
+    return $pay().post("/api/cash-out/red-packet", data);
 }
 
 function checkPacket(id, data, params) {
-    return $_pay.put(`/api/cash-out/manage/${id}/status`, data, {
+    return $pay().put(`/api/cash-out/manage/${id}/status`, data, {
         params: params,
     });
 }
 
 function pushPacket(data) {
-    return $_pay.post("/api/red-packet/giving", "", {
+    return $pay().post("/api/red-packet/giving", "", {
         params: data,
     });
 }
 
 function recyclePacket(params) {
-    return $_pay.delete("/api/red-packet/recycle", {
+    return $pay().delete("/api/red-packet/recycle", {
         params,
     });
 }

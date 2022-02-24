@@ -49,7 +49,7 @@
     </div>
 </template>
 <script>
-import { getOrderslist } from "@/service/order.js";
+import { getOrderList } from "@/service/order.js";
 import { products, pay_status, pay_types } from "@/assets/data/pay_order.json";
 import {showTime } from '@jx3box/jx3box-common/js/moment'
 export default {
@@ -73,7 +73,7 @@ export default {
     },
     methods: {
         loadData() {
-            getOrderslist(this.params).then((res) => {
+            getOrderList(this.params).then((res) => {
                 this.list = res.data.data.list;
                 this.total = res.data.data.page.total;
             });

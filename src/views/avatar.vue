@@ -131,7 +131,7 @@ export default {
             if (process.env.NODE_ENV == "development") {
                 return `temp/avatar/${name}/${filename}`;
             }
-            return __imgPath + `avatar/${name}/${filename}`;
+            return __imgPath + `avatar/images/${name}/${filename}`;
         },
         selectFrame: function(item) {
             if (!item) {

@@ -169,8 +169,10 @@ export default {
             });
         },
         showFrame: function (name, filename) {
+            if(process.env.NODE_ENV == 'development'){
+                return `temp/avatar/${name}/${filename}`;
+            }
             return __imgPath + `image/avatar/${name}/${filename}`;
-            return `temp/avatar/${name}/${filename}`;
         },
         selectFrame: function (item) {
             if (!item) {
@@ -198,7 +200,7 @@ export default {
             return showAvatar(val, "l");
         },
         showSmallAvatar: function (val) {
-            return getThumbnail(val, 68, true);
+            return showAvatar(val, 68, true);
         },
     },
     created: function () {

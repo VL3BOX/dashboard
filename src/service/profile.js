@@ -25,7 +25,8 @@ function uploadAvatar(data) {
     return $cms().post("/api/cms/upload/avatar", data);
 }
 function getFrames() {
-    return axios.get(__imgPath + "data/user_avatar_frame.json");
+    let url = process.env.NODE_ENV == 'development'?'/temp/user_avatar_frame.json':(__imgPath + "data/user_avatar_frame.json")
+    return axios.get(url)
 }
 function getUserOverview(uid) {
     return $cms().get(`/api/cms/user/${uid}/info`);

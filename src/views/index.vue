@@ -1,16 +1,7 @@
 <template>
     <div class="m-dashboard m-dashboard-index">
         <div class="m-basicinfo">
-            <i class="u-avatar">
-                <img
-                    class="u-avatar-pic"
-                    :src="info.user_avatar | showAvatar"
-                    :class="{ isCircle }"
-                />
-                <i class="u-avatar-frame" v-if="frameName">
-                    <img :src="frameUrl" />
-                </i>
-            </i>
+            <Avatar class="u-avatar" :uid="uid" :url="info.user_avatar" :size="120" :frame="info.user_avatar_frame" />
             <div class="u-info">
                 <h1 class="u-name">
                     <span class="u-name-txt">{{ info.display_name }}</span>
@@ -227,15 +218,15 @@ import User from "@jx3box/jx3box-common/js/user";
 import { getThumbnail, getLink } from "@jx3box/jx3box-common/js/utils";
 import { getUserMedals, getUserInfo, getMyAssetLogs } from "@/service/index.js";
 import { getSuperAuthorState } from "@/service/cooperation";
-import { getFrames } from "@/service/profile.js";
 import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
 import { showDate } from "@jx3box/jx3box-common/js/moment";
-import frames from "@jx3box/jx3box-common/data/user_avatar_frame.json";
 import asset_types from "@/assets/data/asset_log_types.json";
 import boxcoin_types from "@/assets/data/boxcoin_types.json";
 import { products, pay_status, pay_types } from "@/assets/data/pay_order.json";
 import dayjs from "dayjs";
+import avatar from './avatar.vue';
 export default {
+    components: { avatar },
     name: "index",
     props: [],
     data: function () {
@@ -264,7 +255,6 @@ export default {
                 gift: 0, //礼品、商城订单
             },
             medals: [],
-            frames,
             isSuperAuthor: false,
             asset_logs: [],
             asset_types,
@@ -294,25 +284,6 @@ export default {
             } else {
                 return "";
             }
-        },
-        frameName: function () {
-            return this.info &&
-                this.info.user_avatar_frame &&
-                this.frames[this.info.user_avatar_frame]
-                ? this.info.user_avatar_frame
-                : "";
-        },
-        frameUrl: function () {
-            if (this.frameName) {
-                let fileName = this.frames[this.frameName].files.m.file;
-                return __imgPath + `image/avatar/${this.frameName}/${fileName}`;
-            }
-            return "";
-        },
-        isCircle: function () {
-            return (
-                this.frameName && this.frames[this.frameName].style == "circle"
-            );
         },
         super_author_icon: function () {
             return __imgPath + "image/user/" + "superauthor.svg";
@@ -374,7 +345,6 @@ export default {
             this.loadUserInfo();
             this.loadAsset();
             this.loadMedals();
-            this.loadFrames();
             this.checkSuperAuthor();
             this.loadAssetLogs();
         },

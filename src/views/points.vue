@@ -21,6 +21,7 @@
 					</el-table-column>
 					<el-table-column prop="count" label="源于作品">
 						<a class="u-link" :href="getPostLink(scope.row)" target="_blank" v-if="getPostLink(scope.row)" slot-scope="scope"><i class="el-icon-link"></i> 点击查看 </a>
+						<span v-else> - </span>
 					</el-table-column>
 					<el-table-column label="备注">
 						<template slot-scope="scope">{{ formatRemark(scope.row.remark) }}</template>

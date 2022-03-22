@@ -70,7 +70,7 @@ export default {
 	watch: {},
 	methods: {
 		loadAsset: function () {
-			User.getAsset().then((data) => { 
+			User.getAsset().then((data) => {
 				this.money = data?.points || 0;
 			});
 		},
@@ -79,13 +79,13 @@ export default {
 			getPointsHistory(this.params)
 				.then((res) => {
 					this.list = res.list;
-					this.total = res.page.total; 
+					this.total = res.page.total;
 				})
 				.finally(() => {
 					this.loading = false;
 				});
 		},
-		getPostLink(item) { 
+		getPostLink(item) {
 			return getLink(item.post_type, item.article_id);
 		},
 		formatType: function (val) {

@@ -79,15 +79,13 @@ export default {
 			getPointsHistory(this.params)
 				.then((res) => {
 					this.list = res.list;
-					this.total = res.page.total;
-					console.log(res);
+					this.total = res.page.total; 
 				})
 				.finally(() => {
 					this.loading = false;
 				});
 		},
-		getPostLink(item) {
-			console.log(item);
+		getPostLink(item) { 
 			return getLink(item.post_type, item.article_id);
 		},
 		formatType: function (val) {

@@ -12,6 +12,10 @@ function getUserInfo(uid) {
     return $cms().get(`/api/cms/user/${uid}/info`);
 }
 
+function getMyInfo(){
+    return $cms().get(`/api/cms/user/my/info`);
+}
+
 function getMyAssetLogs(start_date){
     return $pay().get(`/api/my/asserts/history`,{
         params : {
@@ -21,4 +25,4 @@ function getMyAssetLogs(start_date){
     })
 }
 
-export { getMyAsset, getUserMedals, getUserInfo ,getMyAssetLogs};
+export { getMyAsset, getUserMedals, getUserInfo ,getMyAssetLogs, getMyInfo};

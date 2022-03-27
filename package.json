@@ -11,8 +11,8 @@
         "update": "npm install --registry https://registry.npmjs.org @jx3box/jx3box-common-ui@latest @jx3box/jx3box-common@latest @jx3box/jx3box-data@latest"
     },
     "dependencies": {
-        "@jx3box/jx3box-common": "^7.0.19",
-        "@jx3box/jx3box-common-ui": "^5.5.21",
+        "@jx3box/jx3box-common": "^7.0.21",
+        "@jx3box/jx3box-common-ui": "^5.5.25",
         "@jx3box/jx3box-data": "^1.8.3",
         "axios": "^0.21.1",
         "core-js": "^3.4.3",

@@ -28,17 +28,20 @@
                     <span class="u-superauth" v-if="isSuperAuthor" title="签约作者">
                         <img :src="super_author_icon" alt="superAuthor" />
                     </span>
-                    <!-- TODO:是否邮箱/手机验证 -->
-                    <span class="u-group">
-                        <em>Group</em>
-                        <b>{{ group | showGroupName }}</b>
-                    </span>
-                    <!-- TODO: 等级 -->
                     <span class="u-level">
                         <el-tooltip :content="`当前经验 ${info.experience || 0}`">
                             <em>Level</em>
                         </el-tooltip>
-                        <b>{{ level }}</b>
+                        <b>Lv.{{ level }}</b>
+                    </span>
+                    <span class="u-group">
+                        <em>Verify</em>
+                        <a href="/dashboard/#/email"><i class="el-icon-message"></i> {{ ~~info.verify_email ? '邮箱已验证' : '邮箱未验证' }}</a>
+                        <a href="/dashboard/#/phone"><i class="el-icon-mobile-phone"></i> {{ ~~info.verify_phone ? '手机已绑定' : '手机未绑定' }}</a>
+                    </span>
+                    <span class="u-group" v-if="group > 60">
+                        <em>Group</em>
+                        <b>{{ group | showGroupName }}</b>
                     </span>
                 </div>
                 <div class="u-medals" v-if="medals && medals.length">
@@ -287,7 +290,6 @@ export default {
             this.loadUserInfo();
             this.loadAsset();
             this.loadMedals();
-            this.checkSuperAuthor();
             this.loadAssetLogs();
         },
         getPostLink: function(item) {

@@ -37,7 +37,7 @@
             </router-link>
             <router-link to="/points">
                 <i class="el-icon-present"></i>
-                <span>积分兑换</span>
+                <span>我的积分</span>
             </router-link>
             <router-link to="/packet">
                 <i class="el-icon-wallet"></i>

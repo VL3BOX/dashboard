@@ -28,15 +28,21 @@
                     <span class="u-superauth" v-if="isSuperAuthor" title="签约作者">
                         <img :src="super_author_icon" alt="superAuthor" />
                     </span>
-                    <!-- TODO:是否邮箱/手机验证 -->
+                    <span class="u-level">
+                        <el-tooltip :content="`当前经验 ${info.experience || 0}`">
+                            <em>Level</em>
+                        </el-tooltip>
+                        <b>Lv.{{ level }}</b>
+                    </span>
                     <span class="u-group">
+                        <em>Verify</em>
+                        <a href="/dashboard/#/email"><i class="el-icon-message"></i> {{ ~~info.verify_email ? '邮箱已验证' : '邮箱未验证' }}</a>
+                        <a href="/dashboard/#/phone"><i class="el-icon-mobile-phone"></i> {{ ~~info.verify_phone ? '手机已绑定' : '手机未绑定' }}</a>
+                    </span>
+                    <span class="u-group" v-if="group > 60">
                         <em>Group</em>
                         <b>{{ group | showGroupName }}</b>
                     </span>
-                    <!-- TODO: 等级 -->
-                    <!-- <span class="u-level">
-                        <em>Level</em><b>{{ level }}</b>
-                    </span>-->
                 </div>
                 <div class="u-medals" v-if="medals && medals.length">
                     <span class="u-medal" v-for="(item, i) in medals" :key="i">
@@ -146,203 +152,202 @@
 </template>
 
 <script>
-    import { __userGroup, __imgPath, default_avatar } from "@jx3box/jx3box-common/data/jx3box.json";
-    import User from "@jx3box/jx3box-common/js/user";
-    import { getThumbnail, getLink } from "@jx3box/jx3box-common/js/utils";
-    import { getUserMedals, getUserInfo, getMyAssetLogs } from "@/service/index.js";
-    import { getSuperAuthorState } from "@/service/cooperation";
-    import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
-    import { showDate } from "@jx3box/jx3box-common/js/moment";
-    import asset_types from "@/assets/data/asset_log_types.json";
-    import boxcoin_types from "@/assets/data/boxcoin_types.json";
-    import { products, pay_status, pay_types } from "@/assets/data/pay_order.json";
-    import dayjs from "dayjs";
-    import avatar from "./avatar.vue";
-    export default {
-        components: { avatar },
-        name: "index",
-        props: [],
-        data: function() {
-            return {
-                uid: User.getInfo().uid,
-                group: User.getInfo().group,
-                info: {
-                    uid: 8,
-                    name: "匿名",
-                    user_avatar: "https://img.jx3box.com/image/common/avatar.png",
-                    user_avatar_frame: "default",
-                    bio: "-",
-                },
-                asset: {
-                    expire_date: "2022-03-07T00:00:00+08:00",
-                    total_day: 395,
-                    was_vip: 0,
+import { __userGroup, __imgPath, default_avatar } from "@jx3box/jx3box-common/data/jx3box.json";
+import User from "@jx3box/jx3box-common/js/user";
+import { getThumbnail, getLink } from "@jx3box/jx3box-common/js/utils";
+import { getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo } from "@/service/index.js";
+import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
+import { showDate } from "@jx3box/jx3box-common/js/moment";
+import asset_types from "@/assets/data/asset_log_types.json";
+import boxcoin_types from "@/assets/data/boxcoin_types.json";
+import { products, pay_status, pay_types } from "@/assets/data/pay_order.json";
+import dayjs from "dayjs";
+import avatar from "./avatar.vue";
+export default {
+    components: { avatar },
+    name: "index",
+    props: [],
+    data: function() {
+        return {
+            uid: User.getInfo().uid,
+            group: User.getInfo().group,
+            info: {
+                uid: 8,
+                name: "匿名",
+                user_avatar: "https://img.jx3box.com/image/common/avatar.png",
+                user_avatar_frame: "default",
+                bio: "-",
+                sign: 0,
+            },
+            asset: {
+                expire_date: "2022-03-07T00:00:00+08:00",
+                total_day: 395,
+                was_vip: 0,
 
-                    pro_expire_date: "2022-03-07T00:00:00+08:00",
-                    pro_total_day: 366,
-                    was_pro: 0,
+                pro_expire_date: "2022-03-07T00:00:00+08:00",
+                pro_total_day: 366,
+                was_pro: 0,
 
-                    box_coin: 0, //盒币
-                    red_packet: 0, //红包
-                    points: 0, //积分
-                    gift: 0, //礼品、商城订单
-                },
-                medals: [],
-                isSuperAuthor: false,
-                asset_logs: [],
-                asset_types,
-                boxcoin_types,
-                products,
-                pay_status,
-                pay_types,
+                box_coin: 0, //盒币
+                red_packet: 0, //红包
+                points: 0, //积分
+                gift: 0, //礼品、商城订单
+            },
+            medals: [],
+            asset_logs: [],
+            asset_types,
+            boxcoin_types,
+            products,
+            pay_status,
+            pay_types,
 
-                date: dayjs()
-                    .subtract(30, "days")
-                    .format("YYYYMMDD"),
-            };
+            date: dayjs()
+                .subtract(30, "days")
+                .format("YYYYMMDD"),
+        };
+    },
+    computed: {
+        isVIP: function() {
+            return User._isVIP(this.asset) || false;
         },
-        computed: {
-            isVIP: function() {
-                return User._isVIP(this.asset) || false;
-            },
-            isPRO: function() {
-                return User._isPRO(this.asset) || false;
-            },
-            vipType: function() {
-                return this.isPRO ? "PRO" : "PRE";
-            },
-            expire_date: function() {
-                if (this.isPRO) {
-                    return showDate(this.asset.pro_expire_date);
-                } else if (this.isVIP) {
-                    return showDate(this.asset.expire_date);
-                } else {
-                    return "";
+        isPRO: function() {
+            return User._isPRO(this.asset) || false;
+        },
+        vipType: function() {
+            return this.isPRO ? "PRO" : "PRE";
+        },
+        expire_date: function() {
+            if (this.isPRO) {
+                return showDate(this.asset.pro_expire_date);
+            } else if (this.isVIP) {
+                return showDate(this.asset.expire_date);
+            } else {
+                return "";
+            }
+        },
+        super_author_icon: function() {
+            return __imgPath + "image/user/" + "superauthor.svg";
+        },
+        dates: function() {
+            return [
+                {
+                    label: "今天",
+                    value: dayjs().format("YYYYMMDD"),
+                },
+                {
+                    label: "7天",
+                    value: dayjs()
+                        .subtract(7, "days")
+                        .format("YYYYMMDD"),
+                },
+                {
+                    label: "30天",
+                    value: dayjs()
+                        .subtract(30, "days")
+                        .format("YYYYMMDD"),
+                },
+            ];
+        },
+        isSuperAuthor: function (){
+            return !!this.info?.sign
+        },
+        level: function (){
+            return User.getLevel(this.info?.experience || 0)
+        }
+    },
+    methods: {
+        loadUserInfo: function() {
+            getMyInfo().then((res) => {
+                if (res.data.data) {
+                    this.info = res.data.data;
                 }
-            },
-            super_author_icon: function() {
-                return __imgPath + "image/user/" + "superauthor.svg";
-            },
-            dates: function() {
-                return [
-                    {
-                        label: "今天",
-                        value: dayjs().format("YYYYMMDD"),
-                    },
-                    {
-                        label: "7天",
-                        value: dayjs()
-                            .subtract(7, "days")
-                            .format("YYYYMMDD"),
-                    },
-                    {
-                        label: "30天",
-                        value: dayjs()
-                            .subtract(30, "days")
-                            .format("YYYYMMDD"),
-                    },
-                ];
-            },
+            });
         },
-        methods: {
-            loadUserInfo: function() {
-                getUserInfo(this.uid).then((res) => {
-                    if (res.data.data) {
-                        this.info = res.data.data;
-                    }
-                });
-            },
-            loadAsset: function() {
-                User.getAsset().then((data) => {
-                    this.asset = data;
-                });
-            },
-            loadMedals: function() {
-                if (!this.uid) return;
-                getUserMedals(this.uid).then((res) => {
-                    this.medals = res.data.data || [];
-                });
-            },
-            loadFrames: function() {
-                getFrames().then((res) => {
-                    if (res.data) {
-                        this.frames = res.data || [];
-                    }
-                });
-            },
-            checkSuperAuthor: function() {
-                getSuperAuthorState(this.uid).then((res) => {
-                    this.isSuperAuthor = res.data.data;
-                });
-            },
-            loadAssetLogs: function() {
-                getMyAssetLogs(this.date).then((res) => {
-                    this.asset_logs = res.data.data.list || [];
-                });
-            },
-            init: function() {
-                this.loadUserInfo();
-                this.loadAsset();
-                this.loadMedals();
-                this.checkSuperAuthor();
-                this.loadAssetLogs();
-            },
-            getPostLink: function(item) {
-                return getLink(item.data.post_type, item.data.post_id);
-            },
+        loadAsset: function() {
+            User.getAsset().then((data) => {
+                this.asset = data;
+            });
         },
-        filters: {
-            groupicon: function(groupid) {
-                return __imgPath + "image/group/" + groupid + ".svg";
-            },
-            showGroupName: function(val) {
-                return val ? __userGroup[val] : "游客";
-            },
-            formatCredit: function(val) {
-                return val ? (val / 100).toFixed(2) : "0.00";
-            },
-            showMedalIcon: function(val) {
-                return __imgPath + "image/medals/user/" + val + ".gif";
-            },
-            showMedalDesc: function(item) {
-                return item.medal_desc || medal_map[item.medal] || "";
-            },
-            showAvatar: function(val) {
-                return (val && getThumbnail(val, 120, true)) || getThumbnail(default_avatar, 120, true);
-            },
-            showAssetType: function(val) {
-                return asset_types[val]["label"] || val;
-            },
-            showAssetIcon: function(val) {
-                return asset_types[val]["icon"] || "el-icon-box";
-            },
-            showBoxcoinType: function(val) {
-                return boxcoin_types[val] || val;
-            },
-            showProduct: function(val) {
-                return products[val];
-            },
-            showPayStatus: function(val) {
-                return pay_status[val];
-            },
-            showPayType: function(val) {
-                return pay_types[val];
-            },
-            showPrice: function(val) {
-                return val ? (val / 100).toFixed(2) : "0.00";
-            },
+        loadMedals: function() {
+            if (!this.uid) return;
+            getUserMedals(this.uid).then((res) => {
+                this.medals = res.data.data || [];
+            });
         },
-        mounted: function() {
-            this.init();
+        loadFrames: function() {
+            getFrames().then((res) => {
+                if (res.data) {
+                    this.frames = res.data || [];
+                }
+            });
         },
-        watch: {
-            date: function() {
-                this.loadAssetLogs();
-            },
+        loadAssetLogs: function() {
+            getMyAssetLogs(this.date).then((res) => {
+                this.asset_logs = res.data.data.list || [];
+            });
         },
-    };
+        init: function() {
+            this.loadUserInfo();
+            this.loadAsset();
+            this.loadMedals();
+            this.loadAssetLogs();
+        },
+        getPostLink: function(item) {
+            return getLink(item.data.post_type, item.data.post_id);
+        },
+    },
+    filters: {
+        groupicon: function(groupid) {
+            return __imgPath + "image/group/" + groupid + ".svg";
+        },
+        showGroupName: function(val) {
+            return val ? __userGroup[val] : "游客";
+        },
+        formatCredit: function(val) {
+            return val ? (val / 100).toFixed(2) : "0.00";
+        },
+        showMedalIcon: function(val) {
+            return __imgPath + "image/medals/user/" + val + ".gif";
+        },
+        showMedalDesc: function(item) {
+            return item.medal_desc || medal_map[item.medal] || "";
+        },
+        showAvatar: function(val) {
+            return (val && getThumbnail(val, 120, true)) || getThumbnail(default_avatar, 120, true);
+        },
+        showAssetType: function(val) {
+            return asset_types[val]["label"] || val;
+        },
+        showAssetIcon: function(val) {
+            return asset_types[val]["icon"] || "el-icon-box";
+        },
+        showBoxcoinType: function(val) {
+            return boxcoin_types[val] || val;
+        },
+        showProduct: function(val) {
+            return products[val];
+        },
+        showPayStatus: function(val) {
+            return pay_status[val];
+        },
+        showPayType: function(val) {
+            return pay_types[val];
+        },
+        showPrice: function(val) {
+            return val ? (val / 100).toFixed(2) : "0.00";
+        },
+    },
+    mounted: function() {
+        this.init();
+    },
+    watch: {
+        date: function() {
+            this.loadAssetLogs();
+        },
+    },
+};
 </script>
 
 <style lang="less">
-    @import "../assets/css/index.less";
+@import "../assets/css/index.less";
 </style>

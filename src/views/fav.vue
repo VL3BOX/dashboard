@@ -18,8 +18,7 @@
 			<ul class="m-dashboard-box-list" v-if="data.length">
 				<li v-for="(item, i) in data" :key="i">
 					<i class="u-icon">
-						<img v-if="item.post_publish" svg-inline src="../assets/img/works/repo.svg" />
-						<img v-else svg-inline src="../assets/img/works/draft.svg" />
+						<img svg-inline src="../assets/img/works/repo.svg" />
 					</i>
 					<a class="u-title" target="_blank" :href="getLink(item.post_type, item.post_id)">{{ item.post_title || "无标题" }}</a>
 					<div class="u-desc">
@@ -54,6 +53,7 @@ export default {
 	props: [],
 	data: function () {
 		return {
+            loading : false,
 			data: [],
 			total: 1,
 			page: 1,
@@ -88,10 +88,6 @@ export default {
 							value: "bbs",
 							label: "茶馆",
 						},
-						{
-							value: "share",
-							label: "捏脸",
-						},
 					],
 				},
 				{
@@ -118,6 +114,10 @@ export default {
 				{
 					label: "其它应用",
 					options: [
+                        {
+							value: "share",
+							label: "捏脸",
+						},
 						{
 							value: "pz",
 							label: "配装",
@@ -166,12 +166,15 @@ export default {
 	},
 	methods: {
 		loadData() {
+            this.loading = true
 			getMyFavs(this.params).then((res) => {
 				if (res) {
 					this.data = res.list;
 					this.total = res.page.total;
 				}
-			});
+			}).finally(() => {
+                this.loading = false
+            })
 		},
 		searchPost() {
 			this.page_change(1);

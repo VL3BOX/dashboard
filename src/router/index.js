@@ -1,6 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+Vue.use(VueRouter)
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
+
 const index = () => import("../views/index.vue");
 
 const msg = () => import("../views/msg.vue");

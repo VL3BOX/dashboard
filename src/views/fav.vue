@@ -1,5 +1,5 @@
 <template>
-    <div class="m-dashboard m-dashboard-work m-dashboard-fav" v-loading="loading">
+    <div class="m-dashboard m-dashboard-work m-dashboard-fav">
         <div class="m-dashboard-work-header">
             <h2 class="u-title"><i class="el-icon-star-off"></i> 我的收藏</h2>
             <el-select v-model="searchType" placeholder="类型过滤" class="u-filter" size="small">
@@ -24,22 +24,15 @@
             <ul class="m-dashboard-box-list" v-if="data.length">
                 <li v-for="(item, i) in data" :key="i">
                     <i class="u-icon">
-                        <img v-if="item.post_publish" svg-inline src="../assets/img/works/repo.svg" />
-                        <img v-else svg-inline src="../assets/img/works/draft.svg" />
+                        <img svg-inline src="../assets/img/works/repo.svg" />
                     </i>
                     <a class="u-title" target="_blank" :href="getLink(item.post_type, item.post_id)">{{
                         item.post_title || "无标题"
                     }}</a>
                     <div class="u-desc">
-                        <span v-text="getTypeLabel(item.post_type)"></span>
-                        <span v-if="item.created">
-                            | 发布于:
-                            {{ dateFormat(item.created) }}</span
-                        >
-                        <span v-if="item.updated">
-                            | 最后更新:
-                            {{ dateFormat(item.updated) }}</span
-                        >
+                        <span><i class="el-icon-date"></i>
+                            于 {{ dateFormat(item.created) }} 加入收藏
+                        </span>
                     </div>
                     <el-button-group class="u-action">
                         <el-button size="mini" icon="el-icon-delete" title="取消收藏" @click="del(item.id)"></el-button>
@@ -65,124 +58,51 @@
 import { getMyFavs, delFav } from "../service/fav";
 import { getLink, getTypeLabel } from "@jx3box/jx3box-common/js/utils";
 import dateFormat from "../utils/dateFormat";
-
+import { __postType, __wikiType, __appType } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "fav",
     props: [],
-    data: function () {
+    data: function() {
         return {
             loading: false,
             data: [],
-
             total: 1,
             page: 1,
             per: 10,
-
             search: "",
             searchType: "",
-            
             options: [
                 {
                     label: "文章作品",
-                    options: [
-                        {
-                            value: "macro",
-                            label: "宏库",
-                        },
-                        {
-                            value: "jx3dat",
-                            label: "插件",
-                        },
-                        {
-                            value: "fb",
-                            label: "副本",
-                        },
-                        {
-                            value: "bps",
-                            label: "职业",
-                        },
-                        {
-                            value: "tool",
-                            label: "工具",
-                        },
-                        {
-                            value: "bbs",
-                            label: "茶馆",
-                        },
-                        {
-                            value: "share",
-                            label: "捏脸",
-                        },
-                    ],
+                    options: Object.entries(__postType).map((item) => {
+                        return { value: item[0], label: item[1] };
+                    }),
                 },
                 {
                     label: "百科词条",
-                    options: [
-                        {
-                            value: "achievement",
-                            label: "成就",
-                        },
-                        {
-                            value: "item",
-                            label: "物品",
-                        },
-                        {
-                            value: "quest",
-                            label: "任务",
-                        },
-                        {
-                            value: "knowledge",
-                            label: "通识",
-                        },
-                    ],
+                    options: Object.entries(__wikiType).map((item) => {
+                        return { value: item[0], label: item[1] };
+                    }),
                 },
                 {
                     label: "其它应用",
-                    options: [
-                        {
-                            value: "pz",
-                            label: "配装",
-                        },
-                        {
-                            value: "joke",
-                            label: "骚话",
-                        },
-                        {
-                            value: "emotion",
-                            label: "表情",
-                        },
-                        {
-                            value: "collection",
-                            label: "小册",
-                        },
-                        {
-                            value: "item_plan",
-                            label: "清单",
-                        },
-                        {
-                            value: "question",
-                            label: "题目",
-                        },
-                        {
-                            value: "paper",
-                            label: "试卷",
-                        },
-                    ],
+                    options: Object.entries(__appType).map((item) => {
+                        return { value: item[0], label: item[1] };
+                    }),
                 },
             ],
         };
     },
     computed: {
-        params: function () {
+        params: function() {
             let _params = {
                 pageIndex: this.page,
                 pageSize: this.per,
             };
-            if (this.search) _params.post_title = this.search;
-            if (this.searchType && this.searchType !== "all") _params.post_type = this.searchType;
+            if (this.search) _params.keyword = this.search;
             return _params;
         },
-        subtype: function () {
+        subtype: function() {
             return this.$route.params.subtype || "";
         },
     },
@@ -191,14 +111,19 @@ export default {
             this.loading = true;
             getMyFavs(this.params)
                 .then((res) => {
-                    this.data = res.list || [];
-                    this.total = res.page.total || 0;
+                    if (res) {
+                        this.data = res.list;
+                        this.total = res.page.total;
+                    }
                 })
                 .finally(() => {
                     this.loading = false;
                 });
         },
-        del: function (id) {
+        searchPost() {
+            this.page_change(1);
+        },
+        del: function(id) {
             this.$alert("确定要取消收藏吗？", "确认信息", {
                 confirmButtonText: "确定",
                 callback: (action) => {
@@ -214,7 +139,7 @@ export default {
         },
         getLink,
         getTypeLabel,
-        dateFormat: function (val) {
+        dateFormat: function(val) {
             val = val * 1000;
             return dateFormat(new Date(val));
         },
@@ -222,18 +147,26 @@ export default {
     watch: {
         params: {
             deep: true,
-            handler: function () {
-                this.page = 1;
+            handler: function() {
                 this.loadData();
             },
         },
-        searchType(val) {
-            if (!val) val = "all";
-            this.$router.push({ name: "fav", params: { subtype: val } });
+        search: function() {
+            this.page = 1;
+        },
+        searchType: function() {
+            this.page = 1;
+        },
+        subtype: function(val) {
+            this.searchType = val;
         },
     },
-    mounted: function () {
-        this.subtype ? (this.searchType = this.subtype) : this.loadData();
+    mounted: function() {
+        if (this.subtype) {
+            this.searchType = this.subtype;
+        } else {
+            this.loadData();
+        }
     },
 };
 </script>

@@ -23,8 +23,8 @@
                 icon="el-icon-check"
                 :disabled="isNotExist || alreadyAccept"
                 @click="accept"
-            >接受</el-button>
-            <el-button type="info" icon="el-icon-close" @click="quit" :disabled="isNotExist">拒绝</el-button>
+            >{{ alreadyAccept ? "已接受" : "接受" }}</el-button>
+            <el-button type="info" icon="el-icon-close" @click="confirmQuit" :disabled="isNotExist">{{ alreadyAccept ? "退出联合创作" : "拒绝" }}</el-button>
         </div>
     </div>
 </template>
@@ -99,6 +99,17 @@ export default {
                         this.userdata = res.data?.data;
                     });
                 });
+        },
+        confirmQuit: function() {
+            this.$confirm("确定退出联合创作吗？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+            .then(() => {
+                this.quit();
+            })
+            .catch(() => {});
         },
         quit: function () {
             quitUnionPost(this.id).then(() => {

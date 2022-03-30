@@ -26,8 +26,8 @@
                 icon="el-icon-check"
                 :disabled="isNotExist || alreadyAccept"
                 @click="accept"
-            >接受</el-button>
-            <el-button type="info" icon="el-icon-close" @click="refuse" :disabled="isNotExist">拒绝</el-button>
+            >{{ alreadyAccept ? "已接受" : "接受" }}</el-button>
+            <el-button type="info" icon="el-icon-close" @click="confirmQuit" :disabled="isNotExist">{{ alreadyAccept ? "解除亲友关系" : "拒绝" }}</el-button>
         </div>
     </div>
 </template>
@@ -93,6 +93,17 @@ export default {
             isExistKithInvitation(this.uid).then((res) => {
                 this.record = res.data?.data;
             });
+        },
+        confirmQuit: function() {
+            this.$confirm("确定解除亲友关系吗？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+            .then(() => {
+                this.refuse();
+            })
+            .catch(() => {});
         },
         refuse: function () {
             refuseKithInvitation(this.uid).then(() => {

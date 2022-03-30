@@ -10,12 +10,17 @@
                 </el-option-group>
             </el-select>
         </div>
-        <el-input class="m-dashboard-work-search" placeholder="请输入搜索内容" v-model="search" @keyup.enter.native="loadData">
+        <el-input
+            class="m-dashboard-work-search"
+            placeholder="请输入搜索内容"
+            v-model="search"
+            @keyup.enter.native="loadData"
+        >
             <template slot="prepend">关键词</template>
             <el-button slot="append" icon="el-icon-search" @click="loadData"></el-button>
         </el-input>
 
-        <div class="m-dashboard-box">
+        <div class="m-dashboard-box" v-loading="loading">
             <ul class="m-dashboard-box-list" v-if="data.length">
                 <li v-for="(item, i) in data" :key="i">
                     <i class="u-icon">
@@ -25,9 +30,7 @@
                         item.post_title || "无标题"
                     }}</a>
                     <div class="u-desc">
-                        <span><i class="el-icon-date"></i>
-                            于 {{ dateFormat(item.created) }} 加入收藏
-                        </span>
+                        <span><i class="el-icon-date"></i> 于 {{ dateFormat(item.created) }} 加入收藏 </span>
                     </div>
                     <el-button-group class="u-action">
                         <el-button size="mini" icon="el-icon-delete" title="取消收藏" @click="del(item.id)"></el-button>
@@ -36,7 +39,14 @@
             </ul>
             <el-alert v-else class="m-dashboard-box-null" title="没有找到相关条目" type="info" center show-icon>
             </el-alert>
-            <el-pagination class="m-dashboard-box-pages" background :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total">
+            <el-pagination
+                class="m-dashboard-box-pages"
+                background
+                :hide-on-single-page="true"
+                :current-page.sync="page"
+                layout="total, prev, pager, next, jumper"
+                :total="total"
+            >
             </el-pagination>
         </div>
     </div>
@@ -50,7 +60,7 @@ import { __postType, __wikiType, __appType } from "@jx3box/jx3box-common/data/jx
 export default {
     name: "fav",
     props: [],
-    data: function () {
+    data: function() {
         return {
             loading: false,
             data: [],
@@ -82,7 +92,7 @@ export default {
         };
     },
     computed: {
-        params: function () {
+        params: function() {
             let _params = {
                 pageIndex: this.page,
                 pageSize: this.per,
@@ -91,7 +101,7 @@ export default {
             if (this.searchType && this.searchType !== "all") _params.post_type = this.searchType;
             return _params;
         },
-        subtype: function () {
+        subtype: function() {
             return this.$route.params.subtype || "";
         },
     },
@@ -110,7 +120,7 @@ export default {
         searchPost() {
             this.page_change(1);
         },
-        del: function (id) {
+        del: function(id) {
             this.$alert("确定要取消收藏吗？", "确认信息", {
                 confirmButtonText: "确定",
                 callback: (action) => {
@@ -126,7 +136,7 @@ export default {
         },
         getLink,
         getTypeLabel,
-        dateFormat: function (val) {
+        dateFormat: function(val) {
             val = val * 1000;
             return dateFormat(new Date(val));
         },
@@ -134,7 +144,7 @@ export default {
     watch: {
         params: {
             deep: true,
-            handler: function () {
+            handler: function() {
                 this.loadData();
             },
         },
@@ -142,28 +152,13 @@ export default {
             if (!val) val = "all";
             this.$router.push({ name: "fav", params: { subtype: val } });
         },
-        // params: {
-        //     deep: true,
-        //     handler: function () {
-        //         this.loadData();
-        //     },
-        // },
-        // search: function () {
-        //     this.page = 1;
-        // },
-        // searchType: function () {
-        //     this.page = 1;
-        // },
-        // subtype: function (val) {
-        //     this.searchType = val;
-        // },
     },
-    mounted: function () {
+    mounted: function() {
         this.subtype ? (this.searchType = this.subtype) : this.loadData();
     },
 };
 </script>
 
 <style scoped lang="less">
-    @import "../assets/css/fav.less";
+@import "../assets/css/fav.less";
 </style>

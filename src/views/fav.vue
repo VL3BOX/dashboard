@@ -30,6 +30,7 @@
                         item.post_title || "无标题"
                     }}</a>
                     <div class="u-desc">
+                        <span class="u-category"><i class="el-icon-folder"></i> {{ getTypeLabel(item.post_type) }} </span>
                         <span><i class="el-icon-date"></i> 于 {{ dateFormat(item.created) }} 加入收藏 </span>
                     </div>
                     <el-button-group class="u-action">
@@ -56,7 +57,7 @@
 import { getMyFavs, delFav } from "../service/fav";
 import { getLink, getTypeLabel } from "@jx3box/jx3box-common/js/utils";
 import dateFormat from "../utils/dateFormat";
-import { __postType, __wikiType, __appType } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __postType, __wikiType, __appType,__gameType } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "fav",
     props: [],
@@ -79,6 +80,12 @@ export default {
                 {
                     label: "百科词条",
                     options: Object.entries(__wikiType).map((item) => {
+                        return { value: item[0], label: item[1] };
+                    }),
+                },
+                {
+                    label: "游戏资料",
+                    options: Object.entries(__gameType).map((item) => {
                         return { value: item[0], label: item[1] };
                     }),
                 },

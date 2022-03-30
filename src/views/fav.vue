@@ -195,9 +195,6 @@ export default {
                     this.loading = false;
                 });
         },
-        searchPost() {
-            this.page_change(1);
-        },
         del: function (id) {
             this.$alert("确定要取消收藏吗？", "确认信息", {
                 confirmButtonText: "确定",

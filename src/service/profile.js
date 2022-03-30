@@ -35,7 +35,7 @@ function getUserOverview(uid) {
 // 3.密码
 // -------------------------------
 function updatePassword(data) {
-    return $cms().post("profile/password", data);
+    return $server.post("profile/password", data);
 }
 
 // 4.邮箱

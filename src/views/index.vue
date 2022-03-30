@@ -13,10 +13,18 @@
                     <el-tooltip class="item" effect="dark" content="购买/续费会员服务" placement="top">
                         <span class="u-vip">
                             <template v-if="isVIP || isPRO">
-                                <a class="i-icon-vip" :class="{ on: isVIP || isPRO }" href="/vip/premium?from=dashboard_index" target="_blank">{{ vipType }}</a>
+                                <a
+                                    class="i-icon-vip"
+                                    :class="{ on: isVIP || isPRO }"
+                                    href="/vip/premium?from=dashboard_index"
+                                    target="_blank"
+                                    >{{ vipType }}</a
+                                >
                                 <span class="u-expire" v-if="expire_date">(有效期至:{{ expire_date }})</span>
                             </template>
-                            <a class="u-upgrade" href="/vip/premium?from=dashboard_index" target="_blank" v-else>升级账号类型</a>
+                            <a class="u-upgrade" href="/vip/premium?from=dashboard_index" target="_blank" v-else
+                                >升级账号类型</a
+                            >
                         </span>
                     </el-tooltip>
                 </h1>
@@ -36,8 +44,22 @@
                     </span>
                     <span class="u-group">
                         <em>Verify</em>
-                        <a href="/dashboard/#/email"><i class="el-icon-message"></i> {{ ~~info.verify_email ? '邮箱已验证' : '邮箱未验证' }}</a>
-                        <a href="/dashboard/#/phone"><i class="el-icon-mobile-phone"></i> {{ ~~info.verify_phone ? '手机已绑定' : '手机未绑定' }}</a>
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            :content="~~info.verify_email ? '✔️邮箱已验证' : '邮箱未验证'"
+                            placement="top"
+                        >
+                            <a href="/dashboard/#/email"><i class="el-icon-message"></i></a>
+                        </el-tooltip>
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            :content="~~info.verify_phone ? '✔️手机已绑定' : '手机未绑定'"
+                            placement="top"
+                        >
+                            <a href="/dashboard/#/phone"><i class="el-icon-mobile-phone"></i></a>
+                        </el-tooltip>
                     </span>
                     <span class="u-group" v-if="group > 60">
                         <em>Group</em>
@@ -55,41 +77,64 @@
             <el-row :gutter="20">
                 <el-col :span="6">
                     <div class="u-dot">
-                        <el-tooltip class="item" effect="dark" content="积分可用于兑换限量纪念品、激活码等，通过发布作品或参与站内活动获取" placement="top">
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="积分可用于兑换限量纪念品、激活码等，通过发布作品或参与站内活动获取"
+                            placement="top"
+                        >
                             <div class="u-credit-name"><i class="el-icon-sugar"></i> 积分</div>
                         </el-tooltip>
                         <div class="u-credit-value">
                             <b>{{ asset.points }}</b>
                         </div>
                         <div class="u-credit-op">
-                            <router-link class="el-button el-button--primary el-button--mini" to="/points">兑换</router-link>
+                            <router-link class="el-button el-button--primary el-button--mini" to="/points"
+                                >兑换</router-link
+                            >
                         </div>
                     </div>
                 </el-col>
                 <el-col :span="6">
                     <div class="u-coin">
-                        <el-tooltip class="item" effect="dark" content="1盒币可用于兑换1通宝，通过评审团/用户打赏获取" placement="top">
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="1盒币可用于兑换1通宝，通过评审团/用户打赏获取"
+                            placement="top"
+                        >
                             <div class="u-credit-name"><i class="el-icon-coin"></i> 盒币</div>
                         </el-tooltip>
                         <div class="u-credit-value">
                             <b>{{ asset.box_coin }}</b>
                         </div>
                         <div class="u-credit-op">
-                            <a class="el-button el-button--primary el-button--mini" href="/vip/boxcoin" target="_blank">充值</a>
-                            <router-link class="el-button el-button--primary el-button--mini" to="/boxcoin">兑换</router-link>
+                            <a class="el-button el-button--primary el-button--mini" href="/vip/boxcoin" target="_blank"
+                                >充值</a
+                            >
+                            <router-link class="el-button el-button--primary el-button--mini" to="/boxcoin"
+                                >兑换</router-link
+                            >
                         </div>
                     </div>
                 </el-col>
                 <el-col :span="6">
                     <div class="u-packet">
-                        <el-tooltip class="item" effect="dark" content="红包可直接提现至支付宝/微信钱包，通过特殊活动抽奖获取" placement="top">
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="红包可直接提现至支付宝/微信钱包，通过特殊活动抽奖获取"
+                            placement="top"
+                        >
                             <div class="u-credit-name"><i class="el-icon-wallet"></i> 红包</div>
                         </el-tooltip>
                         <div class="u-credit-value">
                             <b>{{ asset.red_packet | formatCredit }}</b>
                         </div>
                         <div class="u-credit-op">
-                            <router-link class="el-button el-button--primary el-button--mini" to="/packet">提现</router-link>
+                            <router-link class="el-button el-button--primary el-button--mini" to="/packet"
+                                >提现</router-link
+                            >
                         </div>
                     </div>
                 </el-col>
@@ -100,7 +145,9 @@
                             <b>{{ asset.gift || 0 }}</b>
                         </div>
                         <div class="u-credit-op">
-                            <router-link class="el-button el-button--primary el-button--mini" to="/order">查看</router-link>
+                            <router-link class="el-button el-button--primary el-button--mini" to="/order"
+                                >查看</router-link
+                            >
                         </div>
                     </div>
                 </el-col>
@@ -128,7 +175,9 @@
                         <b :class="{ isNegative: item.data.count < 0 }">{{ item.data.count }}</b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
-                        <a class="u-link" :href="getPostLink(item)" v-if="item.data.post_type && item.data.post_id"> <i class="el-icon-link"></i> 查看详情 </a>
+                        <a class="u-link" :href="getPostLink(item)" v-if="item.data.post_type && item.data.post_id">
+                            <i class="el-icon-link"></i> 查看详情
+                        </a>
                     </span>
 
                     <!-- 订单 -->
@@ -248,12 +297,12 @@ export default {
                 },
             ];
         },
-        isSuperAuthor: function (){
-            return !!this.info?.sign
+        isSuperAuthor: function() {
+            return !!this.info?.sign;
         },
-        level: function (){
-            return User.getLevel(this.info?.experience || 0)
-        }
+        level: function() {
+            return User.getLevel(this.info?.experience || 0);
+        },
     },
     methods: {
         loadUserInfo: function() {

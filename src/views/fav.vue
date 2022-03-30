@@ -73,11 +73,14 @@ export default {
         return {
             loading: false,
             data: [],
+
             total: 1,
             page: 1,
             per: 10,
+
             search: "",
             searchType: "",
+            
             options: [
                 {
                     label: "文章作品",

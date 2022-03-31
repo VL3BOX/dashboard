@@ -9,5 +9,13 @@ function getPointsHistory(params) {
 			return res.data.data;
 		});
 }
-
-export { getPointsHistory };
+function getExperienceHistory(params) {
+	return $pay()
+		.get(`/api/my/experience/history`, {
+			params,
+		})
+		.then((res) => {
+			return res.data.data;
+		});
+}
+export { getPointsHistory ,getExperienceHistory};

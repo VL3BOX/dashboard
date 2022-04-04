@@ -6,10 +6,10 @@
             <b :class="money > 0 ? 'u-have' : ''" class="u-num">{{ money }}</b>
             <!-- <el-button class="u-btn" type="primary" size="mini" :disabled="!money">兑换</el-button> -->
         </div>
-        <el-tabs class="m-tabs" type="border-card" v-model="tab_value">
+        <el-tabs class="m-tabs" type="border-card" v-model="tab_value" @tab-click="changeTab">
             <!-- 积分记录 -->
             <el-tab-pane label="积分记录" name="point">
-                <el-table class="m-table" :data="point_list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell">
+                <el-table class="m-table" :data="list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell">
                     <el-table-column label="类型">
                         <template slot-scope="scope">{{ formatType(scope.row.action_type) }}</template>
                     </el-table-column>
@@ -34,7 +34,7 @@
                 <el-pagination class="m-packet-pages" background :page-size="per" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
             </el-tab-pane>
             <el-tab-pane label="经验记录" name="ex">
-                <el-table class="m-table" :data="ex_list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell">
+                <el-table class="m-table" :data="list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell">
                     <el-table-column label="类型">
                         <template slot-scope="scope">{{ formatType(scope.row.action_type) }}</template>
                     </el-table-column>
@@ -75,8 +75,7 @@ export default {
         return {
             money: 0,
             loading: false,
-            point_list: [],
-            ex_list: [],
+            list: [],
             tab_value: "point",
 
             page: 1,
@@ -86,14 +85,7 @@ export default {
         };
     },
     computed: {
-        point_params() {
-            let _params = {
-                pageIndex: this.page,
-                pageSize: this.per,
-            };
-            return _params;
-        },
-        ex_params() {
+        params() {
             let _params = {
                 pageIndex: this.page,
                 pageSize: this.per,
@@ -107,27 +99,25 @@ export default {
                 this.money = data?.points || 0;
             });
         },
-        loadPointsData() {
+        loadData() {
             this.loading = true;
-            getPointsHistory(this.point_params)
-                .then((res) => {
-                    this.point_list = res.list;
-                    this.total = res.page.total;
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
-        },
-        loadExperienceData() {
-            this.loading = true;
-            getExperienceHistory(this.ex_params)
-                .then((res) => {
-                    this.ex_list = res.list;
-                    this.total = res.page.total;
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
+            this.tab_value == "point"
+                ? getPointsHistory(this.params)
+                      .then((res) => {
+                          this.list = res.list;
+                          this.total = res.page.total;
+                      })
+                      .finally(() => {
+                          this.loading = false;
+                      })
+                : getExperienceHistory(this.params)
+                      .then((res) => {
+                          this.list = res.list;
+                          this.total = res.page.total;
+                      })
+                      .finally(() => {
+                          this.loading = false;
+                      });
         },
         getPostLink(item) {
             return getLink(item.post_type, item.article_id);
@@ -146,18 +136,19 @@ export default {
                 return "-";
             }
         },
+        changeTab() {
+            this.page = 1;
+            this.loadData()
+        },
         showTime,
     },
     watch: {
-        point_params: {
+        params: {
             immediate: true,
             deep: true,
             handler: function () {
-                this.loadPointsData();
+                this.loadData();
             },
-        },
-        tab_value(val) {
-            val == "point" ? this.loadPointsData() : this.loadExperienceData();
         },
     },
     created: function () {

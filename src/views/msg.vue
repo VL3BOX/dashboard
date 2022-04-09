@@ -161,6 +161,8 @@ export default {
                 return `/dashboard/#/${item.type}/${item.subtype}?info=${info}`;
             } else if(source_type == 'box_coin'){
                 return `/dashboard/#/boxcoin`;
+            } else if(item.subtype == 'team_join'){
+                return `/team/member/list`;
             } else {
                 return getLink(source_type, source_id);
             }

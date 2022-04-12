@@ -62,7 +62,7 @@ function sendVerifyEmail() {
 
 // 5.互联
 function checkOAuth() {
-    return $server.get("profile/oauth/check");
+    return $cms().get("/api/cms/account/oauth/check");
 }
 
 function unbindOAuth(data) {

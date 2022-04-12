@@ -4,7 +4,7 @@
             <el-alert
                 class="u-tip"
                 title="如需解绑则需要先绑定一个邮箱"
-                type="info"
+                type="warning"
                 show-icon
             >
             </el-alert>
@@ -16,7 +16,7 @@
                 >
                     <img :class="'u-' + type" svg-inline :src="type | icon" />
                     <p class="u-status">
-                        {{ checkStatus(type) ? data[type] : "未绑定" }}
+                        {{ checkStatus(type) ? getNickname(type) : "未绑定" }}
                     </p>
                     <el-button
                         class="u-button"
@@ -45,14 +45,17 @@ export default {
     data: function() {
         return {
             data: {
-                github: "",
+                github_name: "",
                 github_id: "",
-                qq: "",
-                qq_id: "",
-                weibo: "",
+
+                weibo_name: "",
                 weibo_id: "",
-                wechat: "",
-                wechat_id: "",
+
+                qq_name: "",
+                qq_unionid: "",
+
+                wechat_name: "",
+                wechat_unionid: "",
             },
             oauth,
         };
@@ -60,7 +63,13 @@ export default {
     computed: {},
     methods: {
         checkStatus: function(type) {
+            if(type == 'qq' || type == 'wechat'){
+                return !!this.data[type + "_unionid"];
+            }
             return !!this.data[type + "_id"];
+        },
+        getNickname : function (type){
+            return this.data[type + '_name'] || '未知'
         },
         bind: function(type) {
             location.href = links[type];

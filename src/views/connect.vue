@@ -75,10 +75,7 @@ export default {
             location.href = links[type];
         },
         unbind: function(type) {
-            unbindOAuth({
-                uid: this.uid,
-                type: type,
-            }).then((res) => {
+            unbindOAuth(type).then((res) => {
                 this.$message({
                     message: "解绑成功",
                     type: "success",

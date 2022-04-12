@@ -65,8 +65,10 @@ function checkOAuth() {
     return $cms().get("/api/cms/account/oauth/check");
 }
 
-function unbindOAuth(data) {
-    return $server.post("profile/oauth/unbind", data);
+function unbindOAuth(type) {
+    return $cms({
+        popType : 'alert',
+    }).delete(`/api/cms/account/oauth/unbind/${type}`);
 }
 
 

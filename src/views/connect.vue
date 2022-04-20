@@ -72,7 +72,7 @@ export default {
             return this.data[type + '_name'] || '未知'
         },
         bind: function(type) {
-            location.href = links[type].replace('callback','callback/bind')
+            location.href = links[type] //.replace('callback','callback/bind')
         },
         unbind: function(type) {
             unbindOAuth(type).then((res) => {

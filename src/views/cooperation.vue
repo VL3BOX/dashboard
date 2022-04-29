@@ -96,7 +96,7 @@
                         class="u-submit"
                         @click="submitForm('form')"
                         icon="el-icon-s-promotion"
-                        :disabled="processing"
+                        :disabled="isSuperAuthor || processing"
                     >提交签约申请</el-button>
                 </el-form-item>
             </el-form>

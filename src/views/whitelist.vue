@@ -275,7 +275,7 @@ export default {
     },
     filters: {
         showAvatar: function (val) {
-            return showAvatar(val, 80);
+            return showAvatar(val, 'm');
         },
         authorLink,
     },

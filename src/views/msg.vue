@@ -159,7 +159,7 @@ export default {
                     Base64.encode(JSON.stringify(item))
                 );
                 return `/dashboard/#/${item.type}/${item.subtype}?info=${info}`;
-            } else if(source_type == 'box_coin'){
+            } else if(source_type == 'box_coin' || source_type == 'boxcoin'){
                 return `/dashboard/#/boxcoin`;
             } else if(item.subtype == 'team_join'){
                 return `/team/member/list`;

@@ -17,6 +17,7 @@ const order = () => import("../views/orders.vue");
 const packet = () => import("../views/packet.vue");
 const boxcoin = () => import("../views/boxcoin.vue");
 const points = () => import("../views/points.vue");
+const tasks = () => import("../views/tasks.vue");
 
 const profile = () => import("../views/profile.vue");
 const avatar = () => import("../views/avatar.vue");
@@ -43,6 +44,7 @@ const routes = [
 	{ name: "packet", path: "/packet", component: packet },
 	{ name: "boxcoin", path: "/boxcoin", component: boxcoin },
 	{ name: "points", path: "/points", component: points },
+	{ name: "tasks", path: "/tasks", component: tasks },
 
 	{ name: "profile", path: "/profile", component: profile },
 	{ name: "avatar", path: "/avatar", component: avatar },

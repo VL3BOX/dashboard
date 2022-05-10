@@ -201,7 +201,7 @@
 </template>
 
 <script>
-import { __userGroup, __imgPath, default_avatar } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __userGroup, __imgPath, default_avatar ,__userLevelColor} from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { getThumbnail, getLink } from "@jx3box/jx3box-common/js/utils";
 import { getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo } from "@/service/index.js";

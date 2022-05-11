@@ -23,7 +23,7 @@
 				</el-form-item>
 				<el-form-item label="兑换数目">
 					<el-radio-group v-model="pull.cash">
-						<el-radio :label="1500" border :disabled="!canSelect(1500)">1500通宝</el-radio>
+						<!-- <el-radio :label="1500" border :disabled="!canSelect(1500)">1500通宝</el-radio> -->
 						<el-radio :label="3000" border :disabled="!canSelect(3000)">3000通宝</el-radio>
 						<el-radio :label="5000" border :disabled="!canSelect(5000)">5000通宝</el-radio>
 						<el-radio :label="10000" border :disabled="!canSelect(10000)">10000通宝</el-radio>
@@ -128,7 +128,7 @@ export default {
 		return {
 			// 提现表单
 			money: 0,
-			min: 1500,
+			min: 3000,
 			pull: {
 				zone: "",
 				account: "",

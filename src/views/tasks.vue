@@ -1,22 +1,27 @@
 <template>
     <div class="m-credit m-tasks">
-        <h2 class="u-title">
-            <i class="el-icon-coffee-cup"></i> 我的任务
-        </h2>
+        <h2 class="u-title"><i class="el-icon-coffee-cup"></i> 我的任务</h2>
         <div class="m-tasks-list" v-loading="loading">
-            <div class="u-item" v-for="(item,index) in list" :key="index">
-                <img class="u-img" :src="imgPath" :alt="item.task.action_type_desc">
+            <div class="u-item" v-for="(item, index) in list" :key="index">
+                <!-- <img class="u-img" :src="imgPath" :alt="item.task.action_type_desc" /> -->
                 <div class="u-box">
                     <div class="u-info">
-                        <span class="u-title">{{item.task.action_type_desc}}</span>
+                        <a class="u-title" :href="item.task.task_url" target="_blank">{{ item.task.action_type_desc }}</a>
                         <span class="u-desc">
-                            <span v-for="(attr,key) in item.attr" :key="key" class="u-attr">
-                                {{attr_name[attr.name]}}+{{attr.count}}
+                            <span v-for="(attr, key) in item.attr" :key="key" class="u-attr">
+                                {{ attr_name[attr.name] }} +{{ attr.count }}
                             </span>
                         </span>
                     </div>
                     <div class="u-btn">
-                        <el-button type="primary" :disabled="item.hasFinish" icon="el-icon-check" @click="checkFinish(item.task.id)">已完成</el-button>
+                        <el-button
+                            size="small"
+                            :type="item.hasFinish ? 'info' : 'success'"
+                            :disabled="item.hasFinish"
+                            :icon="!item.hasFinish && 'el-icon-check'"
+                            @click="checkFinish(item.task.id)"
+                            >{{item.hasFinish ? '已完成' : '完成'}}</el-button
+                        >
                     </div>
                 </div>
             </div>
@@ -50,7 +55,7 @@ export default {
         // 加载任务列表
         loadTasks() {
             this.loading = true;
-            getTasks()
+            getTasks({ is_limit_everyday: 0, os_visible: 1 })
                 .then((res) => {
                     this.list = res.data.data.list;
                 })
@@ -83,6 +88,6 @@ export default {
     },
 };
 </script>
-<style lang='less'>
-    @import "~@/assets/css/tasks.less";
+<style lang="less">
+@import "~@/assets/css/tasks.less";
 </style>

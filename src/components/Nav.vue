@@ -39,15 +39,10 @@
                 <i class="el-icon-wallet"></i>
                 <span>我的红包</span>
             </router-link>
-            <!-- <router-link to="/tasks">
-                <i class="el-icon-coffee-cup"></i>
-                <span>任务中心</span>
-            </router-link> -->
             <router-link to="/cooperation">
                 <i class="el-icon-reading"></i>
                 <span>签约作者</span>
             </router-link>
-
             <!-- <router-link to="/order">
                 <i class="el-icon-shopping-bag-1"></i>
                 <span>我的订单</span>
@@ -67,6 +62,10 @@
             <router-link to="config">
                 <i class="el-icon-setting"></i>
                 <span>全局设置</span>
+            </router-link>
+            <router-link to="/tasks">
+                <i class="el-icon-coffee-cup"></i>
+                <span>任务中心</span>
             </router-link>
             <a :href="feedback" target="_blank">
                 <i class="el-icon-message"></i>

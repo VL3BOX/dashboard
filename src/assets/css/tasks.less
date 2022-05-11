@@ -8,13 +8,17 @@
             width: 100%;
             box-sizing: border-box;
             padding: 10px 20px;
-            border: 1px solid #ddd;
+            border: 1px solid #eee;
             align-items: center;
+            &:hover {
+                background-color: #fafafa;
+            }
 
             .u-img {
                 flex-shrink: 0;
                 .mr(20px);
                 .size(48px);
+                .r(3px);
             }
             .u-box {
                 .flex;
@@ -34,6 +38,9 @@
             .u-desc {
                 .fz(12px,2);
                 color: #999;
+                .u-attr {
+                    .mr(10px);
+                }
             }
         }
     }

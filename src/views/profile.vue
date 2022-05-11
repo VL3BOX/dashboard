@@ -62,6 +62,7 @@
                     v-model="form.birthday"
                     type="date"
                     placeholder="选择日期"
+                    value-format="yyyy-MM-dd"
                     :picker-options="birthday_options"
                 ></el-date-picker>
             </el-form-item>

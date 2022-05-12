@@ -3,7 +3,7 @@
         <h2 class="u-title"><i class="el-icon-coffee-cup"></i> 我的任务</h2>
         <div class="m-tasks-list" v-loading="loading">
             <div class="u-item" v-for="(item, index) in list" :key="index">
-                <!-- <img class="u-img" :src="imgPath" :alt="item.task.action_type_desc" /> -->
+                <img class="u-img" :src="item.task.task_icon || defaultTaskIcon" :alt="item.task.action_type_desc" />
                 <div class="u-box">
                     <div class="u-info">
                         <a class="u-title" :href="item.task.task_url" target="_blank">{{ item.task.action_type_desc }}</a>
@@ -46,8 +46,8 @@ export default {
         };
     },
     computed: {
-        imgPath() {
-            return __imgPath + "image/other/avatar.png";
+        defaultTaskIcon() {
+            return __imgPath + "image/common/jx3box_black.svg";
         },
     },
     watch: {},

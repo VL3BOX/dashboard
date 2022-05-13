@@ -38,9 +38,9 @@
                     <li class="u-item" :class="{ on: name == frame }" v-for="(item, name) in frames" :key="name" @click="selectFrame(item)">
                         <el-tooltip class="item" effect="dark" :content="item.desc" placement="top" :open-delay="300">
                             <div :class="{ 'u-blocked': !item.status }">
-                                <img :src="avatar | showSmallAvatar" v-show="name == frame" class="u-pic" :class="{ isCircle: item.style == 'circle' }" />
+                                <img :src="avatar | showSmallAvatar" v-show="name == frame" class="u-pic isCircle" />
                                 <i class="u-frame">
-                                    <img :src="showFrame(item.name, item.files.s.file)" />
+                                    <img :src="showFrame(item.name)" />
                                 </i>
                             </div>
                         </el-tooltip>
@@ -127,11 +127,11 @@ export default {
                 this.frames = res.data;
             });
         },
-        showFrame: function(name, filename) {
-            if (process.env.NODE_ENV == "development") {
-                return `temp/avatar/${name}/${filename}`;
-            }
-            return __imgPath + `avatar/images/${name}/${filename}`;
+        showFrame: function(name) {
+            // if (process.env.NODE_ENV == "development") {
+            //     return `temp/avatar/${name}/${name}.svg`;
+            // }
+            return __imgPath + `avatar/images/${name}/${name}.svg`;
         },
         selectFrame: function(item) {
             if (!item) {
@@ -156,10 +156,10 @@ export default {
     },
     filters: {
         showAvatar: function(val) {
-            return showAvatar(val, "l",false);
+            return showAvatar(val, 480,false);
         },
         showSmallAvatar: function(val) {
-            return showAvatar(val, 68,false);
+            return showAvatar(val, 136,false);
         },
     },
     created: function() {

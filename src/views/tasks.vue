@@ -8,6 +8,7 @@
                     <div class="u-info">
                         <a class="u-title" :href="item.task.task_url" target="_blank">{{ item.task.action_type_desc }}</a>
                         <span class="u-desc">
+                            {{item.task.task_detail}} ∕
                             <span v-for="(attr, key) in item.attr" :key="key" class="u-attr">
                                 {{ attr_name[attr.name] }} +{{ attr.count }}
                             </span>
@@ -16,11 +17,11 @@
                     <div class="u-btn">
                         <el-button
                             size="small"
-                            :type="item.hasFinish ? 'info' : 'success'"
+                            :type="item.hasFinish ? 'success' : 'warning'"
                             :disabled="item.hasFinish"
-                            :icon="!item.hasFinish && 'el-icon-check'"
+                            :icon="item.hasFinish && 'el-icon-check' || ''"
                             @click="checkFinish(item.task.id)"
-                            >{{item.hasFinish ? '已完成' : '完成'}}</el-button
+                            >{{item.hasFinish ? '已完成' : '接受任务'}}</el-button
                         >
                     </div>
                 </div>

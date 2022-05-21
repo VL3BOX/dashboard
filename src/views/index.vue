@@ -67,9 +67,7 @@
                     </span>
                 </div>
                 <div class="u-medals" v-if="medals && medals.length">
-                    <span class="u-medal" v-for="(item, i) in medals" :key="i">
-                        <img :src="item.medal | showMedalIcon" :title="item | showMedalDesc" />
-                    </span>
+                    <medal :medals="medals" :showIcon="showMedalIcon"></medal>
                 </div>
             </div>
         </div>
@@ -215,8 +213,9 @@ import boxcoin_types from "@/assets/data/boxcoin_types.json";
 import { products, pay_status, pay_types } from "@/assets/data/pay_order.json";
 import dayjs from "dayjs";
 import avatar from "./avatar.vue";
+import medal from '@jx3box/jx3box-common-ui/src/medal/medal.vue';
 export default {
-    components: { avatar },
+    components: { avatar, medal },
     name: "index",
     props: [],
     data: function() {
@@ -323,7 +322,7 @@ export default {
         loadMedals: function() {
             if (!this.uid) return;
             getUserMedals(this.uid).then((res) => {
-                this.medals = res.data.data || [];
+                this.medals =  [{"id":2040,"user_id":8,"medal_type":"fb","medal":"bdfy","created_at":"2021-06-20T23:13:53+08:00","remark":"","medal_desc":"白帝江关百强团队成员"},{"id":2117,"user_id":8,"medal_type":"fb","medal":"bdfy_qx","created_at":"2021-06-21T22:55:58+08:00","remark":"","medal_desc":"白帝江关七秀天团成员"},{"id":2157,"user_id":8,"medal_type":"fb","medal":"dmd","created_at":"2022-02-16T19:18:54+08:00","remark":"测试一下","medal_desc":"达摩洞百强团队成员"},{"id":4886,"user_id":8,"medal_type":"fb","medal":"hyzz","created_at":"2022-05-09T16:34:21+08:00","remark":"测试效果","medal_desc":"河阳之战百强团队成员"}];
             });
         },
         loadFrames: function() {
@@ -347,6 +346,9 @@ export default {
         getPostLink: function(item) {
             return getLink(item.data.post_type, item.data.post_id);
         },
+        showMedalIcon: function(val) {
+            return __imgPath + "image/medals/user/" + val + ".gif";
+        },
     },
     filters: {
         groupicon: function(groupid) {
@@ -357,12 +359,6 @@ export default {
         },
         formatCredit: function(val) {
             return val ? (val / 100).toFixed(2) : "0.00";
-        },
-        showMedalIcon: function(val) {
-            return __imgPath + "image/medals/user/" + val + ".gif";
-        },
-        showMedalDesc: function(item) {
-            return item.medal_desc || medal_map[item.medal] || "";
         },
         showAvatar: function(val) {
             return (val && getThumbnail(val, 120, true)) || getThumbnail(default_avatar, 120, true);

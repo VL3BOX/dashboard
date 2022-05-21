@@ -322,7 +322,7 @@ export default {
         loadMedals: function() {
             if (!this.uid) return;
             getUserMedals(this.uid).then((res) => {
-                this.medals =  [{"id":2040,"user_id":8,"medal_type":"fb","medal":"bdfy","created_at":"2021-06-20T23:13:53+08:00","remark":"","medal_desc":"白帝江关百强团队成员"},{"id":2117,"user_id":8,"medal_type":"fb","medal":"bdfy_qx","created_at":"2021-06-21T22:55:58+08:00","remark":"","medal_desc":"白帝江关七秀天团成员"},{"id":2157,"user_id":8,"medal_type":"fb","medal":"dmd","created_at":"2022-02-16T19:18:54+08:00","remark":"测试一下","medal_desc":"达摩洞百强团队成员"},{"id":4886,"user_id":8,"medal_type":"fb","medal":"hyzz","created_at":"2022-05-09T16:34:21+08:00","remark":"测试效果","medal_desc":"河阳之战百强团队成员"}];
+                this.medals =  res.data.data || []
             });
         },
         loadFrames: function() {

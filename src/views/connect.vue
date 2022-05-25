@@ -38,7 +38,7 @@ import links from "@jx3box/jx3box-common/js/connect";
 import oauth from "@jx3box/jx3box-common/data/oauth.json";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import { unbindOAuth, checkOAuth } from "../service/profile";
-
+const client = location.host.includes("origin") ? "origin" : "std";
 export default {
     name: "connect",
     props: [],
@@ -72,7 +72,7 @@ export default {
             return this.data[type + '_name'] || '未知'
         },
         bind: function(type) {
-            location.href = links[type].replace('state=login','state=bind')
+            location.href = links[type].replace('state=login',`state=bind_${client}`)
         },
         unbind: function(type) {
             unbindOAuth(type).then((res) => {

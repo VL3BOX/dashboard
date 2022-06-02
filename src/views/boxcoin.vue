@@ -4,6 +4,10 @@
 		<div class="m-credit-total m-packet-total">
 			余额 :
 			<b :class="{ hasLeft: hasLeft }">{{ money }}</b>
+            <span class="u-types">
+                <span class="u-type u-type-std">重制：<b>{{total_std}}</b></span>
+                <span class="u-type u-type-origin">缘起：<b>{{total_origin}}</b></span>
+            </span>
 			<!-- <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/boxcoin" target="_blank">充值</a> -->
 			<el-button class="u-btn" type="primary" @click="togglePullBox" size="mini" :disabled="!money">兑换</el-button>
 		</div>
@@ -119,7 +123,7 @@ import { showTime } from "@jx3box/jx3box-common/js/moment";
 import types from "@/assets/data/boxcoin_types.json";
 import zones from "@jx3box/jx3box-data/data/server/server_zones.json";
 import statusMap from "@/assets/data/boxcoin_status.json";
-import { getBoxcoinCashHistory, getBoxcoinGotHistory, cashBoxcoin, getBoxcoinConfig } from "@/service/boxcoin.js";
+import { getBoxcoinCashHistory, getBoxcoinGotHistory, cashBoxcoin, getBoxcoinConfig,getBoxcoinOverview } from "@/service/boxcoin.js";
 import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc.js";
 export default {
 	name: "Boxcoin",
@@ -154,6 +158,14 @@ export default {
 
 			// 杂项
 			breadcrumb: "",
+
+            // 概览
+            overview : {
+                all : 0,
+                std : 0,
+                origin : 0,
+            }
+
 		};
 	},
 	computed: {
@@ -183,6 +195,12 @@ export default {
 		end_date: function () {
 			return this.dates[this.dates.length - 1];
 		},
+        total_std : function (){
+            return this.toPositiveNumber(this.overview.std)
+        },
+        total_origin : function (){
+            return this.toPositiveNumber(this.overview.origin) + this.toPositiveNumber(this.overview.all)
+        }
 	},
 	methods: {
 		// 初始化
@@ -193,6 +211,7 @@ export default {
 			this.loadAsset();
 			this.loadData();
 			this.loadAc();
+            this.loadOverview()
 		},
 
 		// 加载列表数据
@@ -211,6 +230,11 @@ export default {
 					this.loading = false;
 				});
 		},
+        loadOverview : function (){
+            getBoxcoinOverview().then((res) => {
+                this.overview = res.data.data
+            })
+        },
 		changeType: function () {
 			this.page = 1;
 			this.loadData();
@@ -297,6 +321,9 @@ export default {
 		formatHistoryStatus: function (val) {
 			return statusMap[val] || val;
 		},
+        toPositiveNumber : function (val){
+            return val > 0 ? val : 0
+        }
 	},
 
 	created: function () {

@@ -24,4 +24,8 @@ function getBoxcoinConfig() {
     });
 }
 
-export { getBoxcoinCashHistory, getBoxcoinGotHistory, cashBoxcoin, getBoxcoinConfig };
+function getBoxcoinOverview() {
+    return $cms().get(`/api/my/boxcoin/overview`);
+}
+
+export { getBoxcoinCashHistory, getBoxcoinGotHistory, cashBoxcoin, getBoxcoinConfig, getBoxcoinOverview };

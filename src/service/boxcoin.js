@@ -25,7 +25,7 @@ function getBoxcoinConfig() {
 }
 
 function getBoxcoinOverview() {
-    return $cms().get(`/api/my/boxcoin/overview`);
+    return $pay().get(`/api/my/boxcoin/overview`);
 }
 
 export { getBoxcoinCashHistory, getBoxcoinGotHistory, cashBoxcoin, getBoxcoinConfig, getBoxcoinOverview };

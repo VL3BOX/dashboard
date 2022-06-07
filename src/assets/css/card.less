@@ -26,19 +26,28 @@
                 .lh(24px);
                 gap: 5px;
                 flex-direction: column;
-                align-items: center;
+                .u-line {
+                    .flex;
+                    span {
+                        text-align: left;
+                        width: 200px;
+                        font-family: Consolas;
+                    }
+                    .u-btn {
+                        .ml(10px);
+                    }
+                }
+            }
+        }
+        .u-code {
+            .flex;
+            .u-txt {
+                text-align: left;
+                width: 160px;
+                font-family: Consolas;
             }
             .u-btn {
                 .ml(10px);
-                .fz(12px,24px);
-                .r(3px);
-                border: 1px solid #ddd;
-                padding: 3px 10px;
-                background-color: #4d99f0;
-                &:hover {
-                    border: 1px solid #4d99f0;
-                    color: #0366d6;
-                }
             }
         }
     }

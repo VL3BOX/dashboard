@@ -4,25 +4,29 @@
         <el-tabs type="border-card" v-model="tab">
             <el-tab-pane label="一卡通" name="card">
                 <el-table class="m-table" :data="list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell" v-loading="loading">
-                    <el-table-column prop="type" label="类型">
+                    <el-table-column prop="type" label="类型" width="140">
                         <template slot-scope="scope">{{ scope.row.type =='seasun_ykt'?'金山一卡通':'其他'}}</template>
                     </el-table-column>
-                    <el-table-column prop="subtype" label="渠道">
+                    <el-table-column prop="subtype" label="渠道" width="140">
                         <template slot-scope="scope">{{ subtypes[scope.row.subtype]  }}</template>
                     </el-table-column>
-                    <el-table-column label="面额" width="80">
+                    <el-table-column label="面额" width="120">
                         <template slot-scope="scope">{{ scope.row.count}}</template>
                     </el-table-column>
-                    <el-table-column label="激活码" width="320">
+                    <el-table-column label="激活码" width="340">
                         <template slot-scope="scope">
                             <div class="u-card">
                                 <div class="u-count">
-                                    <div>卡号：**************** <el-button v-if="show" type="primary" @click="open" size="mini" plain>点击复制</el-button>
+                                    <div class="u-line">
+                                        <span>卡号：{{scope.row.code||'****************'}} </span>
+                                        <el-button class="u-btn" v-if="scope.row.code" type="txt" size="mini" icon="el-icon-document-copy">复制卡号</el-button>
                                     </div>
-                                    <div>卡密：**************** <el-button v-if="show" type="primary" @click="open" size="mini" plain>点击复制</el-button>
+                                    <div class="u-line">
+                                        <span>卡密：{{scope.row.key||'****************'}}</span>
+                                        <el-button class="u-btn" v-if="scope.row.key" type="txt" size="mini" icon="el-icon-document-copy">复制密码</el-button>
                                     </div>
                                 </div>
-                                <el-button v-if="!show" type="primary" icon="el-icon-view" @click="toCard(scope.row.id)" size="small" plain>点击查看</el-button>
+                                <el-button v-if="!scope.row.code" type="primary" icon="el-icon-view" @click="toCard(scope.$index, scope.row)" size="small" plain>点击查看</el-button>
                             </div>
                         </template>
                     </el-table-column>
@@ -43,10 +47,10 @@
                     </el-table-column>
                     <el-table-column label="激活码" width="300">
                         <template slot-scope="scope">
-                            <div class="u-card">
-                                <span>****************</span>
-                                <el-button v-if="!show" type="primary" icon="el-icon-view" @click="toCard(scope.row.id)" size="small" plain>点击查看</el-button>
-                                <el-button v-else type="primary" size="mini" plain>点击复制</el-button>
+                            <div class="u-code">
+                                <span class="u-txt">{{scope.row.code||'****************'}}</span>
+                                <el-button v-if="!scope.row.code" type="primary" icon="el-icon-view" @click="toCode(scope.$index, scope.row)" size="small" plain>点击查看</el-button>
+                                <el-button class="u-btn" v-else type="txt" size="mini" icon="el-icon-document-copy">复制</el-button>
                             </div>
                         </template>
                     </el-table-column>
@@ -116,23 +120,30 @@ export default {
                     this.loading = false;
                 });
         },
-        toCard(id) {
+        toCard(index, row) {
             this.$prompt("请输入密码", "提示", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
-            }).then(({ password }) => {
-                sendCard(id, { password }).then((res) => {
+                inputType: "password",
+            }).then(({ value }) => {
+                sendCard(row.id, { password: value }).then((res) => {
                     console.log(res);
+                    let { code, key } = res.data.data;
+                    row.code = code;
+                    row.key = key;
+                    this.$set(this.list, index, row);
                 });
             });
         },
-        toCode(id) {
+        toCode(index, row) {
             this.$prompt("请输入密码", "提示", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
-            }).then(({ password }) => {
-                sendCode(id, { password }).then((res) => {
-                    console.log(res);
+                inputType: "password",
+            }).then(({ value }) => {
+                sendCode(row.id, { password: value }).then((res) => {
+                    row.code = res.data.data.sn;
+                    this.$set(this.list, index, row);
                 });
             });
         },

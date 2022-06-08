@@ -111,7 +111,6 @@ export default {
     },
     watch: {
         tab(tab) {
-            this.list = [];
             this.page = 1;
             this.loadData(tab);
             this.$router.push({ name: "keycode", query: { tab } });

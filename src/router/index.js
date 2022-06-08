@@ -18,7 +18,7 @@ const packet = () => import("../views/packet.vue");
 const boxcoin = () => import("../views/boxcoin.vue");
 const points = () => import("../views/points.vue");
 const tasks = () => import("../views/tasks.vue");
-const keycode = () => import("../views/keycode.vue");
+const code = () => import("../views/code.vue");
 
 const profile = () => import("../views/profile.vue");
 const avatar = () => import("../views/avatar.vue");
@@ -47,7 +47,7 @@ const routes = [
     { name: "boxcoin", path: "/boxcoin", component: boxcoin },
     { name: "points", path: "/points", component: points },
     { name: "tasks", path: "/tasks", component: tasks },
-    { name: "keycode", path: "/keycode", component: keycode },
+    { name: "code", path: "/code", component: code },
 
     { name: "profile", path: "/profile", component: profile },
     { name: "avatar", path: "/avatar", component: avatar },

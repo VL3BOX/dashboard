@@ -42,7 +42,7 @@
                     </el-table-column>
 
                 </el-table>
-                <el-alert v-else class="m-credit-null m-packet-null" title="没有获得卡密" type="info" center show-icon></el-alert>
+                <el-alert v-else class="m-credit-null m-packet-null" title="没有找到任何记录" type="info" center show-icon></el-alert>
                 <el-pagination class="m-credit-pages" background :page-size="per" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
             </el-tab-pane>
             <el-tab-pane label="激活码" name="sn">
@@ -74,7 +74,7 @@
                     <el-table-column prop="remark" label="备注" min-width="300">
                     </el-table-column>
                 </el-table>
-                <el-alert v-else class="m-credit-null m-packet-null" title="没有获得激活码" type="info" center show-icon></el-alert>
+                <el-alert v-else class="m-credit-null m-packet-null" title="没有找到任何记录" type="info" center show-icon></el-alert>
                 <el-pagination class="m-credit-pages" background :page-size="per" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
             </el-tab-pane>
         </el-tabs>
@@ -87,7 +87,7 @@ import { keycode, types, subtypes } from "@/assets/data/keycode.json";
 import _ from "lodash";
 
 export default {
-    name: "keycode",
+    name: "code",
     data: function () {
         return {
             loading: false,
@@ -122,7 +122,7 @@ export default {
             handler: function (tab) {
                 this.page = 1;
                 this.key[tab]();
-                this.$router.push({ name: "keycode", query: { tab } });
+                this.$router.push({ name: "code", query: { tab } });
             },
         },
         params() {
@@ -177,7 +177,7 @@ export default {
                 cancelButtonText: "取消",
                 inputType: "password",
             }).then(({ value }) => {
-                 activationSn(row.id, { password: value }).then((res) => {
+                activationSn(row.id, { password: value }).then((res) => {
                     row.code = res.data.data.sn;
                     this.$set(this.list, index, row);
                 });

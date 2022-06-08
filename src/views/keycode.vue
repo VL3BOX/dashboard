@@ -2,7 +2,7 @@
     <div class="m-dashboard-keycode m-credit">
         <h2 class="u-title"><i class="el-icon-bank-card"></i> 我的卡密</h2>
         <el-tabs type="border-card" v-model="tab">
-            <el-tab-pane label="一卡通" name="card">
+            <el-tab-pane label="一卡通" name="keycode">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header v-loading="loading">
                     <el-table-column prop="type" label="类型" width="140">
                         <template slot-scope="scope">{{ keycode[scope.row.type] || '其他'}}</template>
@@ -26,7 +26,7 @@
                                         <el-button class="u-btn" v-if="scope.row.key" type="txt" size="mini" icon="el-icon-document-copy" v-clipboard:copy="'' + scope.row.key" v-clipboard:success="onCopy" v-clipboard:error="onError">复制密码</el-button>
                                     </div>
                                 </div>
-                                <el-button v-if="!scope.row.code" type="primary" icon="el-icon-view" @click="toCard(scope.$index, scope.row)" size="small" plain>点击查看</el-button>
+                                <el-button v-if="!scope.row.code" type="primary" icon="el-icon-view" @click="getKeycode(scope.$index, scope.row)" size="small" plain>点击查看</el-button>
                             </div>
                         </template>
                     </el-table-column>
@@ -45,7 +45,7 @@
                 <el-alert v-else class="m-credit-null m-packet-null" title="没有获得卡密" type="info" center show-icon></el-alert>
                 <el-pagination class="m-credit-pages" background :page-size="per" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
             </el-tab-pane>
-            <el-tab-pane label="激活码" name="code">
+            <el-tab-pane label="激活码" name="sn">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell" v-loading="loading">
                     <el-table-column prop="type" label="类型">
                         <template slot-scope="scope">{{types[scope.row.type]  || '其他'}}</template>
@@ -57,7 +57,7 @@
                         <template slot-scope="scope">
                             <div class="u-code">
                                 <span class="u-txt">{{scope.row.code||'****************'}}</span>
-                                <el-button v-if="!scope.row.code" type="primary" icon="el-icon-view" @click="toCode(scope.$index, scope.row)" size="small" plain>点击查看</el-button>
+                                <el-button v-if="!scope.row.code" type="primary" icon="el-icon-view" @click="getSn(scope.$index, scope.row)" size="small" plain>点击查看</el-button>
                                 <el-button class="u-btn" v-else type="txt" size="mini" icon="el-icon-document-copy" v-clipboard:copy="'' + scope.row.code" v-clipboard:success="onCopy" v-clipboard:error="onError">复制</el-button>
                             </div>
                         </template>
@@ -82,8 +82,10 @@
     </div>
 </template>
 <script>
-import { getCardList, getCodeList, sendCard, sendCode } from "@/service/card.js";
+import { getKeycodeList, getSnList, getKeycodeNumber, getSnNumber } from "@/service/keycode.js";
 import { keycode, types, subtypes } from "@/assets/data/keycode.json";
+import _ from "lodash";
+
 export default {
     name: "keycode",
     data: function () {
@@ -93,12 +95,17 @@ export default {
             page: 1,
             total: 0,
 
-            tab: "card",
+            tab: "keycode",
             list: [],
 
             keycode,
             types,
             subtypes,
+
+            key: {
+                keycode: this.loadKeycode,
+                sn: this.LoadSn,
+            },
         };
     },
     computed: {
@@ -110,23 +117,23 @@ export default {
         },
     },
     watch: {
-        tab(tab) {
-            this.page = 1;
-            this.loadData(tab);
-            this.$router.push({ name: "keycode", query: { tab } });
+        tab: {
+            deep: true,
+            handler: function (tab) {
+                this.page = 1;
+                this.key[tab]();
+                this.$router.push({ name: "keycode", query: { tab } });
+            },
         },
         params() {
-            this.loadData();
+            this.key[this.tab]();
         },
     },
     methods: {
-        loadData(tab = this.tab) {
-            tab == "card" ? this.loadCard() : this.LoadCode();
-        },
         // 获取一卡通列表
-        loadCard() {
+        loadKeycode() {
             this.loading = true;
-            getCardList(this.params)
+            getKeycodeList(this.params)
                 .then((res) => {
                     this.list = res.data.data.list;
                     this.total = res.data.data.page.total;
@@ -136,9 +143,9 @@ export default {
                 });
         },
         // 获取激活码列表
-        LoadCode() {
+        LoadSn() {
             this.loading = true;
-            getCodeList(this.params)
+            getSnList(this.params)
                 .then((res) => {
                     this.list = res.data.data.list;
                     this.total = res.data.data.page.total;
@@ -148,13 +155,13 @@ export default {
                 });
         },
         //  获取单个卡密
-        toCard(index, row) {
+        getKeycode(index, row) {
             this.$prompt("请输入密码", "提示", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 inputType: "password",
             }).then(({ value }) => {
-                sendCard(row.id, { password: value }).then((res) => {
+                getKeycodeNumber(row.id, { password: value }).then((res) => {
                     console.log(res);
                     let { code, key } = res.data.data;
                     row.code = code;
@@ -164,13 +171,13 @@ export default {
             });
         },
         //  获取单个激活码
-        toCode(index, row) {
+        getSn(index, row) {
             this.$prompt("请输入密码", "提示", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 inputType: "password",
             }).then(({ value }) => {
-                sendCode(row.id, { password: value }).then((res) => {
+                getSnNumber(row.id, { password: value }).then((res) => {
                     row.code = res.data.data.sn;
                     this.$set(this.list, index, row);
                 });
@@ -207,7 +214,7 @@ export default {
     },
     mounted: function () {
         if (this.$route.query.tab) this.tab = this.$route.query.tab;
-        this.loadData();
+        this.key[this.tab]();
     },
 };
 </script>

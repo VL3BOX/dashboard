@@ -1,20 +1,20 @@
 import { $pay } from "@jx3box/jx3box-common/js/https";
 
-function getCardList(params) {
+function getKeycodeList(params) {
     return $pay().get(`/api/my/codekeycode/history`, {
         params,
     });
 }
-function getCodeList(params) {
+function getSnList(params) {
     return $pay().get(`/api/my/codesn/history`, {
         params,
     });
 }
-function sendCode(id, data) {
+function getSnNumber(id, data) {
     return $pay().post(`/api/my/codesn/${id}/activation-code`, data);
 }
-function sendCard(id, data) {
+function getKeycodeNumber(id, data) {
     return $pay().post(`/api/my/codekeycode/${id}/activation-code`, data);
 }
 
-export { getCardList, getCodeList, sendCard, sendCode };
+export { getKeycodeList, getSnList, getKeycodeNumber, getSnNumber };

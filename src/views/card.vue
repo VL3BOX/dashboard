@@ -90,7 +90,7 @@ export default {
                 game: "游戏内激活码",
             },
             subtypes: {
-                jdt_tf: "百强体服激活码",
+                jdt_tf: "秘境百强",
                 point_lottery: "积分抽奖",
                 boxcoin: "盒币兑换",
             },

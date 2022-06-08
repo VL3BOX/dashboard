@@ -15,7 +15,7 @@
 			<el-alert class="m-boxcoin-ac" type="error" show-icon :closable="false" v-if="breadcrumb" size="mini">
 				<slot name="title"><div v-html="breadcrumb"></div></slot>
 			</el-alert>
-			<el-alert class="m-boxcoin-tip" title="1盒币可兑换1通宝，不可折现" type="warning" show-icon> 所有兑换申请将在每月{{ start_date }}-{{ end_date }}号统一处理，每月1-5日将不能提交兑换申请。默认通宝将通过直充进入游戏账号（不会计入充销），如发放为金山一卡通方式，则会发送卡密邮件至邮箱（请自行在 <a href="https://charge.xoyo.com/pay?item=jx3&way=kcard" target="_blank">一卡通充值页面</a>进行充值。） </el-alert>
+			<el-alert class="m-boxcoin-tip" title="1盒币可兑换1通宝，不可折现" type="warning" show-icon> 所有兑换申请将在每月{{ start_date }}-{{ end_date }}号统一处理，每月{{ start_date }}-{{ end_date }}日将不能提交兑换申请，提交后1月内到账。默认通宝将通过直充进入游戏账号，如发放为金山一卡通方式，则会发送卡密邮件至绑定邮箱或通过站内卡密系统发放（请自行在 <a href="https://charge.xoyo.com/pay?item=jx3&way=kcard" target="_blank">一卡通充值页面</a>进行充值。） </el-alert>
 			<el-form label-position="left" label-width="80px" class="m-boxcoin-form">
 				<el-form-item label="游戏大区">
 					<el-select v-model="pull.zone" placeholder="请选择所在大区">

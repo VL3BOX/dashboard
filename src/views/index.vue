@@ -74,29 +74,6 @@
         <div class="m-credit">
             <el-row :gutter="20">
                 <el-col :span="6">
-                    <div class="u-dot">
-                        <el-tooltip
-                            class="item"
-                            effect="dark"
-                            content="积分可用于兑换限量纪念品、激活码等，通过发布作品或参与站内活动获取"
-                            placement="top"
-                        >
-                            <div class="u-credit-name"><i class="el-icon-sugar"></i> 积分</div>
-                        </el-tooltip>
-                        <div class="u-credit-value">
-                            <b>{{ asset.points }}</b>
-                        </div>
-                        <div class="u-credit-op">
-                            <router-link class="el-button el-button--primary el-button--mini" to="/points"
-                                >记录</router-link
-                            >
-                            <a class="el-button el-button--primary el-button--mini is-disabled" href="/vip/mall" target="_blank"
-                                >兑换</a
-                            >
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="6">
                     <div class="u-coin">
                         <el-tooltip
                             class="item"
@@ -115,6 +92,29 @@
                             >
                             <router-link class="el-button el-button--primary el-button--mini" to="/boxcoin"
                                 >兑换</router-link
+                            >
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="u-dot">
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="积分可用于兑换限量纪念品、激活码等，通过发布作品或参与站内活动获取"
+                            placement="top"
+                        >
+                            <div class="u-credit-name"><i class="el-icon-sugar"></i> 积分</div>
+                        </el-tooltip>
+                        <div class="u-credit-value">
+                            <b>{{ asset.points }}</b>
+                        </div>
+                        <div class="u-credit-op">
+                            <router-link class="el-button el-button--primary el-button--mini" to="/points"
+                                >记录</router-link
+                            >
+                            <a class="el-button el-button--primary el-button--mini is-disabled" href="/vip/mall" target="_blank"
+                                >兑换</a
                             >
                         </div>
                     </div>

@@ -1,16 +1,8 @@
 <template>
     <div class="m-dashboard m-dashboard-work m-dashboard-msg">
         <div class="m-dashboard-msg-header">
-            <h2 class="u-title">
-                <i class="el-icon-bell"></i> 我的消息
-            </h2>
-            <el-button
-                class="u-read-all"
-                type="primary"
-                size="mini"
-                @click="read(null)"
-                :disabled="!unread_total"
-            >
+            <h2 class="u-title"><i class="el-icon-bell"></i> 我的消息</h2>
+            <el-button class="u-read-all" type="primary" size="mini" @click="read(null)" :disabled="!unread_total">
                 <i class="el-icon el-icon-check"></i>
                 <span v-text="'全部设为已读'"></span>
             </el-button>
@@ -25,12 +17,7 @@
             <el-button slot="append" icon="el-icon-search" @click="changePage(1)"></el-button>
         </el-input>
         <ul class="m-dashboard-box-list" v-if="data.length">
-            <li
-                v-for="(item, i) in data"
-                :key="i"
-                :class="{ on: item.read == 1 }"
-                v-show="item.deleted == 0"
-            >
+            <li v-for="(item, i) in data" :key="i" :class="{ on: item.read == 1 }" v-show="item.deleted == 0">
                 <div class="u-primary">
                     <span class="u-content">
                         <span class="u-label u-hasChecked" v-if="item.read == 1">已读</span>
@@ -145,27 +132,34 @@ export default {
     },
     filters: {
         msgLink: function (item) {
-            let source_id = item.source_id;
-            let source_type = item.source_type;
+            let {source_id,source_type,type,subtype} = item
+
             if (source_type == "birthday") {
                 return (
                     `/author/birthday/${item.user_id}?code=` +
                     Base64.encode(source_id)
                 );
-            } else if (source_type == "sign") {
-                return `/dashboard/#/cooperation`;
-            } else if (source_type == "callback") {
+            }else if (source_type == "callback") {
                 let info = encodeURIComponent(
                     Base64.encode(JSON.stringify(item))
                 );
-                return `/dashboard/#/${item.type}/${item.subtype}?info=${info}`;
-            } else if(source_type == 'box_coin' || source_type == 'boxcoin'){
+                return `/dashboard/#/${type}/${subtype}?info=${info}`;
+
+            // 历史遗毒
+            }else if(source_type == 'box_coin' || source_type == 'boxcoin'){
                 return `/dashboard/#/boxcoin`;
-            } else if(item.subtype == 'team_join'){
+            } else if (source_type == "sign") {
+                return `/dashboard/#/cooperation`;
+            }else if(subtype == 'team_join'){
                 return `/team/member/list`;
+
+
+            }else if(source_type == 'dashboard'){
+                return `/dashboard/#/${source_id}?tab=${subtype}`;
             } else {
                 return getLink(source_type, source_id);
             }
+
         },
     },
     mounted: function () {

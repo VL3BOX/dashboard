@@ -2,7 +2,7 @@
     <div class="m-dashboard-keycode m-credit">
         <h2 class="u-title"><i class="el-icon-bank-card"></i> 我的卡密</h2>
         <el-tabs type="border-card" v-model="tab">
-            <el-tab-pane label="一卡通" name="card">
+            <el-tab-pane label="一卡通" name="keycode">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header v-loading="loading">
                     <el-table-column prop="type" label="类型" width="140">
                         <template slot-scope="scope">{{ keycode[scope.row.type] || '其他'}}</template>
@@ -42,10 +42,10 @@
                     </el-table-column>
 
                 </el-table>
-                <el-alert v-else class="m-credit-null m-packet-null" title="没有获得卡密" type="info" center show-icon></el-alert>
+                <el-alert v-else class="m-credit-null m-packet-null" title="没有找到任何记录" type="info" center show-icon></el-alert>
                 <el-pagination class="m-credit-pages" background :page-size="per" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
             </el-tab-pane>
-            <el-tab-pane label="激活码" name="code">
+            <el-tab-pane label="激活码" name="sn">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell" v-loading="loading">
                     <el-table-column prop="type" label="类型">
                         <template slot-scope="scope">{{types[scope.row.type]  || '其他'}}</template>
@@ -74,11 +74,10 @@
                     <el-table-column prop="remark" label="备注" min-width="300">
                     </el-table-column>
                 </el-table>
-                <el-alert v-else class="m-credit-null m-packet-null" title="没有获得激活码" type="info" center show-icon></el-alert>
+                <el-alert v-else class="m-credit-null m-packet-null" title="没有找到任何记录" type="info" center show-icon></el-alert>
                 <el-pagination class="m-credit-pages" background :page-size="per" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
             </el-tab-pane>
         </el-tabs>
-
     </div>
 </template>
 <script>
@@ -93,7 +92,7 @@ export default {
             page: 1,
             total: 0,
 
-            tab: "card",
+            tab: "keycode",
             list: [],
 
             keycode,
@@ -113,7 +112,7 @@ export default {
         tab(tab) {
             this.page = 1;
             this.loadData(tab);
-            this.$router.push({ name: "keycode", query: { tab } });
+            this.$router.push({ name: "code", query: { tab } });
         },
         params() {
             this.loadData();
@@ -155,7 +154,7 @@ export default {
                 inputType: "password",
             }).then(({ value }) => {
                 sendCard(row.id, { password: value }).then((res) => {
-                    console.log(res);
+                    // console.log(res);
                     let { code, key } = res.data.data;
                     row.code = code;
                     row.key = key;

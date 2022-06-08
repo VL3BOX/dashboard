@@ -82,7 +82,7 @@
     </div>
 </template>
 <script>
-import { getKeycodeList, getSnList, getKeycodeNumber, getSnNumber } from "@/service/keycode.js";
+import { getKeycodeList, getSnList, activationKeycode, activationSn } from "@/service/keycode.js";
 import { keycode, types, subtypes } from "@/assets/data/keycode.json";
 import _ from "lodash";
 
@@ -161,7 +161,7 @@ export default {
                 cancelButtonText: "取消",
                 inputType: "password",
             }).then(({ value }) => {
-                getKeycodeNumber(row.id, { password: value }).then((res) => {
+                activationKeycode(row.id, { password: value }).then((res) => {
                     console.log(res);
                     let { code, key } = res.data.data;
                     row.code = code;
@@ -177,7 +177,7 @@ export default {
                 cancelButtonText: "取消",
                 inputType: "password",
             }).then(({ value }) => {
-                getSnNumber(row.id, { password: value }).then((res) => {
+                 activationSn(row.id, { password: value }).then((res) => {
                     row.code = res.data.data.sn;
                     this.$set(this.list, index, row);
                 });

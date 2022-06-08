@@ -10,11 +10,11 @@ function getSnList(params) {
         params,
     });
 }
-function getSnNumber(id, data) {
+function activationSn(id, data) {
     return $pay().post(`/api/my/codesn/${id}/activation-code`, data);
 }
-function getKeycodeNumber(id, data) {
+function activationKeycode(id, data) {
     return $pay().post(`/api/my/codekeycode/${id}/activation-code`, data);
 }
 
-export { getKeycodeList, getSnList, getKeycodeNumber, getSnNumber };
+export { getKeycodeList, getSnList, activationKeycode, activationSn };

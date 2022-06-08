@@ -1,14 +1,14 @@
 <template>
-    <div class="m-dashboard-card m-credit">
+    <div class="m-dashboard-keycode m-credit">
         <h2 class="u-title"><i class="el-icon-bank-card"></i> 我的卡密</h2>
         <el-tabs type="border-card" v-model="tab">
             <el-tab-pane label="一卡通" name="card">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header v-loading="loading">
                     <el-table-column prop="type" label="类型" width="140">
-                        <template slot-scope="scope">{{ scope.row.type =='seasun_ykt'?'金山一卡通':'其他'}}</template>
+                        <template slot-scope="scope">{{ keycode[scope.row.type] || '其他'}}</template>
                     </el-table-column>
                     <el-table-column prop="subtype" label="渠道" width="140">
-                        <template slot-scope="scope">{{ subtypes[scope.row.subtype]  }}</template>
+                        <template slot-scope="scope">{{ subtypes[scope.row.subtype]  || '其他' }}</template>
                     </el-table-column>
                     <el-table-column label="面额" width="120">
                         <template slot-scope="scope">{{ scope.row.count}}</template>
@@ -30,8 +30,13 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column label="过期时间" width="140">
-                        <template slot-scope="scope">{{ scope.row.expire_at || '-' }}</template>
+                    <el-table-column label="过期时间" min-width="180">
+                        <template slot-scope="scope">
+                            <div class="u-time" v-if="scope.row.expire_at">
+                                <span class="u-tag" :class="compareTime(scope.row.expire_at,'tag')">{{compareTime(scope.row.expire_at,'time')}}</span><span>{{ scope.row.expire_at }}</span>
+                            </div>
+                            <span v-else>-</span>
+                        </template>
                     </el-table-column>
                     <el-table-column prop="remark" label="备注" min-width="200">
                     </el-table-column>
@@ -43,10 +48,10 @@
             <el-tab-pane label="激活码" name="code">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell" v-loading="loading">
                     <el-table-column prop="type" label="类型">
-                        <template slot-scope="scope">{{types[scope.row.type] }}</template>
+                        <template slot-scope="scope">{{types[scope.row.type]  || '其他'}}</template>
                     </el-table-column>
                     <el-table-column prop="subtype" label="渠道">
-                        <template slot-scope="scope">{{ subtypes[scope.row.subtype]  }}</template>
+                        <template slot-scope="scope">{{ subtypes[scope.row.subtype]  || '其他' }}</template>
                     </el-table-column>
                     <el-table-column label="激活码" min-width="300">
                         <template slot-scope="scope">
@@ -57,8 +62,14 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column label="过期时间" width="140">
-                        <template slot-scope="scope">{{ scope.row.expire_at || '-' }}</template>
+                    <el-table-column label="过期时间" min-width="180">
+                        <template slot-scope="scope">
+                            <div class="u-time" v-if="scope.row.expire_at">
+                                <span class="u-tag" :class="compareTime(scope.row.expire_at,'tag')">{{compareTime(scope.row.expire_at,'time')}}</span><span>{{ scope.row.expire_at }}</span>
+                            </div>
+                            <span v-else>-</span>
+                        </template>
+
                     </el-table-column>
                     <el-table-column prop="remark" label="备注" min-width="300">
                     </el-table-column>
@@ -72,9 +83,9 @@
 </template>
 <script>
 import { getCardList, getCodeList, sendCard, sendCode } from "@/service/card.js";
-
+import { keycode, types, subtypes } from "@/assets/data/keycode.json";
 export default {
-    name: "card",
+    name: "keycode",
     data: function () {
         return {
             loading: false,
@@ -85,15 +96,9 @@ export default {
             tab: "card",
             list: [],
 
-            types: {
-                tf: "体服激活码",
-                game: "游戏内激活码",
-            },
-            subtypes: {
-                jdt_tf: "秘境百强",
-                point_lottery: "积分抽奖",
-                boxcoin: "盒币兑换",
-            },
+            keycode,
+            types,
+            subtypes,
         };
     },
     computed: {
@@ -109,7 +114,7 @@ export default {
             this.list = [];
             this.page = 1;
             this.loadData(tab);
-            this.$router.push({ name: "card", query: { tab } });
+            this.$router.push({ name: "keycode", query: { tab } });
         },
         params() {
             this.loadData();
@@ -172,6 +177,21 @@ export default {
                 });
             });
         },
+        // 判断过期时间
+        compareTime(date, type) {
+            const key = new Date(date).getTime() > Date.now() ? 0 : 1;
+            const _tag = {
+                0: "green",
+                1: "gray",
+            };
+            const _status = {
+                0: "未过期",
+                1: "已过期",
+            };
+
+            return type == "tag" ? _tag[key] : _status[key];
+        },
+
         onCopy: function (val) {
             this.$notify({
                 title: "复制成功",
@@ -194,5 +214,5 @@ export default {
 </script>
 
 <style lang='less'>
-    @import "~@/assets/css/card.less";
+    @import "~@/assets/css/keycode.less";
 </style>

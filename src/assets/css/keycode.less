@@ -1,4 +1,4 @@
-.m-dashboard-card {
+.m-dashboard-keycode {
     .m-table {
         .cell {
             color: #232323;
@@ -33,8 +33,8 @@
                     .flex;
                     span {
                         text-align: left;
-                        width: 200px;
                         font-family: Consolas;
+                        margin-right: 10px;
                     }
                     .u-btn {
                         .ml(10px);
@@ -45,15 +45,31 @@
         .u-code {
             .u-txt {
                 text-align: left;
-                width: 160px;
                 font-family: Consolas;
+                margin-right: 10px;
             }
             .u-btn {
                 .ml(10px);
             }
         }
+        .u-time {
+            .u-tag {
+                .r(3px);
+                .mr(10px);
+                padding: 2px 10px;
+                border: 1px solid #ddd;
+                &.gray {
+                    color: #a6a9ad;
+                    border-color: #a6a9ad;
+                }
+                &.green {
+                    color: #40bb04;
+                    border-color: #40bb04;
+                }
+            }
+        }
     }
-    .m-credit-pages{
+    .m-credit-pages {
         .pt(20px);
     }
 }

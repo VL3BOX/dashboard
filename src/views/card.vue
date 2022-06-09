@@ -101,34 +101,32 @@ export default {
             keycode,
             types,
             subtypes,
-
         };
     },
     computed: {
         params() {
             return {
+                tab: this.tab,
                 pageIndex: this.page,
                 pageSize: this.per,
             };
         },
+        loadName() {
+            return "load" + this.tab.slice(0, 1).toUpperCase() + this.tab.slice(1);
+        },
     },
     watch: {
-        tab: {
+        tab(tab) {
+            this.page = 1;
+            this.$router.push({ name: "card", query: { tab } });
+        },
+        params: {
+            immediate: true,
             deep: true,
-            handler: function (tab) {
-                this.page = 1;
-                this.load[tab]();
-                this.$router.push({ name: "card", query: { tab } });
+            handler: function () {
+                this[this.loadName]();
             },
         },
-        params : {
-            immediate : true,
-            deep : true,
-            handler : function (){
-                let fnName = 'load' + this.tab.slice(0,1).toUpperCase() + this.tab.slice(1)
-                this[fnName]();
-            }
-        }
     },
     methods: {
         // 获取一卡通列表
@@ -144,7 +142,7 @@ export default {
                 });
         },
         // 获取激活码列表
-        LoadSn() {
+        loadSn() {
             this.loading = true;
             getSnList(this.params)
                 .then((res) => {
@@ -212,7 +210,7 @@ export default {
             });
         },
     },
-    mounted: function () {
+    created() {
         if (this.$route.query.tab) this.tab = this.$route.query.tab;
     },
 };

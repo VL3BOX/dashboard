@@ -134,7 +134,11 @@ export default {
             this.loading = true;
             getKeycodeList(this.params)
                 .then((res) => {
-                    this.list = res.data.data.list;
+                    this.list = res.data.data.list.map((item) => {
+                        item.code = ''
+                        item.key = ''
+                        return item
+                    })
                     this.total = res.data.data.page.total;
                 })
                 .finally(() => {
@@ -146,7 +150,10 @@ export default {
             this.loading = true;
             getSnList(this.params)
                 .then((res) => {
-                    this.list = res.data.data.list;
+                    this.list = res.data.data.list.map((item) => {
+                        item.sn = ''
+                        return item;
+                    })
                     this.total = res.data.data.page.total;
                 })
                 .finally(() => {

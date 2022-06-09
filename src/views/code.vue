@@ -102,7 +102,7 @@ export default {
             types,
             subtypes,
 
-            key: {
+            load: {
                 keycode: this.loadKeycode,
                 sn: this.LoadSn,
             },
@@ -121,12 +121,12 @@ export default {
             deep: true,
             handler: function (tab) {
                 this.page = 1;
-                this.key[tab]();
+                this.load[tab]();
                 this.$router.push({ name: "code", query: { tab } });
             },
         },
         params() {
-            this.key[this.tab]();
+            this.load[this.tab]();
         },
     },
     methods: {
@@ -214,7 +214,7 @@ export default {
     },
     mounted: function () {
         if (this.$route.query.tab) this.tab = this.$route.query.tab;
-        this.key[this.tab]();
+        this.load[this.tab]();
     },
 };
 </script>

@@ -1,3 +1,9 @@
+/*
+ * @Author: iRuxu
+ * @Date: 2022-06-09 13:55:38
+ * @LastEditTime: 2022-06-09 14:22:13
+ * @Description:
+ */
 import Vue from "vue";
 import VueRouter from "vue-router";
 
@@ -18,7 +24,7 @@ const packet = () => import("../views/packet.vue");
 const boxcoin = () => import("../views/boxcoin.vue");
 const points = () => import("../views/points.vue");
 const tasks = () => import("../views/tasks.vue");
-const code = () => import("../views/code.vue");
+const card= () => import("../views/card.vue");
 
 const profile = () => import("../views/profile.vue");
 const avatar = () => import("../views/avatar.vue");
@@ -47,7 +53,7 @@ const routes = [
     { name: "boxcoin", path: "/boxcoin", component: boxcoin },
     { name: "points", path: "/points", component: points },
     { name: "tasks", path: "/tasks", component: tasks },
-    { name: "code", path: "/code", component: code },
+    { name: "card", path: "/card", component: card},
 
     { name: "profile", path: "/profile", component: profile },
     { name: "avatar", path: "/avatar", component: avatar },

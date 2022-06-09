@@ -35,7 +35,7 @@
                 <i class="el-icon-present"></i>
                 <span>我的积分</span>
             </router-link>
-            <router-link to="/code">
+            <router-link to="/card">
                 <i class="el-icon-bank-card"></i>
                 <span>我的卡密</span>
             </router-link>

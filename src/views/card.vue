@@ -82,12 +82,12 @@
     </div>
 </template>
 <script>
-import { getKeycodeList, getSnList, activationKeycode, activationSn } from "@/service/keycode.js";
-import { keycode, types, subtypes } from "@/assets/data/keycode.json";
+import { getKeycodeList, getSnList, activationKeycode, activationSn } from "@/service/card.js";
+import { keycode, types, subtypes } from "@/assets/data/card.json";
 import _ from "lodash";
 
 export default {
-    name: "code",
+    name: "card",
     data: function () {
         return {
             loading: false,
@@ -102,10 +102,6 @@ export default {
             types,
             subtypes,
 
-            load: {
-                keycode: this.loadKeycode,
-                sn: this.LoadSn,
-            },
         };
     },
     computed: {
@@ -122,12 +118,17 @@ export default {
             handler: function (tab) {
                 this.page = 1;
                 this.load[tab]();
-                this.$router.push({ name: "code", query: { tab } });
+                this.$router.push({ name: "card", query: { tab } });
             },
         },
-        params() {
-            this.load[this.tab]();
-        },
+        params : {
+            immediate : true,
+            deep : true,
+            handler : function (){
+                let fnName = 'load' + this.tab.slice(0,1).toUpperCase() + this.tab.slice(1)
+                this[fnName]();
+            }
+        }
     },
     methods: {
         // 获取一卡通列表
@@ -162,7 +163,6 @@ export default {
                 inputType: "password",
             }).then(({ value }) => {
                 activationKeycode(row.id, { password: value }).then((res) => {
-                    console.log(res);
                     let { code, key } = res.data.data;
                     row.code = code;
                     row.key = key;
@@ -214,7 +214,6 @@ export default {
     },
     mounted: function () {
         if (this.$route.query.tab) this.tab = this.$route.query.tab;
-        this.load[this.tab]();
     },
 };
 </script>

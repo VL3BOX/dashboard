@@ -1,7 +1,7 @@
 /*
  * @Author: iRuxu
  * @Date: 2022-06-09 13:55:38
- * @LastEditTime: 2022-06-09 14:22:13
+ * @LastEditTime: 2022-06-11 22:28:05
  * @Description:
  */
 import Vue from "vue";
@@ -71,6 +71,15 @@ const routes = [
 
 const router = new VueRouter({
     routes,
+    mode : 'history',
+    base : 'dashboard'
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.fullPath.includes('/#')) {
+        next(to.fullPath.replace('/#', ''));
+    }
+    next()
 });
 
 export default router;

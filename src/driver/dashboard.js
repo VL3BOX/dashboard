@@ -1,3 +1,9 @@
+/*
+ * @Author: iRuxu
+ * @Date: 2022-06-08 23:24:29
+ * @LastEditTime: 2022-06-11 22:15:55
+ * @Description:
+ */
 // 第三方UI组件
 import Vue from "vue";
 Vue.config.productionTip = false;
@@ -7,7 +13,6 @@ Vue.use(Clipboard)
 
 import ElementUI from "element-ui";
 Vue.use(ElementUI);
-
 
 
 // 通用UI模块
@@ -20,12 +25,12 @@ import failCallback from '../utils/failCallback'
 Vue.prototype.failCallback = failCallback;
 
 import router from "../router";
-// import store from "./store";
+import store from "../store";
 
 import dashboard from "./dashboard.vue";
 
 new Vue({
     router,
-    // store,
+    store,
     render: (h) => h(dashboard),
 }).$mount("#app");

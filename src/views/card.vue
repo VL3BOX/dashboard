@@ -1,6 +1,7 @@
 <template>
     <div class="m-dashboard-keycode m-credit">
         <h2 class="u-title"><i class="el-icon-bank-card"></i> 我的卡密</h2>
+        <el-alert class="m-boxcoin-tip" title="请务必妥善保管，并注意过期时间。" type="warning" show-icon> <a href="https://charge.xoyo.com/pay?item=jx3&way=kcard" target="_blank">金山一卡通充值页面</a></el-alert>
         <el-tabs type="border-card" v-model="tab">
             <el-tab-pane label="一卡通" name="keycode">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header v-loading="loading">

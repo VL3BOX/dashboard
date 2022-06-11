@@ -132,34 +132,30 @@ export default {
     },
     filters: {
         msgLink: function (item) {
-            let {source_id,source_type,type,subtype} = item
+            let { source_id, source_type, type, subtype, redirect, user_id } = item;
 
-            if (source_type == "birthday") {
-                return (
-                    `/author/birthday/${item.user_id}?code=` +
-                    Base64.encode(source_id)
-                );
-            }else if (source_type == "callback") {
-                let info = encodeURIComponent(
-                    Base64.encode(JSON.stringify(item))
-                );
-                return `/dashboard/#/${type}/${subtype}?info=${info}`;
-
-            // 历史遗毒
-            }else if(source_type == 'box_coin' || source_type == 'boxcoin'){
-                return `/dashboard/#/boxcoin`;
-            } else if (source_type == "sign") {
-                return `/dashboard/#/cooperation`;
-            }else if(subtype == 'team_join'){
-                return `/team/member/list`;
-
-
-            }else if(source_type == 'dashboard'){
-                return `/dashboard/#/${source_id}?tab=${subtype}`;
+            if (redirect) {
+                return "/" + redirect.split("_");
             } else {
-                return getLink(source_type, source_id);
-            }
 
+                if (source_type == "birthday") {
+                    return `/author/birthday/${user_id}?code=` + Base64.encode(source_id);
+                } else if (source_type == "callback") {
+                    let info = encodeURIComponent(Base64.encode(JSON.stringify(item)));
+                    return `/dashboard/#/${type}/${subtype}?info=${info}`;
+
+                // TODO:历史遗毒
+                } else if (source_type == "box_coin" || source_type == "boxcoin") {
+                    return `/dashboard/#/boxcoin`;
+                } else if (source_type == "sign") {
+                    return `/dashboard/#/cooperation`;
+                } else if (subtype == "team_join") {
+                    return `/team/member/list`;
+
+                } else {
+                    return getLink(source_type, source_id);
+                }
+            }
         },
     },
     mounted: function () {

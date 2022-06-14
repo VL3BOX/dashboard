@@ -1,7 +1,7 @@
 /*
  * @Author: iRuxu
  * @Date: 2022-06-09 13:55:38
- * @LastEditTime: 2022-06-11 22:28:05
+ * @LastEditTime: 2022-06-14 14:19:40
  * @Description:
  */
 import Vue from "vue";
@@ -65,8 +65,8 @@ const routes = [
     { name: "whitelist", path: "/whitelist", component: whitelist },
 
 
-    { name: "invitation_creators", path: "/invitation/creators", component: invitation_creators },
-    { name: "invitation_kith", path: "/invitation/kith", component: invitation_kith },
+    { name: "invitation_creators", path: "/callback/invitation/creators", component: invitation_creators },
+    { name: "invitation_kith", path: "/callback/invitation/kith", component: invitation_kith },
 ];
 
 const router = new VueRouter({

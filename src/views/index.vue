@@ -50,7 +50,7 @@
                             :content="~~info.verify_email ? '邮箱已验证' : '邮箱未验证'"
                             placement="top"
                         >
-                            <a href="/dashboard/#/email" :class="info.verify_email && 'done'"><i class="el-icon-message"></i></a>
+                            <a href="/dashboard/email" :class="info.verify_email && 'done'"><i class="el-icon-message"></i></a>
                         </el-tooltip>
                         <el-tooltip
                             class="item"
@@ -58,7 +58,7 @@
                             :content="~~info.verify_phone ? '手机已绑定' : '手机未绑定'"
                             placement="top"
                         >
-                            <a href="/dashboard/#/phone" :class="info.verify_phone && 'done'"><i class="el-icon-mobile-phone"></i></a>
+                            <a href="/dashboard/phone" :class="info.verify_phone && 'done'"><i class="el-icon-mobile-phone"></i></a>
                         </el-tooltip>
                     </span>
                     <span class="u-group" v-if="group > 60">

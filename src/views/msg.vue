@@ -24,7 +24,7 @@
                         <span class="u-label u-hasNotChecked" v-else>未读</span>
                         <span v-html="item.content"></span>
                         <a
-                            :href="item | msgLink"
+                            :href="msgLink(item)"
                             class="u-msg-link"
                             v-if="hasLink(item)"
                             @click="read(item)"
@@ -129,8 +129,6 @@ export default {
             }
             return false;
         },
-    },
-    filters: {
         msgLink: function (item) {
             let { source_id, source_type, type, subtype, redirect, user_id } = item;
 

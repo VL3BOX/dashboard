@@ -2,7 +2,7 @@
     <div class="m-dashboard m-dashboard-work m-dashboard-fav">
         <div class="m-dashboard-work-header">
             <h2 class="u-title"><i class="el-icon-star-off"></i> 我的收藏</h2>
-            <el-select v-model="searchType" placeholder="类型过滤" class="u-filter" size="small">
+            <el-select v-model="searchType" placeholder="类型过滤" class="u-filter" size="small" @change="handleChange">
                 <el-option label="全部" value=""> </el-option>
                 <el-option-group v-for="group in options" :key="group.label" :label="group.label">
                     <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value">
@@ -10,9 +10,9 @@
                 </el-option-group>
             </el-select>
         </div>
-        <el-input class="m-dashboard-work-search" placeholder="请输入搜索内容" v-model="search" @keyup.enter.native="loadData">
+        <el-input class="m-dashboard-work-search" placeholder="请输入搜索内容" v-model="search" @keyup.enter.native="handleChange">
             <template slot="prepend">关键词</template>
-            <el-button slot="append" icon="el-icon-search" @click="loadData"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="handleChange"></el-button>
         </el-input>
 
         <div class="m-dashboard-box" v-loading="loading">
@@ -87,15 +87,6 @@ export default {
         };
     },
     computed: {
-        params: function () {
-            let _params = {
-                pageIndex: this.page,
-                pageSize: this.per,
-            };
-            if (this.search) _params.post_title = this.search;
-            if (this.searchType && this.searchType !== "all") _params.post_type = this.searchType;
-            return _params;
-        },
         subtype: function () {
             return this.$route.params.subtype || "";
         },
@@ -103,7 +94,19 @@ export default {
     methods: {
         loadData() {
             this.loading = true;
-            getMyFavs(this.params)
+            this.$router.push({
+                name: "fav",
+                query: {
+                    page: this.page,
+                },
+            });
+            const params = {
+                pageIndex: this.page,
+                pageSize: this.per
+            }
+            if (this.search) params.post_title = this.search;
+            if (this.searchType && this.searchType !== "all") params.post_type = this.searchType;
+            getMyFavs(params)
                 .then((res) => {
                     this.data = res.list || [];
                     this.total = res.page.total || 0;
@@ -132,21 +135,21 @@ export default {
             val = val * 1000;
             return dateFormat(new Date(val));
         },
+        handleChange() {
+            this.page = 1;
+            this.loadData();
+        }
     },
     watch: {
-        params: {
-            deep: true,
-            handler: function () {
-                this.loadData();
-            },
-        },
         searchType(val) {
             if (!val) val = "all";
             this.$router.push({ name: "fav", params: { subtype: val } });
         },
     },
     mounted: function () {
-        this.subtype ? (this.searchType = this.subtype) : this.loadData();
+        this.page = this.$route.query.page || 1;
+        this.subtype && (this.searchType = this.subtype)
+        this.loadData();
     },
 };
 </script>

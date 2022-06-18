@@ -52,11 +52,12 @@
         </ul>
         <el-alert v-else class="m-dashboard-box-null" title="没有找到相关条目" type="info" center show-icon></el-alert>
         <el-pagination
+            v-if="paginationShow"
             class="m-dashboard-box-pages"
             background
             :hide-on-single-page="true"
             @current-change="changePage"
-            :current-page="page"
+            :current-page.sync="page"
             layout="total, prev, pager, next, jumper"
             :total="total"
         ></el-pagination>
@@ -65,7 +66,7 @@
 
 <script>
 import { getMsgs, readMsg, removeMsg } from "../service/msg.js";
-import { showDate, showTime } from "@jx3box/jx3box-common/js/moment.js";
+import { showTime } from "@jx3box/jx3box-common/js/moment.js";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 import { Base64 } from "js-base64";
 const ignoreLinkTypes = ["namespace"];
@@ -80,11 +81,19 @@ export default {
             unread_total: 0,
             total: 1,
             page: 1,
+            paginationShow: true,
         };
     },
     methods: {
         changePage: function (i = 1) {
+            this.$router.push({
+                name: "msg",
+                query: {
+                    page: i,
+                },
+            });
             this.page = i;
+            this.paginationShow = false;
             getMsgs({
                 where: {
                     content: this.keyword,
@@ -94,6 +103,10 @@ export default {
                 this.unread_total = res.data.data.unread_count;
                 this.total = res.data.data.total;
                 this.data = res.data.data.messages;
+                this.paginationShow = true;
+            }).catch((err) => {
+                this.$message.error(err.message);
+                this.paginationShow = true;
             });
         },
         read(item) {
@@ -157,7 +170,7 @@ export default {
         },
     },
     mounted: function () {
-        this.changePage();
+        this.changePage(Number(this.$route.query.page || 1));
     },
 };
 </script>

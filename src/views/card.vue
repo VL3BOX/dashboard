@@ -2,7 +2,7 @@
     <div class="m-dashboard-keycode m-credit">
         <h2 class="u-title"><i class="el-icon-bank-card"></i> 我的卡密</h2>
         <el-alert class="m-boxcoin-tip" title="请务必妥善保管，并注意过期时间。" type="warning" show-icon> <a href="https://charge.xoyo.com/pay?item=jx3&way=kcard" target="_blank">金山一卡通充值页面</a></el-alert>
-        <el-tabs type="border-card" v-model="tab">
+        <el-tabs type="border-card" v-model="tab" @tab-click="tabClick">
             <el-tab-pane label="一卡通" name="keycode">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header v-loading="loading">
                     <el-table-column prop="type" label="类型" width="140">
@@ -44,7 +44,7 @@
 
                 </el-table>
                 <el-alert v-else class="m-credit-null m-packet-null" title="没有找到任何记录" type="info" center show-icon></el-alert>
-                <el-pagination class="m-credit-pages" background :page-size="per" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
+                <el-pagination v-if="showPagination" @current-change="currentChange" class="m-credit-pages" background :page-size="per" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
             </el-tab-pane>
             <el-tab-pane label="激活码" name="sn">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell" v-loading="loading">
@@ -76,7 +76,7 @@
                     </el-table-column>
                 </el-table>
                 <el-alert v-else class="m-credit-null m-packet-null" title="没有找到任何记录" type="info" center show-icon></el-alert>
-                <el-pagination class="m-credit-pages" background :page-size="per" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
+                <el-pagination v-if="showPagination" @current-change="currentChange" class="m-credit-pages" background :page-size="per" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
             </el-tab-pane>
         </el-tabs>
 
@@ -102,6 +102,7 @@ export default {
             keycode,
             types,
             subtypes,
+            showPagination: true,
         };
     },
     computed: {
@@ -116,23 +117,18 @@ export default {
             return "load" + this.tab.slice(0, 1).toUpperCase() + this.tab.slice(1);
         },
     },
-    watch: {
-        tab(tab) {
-            this.page = 1;
-            this.$router.push({ name: "card", query: { tab } });
-        },
-        params: {
-            immediate: true,
-            deep: true,
-            handler: function () {
-                this[this.loadName]();
-            },
-        },
-    },
     methods: {
         // 获取一卡通列表
         loadKeycode() {
             this.loading = true;
+            this.$router.push({
+                name: 'card',
+                query: {
+                    tab: 'keycode',
+                    page: this.page,
+                },
+            })
+            this.showPagination = false;
             getKeycodeList(this.params)
                 .then((res) => {
                     this.list = res.data.data.list.map((item) => {
@@ -144,11 +140,20 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
+                    this.showPagination = true;
                 });
         },
         // 获取激活码列表
         loadSn() {
             this.loading = true;
+            this.$router.push({
+                name: 'card',
+                query: {
+                    tab: 'sn',
+                    page: this.page,
+                },
+            })
+            this.showPagination = false;
             getSnList(this.params)
                 .then((res) => {
                     this.list = res.data.data.list.map((item) => {
@@ -159,6 +164,7 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
+                    this.showPagination = true;
                 });
         },
         //  获取单个卡密
@@ -217,9 +223,20 @@ export default {
                 message: "请手动复制",
             });
         },
+        currentChange(val) {
+            this.page = val;
+            this[this.loadName]();
+        },
+        tabClick(tab) {
+            this.page = 1;
+            this.tab = tab.name;
+            this[this.loadName]();
+        }
     },
-    created() {
+    mounted () {
         if (this.$route.query.tab) this.tab = this.$route.query.tab;
+        this.page = Number(this.$route.query.page || 1);
+        this.loadName && this[this.loadName]();
     },
 };
 </script>

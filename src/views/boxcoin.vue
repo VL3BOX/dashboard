@@ -251,8 +251,13 @@ export default {
         total_all: function () {
             return this.toPositiveNumber(this.overview.all);
         },
-        money: function () {
-            return this.client == "std" ? this.total_std : this.total_origin + this.total_all;
+        money: {
+            get() {
+                return this.client == "std" ? this.total_std : this.total_origin + this.total_all;
+            },
+            set(val) {
+                return val;
+            },
         },
         hasLeft: function () {
             return this.money > 0;
@@ -305,6 +310,13 @@ export default {
                 in: getBoxcoinGotHistory,
                 out: getBoxcoinCashHistory,
             };
+            this.$router.push({
+                name: 'boxcoin',
+                query: {
+                    tab: this.tab,
+                    page: this.page,
+                },
+            })
             fn[this.tab](this.params)
                 .then((res) => {
                     this.list = res.data.data.list;
@@ -381,7 +393,6 @@ export default {
                 }
             );
         },
-
         // 杂项
         loadAc: function () {
             getBreadcrumb("dashboard-boxcoin").then((data) => {
@@ -402,9 +413,8 @@ export default {
                 } else {
                     return str;
                 }
-            } else {
-                return "-";
             }
+            return "-";
         },
         formatHistoryStatus: function (val) {
             return statusMap[val] || val;
@@ -413,12 +423,11 @@ export default {
             return val > 0 ? val : 0;
         },
     },
-
     created: function () {
         this.tab = this.$route.query.tab || "in";
+        this.page = Number(this.$route.query.page || 1);
         this.init();
     },
-    components: {},
     watch: {
         params: {
             deep: true,

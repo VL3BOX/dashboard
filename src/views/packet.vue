@@ -299,6 +299,13 @@ export default {
                 all_packet: getAllPacket,
                 all_history: getAllHistory,
             };
+            this.$router.push({
+                name: 'packet',
+                query: {
+                    tab: this.activeName,
+                    page: this.page
+                },
+            })
             fns[this.activeName](this.params)
                 .then((res) => {
                     this[this.activeName] = res.data.data.list || [];
@@ -423,13 +430,13 @@ export default {
     },
     created: function() {
         this.activeName = this.$route.query.tab || "my_packet_list";
+        this.page = Number(this.$route.query.page || 1);
         getMyPacket().then((res) => {
             this.money = res.data.data.red_packet;
         });
 
         this.loadData();
     },
-    components: {},
     watch: {
         params: {
             deep: true,

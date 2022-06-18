@@ -101,23 +101,22 @@ export default {
         },
         loadData() {
             this.loading = true;
-            this.tab_value == "point"
-                ? getPointsHistory(this.params)
-                      .then((res) => {
-                          this.list = res.list;
-                          this.total = res.page.total;
-                      })
-                      .finally(() => {
-                          this.loading = false;
-                      })
-                : getExperienceHistory(this.params)
-                      .then((res) => {
-                          this.list = res.list;
-                          this.total = res.page.total;
-                      })
-                      .finally(() => {
-                          this.loading = false;
-                      });
+            this.$router.push({
+                name: 'points',
+                query: {
+                    tab: this.tab_value,
+                    page: this.page,
+                }
+            })
+            const fn = this.tab_value === "point" ? getPointsHistory : getExperienceHistory;
+            fn(this.params)
+                .then((res) => {
+                    this.list = res.list;
+                    this.total = res.page.total;
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
         },
         getPostLink(item) {
             return getLink(item.post_type, item.article_id);
@@ -144,7 +143,6 @@ export default {
     },
     watch: {
         params: {
-            immediate: true,
             deep: true,
             handler: function () {
                 this.loadData();
@@ -152,6 +150,9 @@ export default {
         },
     },
     created: function () {
+        this.tab_value = this.$route.query.tab || "point";
+        this.page = Number(this.$route.query.page || 1);
+        this.loadData();
         this.loadAsset();
     },
 };

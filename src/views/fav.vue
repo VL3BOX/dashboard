@@ -35,7 +35,7 @@
             </ul>
             <el-alert v-else class="m-dashboard-box-null" title="没有找到相关条目" type="info" center show-icon>
             </el-alert>
-            <el-pagination class="m-dashboard-box-pages" background :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total">
+            <el-pagination v-if="showPagination" class="m-dashboard-box-pages" background :hide-on-single-page="true" :page-size="per" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total" @current-change="currentChange">
             </el-pagination>
         </div>
     </div>
@@ -56,6 +56,7 @@ export default {
             total: 1,
             page: 1,
             per: 10,
+            showPagination: true,
             search: "",
             searchType: "",
             options: [
@@ -94,6 +95,7 @@ export default {
     methods: {
         loadData() {
             this.loading = true;
+            this.showPagination = false;
             this.$router.push({
                 name: "fav",
                 query: {
@@ -113,6 +115,7 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
+                    this.showPagination = true;
                 });
         },
         del: function (id) {
@@ -138,7 +141,11 @@ export default {
         handleChange() {
             this.page = 1;
             this.loadData();
-        }
+        },
+        currentChange: function (val) {
+            this.page = val;
+            this.loadData();
+        },
     },
     watch: {
         searchType(val) {
@@ -147,7 +154,7 @@ export default {
         },
     },
     mounted: function () {
-        this.page = this.$route.query.page || 1;
+        this.page = Number(this.$route.query.page || 1);
         this.subtype && (this.searchType = this.subtype)
         this.loadData();
     },

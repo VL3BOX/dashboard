@@ -227,6 +227,7 @@ export default {
                 std: 0,
                 origin: 0,
             },
+            totalCoin : 0
         };
     },
     computed: {
@@ -253,7 +254,13 @@ export default {
         },
         money: {
             get() {
-                return this.client == "std" ? this.total_std : this.total_origin + this.total_all;
+                if(this.client == 'std'){
+                    // 显示正式服余额（可能为负数） 和 真实余额较小的
+                    return Math.min(this.totalCoin,Math.max(this.total_std,0))
+                }else{
+                    // 显示怀旧服余额+双端余额（可能为负数） 和 真实余额较小的
+                    return Math.min(this.totalCoin,(Math.max(this.total_origin,0) + Math.max(this.total_all,0)))
+                }
             },
             set(val) {
                 return val;
@@ -297,7 +304,7 @@ export default {
             getBoxcoinConfig().then((res) => {
                 this.dates = JSON.parse(res.data.data.val);
             });
-            this.loadAsset();
+            this.loadAsset()
             this.loadData();
             this.loadAc();
             this.loadOverview();
@@ -342,7 +349,7 @@ export default {
         // 提现操作
         loadAsset: function () {
             User.getAsset().then((data) => {
-                this.money = data?.box_coin || 0;
+                this.totalCoin = data?.box_coin || 0;
             });
         },
         togglePullBox: function () {

@@ -96,6 +96,14 @@ function undeny(userId) {
     return $next().delete(`/api/my-userlist/deny/${userId}`)
 }
 
+/**
+ * 移除粉丝
+ * @param {*} userId 用户id
+ */
+function removeFans(userId) {
+    return $next().delete(`/api/my-userlist/follow-me/${userId}`)
+}
+
 
 export {
     getKithList,
@@ -111,5 +119,6 @@ export {
     follow,
     unfollow,
     deny,
-    undeny
+    undeny,
+    removeFans
 };

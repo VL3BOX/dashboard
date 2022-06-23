@@ -122,7 +122,8 @@ import {
     follow,
     unfollow,
     deny,
-    undeny
+    undeny,
+    removeFans
 } from "@/service/privacy.js";
 import User from "@jx3box/jx3box-common/js/user.js";
 import { showAvatar, authorLink } from "@jx3box/jx3box-common/js/utils";
@@ -196,7 +197,7 @@ export default {
             return {
                 blacklist: undeny,
                 myfollow: unfollow,
-                myfans: deny,
+                myfans: removeFans,
             }
         },
         addFns() {
@@ -362,7 +363,8 @@ export default {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
             }).then(() => {
-                this.removeFns[this.active](item.bind_user_id).then(() => {
+                const id = this.active === 'myfans' ? item.user_id : item.bind_user_id;
+                this.removeFns[this.active](id).then(() => {
                     this.$notify({
                         title: "成功",
                         message: "操作成功",

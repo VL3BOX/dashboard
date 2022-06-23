@@ -69,6 +69,7 @@ import { getMsgs, readMsg, removeMsg } from "../service/msg.js";
 import { showTime } from "@jx3box/jx3box-common/js/moment.js";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 import { Base64 } from "js-base64";
+import { join } from "path";
 const ignoreLinkTypes = ["namespace"];
 export default {
     name: "msg",
@@ -146,7 +147,7 @@ export default {
             let { source_id, source_type, type, subtype, redirect, user_id } = item;
 
             if (redirect) {
-                return "/" + redirect.split("_");
+                return "/" + redirect.split("_").join('/');
             } else {
 
                 if (source_type == "birthday") {

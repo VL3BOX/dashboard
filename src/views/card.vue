@@ -6,10 +6,10 @@
             <el-tab-pane label="一卡通" name="keycode">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header v-loading="loading">
                     <el-table-column prop="type" label="类型" width="140">
-                        <template slot-scope="scope">{{ keycode[scope.row.type] || '其他'}}</template>
+                        <template slot-scope="scope">{{ keycodeOptions.types[scope.row.type] || '其他'}}</template>
                     </el-table-column>
                     <el-table-column prop="subtype" label="渠道" width="140">
-                        <template slot-scope="scope">{{ subtypes[scope.row.subtype]  || '其他' }}</template>
+                        <template slot-scope="scope">{{ keycodeOptions.subtypes[scope.row.subtype]  || '其他' }}</template>
                     </el-table-column>
                     <el-table-column label="面额" width="120">
                         <template slot-scope="scope">{{ scope.row.count}}</template>
@@ -49,10 +49,10 @@
             <el-tab-pane label="激活码" name="sn">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell" v-loading="loading">
                     <el-table-column prop="type" label="类型">
-                        <template slot-scope="scope">{{types[scope.row.type]  || '其他'}}</template>
+                        <template slot-scope="scope">{{snOptions.types[scope.row.type]  || '其他'}}</template>
                     </el-table-column>
                     <el-table-column prop="subtype" label="渠道">
-                        <template slot-scope="scope">{{ subtypes[scope.row.subtype]  || '其他' }}</template>
+                        <template slot-scope="scope">{{ snOptions.subtypes[scope.row.subtype]  || '其他' }}</template>
                     </el-table-column>
                     <el-table-column label="激活码" min-width="300">
                         <template slot-scope="scope">
@@ -84,7 +84,8 @@
 </template>
 <script>
 import { getKeycodeList, getSnList, activationKeycode, activationSn } from "@/service/card.js";
-import { keycode, types, subtypes } from "@/assets/data/card.json";
+import keycodeOptions from "@/assets/data/card_keycode.json";
+import snOptions from "@/assets/data/card_sn.json";
 import _ from "lodash";
 
 export default {
@@ -99,9 +100,8 @@ export default {
             tab: "keycode",
             list: [],
 
-            keycode,
-            types,
-            subtypes,
+            keycodeOptions,
+            snOptions,
             showPagination: true,
         };
     },

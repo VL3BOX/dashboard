@@ -32,7 +32,7 @@ const pwd = () => import("../views/pwd.vue");
 const email = () => import("../views/email.vue");
 const connect = () => import("../views/connect.vue");
 const config = () => import("../views/config.vue");
-const whitelist = () => import("../views/whitelist.vue");
+const privacy = () => import("../views/privacy.vue");
 const cooperation = () => import("../views/cooperation.vue");
 
 
@@ -62,7 +62,7 @@ const routes = [
     { name: "connect", path: "/connect", component: connect },
     { name: "config", path: "/config", component: config },
     { name: "config", path: "/cooperation", component: cooperation },
-    { name: "whitelist", path: "/whitelist", component: whitelist },
+    { name: "privacy", path: "/privacy", component: privacy },
 
 
     { name: "invitation_creators", path: "/callback/invitation/creators", component: invitation_creators },

@@ -59,9 +59,9 @@
                 <i class="el-icon-user"></i>
                 <span>资料设置</span>
             </router-link>
-            <router-link to="/whitelist">
+            <router-link to="/privacy">
                 <i class="el-icon-ship"></i>
-                <span>亲友设置</span>
+                <span>隐私设置</span>
             </router-link>
             <router-link to="config">
                 <i class="el-icon-setting"></i>

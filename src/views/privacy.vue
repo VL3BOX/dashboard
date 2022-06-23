@@ -292,6 +292,12 @@ export default {
         // 加载列表
         loadList() {
             this.loading = true;
+            this.$router.push({
+                name: 'privacy',
+                query: {
+                    tab: this.active,
+                }
+            })
             if (this.active === 'whitelist') {
                 getKithList()
                     .then((res) => {
@@ -346,7 +352,7 @@ export default {
             });
         },
         // 移除
-        removeOther({ user_id }) {
+        removeOther(item) {
             const msgs = {
                 blacklist: "确认解除对该用户的屏蔽？",
                 myfollow: "确认不再关注该用户？",
@@ -356,7 +362,7 @@ export default {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
             }).then(() => {
-                this.removeFns[this.active](user_id).then(() => {
+                this.removeFns[this.active](item.bind_user_id).then(() => {
                     this.$notify({
                         title: "成功",
                         message: "操作成功",
@@ -367,9 +373,8 @@ export default {
             }).finally(() => {})
         }
     },
-    watch: {
-    },
     mounted: function () {
+        this.active = this.$route.query.tab || "whitelist";
         this.loadList();
         User.getAsset().then((asset) => {
             if(User._isPRO(asset)){

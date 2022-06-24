@@ -22,7 +22,7 @@
                 v-if="list && list.length"
             >
                 <div class="u-item" v-for="(item,i) in list" :key="item.kith_id || item.id">
-                    <a class="u-item-pic" :href="(item.kith_id || item.user_id) | authorLink" target="_blank">
+                    <a class="u-item-pic" :href="userLink(item)" target="_blank">
                         <img
                             class="u-item-avatar"
                             :src="(item.kith_info || item).user_avatar | showAvatar"
@@ -373,6 +373,16 @@ export default {
                     this.loadList();
                 });
             }).finally(() => {})
+        },
+        // 用户链接
+        userLink(item) {
+            let id = ''
+            if (this.active === 'whitelist') {
+                id = item.kith_id
+            } else {
+                id = this.active !== 'myfans' ? item.bind_user_id : item.user_id
+            }
+            return authorLink(id)
         }
     },
     mounted: function () {
@@ -392,7 +402,6 @@ export default {
         showAvatar: function (val) {
             return showAvatar(val, 'm');
         },
-        authorLink,
     }
 };
 </script>

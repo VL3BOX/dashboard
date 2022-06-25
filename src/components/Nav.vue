@@ -71,11 +71,15 @@
                 <i class="el-icon-coffee-cup"></i>
                 <span>任务中心</span>
             </router-link>
-            <a :href="feedback" target="_blank">
+            <router-link to="/feedback">
+                <i class="el-icon-phone-outline"></i>
+                <span>反馈中心</span>
+            </router-link>
+            <!-- <a :href="feedback" target="_blank">
                 <i class="el-icon-message"></i>
                 <span>需要帮助</span>
-                <!-- <img class="u-blank" svg-inline src="../assets/img/nav/blank.svg"/> -->
-            </a>
+                <img class="u-blank" svg-inline src="../assets/img/nav/blank.svg"/>
+            </a> -->
         </div>
     </nav>
 </template>

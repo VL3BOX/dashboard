@@ -49,7 +49,7 @@
             <el-tab-pane label="激活码" name="sn">
                 <el-table class="m-table" v-if="list.length" :data="list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell" v-loading="loading">
                     <el-table-column prop="type" label="类型">
-                        <template slot-scope="scope">{{snOptions.types[scope.row.type]  || '其他'}}</template>
+                        <template slot-scope="scope">{{snOptions.types[scope.row.type]  || scope.row.type || '其他'}}</template>
                     </el-table-column>
                     <el-table-column prop="subtype" label="渠道">
                         <template slot-scope="scope">{{ snOptions.subtypes[scope.row.subtype]  || '其他' }}</template>

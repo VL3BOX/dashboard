@@ -64,7 +64,26 @@ const routes = [
     { name: "config", path: "/config", component: config },
     { name: "config", path: "/cooperation", component: cooperation },
     { name: "privacy", path: "/privacy", component: privacy },
-    { name: "feedback", path: "/feedback", component: feedback },
+    {
+        name: "feedback",
+        path: "/feedback",
+        component: feedback,
+        redirect: {
+            name: "feedback_index"
+        },
+        children: [
+            {
+                name: 'feedback_index',
+                path: '',
+                component: () => import('@/components/feedback/index.vue')
+            },
+            {
+                name: 'feedback_erase',
+                path: 'erase',
+                component: () => import('@/components/feedback/erase.vue')
+            }
+        ]
+    },
 
 
     { name: "invitation_creators", path: "/callback/invitation/creators", component: invitation_creators },

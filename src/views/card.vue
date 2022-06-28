@@ -19,12 +19,12 @@
                             <div class="u-card">
                                 <div class="u-count">
                                     <div class="u-line">
-                                        <span>卡号：{{scope.row.code||'****************'}} </span>
-                                        <el-button class="u-btn" v-if="scope.row.code" type="txt" size="mini" icon="el-icon-document-copy" v-clipboard:copy="'' + scope.row.code" v-clipboard:success="onCopy" v-clipboard:error="onError">复制卡号</el-button>
+                                        <span>卡号：{{scope.row.key||'****************'}}</span>
+                                        <el-button class="u-btn" v-if="scope.row.key" type="txt" size="mini" icon="el-icon-document-copy" v-clipboard:copy="'' + scope.row.key" v-clipboard:success="onCopy" v-clipboard:error="onError">复制卡号</el-button>
                                     </div>
                                     <div class="u-line">
-                                        <span>卡密：{{scope.row.key||'****************'}}</span>
-                                        <el-button class="u-btn" v-if="scope.row.key" type="txt" size="mini" icon="el-icon-document-copy" v-clipboard:copy="'' + scope.row.key" v-clipboard:success="onCopy" v-clipboard:error="onError">复制密码</el-button>
+                                        <span>卡密：{{scope.row.code||'****************'}} </span>
+                                        <el-button class="u-btn" v-if="scope.row.code" type="txt" size="mini" icon="el-icon-document-copy" v-clipboard:copy="'' + scope.row.code" v-clipboard:success="onCopy" v-clipboard:error="onError">复制卡密</el-button>
                                     </div>
                                 </div>
                                 <el-button v-if="!scope.row.code" type="primary" icon="el-icon-view" @click="getKeycode(scope.$index, scope.row)" size="small" plain>点击查看</el-button>

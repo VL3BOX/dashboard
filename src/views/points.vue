@@ -126,8 +126,8 @@ export default {
         },
         formatRemark: function (str) {
             if (str) {
-                if (str.length > 12) {
-                    return str.slice(12) + "...";
+                if (str.length > 18) {
+                    return str.slice(0,18) + "...";
                 } else {
                     return str;
                 }

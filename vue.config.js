@@ -17,6 +17,13 @@ module.exports = {
 					request.setHeader("origin", "");
 				},
 			},
+			// NEXT2服务
+			"/api/miscfeedback": {
+				target: "https://next2.jx3box.com",
+				onProxyReq: function (request) {
+					request.setHeader("origin", "");
+				},
+			},
 			// NEXT服务
 			"/api/user": {
 				target: "https://next2.jx3box.com",

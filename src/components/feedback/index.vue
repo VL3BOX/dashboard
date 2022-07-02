@@ -2,9 +2,10 @@
     <div class="m-feedback-index">
         <section class="m-feedback-box">
             <el-tabs v-model="active">
-                <el-tab-pane label="提交反馈" name="submit">
+                <el-tab-pane label="提交反馈" name="submit" lazy>
+                    <add></add>
                 </el-tab-pane>
-                <el-tab-pane label="我的反馈" name="myfeedback">
+                <el-tab-pane label="我的反馈" name="myfeedback" lazy>
                 </el-tab-pane>
             </el-tabs>
         </section>
@@ -19,8 +20,12 @@
 </template>
 
 <script>
+import add from './add'
 export default {
     name: 'FeedbackIndex',
+    components: {
+        add,
+    },
     data() {
         return {
             active: 'submit'

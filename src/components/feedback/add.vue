@@ -40,7 +40,7 @@
                 <el-tooltip v-show="!canSubmit" content="必须先填写类型，子类和内容">
                     <i class="el-icon-question"></i>
                 </el-tooltip>
-                <el-button class="u-submit" icon="el-icon-s-promotion" type="primary" :disabled="!canSubmit" @click="submit" :loading="loading">提交</el-button>
+                <el-button class="u-submit" size="small" icon="el-icon-s-promotion" type="primary" :disabled="!canSubmit" @click="submit" :loading="loading">提交</el-button>
             </div>
         </div>
     </div>
@@ -81,7 +81,10 @@ export default {
     computed: {
         canSubmit() {
             return this.form.type && this.form.subtype && this.form.content
-        }
+        },
+        client() {
+            return this.$store.state.client
+        },
     },
     methods: {
         // 提交图片成功
@@ -113,6 +116,7 @@ export default {
             const data = {
                 ...this.form,
                 images: this.imgs,
+                client: this.client,
             }
             feedback(data).then(res => {
                 this.$message.success('提交成功');

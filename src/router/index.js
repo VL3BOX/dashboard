@@ -81,6 +81,11 @@ const routes = [
                 name: 'feedback_erase',
                 path: 'erase',
                 component: () => import('@/components/feedback/erase.vue')
+            },
+            {
+                name: 'feedback_single',
+                path: 'single/:id',
+                component: () => import('@/components/feedback/single.vue')
             }
         ]
     },

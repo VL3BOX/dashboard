@@ -1,11 +1,18 @@
+<!--
+ * @Author: iRuxu
+ * @Date: 2022-07-03 00:02:30
+ * @LastEditTime: 2022-07-03 02:09:18
+ * @Description:
+-->
 <template>
     <div class="m-feedback-erase">
         <div class="m-feedback-article">
+            <h1 class="u-title">账号注销</h1>
             <div v-html="article"></div>
         </div>
         <div class="u-tips">
-            <el-checkbox v-model="agree">我已知晓并同意上述规则</el-checkbox>
-            <el-button size="small" type="danger" :disabled="!agree" @click="handleConfirm">确认注销</el-button>
+            <div class="u-checkbox"><el-checkbox v-model="agree">我已知晓并同意上述规则</el-checkbox></div>
+            <div class="u-confirm"><el-button size="small" type="danger" :disabled="!agree" @click="handleConfirm">确认注销</el-button></div>
         </div>
     </div>
 </template>
@@ -37,7 +44,7 @@ export default {
                         type: "success",
                         message: "注销成功",
                     });
-                    // User.destroy();
+                    User.destroy();
                 })
                 .catch(() => {
                     this.$message({
@@ -57,19 +64,23 @@ export default {
 
 <style lang="less" scoped>
 .m-feedback-erase {
+    padding-bottom:20px;
     .m-feedback-article {
         padding: 20px;
         font-size: 14px;
         color: #666;
         line-height: 1.5;
     }
+    .u-title{
+        .x;
+    }
 
     .u-tips {
         margin-top: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
+        .x;
+    }
+    .u-confirm{
+        .mt(10px);
     }
 }
 </style>

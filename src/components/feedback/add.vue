@@ -2,14 +2,14 @@
     <div class="m-add-feedback">
         <div class="type-box">
             <div class="type-box-item">
-                <span class="u-label">反馈类型：</span>
-                <el-select v-model="form.type" placeholder="请选择类型">
+                <span class="u-label">来源：</span>
+                <el-select v-model="form.type" placeholder="请选择问题来源" size="small">
                     <el-option v-for="(value, key) in types" :key="key" :value="key" :label="value"></el-option>
                 </el-select>
             </div>
             <div class="type-box-item">
-                <span class="u-label">反馈子类：</span>
-                <el-select v-model="form.subtype">
+                <span class="u-label">类别：</span>
+                <el-select v-model="form.subtype" placeholder="请选择问题类别" size="small">
                     <el-option v-for="(value, key) in subtypes" :key="key" :value="key" :label="value"></el-option>
                 </el-select>
             </div>
@@ -18,29 +18,42 @@
             <el-input v-model="form.content" type="textarea" :rows="10" placeholder="输入反馈内容"></el-input>
         </div>
         <div class="m-feedback-actions">
-            <el-upload
-                ref="upload"
-                class="u-upload avatar-uploader"
-                :action="url"
-                list-type="picture-card"
-                :on-remove="remove"
-                :on-success="done"
-                :on-error="fail"
-                :on-exceed="exceed"
-                :limit="max"
-                title="上传图片"
-                with-credentials
-                accept="image/jpg, image/jpeg, image/gif, image/png, image/bmp"
-            >
-                <i class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-            <div class="m-public">
+            <div class="m-feedback-attachment">
+                <el-upload
+                    ref="upload"
+                    class="u-upload avatar-uploader"
+                    :action="url"
+                    list-type="picture-card"
+                    :on-remove="remove"
+                    :on-success="done"
+                    :on-error="fail"
+                    :on-exceed="exceed"
+                    :limit="max"
+                    title="上传图片"
+                    with-credentials
+                    accept="image/jpg, image/jpeg, image/gif, image/png, image/bmp"
+                    size="small"
+                >
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+            </div>
+            <div class="m-feedback-visible">
                 <span class="u-label">是否公开：</span>
                 <el-checkbox class="u-checkbox" :true-label="1" :false-label="0" v-model="form.public"></el-checkbox>
-                <el-tooltip v-show="!canSubmit" content="必须先填写类型，子类和内容">
+                <!-- <el-tooltip v-show="!canSubmit" content="必须先填写类型，子类和内容">
                     <i class="el-icon-question"></i>
-                </el-tooltip>
-                <el-button class="u-submit" size="small" icon="el-icon-s-promotion" type="primary" :disabled="!canSubmit" @click="submit" :loading="loading">提交</el-button>
+                </el-tooltip> -->
+            </div>
+            <div class="m-feedback-btn">
+                <el-button
+                    class="u-submit"
+                    icon="el-icon-s-promotion"
+                    type="primary"
+                    :disabled="!canSubmit"
+                    @click="submit"
+                    :loading="loading"
+                    >提交</el-button
+                >
             </div>
         </div>
     </div>
@@ -52,15 +65,15 @@ import { __cms } from "@jx3box/jx3box-common/data/jx3box.json";
 const API_Root = process.env.NODE_ENV === "production" ? __cms : "/";
 const API = API_Root + "api/cms/upload";
 
-import { feedback } from "@/service/feedback"
+import { feedback } from "@/service/feedback";
 
 export default {
-    name: 'AddFeedback',
+    name: "AddFeedback",
     props: {
         max: {
             type: Number,
-            default: 6
-        }
+            default: 6,
+        },
     },
     data() {
         return {
@@ -68,31 +81,31 @@ export default {
             subtypes,
 
             form: {
-                type: '',
-                subtype: '',
-                content: '',
+                type: "",
+                subtype: "",
+                content: "",
                 public: 0,
             },
             url: API,
             imgs: [],
             loading: false,
-        }
+        };
     },
     computed: {
         canSubmit() {
-            return this.form.type && this.form.subtype && this.form.content
+            return this.form.type && this.form.subtype && this.form.content;
         },
         client() {
-            return this.$store.state.client
+            return this.$store.state.client;
         },
         refer() {
-            return this.$route.query?.refer || ''
-        }
+            return this.$route.query?.refer || "";
+        },
     },
     methods: {
         // 提交图片成功
         done: function (res) {
-            console.log(res)
+            console.log(res);
             this.imgs = [...this.imgs, res.data[0]];
         },
         // 提交图片失败
@@ -110,9 +123,7 @@ export default {
         },
         // 移除图片
         remove: function (file) {
-            this.imgs = this.imgs.filter(
-                (img) => img !== file?.response?.data[0]
-            );
+            this.imgs = this.imgs.filter((img) => img !== file?.response?.data[0]);
         },
         submit() {
             this.loading = true;
@@ -120,19 +131,21 @@ export default {
                 ...this.form,
                 images: this.imgs,
                 client: this.client,
-            }
-            this.refer && (data.refer = this.refer)
-            feedback(data).then(res => {
-                this.$message.success('提交成功');
-                this.$refs.upload.clearFiles();
-                this.form = this.$options.data().form;
-                this.imgs = [];
-            }).finally(() => {
-                this.loading = false;
-            })
-        }
-    }
-}
+            };
+            this.refer && (data.refer = this.refer);
+            feedback(data)
+                .then((res) => {
+                    this.$message.success("提交成功");
+                    this.$refs.upload.clearFiles();
+                    this.form = this.$options.data().form;
+                    this.imgs = [];
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
+        },
+    },
+};
 </script>
 
 <style lang="less" scoped>
@@ -151,25 +164,24 @@ export default {
     .m-content {
         margin-top: 20px;
     }
-    .m-feedback-actions{
-        display: flex;
+    .m-feedback-actions {
+        // display: flex;
         align-items: flex-end;
         justify-content: space-between;
         // .clearfix;
         .mt(20px);
         // .mb(10px);
-        .u-upload{
-
-            .el-upload--picture-card, .el-upload-list__item {
+        .u-upload {
+            .el-upload--picture-card,
+            .el-upload-list__item {
                 height: 40px;
                 width: 40px;
                 line-height: 40px;
             }
-            .el-icon-plus{
+            .el-icon-plus {
                 .fz(16px);
             }
         }
-
     }
     .m-public {
         .mb(10px);
@@ -187,5 +199,13 @@ export default {
             margin-left: 10px;
         }
     }
+}
+.m-feedback-visible,.m-feedback-btn{
+    .x(right);
+    .mt(10px);
+}
+.m-feedback-btn .el-button{
+    padding-left:40px;
+    padding-right:40px;
 }
 </style>

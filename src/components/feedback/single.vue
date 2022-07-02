@@ -3,7 +3,7 @@
         <el-button icon="el-icon-arrow-left" size="small" @click="back">返回列表</el-button>
         <main class="m-single-content" v-loading="loading">
             <div class="m-single-item">
-                <el-tag effect="dark" size="small" :color="statusColors[data.status]">{{ statuses[data.status] }}</el-tag>
+                <el-tag effect="dark" size="small" :color="statusColors[data.status]">{{ statusMap[data.status] }}</el-tag>
                 <div class="">
                     <span class="u-label">分类：</span>
                     <span class="u-value">{{ types[data.type] }}</span>
@@ -72,7 +72,7 @@
 
 <script>
 import { getFeedback } from "@/service/feedback";
-import { types, subtypes, statuses, statusColors } from "@/assets/data/feedback.json";
+import { types, subtypes, statusMap, statusColors } from "@/assets/data/feedback.json";
 import { showAvatar, authorLink } from "@jx3box/jx3box-common/js/utils";
 import dayjs from "dayjs";
 export default {
@@ -85,7 +85,7 @@ export default {
 
             types,
             subtypes,
-            statuses,
+            statusMap,
             statusColors
         };
     },

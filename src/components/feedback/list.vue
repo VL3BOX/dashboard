@@ -1,9 +1,16 @@
 <template>
     <div class="m-feedback-list" v-loading="loading">
-        <el-table :data="data" highlight-current-row>
+        <el-table :data="data" highlight-current-row size="small" @row-click="viewFeedback" row-class-name="u-row">
             <el-table-column label="状态" prop="status">
                 <template #default="{ row }">
-                    {{ statuses[row.status] }}
+                    <span class="u-status" :style="{ backgroundColor: statusColors[row.status] }">{{
+                        statusMap[row.status]
+                    }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="客户端" prop="client">
+                <template #default="{ row }">
+                    <span class="u-client" :class="'i-client-' + row.client">{{ formatClient(row.client) }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="类型" prop="type">
@@ -16,15 +23,10 @@
                     {{ subtypes[row.subtype] }}
                 </template>
             </el-table-column>
-            <el-table-column label="内容" prop="content" show-overflow-tooltip></el-table-column>
+            <!-- <el-table-column label="内容" prop="content" show-overflow-tooltip></el-table-column> -->
             <el-table-column label="提交时间" prop="created_at">
                 <template #default="{ row }">
                     {{ formatTime(row.created_at) }}
-                </template>
-            </el-table-column>
-            <el-table-column label="客户端" prop="client">
-                <template #default="{ row }">
-                    {{ formatClient(row.client )}}
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="100">
@@ -48,10 +50,10 @@
 
 <script>
 import { getFeedbackList } from "@/service/feedback";
-import { types, subtypes, statuses } from "@/assets/data/feedback.json";
+import { types, subtypes, statusMap, statusColors } from "@/assets/data/feedback.json";
 import dayjs from "dayjs";
 export default {
-    name: 'FeedbackList',
+    name: "FeedbackList",
     data() {
         return {
             data: [],
@@ -62,11 +64,12 @@ export default {
 
             types,
             subtypes,
-            statuses
-        }
+            statusMap,
+            statusColors,
+        };
     },
     mounted() {
-        this.getData()
+        this.getData();
     },
     methods: {
         async getData() {
@@ -74,38 +77,46 @@ export default {
                 this.loading = true;
                 const params = {
                     pageIndex: this.page,
-                    pageSize: this.per
-                }
-                let res = await getFeedbackList(params)
-                this.data = res.data.data.list || []
-                this.total = res.data.data.page.total
+                    pageSize: this.per,
+                };
+                let res = await getFeedbackList(params);
+                this.data = res.data.data.list || [];
+                this.total = res.data.data.page.total;
             } catch (e) {
-                console.log(e)
+                console.log(e);
             } finally {
                 this.loading = false;
             }
         },
         formatTime(time) {
-            return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
+            return dayjs(time).format("YYYY-MM-DD HH:mm:ss");
         },
         formatClient(client) {
-            const _client = client || 'std';
-            return _client === 'std' ? '重制' : '缘起';
+            const _client = client || "std";
+            return _client === "std" ? "重制" : "缘起";
         },
         handleView(row) {
             this.$router.push({
-                name: 'feedback_single',
+                name: "feedback_single",
                 params: {
-                    id: row.id
-                }
-            })
+                    id: row.id,
+                },
+            });
         },
         currentChange(val) {
-            this.page = val
-            this.getData()
+            this.page = val;
+            this.getData();
+        },
+        viewFeedback:function (row){
+            this.$router.push({
+                name : 'feedback_single',
+                params : {
+                    id : row.id
+                }
+            })
         }
-    }
-}
+    },
+};
 </script>
 
 <style lang="less" scoped>
@@ -113,5 +124,19 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    .u-row *{
+        .pointer !important;
+    }
+
+    .u-status{
+        color:#fff;
+        padding:2px 5px;
+        .r(2px);
+    }
+    .u-client{
+        padding:2px 5px;
+        .r(2px);
+    }
 }
 </style>

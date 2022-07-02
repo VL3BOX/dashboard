@@ -1,0 +1,117 @@
+<template>
+    <div class="m-feedback-list" v-loading="loading">
+        <el-table :data="data">
+            <el-table-column label="状态" prop="status">
+                <template #default="{ row }">
+                    {{ statuses[row.status] }}
+                </template>
+            </el-table-column>
+            <el-table-column label="类型" prop="type">
+                <template #default="{ row }">
+                    {{ types[row.type] }}
+                </template>
+            </el-table-column>
+            <el-table-column label="子类" prop="subtype">
+                <template #default="{ row }">
+                    {{ subtypes[row.subtype] }}
+                </template>
+            </el-table-column>
+            <el-table-column label="内容" prop="content" show-overflow-tooltip></el-table-column>
+            <el-table-column label="提交时间" prop="created_at">
+                <template #default="{ row }">
+                    {{ formatTime(row.created_at) }}
+                </template>
+            </el-table-column>
+            <el-table-column label="客户端" prop="client">
+                <template #default="{ row }">
+                    {{ formatClient(row.client )}}
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" width="100">
+                <template #default="{ row }">
+                    <el-button type="text" size="small" @click="handleView(row)">查看</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-pagination
+            class="m-credit-pages m-packet-pages"
+            background
+            :page-size="per"
+            :hide-on-single-page="true"
+            :current-page.sync="page"
+            @current-change="currentChange"
+            layout="total, prev, pager, next, jumper"
+            :total="total"
+        ></el-pagination>
+    </div>
+</template>
+
+<script>
+import { getFeedbackList } from "@/service/feedback";
+import { types, subtypes, statuses } from "@/assets/data/feedback.json";
+import dayjs from "dayjs";
+export default {
+    name: 'FeedbackList',
+    data() {
+        return {
+            data: [],
+            loading: false,
+            page: 1,
+            per: 10,
+            total: 0,
+
+            types,
+            subtypes,
+            statuses
+        }
+    },
+    mounted() {
+        this.getData()
+    },
+    methods: {
+        async getData() {
+            try {
+                this.loading = true;
+                const params = {
+                    pageIndex: this.page,
+                    pageSize: this.per
+                }
+                let res = await getFeedbackList(params)
+                this.data = res.data.data.list || []
+                this.total = res.data.data.page.total
+            } catch (e) {
+                console.log(e)
+            } finally {
+                this.loading = false;
+            }
+        },
+        formatTime(time) {
+            return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
+        },
+        formatClient(client) {
+            const _client = client || 'std';
+            return _client === 'std' ? '重制' : '缘起';
+        },
+        handleView(row) {
+            this.$router.push({
+                name: 'feedback_single',
+                params: {
+                    id: row.id
+                }
+            })
+        },
+        currentChange(val) {
+            this.page = val
+            this.getData()
+        }
+    }
+}
+</script>
+
+<style lang="less" scoped>
+.m-feedback-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+</style>

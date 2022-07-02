@@ -27,7 +27,6 @@
                                         <el-button class="u-btn" v-if="scope.row.code" type="txt" size="mini" icon="el-icon-document-copy" v-clipboard:copy="'' + scope.row.code" v-clipboard:success="onCopy" v-clipboard:error="onError">复制卡密</el-button>
                                     </div>
                                 </div>
-                                <el-button v-if="!scope.row.code" type="primary" icon="el-icon-view" @click="getKeycode(scope.$index, scope.row)" size="small" plain>点击查看</el-button>
                             </div>
                         </template>
                     </el-table-column>
@@ -133,7 +132,6 @@ export default {
                 .then((res) => {
                     this.list = res.data.data.list.map((item) => {
                         item.code = ''
-                        item.key = ''
                         return item
                     })
                     this.total = res.data.data.page.total;

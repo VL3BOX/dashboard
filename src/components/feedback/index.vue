@@ -6,6 +6,7 @@
                     <add></add>
                 </el-tab-pane>
                 <el-tab-pane label="我的反馈" name="myfeedback" lazy>
+                    <list></list>
                 </el-tab-pane>
             </el-tabs>
         </section>
@@ -20,15 +21,34 @@
 </template>
 
 <script>
-import add from './add'
+import add from './add.vue'
+import list from './list.vue'
 export default {
     name: 'FeedbackIndex',
     components: {
         add,
+        list
     },
     data() {
         return {
             active: 'submit'
+        }
+    },
+    watch: {
+        '$route.query': {
+            deep: true,
+            immediate: true,
+            handler(val) {
+                this.active = val.tab || 'submit'
+            }
+        },
+        active(val) {
+            this.$router.push({
+                path: this.$route.path,
+                query: {
+                    tab: val
+                }
+            })
         }
     },
     methods: {

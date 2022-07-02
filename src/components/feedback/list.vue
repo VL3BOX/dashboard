@@ -1,6 +1,6 @@
 <template>
     <div class="m-feedback-list" v-loading="loading">
-        <el-table :data="data">
+        <el-table :data="data" highlight-current-row>
             <el-table-column label="状态" prop="status">
                 <template #default="{ row }">
                     {{ statuses[row.status] }}

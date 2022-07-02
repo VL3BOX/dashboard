@@ -85,6 +85,9 @@ export default {
         client() {
             return this.$store.state.client
         },
+        refer() {
+            return this.$route.query?.refer || ''
+        }
     },
     methods: {
         // 提交图片成功
@@ -118,6 +121,7 @@ export default {
                 images: this.imgs,
                 client: this.client,
             }
+            this.refer && (data.refer = this.refer)
             feedback(data).then(res => {
                 this.$message.success('提交成功');
                 this.$refs.upload.clearFiles();

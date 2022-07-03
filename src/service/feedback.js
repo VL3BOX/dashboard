@@ -4,7 +4,7 @@ import { $pay, $next } from "@jx3box/jx3box-common/js/https";
  * 用户注销
  */
 function leave(password) {
-    return $pay().post(`/api/im-sure-leave`, {
+    return $pay().post(`/api/im-sure-leave-jx3box`, {
         password
     })
 }

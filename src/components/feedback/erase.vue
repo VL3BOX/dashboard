@@ -20,6 +20,7 @@
 <script>
 import User from "@jx3box/jx3box-common/js/user";
 import { getArticle } from "@jx3box/jx3box-common/js/api_misc";
+import {leave} from '@/service/feedback'
 export default {
     name: "FeedbackErase",
     data() {
@@ -41,18 +42,26 @@ export default {
                 type: "warning",
             })
                 .then(() => {
-                    this.$message({
-                        type: "success",
-                        message: "注销成功",
-                    });
-                    User.destroy();
+                    this.$prompt('请输入密码', '确认密码', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        inputType: 'password',
+                    }).then(({ value }) => {
+                        leave(value).then(() => {
+                            this.$message({
+                                type: "success",
+                                message: "注销成功",
+                            });
+                            User.destroy();
+                            location.href = "/";
+                        }).catch((res) => {
+                            this.$message({
+                                type: "error",
+                                message: res.data.msg || "注销失败",
+                            });
+                        });
+                    })
                 })
-                .catch(() => {
-                    this.$message({
-                        type: "info",
-                        message: "已取消删除",
-                    });
-                });
         },
         loadAlertInfo() {
             this.loading = true;

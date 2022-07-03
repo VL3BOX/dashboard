@@ -1,4 +1,4 @@
-import { $pay } from "@jx3box/jx3box-common/js/https";
+import { $pay, $next } from "@jx3box/jx3box-common/js/https";
 
 /**
  * 用户注销
@@ -14,7 +14,7 @@ function leave(password) {
  * @param {*} data
  */
 function feedback(data) {
-    return $pay().post(`/api/miscfeedback`, data)
+    return $next().post(`/api/miscfeedback`, data)
 }
 
 /**
@@ -24,7 +24,7 @@ function feedback(data) {
  * @param {*} params.pageSize 分页参数
  */
 function getFeedbackList(params) {
-    return $pay().get(`/api/miscfeedback/my/list`, {
+    return $next().get(`/api/miscfeedback/my/list`, {
         params
     })
 }
@@ -34,7 +34,7 @@ function getFeedbackList(params) {
  * @param {*} id 反馈id
  */
 function getFeedback(id) {
-    return $pay().get(`/api/miscfeedback/${id}`)
+    return $next().get(`/api/miscfeedback/${id}`)
 }
 
 export {

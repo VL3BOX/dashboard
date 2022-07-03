@@ -5,7 +5,7 @@
  * @Description:
 -->
 <template>
-    <div class="m-feedback-erase">
+    <div class="m-feedback-erase" v-loading="loading">
         <div class="m-feedback-article">
             <h1 class="u-title">账号注销</h1>
             <div v-html="article"></div>
@@ -25,6 +25,7 @@ export default {
     data() {
         return {
             agree: false,
+            loading: false,
 
             article: '',
         };
@@ -54,8 +55,11 @@ export default {
                 });
         },
         loadAlertInfo() {
+            this.loading = true;
             getArticle(43049).then((res) => {
                 this.article = res;
+            }).finally(() => {
+                this.loading = false;
             });
         },
     },

@@ -13,12 +13,12 @@
                     <span class="u-client" :class="'i-client-' + row.client">{{ formatClient(row.client) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="类型" prop="type">
+            <el-table-column label="来源" prop="type">
                 <template #default="{ row }">
                     {{ types[row.type] }}
                 </template>
             </el-table-column>
-            <el-table-column label="子类" prop="subtype">
+            <el-table-column label="类型" prop="subtype">
                 <template #default="{ row }">
                     {{ subtypes[row.subtype] }}
                 </template>

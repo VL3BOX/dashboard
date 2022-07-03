@@ -12,7 +12,7 @@
                     <add></add>
                 </el-tab-pane>
                 <el-tab-pane label="我的反馈" name="myfeedback" lazy>
-                    <list></list>
+                    <list v-if="active === 'myfeedback'"></list>
                 </el-tab-pane>
             </el-tabs>
         </section>

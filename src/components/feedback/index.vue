@@ -1,7 +1,7 @@
 <!--
  * @Author: iRuxu
  * @Date: 2022-07-03 01:06:06
- * @LastEditTime: 2022-07-03 02:11:29
+ * @LastEditTime: 2022-07-04 02:18:31
  * @Description:
 -->
 <template>
@@ -18,12 +18,10 @@
         </section>
         <aside class="m-feedback-aside">
             <el-button class="u-btn" size="small" type="warning" plain @click="handleEraseClick">注销账号</el-button>
-            <div class="m-faq">
-                <div class="u-faq-title"><i class="el-icon-question"></i> FAQ</div>
-            </div>
-            <div class="u-faq-content" v-if="faq && faq.menus">
-                <div class="u-faq-item" v-for="(item, index) in faq.menus" :key="item.link">
-                    <span>{{ index + 1 }}.</span><a :href="item.link">{{ item.label }}</a>
+            <div class="m-feedback-faq">
+                <div class="u-title"><i class="el-icon-question"></i> FAQ</div>
+                <div class="u-list" v-for="item in faq.menus" :key="item.link">
+                    <a class="u-item" :href="item.link">{{ item.label }}</a>
                 </div>
             </div>
         </aside>
@@ -64,14 +62,14 @@ export default {
         },
     },
     mounted() {
-        this.getFAQ()
+        this.getFAQ();
     },
     methods: {
         handleEraseClick() {
             this.$router.push({ name: "feedback_erase" });
         },
         getFAQ() {
-            getMenus({ names: ['feedback_faq'] }).then((res) => {
+            getMenus({ names: ["feedback_faq"] }).then((res) => {
                 this.faq = res.feedback_faq;
             });
         },
@@ -88,23 +86,38 @@ export default {
         flex: 1;
         overflow: hidden;
     }
+}
+.m-feedback-aside {
+    width: 240px;
 
-    .m-feedback-aside {
-        width: 240px;
+    .u-btn {
+        width: 100%;
+    }
+}
+.m-feedback-faq {
+    margin-top: 20px;
+    border-radius: 4px;
+    .u-title {
+        .fz(14px,2);
+        font-weight: bold;
+        border-bottom: 1px solid #e6e6e6
+    }
 
-        .u-btn {
-            width: 100%;
+    .u-list{
+        padding: 10px 0;
+    }
+    .u-item{
+        .db;
+        padding:0 5px;
+        border-bottom:1px dotted #ddd;
+        .fz(13px,2);
+        &:before{
+            content:'»';
+            color:#999;
+            .mr(5px);
         }
-
-        .m-faq {
-            margin-top: 20px;
-            border-bottom: 1px solid #e6e6e6;
-            border-radius: 4px;
-            padding: 10px;
-            .u-faq-title {
-                font-size: 14px;
-                font-weight: bold;
-            }
+        &:hover{
+            color:#fba524;
         }
     }
 }

@@ -21,6 +21,11 @@
             <div class="m-faq">
                 <div class="u-faq-title"><i class="el-icon-question"></i> FAQ</div>
             </div>
+            <div class="u-faq-content" v-if="faq && faq.menus">
+                <div class="u-faq-item" v-for="(item, index) in faq.menus" :key="item.link">
+                    <span>{{ index + 1 }}.</span><a :href="item.link">{{ item.label }}</a>
+                </div>
+            </div>
         </aside>
     </div>
 </template>
@@ -28,6 +33,7 @@
 <script>
 import add from "./add.vue";
 import list from "./list.vue";
+import { getMenus } from "@jx3box/jx3box-common/js/api_misc";
 export default {
     name: "FeedbackIndex",
     components: {
@@ -37,6 +43,7 @@ export default {
     data() {
         return {
             active: "submit",
+            faq: {},
         };
     },
     watch: {
@@ -56,9 +63,17 @@ export default {
             });
         },
     },
+    mounted() {
+        this.getFAQ()
+    },
     methods: {
         handleEraseClick() {
             this.$router.push({ name: "feedback_erase" });
+        },
+        getFAQ() {
+            getMenus({ names: ['feedback_faq'] }).then((res) => {
+                this.faq = res.feedback_faq;
+            });
         },
     },
 };

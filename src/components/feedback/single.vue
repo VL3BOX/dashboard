@@ -36,20 +36,25 @@
             <div class="m-single-item">
                 <div class="u-user" v-if="data.assign_user">
                     <span class="u-label">分配至</span>
-                    <a class="u-item-pic" :href="authorLink(data.assign_user.id)" target="_blank">
-                        <img
-                            class="u-item-avatar"
-                            :src="showAvatar(data.assign_user.avatar)"
-                        />
-                    </a>
-                    <a
-                        class="u-item-name"
-                        :href="authorLink(data.assign_user.id)"
-                        target="_blank"
-                    >{{ data.assign_user.display_name }}</a>
+                    <template v-for="item in data.assign_user">
+                        <span :key="item.id">
+                            <a class="u-item-pic" :href="authorLink(item.id)" target="_blank">
+                                <img
+                                    class="u-item-avatar"
+                                    :src="showAvatar(item.avatar)"
+                                />
+                            </a>
+                            <a
+                                class="u-item-name"
+                                :href="authorLink(item.id)"
+                                target="_blank"
+                            >{{ item.display_name }}</a>
+                        </span>
+                    </template>
                 </div>
                 <div class="u-time">
                     <span class="u-label">仓库：</span>
+                    <img class="u-github-icon" src="../../assets/img/github.svg" alt="">
                     <a class="u-label" :href="formateGithub(data.repository)">{{ data.repository }}</a>
                 </div>
             </div>
@@ -161,7 +166,11 @@ export default {
             }
 
         }
-
+        .u-github-icon {
+            .size(24px);
+            .pr;
+            .auto(x);
+        }
     }
 }
 </style>

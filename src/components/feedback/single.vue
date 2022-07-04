@@ -30,6 +30,7 @@
                 </div>
                 <div class="u-item">
                     <span class="u-label">仓库</span>
+                    <img class="u-icon" src="../../assets/img/github.svg" alt="">
                     <a class="u-item-name" :href="formateGithub(data.repository)">{{ data.repository }}</a>
                 </div>
             </div>

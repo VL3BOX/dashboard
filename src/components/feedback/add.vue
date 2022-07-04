@@ -99,7 +99,7 @@ export default {
             return this.$store.state.client;
         },
         refer() {
-            return this.$route.query?.refer || "";
+            return decodeURIComponent(this.$route.query?.refer) || "";
         },
     },
     methods: {

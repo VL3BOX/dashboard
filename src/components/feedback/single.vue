@@ -36,16 +36,24 @@
                         </a>
                     </div>
                     <div class="u-list u-list-assign" v-else>
-                        <div class="u-null">-等待指派-</div>
+                        <a
+                            class="u-item u-assign"
+                            :href="authorLink(1)"
+                            target="_blank"
+                        >
+                            <img class="u-assign-avatar" :src="showAvatar('https://oss.jx3box.com/upload/avatar/2021/3/18/6568744.png')" />
+                            <span class="u-assign-name">JX3BOX</span>
+                        </a>
                     </div>
                 </div>
                 <div class="u-subblock">
                     <span class="u-label">关联仓库：</span>
                     <div class="u-list u-list-repo">
-                        <a class="u-repo u-item" :href="formateGithub(data.repository)" target="_blank">
+                        <a class="u-repo u-item" :href="formateGithub(data.repository)" v-if="data.repository" target="_blank">
                             <img class="u-repo-icon" src="../../assets/img/feedback/github.svg" alt="" />
                             <span class="u-repo-name">{{ data.repository }}</span>
                         </a>
+                        <div class="u-null" v-else>-</div>
                     </div>
                 </div>
             </div>
@@ -53,7 +61,7 @@
                 <div class="u-subblock">
                     <span class="u-label">来源：</span>
                     <a class="u-item u-user" :href="data.refer" target="_blank">
-                    {{data.refer}}
+                        {{ data.refer }}
                     </a>
                 </div>
             </div>
@@ -71,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <div class="m-reply">
+            <div class="m-reply" v-if="done">
                 <el-divider content-position="left"><i class="el-icon-chat-line-square"></i> 回复处理</el-divider>
                 <Comment :id="id" category="feedback" order="desc" />
             </div>
@@ -87,8 +95,8 @@ import dayjs from "dayjs";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 export default {
     name: "FeedbackSingle",
-    components : {
-        Comment
+    components: {
+        Comment,
     },
     data() {
         return {
@@ -100,6 +108,8 @@ export default {
             subtypes,
             statusMap,
             statusColors,
+
+            done: false,
         };
     },
     computed: {
@@ -121,6 +131,7 @@ export default {
                 this.loading = true;
                 let res = await getFeedback(this.id);
                 this.data = res.data.data;
+                this.done = true;
             } catch (e) {
                 console.log(e);
             } finally {

@@ -34,6 +34,7 @@
                     with-credentials
                     accept="image/jpg, image/jpeg, image/gif, image/png, image/bmp"
                     size="small"
+                    multiple
                 >
                     <i class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
@@ -100,7 +101,7 @@ export default {
             return this.$store.state.client;
         },
         refer() {
-            return( this.$route.query?.refer && decodeURIComponent(this.$route.query?.refer)) || "";
+            return this.$route.query?.refer ? decodeURIComponent(this.$route.query?.refer) : "";
         },
     },
     methods: {

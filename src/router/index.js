@@ -1,7 +1,7 @@
 /*
  * @Author: iRuxu
  * @Date: 2022-06-09 13:55:38
- * @LastEditTime: 2022-06-14 14:19:40
+ * @LastEditTime: 2022-07-05 16:42:43
  * @Description:
  */
 import Vue from "vue";
@@ -62,7 +62,7 @@ const routes = [
     { name: "email", path: "/email", component: email },
     { name: "connect", path: "/connect", component: connect },
     { name: "config", path: "/config", component: config },
-    { name: "config", path: "/cooperation", component: cooperation },
+    { name: "cooperation", path: "/cooperation", component: cooperation },
     { name: "privacy", path: "/privacy", component: privacy },
     {
         name: "feedback",
@@ -74,17 +74,17 @@ const routes = [
         children: [
             {
                 name: 'feedback_index',
-                path: '',
+                path: '/feedback',
                 component: () => import('@/components/feedback/index.vue')
             },
             {
                 name: 'feedback_erase',
-                path: 'erase',
+                path: '/feedback/erase',
                 component: () => import('@/components/feedback/erase.vue')
             },
             {
                 name: 'feedback_single',
-                path: 'single/:id',
+                path: '/feedback/:id',
                 component: () => import('@/components/feedback/single.vue')
             }
         ]

@@ -37,6 +37,12 @@ module.exports = {
                     request.setHeader("origin", "");
                 },
             },
+            "/api/comment": {
+                target: "https://next2.jx3box.com",
+                onProxyReq: function (request) {
+                    request.setHeader("origin", "");
+                },
+            },
             // 默认PAY服务
             "/api": {
                 target: "https://pay.jx3box.com",

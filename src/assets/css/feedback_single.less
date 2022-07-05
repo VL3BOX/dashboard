@@ -1,23 +1,40 @@
 .m-feed-single .m-single-content {
-    .pt(20px);
+    .pt(10px);
     .flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
+
+    .fz(14px,24px);
+    .u-item {
+        .flex;
+        align-items: center;
+        img{
+            .mr(5px);
+        }
+    }
+
+    .m-block{
+        .flex;
+        align-items: center;
+    }
+    .u-subblock{
+        .mr(20px);
+        .flex;
+        align-items: center;
+    }
 
     .m-type {
         .flex;
-        gap: 50px;
+        gap: 15px;
         align-items: center;
-        .u-tag {
-            padding: 3px 24px;
-            .r(3px);
-        }
-        .u-label {
-            .pr(20px);
+        .u-status {
+            color: #fff;
+            padding: 2px 8px;
+            .r(2px);
         }
         .u-value {
             &::after {
-                content: " > ";
+                content: " » ";
             }
             &:last-child::after {
                 .none;
@@ -25,47 +42,48 @@
         }
     }
     .m-user {
-        .flex;
-        align-items: center;
-        .u-label {
-            .mr(5px);
-        }
-        .u-avatar {
-            .size(28px);
-            .r(5px);
-            .clip;
-            .mr(10px);
-        }
-        .u-item-name {
-            .color(#232323,#f39);
-            .mr(40px);
+        display: flex;
+        .u-user {
+            .u-user-avatar {
+                .size(24px);
+                .r(100%);
+            }
         }
     }
     .m-dev {
         .flex;
-        .u-item {
-            .flex;
+        img {
+            .size(24px);
+            .r(100%);
+        }
+        .u-list {
+            display: flex;
             align-items: center;
-            gap: 20px;
-            min-width: 300px;
-            .u-icon{
-                .size(30px);
-            }
+        }
+        .u-null{
+            color:#999;
         }
     }
     .m-textarea {
         .w(100%);
         .r(3px);
-        .fz(14px,1.5);
+        .fz(14px,1.6);
         box-sizing: border-box;
+    }
+    .m-content{
         min-height: 240px;
-        border: 1px solid #ddd;
-        padding: 12px;
-        .el-divider {
-            .w(240px);
+    }
+    .m-attachment{
+        .u-detail{
+            .flex;
+            flex-wrap: wrap;
         }
-        .u-img {
-            .w(120px);
+        .u-img{
+            .mr(10px);
+            .mb(10px);
+        }
+        .el-image{
+            .size(100px);
         }
     }
 }

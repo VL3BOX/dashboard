@@ -1,7 +1,7 @@
 /*
  * @Author: iRuxu
  * @Date: 2022-06-09 13:55:38
- * @LastEditTime: 2022-06-14 14:19:40
+ * @LastEditTime: 2022-07-05 15:24:48
  * @Description:
  */
 import Vue from "vue";
@@ -62,7 +62,7 @@ const routes = [
     { name: "email", path: "/email", component: email },
     { name: "connect", path: "/connect", component: connect },
     { name: "config", path: "/config", component: config },
-    { name: "config", path: "/cooperation", component: cooperation },
+    { name: "cooperation", path: "/cooperation", component: cooperation },
     { name: "privacy", path: "/privacy", component: privacy },
     {
         name: "feedback",

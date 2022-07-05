@@ -1,5 +1,5 @@
 import { $pay, $next, $cms } from "@jx3box/jx3box-common/js/https";
-import dayjs from 'dayjs'
+import moment from 'moment'
 function getMyAsset() {
     return $pay().get("/api/vip/i");
 }
@@ -19,8 +19,8 @@ function getMyInfo(){
 function getMyAssetLogs(start_date){
     return $pay().get(`/api/my/asserts/history`,{
         params : {
-            start: start_date || dayjs().format('YYYYMMDD'),
-            end : dayjs().add(1, 'day').format('YYYYMMDD')
+            start: start_date || moment().format('YYYYMMDD'),
+            end : moment().add(1, 'day').format('YYYYMMDD')
         }
     })
 }

@@ -28,6 +28,7 @@
                     :on-success="done"
                     :on-error="fail"
                     :on-exceed="exceed"
+                    :before-upload="beforeUpload"
                     :limit="max"
                     title="上传图片"
                     with-credentials
@@ -103,6 +104,15 @@ export default {
         },
     },
     methods: {
+        beforeUpload: function (file){
+            console.log(file)
+            // 判断上传的文件类型
+            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp';
+            if (!isJPG) {
+                this.$message.error('上传图片只能是 JPG/PNG/GIF/BMP 格式!');
+                return false
+            }
+        },
         // 提交图片成功
         done: function (res) {
             console.log(res)

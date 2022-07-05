@@ -206,12 +206,11 @@ import { __userGroup, __imgPath, default_avatar ,__userLevelColor} from "@jx3box
 import User from "@jx3box/jx3box-common/js/user";
 import { getThumbnail, getLink } from "@jx3box/jx3box-common/js/utils";
 import { getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo } from "@/service/index.js";
-import { user as medal_map } from "@jx3box/jx3box-common/data/medals.json";
 import { showDate } from "@jx3box/jx3box-common/js/moment";
 import asset_types from "@/assets/data/asset_log_types.json";
 import boxcoin_types from "@/assets/data/boxcoin_types.json";
 import { products, pay_status, pay_types } from "@/assets/data/pay_order.json";
-import dayjs from "dayjs";
+import moment from "moment";
 import avatar from "./avatar.vue";
 import medal from '@jx3box/jx3box-common-ui/src/medal/medal.vue';
 export default {
@@ -252,7 +251,7 @@ export default {
             pay_status,
             pay_types,
 
-            date: dayjs()
+            date: moment()
                 .subtract(30, "days")
                 .format("YYYYMMDD"),
         };
@@ -283,17 +282,17 @@ export default {
             return [
                 {
                     label: "今天",
-                    value: dayjs().format("YYYYMMDD"),
+                    value: moment().format("YYYYMMDD"),
                 },
                 {
                     label: "7天",
-                    value: dayjs()
+                    value: moment()
                         .subtract(7, "days")
                         .format("YYYYMMDD"),
                 },
                 {
                     label: "30天",
-                    value: dayjs()
+                    value: moment()
                         .subtract(30, "days")
                         .format("YYYYMMDD"),
                 },

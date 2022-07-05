@@ -51,7 +51,7 @@
 import { getFeedback } from "@/service/feedback";
 import { types, subtypes, statusMap, statusColors } from "@/assets/data/feedback.json";
 import { showAvatar, authorLink } from "@jx3box/jx3box-common/js/utils";
-import dayjs from "dayjs";
+import moment from "moment";
 export default {
     name: "FeedbackSingle",
     data() {
@@ -97,7 +97,7 @@ export default {
         authorLink,
         showAvatar,
         formateTime(time) {
-            return dayjs(time).format("YYYY-MM-DD HH:mm:ss");
+            return moment(time).format("YYYY-MM-DD HH:mm:ss");
         },
         formateGithub(val) {
             return `https://github.com/JX3BOX/${val}`;

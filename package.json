@@ -16,7 +16,6 @@
     "@jx3box/jx3box-data": "^1.10.2",
     "axios": "^0.21.1",
     "core-js": "^3.4.3",
-    "dayjs": "^1.10.6",
     "element-ui": "^2.13.0",
     "js-base64": "^3.7.1",
     "localforage": "^1.7.3",

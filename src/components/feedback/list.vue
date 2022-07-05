@@ -51,7 +51,7 @@
 <script>
 import { getFeedbackList } from "@/service/feedback";
 import { types, subtypes, statusMap, statusColors } from "@/assets/data/feedback.json";
-import dayjs from "dayjs";
+import moment from "moment";
 export default {
     name: "FeedbackList",
     data() {
@@ -89,7 +89,7 @@ export default {
             }
         },
         formatTime(time) {
-            return dayjs(time).format("YYYY-MM-DD HH:mm:ss");
+            return moment(time).format("YYYY-MM-DD HH:mm:ss");
         },
         formatClient(client) {
             const _client = client || "std";

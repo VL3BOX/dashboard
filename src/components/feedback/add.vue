@@ -106,6 +106,7 @@ export default {
     methods: {
         // 提交图片成功
         done: function (res) {
+            console.log(res)
             this.imgs = [...this.imgs, res.data[0]];
         },
         // 提交图片失败

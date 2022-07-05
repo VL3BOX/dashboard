@@ -1,7 +1,7 @@
 /*
  * @Author: iRuxu
  * @Date: 2022-06-09 13:55:38
- * @LastEditTime: 2022-07-05 15:24:48
+ * @LastEditTime: 2022-07-05 16:42:43
  * @Description:
  */
 import Vue from "vue";
@@ -74,17 +74,17 @@ const routes = [
         children: [
             {
                 name: 'feedback_index',
-                path: '',
+                path: '/feedback',
                 component: () => import('@/components/feedback/index.vue')
             },
             {
                 name: 'feedback_erase',
-                path: 'erase',
+                path: '/feedback/erase',
                 component: () => import('@/components/feedback/erase.vue')
             },
             {
                 name: 'feedback_single',
-                path: 'single/:id',
+                path: '/feedback/:id',
                 component: () => import('@/components/feedback/single.vue')
             }
         ]

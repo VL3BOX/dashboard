@@ -25,10 +25,13 @@
                 <slot name="title"><div v-html="breadcrumb"></div></slot>
             </el-alert>
             <el-alert class="m-boxcoin-tip" title="1盒币可兑换1通宝，不可折现" type="warning" show-icon>
-                所有兑换申请将在每月{{ start_date }}-{{ end_date }}号统一处理，每月{{ start_date }}-{{
-                    end_date
-                }}日将不能提交兑换申请，提交后正常一般1月内到账。</el-alert
-            >
+                <slot name="description"
+                    >每个月6~30日开放兑换，1~5日关闭兑换渠道进行汇总。（即1月6日的兑换，和1月30日的兑换，同样在2月1~5日进行汇总）<br />
+                    汇总后，通常1~3周发放奖励，如遇特殊原因可能会在某些月份锁定兑换。<br />
+                    缘起（怀旧服）通过一卡通发放，可在个人中心›我的卡密中查看，如使用的第三方登录还没有设置过密码的用户，需要在个人中心›资料设置›修改密码中设置一个密码。<br />
+                    重制（正式服）则会直充到账号上，不会有短信提醒，签约作者群可能会有提醒，其余不作额外通知，耐心等待即可。</slot
+                >
+            </el-alert>
             <el-form label-position="left" label-width="80px" class="m-boxcoin-form">
                 <el-form-item label="游戏大区">
                     <el-select v-model="pull.zone" placeholder="请选择所在大区">
@@ -36,10 +39,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="游戏账号">
-                    <el-input
-                        v-model="pull.account"
-                        placeholder="请务必填写正确的账号"
-                    ></el-input>
+                    <el-input v-model="pull.account" placeholder="请务必填写正确的账号"></el-input>
                 </el-form-item>
                 <el-form-item label="兑换数目">
                     <el-radio-group v-model="pull.cash">
@@ -52,10 +52,7 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="邮箱地址">
-                    <el-input
-                        v-model="pull.email"
-                        placeholder="请务必填写正确的邮箱"
-                    ></el-input>
+                    <el-input v-model="pull.email" placeholder="请务必填写正确的邮箱"></el-input>
                 </el-form-item>
                 <el-form-item label>
                     <el-button type="primary" @click="openConfirmBox" :disabled="!ready || lockStatus"
@@ -227,7 +224,7 @@ export default {
                 std: 0,
                 origin: 0,
             },
-            totalCoin : 0
+            totalCoin: 0,
         };
     },
     computed: {
@@ -254,12 +251,12 @@ export default {
         },
         money: {
             get() {
-                if(this.client == 'std'){
+                if (this.client == "std") {
                     // 显示正式服余额（可能为负数） 和 真实余额较小的
-                    return Math.min(this.totalCoin,Math.max(this.total_std,0))
-                }else{
+                    return Math.min(this.totalCoin, Math.max(this.total_std, 0));
+                } else {
                     // 显示怀旧服余额+双端余额（可能为负数） 和 真实余额较小的
-                    return Math.min(this.totalCoin,(Math.max(this.total_origin,0) + Math.max(this.total_all,0)))
+                    return Math.min(this.totalCoin, Math.max(this.total_origin, 0) + Math.max(this.total_all, 0));
                 }
             },
             set(val) {
@@ -286,8 +283,10 @@ export default {
         },
 
         // 区服
-        zones : function (){
-            return this.client == 'origin' ? zones.filter((item) => item.startsWith('缘起')) : zones.filter((item) => !item.startsWith('缘起'))
+        zones: function () {
+            return this.client == "origin"
+                ? zones.filter((item) => item.startsWith("缘起"))
+                : zones.filter((item) => !item.startsWith("缘起"));
         },
 
         // 限制
@@ -304,7 +303,7 @@ export default {
             getBoxcoinConfig().then((res) => {
                 this.dates = JSON.parse(res.data.data.val);
             });
-            this.loadAsset()
+            this.loadAsset();
             this.loadData();
             this.loadAc();
             this.loadOverview();
@@ -318,12 +317,12 @@ export default {
                 out: getBoxcoinCashHistory,
             };
             this.$router.push({
-                name: 'boxcoin',
+                name: "boxcoin",
                 query: {
                     tab: this.tab,
                     page: this.page,
                 },
-            })
+            });
             fn[this.tab](this.params)
                 .then((res) => {
                     this.list = res.data.data.list;

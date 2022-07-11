@@ -96,9 +96,7 @@ export default {
             this.page = i;
             this.paginationShow = false;
             getMsgs({
-                where: {
-                    content: this.keyword,
-                },
+                content: this.keyword,
                 page: i,
             }).then((res) => {
                 this.unread_total = res.data.data.unread_count;

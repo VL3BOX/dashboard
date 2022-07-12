@@ -9,6 +9,7 @@
                     <span class="u-value">{{ types[data.type] }}</span>
                     <span class="u-value">{{ subtypes[data.subtype] }}</span>
                 </div>
+                <el-button size="mini" @click="showVisible">处理</el-button>
             </div>
             <div class="m-block m-user">
                 <div class="u-subblock">
@@ -84,11 +85,46 @@
                 <Comment :id="id" category="feedback" order="desc" />
             </div>
         </main>
+
+        <el-dialog :visible.sync="visible" title="处理" width="750px">
+            <el-form :model="formData" :rules="rules" label-position="top">
+                <el-form-item label="关联处理人">
+                    <el-select placeholder="请选择关联处理人" filterable v-model="formData.assign" multiple style="width:100%;">
+                        <el-option
+                            v-for="item in teammates"
+                            :key="item.id"
+                            :label="item.teammate_info.display_name"
+                            :value="item.user_id"
+                        >
+                            <div class="m-teammate">
+                                <div class="m-user">
+                                    <img class="u-avatar" :src="showAvatar(item.teammate_info.user_avatar)" />
+                                    <span class="u-name">{{ item.teammate_info.display_name }}</span>
+                                    <span class="u-user-id">(ID: {{ item.user_id }})</span>
+                                </div>
+                                <div class="m-duty">
+                                    <span class="u-duty" v-if="item.duty">{{ formateDuty(item.duty) }} | </span>
+                                    <span class="u-remark">{{ item.remark }}</span>
+                                </div>
+                            </div>
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="仓库">
+                    <el-input placeholder="请输入仓库" v-model="formData.repository"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button size="small" @click="visible = false">取 消</el-button>
+                <el-button size="small" type="primary" @click="confirm">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
-import { getFeedback } from "@/service/feedback";
+import { getFeedback, updateFeedback } from "@/service/feedback";
+import { getTeammates } from '@/service/index'
 import { types, subtypes, statusMap, statusColors } from "@/assets/data/feedback.json";
 import { showAvatar, authorLink } from "@jx3box/jx3box-common/js/utils";
 import moment from "moment";
@@ -110,6 +146,14 @@ export default {
             statusColors,
 
             done: false,
+            visible: false,
+
+            formData: {
+                assign: [],
+                repository: "",
+            },
+            rules: {},
+            teammates: []
         };
     },
     computed: {
@@ -125,17 +169,30 @@ export default {
             },
         },
     },
+    mounted () {
+        this.loadTeammates()
+    },
     methods: {
         async getData() {
             try {
                 this.loading = true;
                 let res = await getFeedback(this.id);
                 this.data = res.data.data;
+                this.formData.repository = this.data.repository
+                this.formData.assign = this.data?.assign.filter(item => item) || []
                 this.done = true;
             } catch (e) {
                 console.log(e);
             } finally {
                 this.loading = false;
+            }
+        },
+        async loadTeammates() {
+            try {
+                let res = await getTeammates();
+                this.teammates = res.data.data;
+            } catch (e) {
+                console.log(e);
             }
         },
         back() {
@@ -149,6 +206,29 @@ export default {
         formateGithub(val) {
             return `https://github.com/JX3BOX/${val}`;
         },
+        formateDuty(val) {
+            return val && val.reduce((prev, curr) => {
+                return prev + ' | ' + curr;
+            }) || ''
+        },
+
+        confirm() {
+            updateFeedback(this.id, {
+                assign: this.formData.assign.map(item => item),
+                repository: this.formData.repository,
+            }).then(res => {
+                this.$message.success("处理成功");
+                this.visible = false;
+                this.getData();
+            }).catch(e => {
+                this.$message.error(e.message);
+            });
+        },
+        showVisible() {
+            this.formData.repository = this.data.repository
+            this.formData.assign = this.data?.assign.filter(item => item) || []
+            this.visible = true;
+        }
     },
 };
 </script>

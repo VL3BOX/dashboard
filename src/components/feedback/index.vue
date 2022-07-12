@@ -14,6 +14,9 @@
                 <el-tab-pane label="我的反馈" name="myfeedback" lazy>
                     <list v-if="active === 'myfeedback'"></list>
                 </el-tab-pane>
+                <el-tab-pane label="待处理" name="pending" lazy>
+                    <pending v-if="active === 'pending'"></pending>
+                </el-tab-pane>
             </el-tabs>
         </section>
         <aside class="m-feedback-aside">
@@ -31,17 +34,21 @@
 <script>
 import add from "./add.vue";
 import list from "./list.vue";
+import pending from "./pending.vue";
 import { getMenus } from "@jx3box/jx3box-common/js/api_misc";
+import { isTeammate } from '@/service/index'
 export default {
     name: "FeedbackIndex",
     components: {
         add,
         list,
+        pending,
     },
     data() {
         return {
             active: "submit",
             faq: {},
+            is_teammate: false
         };
     },
     watch: {
@@ -63,6 +70,7 @@ export default {
     },
     mounted() {
         this.getFAQ();
+        this.isTeammate();
     },
     methods: {
         handleEraseClick() {
@@ -73,6 +81,11 @@ export default {
                 this.faq = res.feedback_faq;
             });
         },
+        isTeammate() {
+            isTeammate().then(res => {
+                this.is_teammate = res.data.data
+            })
+        }
     },
 };
 </script>

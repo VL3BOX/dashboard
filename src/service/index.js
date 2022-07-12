@@ -24,5 +24,20 @@ function getMyAssetLogs(start_date){
         }
     })
 }
+/**
+ * 是否为团队成员
+ * @returns
+ */
+function isTeammate() {
+    return $cms().get(`/api/cms/config/teammates/check`)
+}
 
-export { getMyAsset, getUserMedals, getUserInfo ,getMyAssetLogs, getMyInfo};
+/**
+ * 获得团队成员
+ * @returns
+ */
+function getTeammates(){
+    return $cms().get(`/api/cms/config/teammates`)
+}
+
+export { getMyAsset, getUserMedals, getUserInfo ,getMyAssetLogs, getMyInfo, isTeammate, getTeammates };

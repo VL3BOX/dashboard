@@ -18,6 +18,16 @@ function feedback(data) {
 }
 
 /**
+ * 获取反馈列表
+ * @param {*} params 参数
+ */
+function getMiscfeedback(params) {
+    return $next().get(`/api/miscfeedback`, {
+        params
+    })
+}
+
+/**
  * 获取我的反馈列表
  * @param {*} params 筛选参数
  * @param {*} params.pageIndex 分页参数
@@ -37,9 +47,20 @@ function getFeedback(id) {
     return $next().get(`/api/miscfeedback/${id}`)
 }
 
+/**
+ * 更新反馈
+ * @param {*} id 反馈id
+ * @param {*} data 更新数据
+ */
+function updateFeedback(id, data) {
+    return $next().patch(`/api/miscfeedback/${id}`, data)
+}
+
 export {
     leave,
     feedback,
     getFeedbackList,
-    getFeedback
+    getFeedback,
+    getMiscfeedback,
+    updateFeedback,
 }

@@ -36,7 +36,6 @@ import add from "./add.vue";
 import list from "./list.vue";
 import pending from "./pending.vue";
 import { getMenus } from "@jx3box/jx3box-common/js/api_misc";
-import { isTeammate } from '@/service/index'
 export default {
     name: "FeedbackIndex",
     components: {
@@ -48,8 +47,12 @@ export default {
         return {
             active: "submit",
             faq: {},
-            is_teammate: false
         };
+    },
+    computed: {
+        isTeammate() {
+            return this.$store.state.isTeammate
+        }
     },
     watch: {
         "$route.query": {
@@ -70,7 +73,6 @@ export default {
     },
     mounted() {
         this.getFAQ();
-        this.isTeammate();
     },
     methods: {
         handleEraseClick() {
@@ -81,11 +83,6 @@ export default {
                 this.faq = res.feedback_faq;
             });
         },
-        isTeammate() {
-            isTeammate().then(res => {
-                this.is_teammate = res.data.data
-            })
-        }
     },
 };
 </script>

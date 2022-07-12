@@ -6,19 +6,35 @@
  */
 import Vue from "vue";
 import Vuex from "vuex";
+import { isTeammate } from '@/service/index'
 
 Vue.use(Vuex);
 
 let store = {
     state: {
         userdata : '',
-        client : location.href.includes('origin') ? 'origin' : 'std'
+        client : location.href.includes('origin') ? 'origin' : 'std',
+        isTeammate: false,
     },
     mutations: {
+        setIsTeammate(state, isTeammate) {
+            state.isTeammate = isTeammate;
+        }
     },
     getters: {
     },
-    actions: {},
+    actions: {
+        getIsTeammate({ commit }) {
+            isTeammate().then(res => {
+                commit('setIsTeammate', res.data.data);
+            }).catch(err => {
+                console.log(err);
+            }).finally(() => {
+                console.log('getIsTeammate');
+            }
+            )
+        }
+    },
     modules: {}
 };
 

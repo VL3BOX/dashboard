@@ -9,7 +9,7 @@
                     <span class="u-value">{{ types[data.type] }}</span>
                     <span class="u-value">{{ subtypes[data.subtype] }}</span>
                 </div>
-                <el-button size="mini" @click="showVisible">处理</el-button>
+                <el-button size="mini" @click="showVisible" v-if="isTeammate">处理</el-button>
             </div>
             <div class="m-block m-user">
                 <div class="u-subblock">
@@ -160,6 +160,9 @@ export default {
         id() {
             return this.$route.params.id;
         },
+        isTeammate() {
+            return this.$store.state.isTeammate
+        }
     },
     watch: {
         id: {

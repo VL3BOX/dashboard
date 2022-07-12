@@ -31,7 +31,9 @@ export default {
         },
     },
     created: function () {},
-    mounted: function () {},
+    mounted: function () {
+        this.$store.dispatch('getIsTeammate')
+    },
 };
 
 </script>

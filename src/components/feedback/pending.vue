@@ -30,7 +30,22 @@
                     {{ subtypes[row.subtype] }}
                 </template>
             </el-table-column>
-            <!-- <el-table-column label="内容" prop="content" show-overflow-tooltip></el-table-column> -->
+            <el-table-column label="指派人">
+                <template #default="{ row }">
+                    <div class="m-assign" v-if="row.assign_user && row.assign_user.length">
+                        <a
+                            class="u-assign"
+                            :href="authorLink(assign.id)"
+                            target="_blank"
+                            v-for="assign in row.assign_user"
+                            :key="assign.id"
+                        >
+                            <img class="u-assign-avatar" :src="showAvatar(assign.avatar)" />
+                            <span class="u-assign-name">{{ assign.display_name }}</span>
+                        </a>
+                    </div>
+                </template>
+            </el-table-column>
             <el-table-column label="提交时间" prop="created_at">
                 <template #default="{ row }">
                     {{ formatTime(row.created_at) }}
@@ -57,11 +72,18 @@
 
 <script>
 import { getMiscfeedback } from "@/service/feedback";
-import { types, subtypes, statusMap, statusColors } from "@/assets/data/feedback.json";
+import { types, subtypes, statusMap, statusColors, filterOptions } from "@/assets/data/feedback.json";
+import { showAvatar, authorLink } from "@jx3box/jx3box-common/js/utils";
 import User from "@jx3box/jx3box-common/js/user";
 import moment from "moment";
 export default {
-    name: "FeedbackList",
+    name: "pendingList",
+    props: {
+        onlyMe: {
+            type: Boolean,
+            default: true,
+        },
+    },
     data() {
         return {
             data: [],
@@ -69,18 +91,7 @@ export default {
             page: 1,
             per: 10,
             total: 0,
-            filterOptions: {
-                status: [
-                    { text: '待处理', value: 0 },
-                    { text: '已指派', value: 1 },
-                    { text: '已处理', value: 2 },
-                    { text: '已结束', value: 3 }
-                ],
-                client: [
-                    { text: '重制', value: 'std' },
-                    { text: '缘起', value: 'origin' }
-                ]
-            },
+            filterOptions,
             filters: {
                 status: '',
                 client: ''
@@ -100,16 +111,24 @@ export default {
             return User.getInfo();
         },
     },
+    watch: {
+        onlyMe() {
+            this.page = 1;
+            this.getData();
+        },
+    },
     methods: {
+        showAvatar,
+        authorLink,
         async getData() {
             try {
                 this.loading = true;
                 const params = {
                     pageIndex: this.page,
                     pageSize: this.per,
-                    assign: this.user.uid,
                     ...this.filters,
                 };
+                this.onlyMe && (params.assign = this.user.uid);
                 let res = await getMiscfeedback(params);
                 this.data = res.data.data.list || [];
                 this.total = res.data.data.page.total;
@@ -175,6 +194,21 @@ export default {
     .u-client {
         padding: 2px 5px;
         .r(2px);
+    }
+
+    .m-assign {
+        display: flex;
+        gap: 10px;
+
+        .u-assign {
+            display: flex;
+            align-items: center;
+            .u-assign-avatar {
+                .size(24px);
+                .r(100%);
+                .mr(5px);
+            }
+        }
     }
 }
 </style>

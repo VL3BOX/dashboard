@@ -24,5 +24,35 @@
         "1": "#fba524",
         "2": "#49c10f",
         "3": "#909399"
+    },
+    "filterOptions": {
+        "status": [
+            {
+                "text": "待处理",
+                "value": 0
+            },
+            {
+                "text": "已指派",
+                "value": 1
+            },
+            {
+                "text": "已处理",
+                "value": 2
+            },
+            {
+                "text": "已结束",
+                "value": 3
+            }
+        ],
+        "client": [
+            {
+                "text": "重制",
+                "value": "std"
+            },
+            {
+                "text": "缘起",
+                "value": "origin"
+            }
+        ]
     }
 }

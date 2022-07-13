@@ -37,12 +37,11 @@
                         </a>
                     </div>
                     <div class="u-list u-list-assign" v-else>
-                        <a
-                            class="u-item u-assign"
-                            :href="authorLink(1)"
-                            target="_blank"
-                        >
-                            <img class="u-assign-avatar" :src="showAvatar('https://oss.jx3box.com/upload/avatar/2021/3/18/6568744.png')" />
+                        <a class="u-item u-assign" :href="authorLink(1)" target="_blank">
+                            <img
+                                class="u-assign-avatar"
+                                :src="showAvatar('https://oss.jx3box.com/upload/avatar/2021/3/18/6568744.png')"
+                            />
                             <span class="u-assign-name">JX3BOX</span>
                         </a>
                     </div>
@@ -50,7 +49,12 @@
                 <div class="u-subblock">
                     <span class="u-label">关联仓库：</span>
                     <div class="u-list u-list-repo">
-                        <a class="u-repo u-item" :href="formateGithub(data.repository)" v-if="data.repository" target="_blank">
+                        <a
+                            class="u-repo u-item"
+                            :href="formateGithub(data.repository)"
+                            v-if="data.repository"
+                            target="_blank"
+                        >
                             <img class="u-repo-icon" src="../../assets/img/feedback/github.svg" alt="" />
                             <span class="u-repo-name">{{ data.repository }}</span>
                         </a>
@@ -89,7 +93,13 @@
         <el-dialog :visible.sync="visible" title="处理" width="750px">
             <el-form :model="formData" :rules="rules" label-position="top">
                 <el-form-item label="关联处理人">
-                    <el-select placeholder="请选择关联处理人" filterable v-model="formData.assign" multiple style="width:100%;">
+                    <el-select
+                        placeholder="请选择关联处理人"
+                        filterable
+                        v-model="formData.assign"
+                        multiple
+                        style="width: 100%"
+                    >
                         <el-option
                             v-for="item in teammates"
                             :key="item.id"
@@ -124,7 +134,7 @@
 
 <script>
 import { getFeedback, updateFeedback } from "@/service/feedback";
-import { getTeammates } from '@/service/index'
+import { getTeammates } from "@/service/index";
 import { types, subtypes, statusMap, statusColors } from "@/assets/data/feedback.json";
 import { showAvatar, authorLink } from "@jx3box/jx3box-common/js/utils";
 import moment from "moment";
@@ -153,7 +163,7 @@ export default {
                 repository: "",
             },
             rules: {},
-            teammates: []
+            teammates: [],
         };
     },
     computed: {
@@ -161,8 +171,8 @@ export default {
             return this.$route.params.id;
         },
         isTeammate() {
-            return this.$store.state.isTeammate
-        }
+            return this.$store.state.isTeammate;
+        },
     },
     watch: {
         id: {
@@ -172,8 +182,8 @@ export default {
             },
         },
     },
-    mounted () {
-        this.loadTeammates()
+    mounted() {
+        this.loadTeammates();
     },
     methods: {
         async getData() {
@@ -181,8 +191,8 @@ export default {
                 this.loading = true;
                 let res = await getFeedback(this.id);
                 this.data = res.data.data;
-                this.formData.repository = this.data.repository
-                this.formData.assign = this.data?.assign.filter(item => item) || []
+                this.formData.repository = this.data?.repository || "";
+                this.formData.assign = this.data?.assign?.filter((item) => item) || [];
                 this.done = true;
             } catch (e) {
                 console.log(e);
@@ -210,28 +220,34 @@ export default {
             return `https://github.com/JX3BOX/${val}`;
         },
         formateDuty(val) {
-            return val && val.reduce((prev, curr) => {
-                return prev + ' | ' + curr;
-            }) || ''
+            return (
+                (val &&
+                    val.reduce((prev, curr) => {
+                        return prev + " | " + curr;
+                    })) ||
+                ""
+            );
         },
 
         confirm() {
             updateFeedback(this.id, {
-                assign: this.formData.assign.map(item => item),
+                assign: this.formData.assign.map((item) => item),
                 repository: this.formData.repository,
-            }).then(res => {
-                this.$message.success("处理成功");
-                this.visible = false;
-                this.getData();
-            }).catch(e => {
-                this.$message.error(e.message);
-            });
+            })
+                .then((res) => {
+                    this.$message.success("处理成功");
+                    this.visible = false;
+                    this.getData();
+                })
+                .catch((e) => {
+                    this.$message.error(e.message);
+                });
         },
         showVisible() {
-            this.formData.repository = this.data.repository
-            this.formData.assign = this.data?.assign.filter(item => item) || []
+            this.formData.repository = this.data.repository;
+            this.formData.assign = this.data?.assign.filter((item) => item) || [];
             this.visible = true;
-        }
+        },
     },
 };
 </script>

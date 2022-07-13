@@ -12,8 +12,8 @@ Vue.use(Vuex);
 
 let store = {
     state: {
-        userdata : '',
-        client : location.href.includes('origin') ? 'origin' : 'std',
+        userdata: '',
+        client: location.href.includes('origin') ? 'origin' : 'std',
         isTeammate: false,
     },
     mutations: {
@@ -29,10 +29,7 @@ let store = {
                 commit('setIsTeammate', res.data.data);
             }).catch(err => {
                 console.log(err);
-            }).finally(() => {
-                console.log('getIsTeammate');
-            }
-            )
+            })
         }
     },
     modules: {}

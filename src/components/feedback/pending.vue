@@ -1,14 +1,21 @@
 <template>
     <div class="m-feedback-list" v-loading="loading">
-        <el-table :data="data" highlight-current-row size="small" @row-click="viewFeedback" row-class-name="u-row">
-            <el-table-column label="状态" prop="status">
+        <el-table
+            :data="data"
+            highlight-current-row
+            size="small"
+            @row-click="viewFeedback"
+            row-class-name="u-row"
+            @filter-change="filterChange"
+        >
+            <el-table-column label="状态" prop="status" column-key="status" :filters="filterOptions.status" :filter-multiple="false">
                 <template #default="{ row }">
                     <span class="u-status" :style="{ backgroundColor: statusColors[row.status] }">{{
                         statusMap[row.status]
                     }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="客户端" prop="client">
+            <el-table-column label="客户端" prop="client" column-key="client" :filters="filterOptions.client" :filter-multiple="false">
                 <template #default="{ row }">
                     <span class="u-client" :class="'i-client-' + row.client">{{ formatClient(row.client) }}</span>
                 </template>
@@ -51,7 +58,7 @@
 <script>
 import { getMiscfeedback } from "@/service/feedback";
 import { types, subtypes, statusMap, statusColors } from "@/assets/data/feedback.json";
-import User from '@jx3box/jx3box-common/js/user';
+import User from "@jx3box/jx3box-common/js/user";
 import moment from "moment";
 export default {
     name: "FeedbackList",
@@ -62,6 +69,22 @@ export default {
             page: 1,
             per: 10,
             total: 0,
+            filterOptions: {
+                status: [
+                    { text: '待处理', value: 0 },
+                    { text: '已指派', value: 1 },
+                    { text: '已处理', value: 2 },
+                    { text: '已结束', value: 3 }
+                ],
+                client: [
+                    { text: '重制', value: 'std' },
+                    { text: '缘起', value: 'origin' }
+                ]
+            },
+            filters: {
+                status: '',
+                client: ''
+            },
 
             types,
             subtypes,
@@ -84,7 +107,8 @@ export default {
                 const params = {
                     pageIndex: this.page,
                     pageSize: this.per,
-                    user_id: this.user.uid,
+                    assign: this.user.uid,
+                    ...this.filters,
                 };
                 let res = await getMiscfeedback(params);
                 this.data = res.data.data.list || [];
@@ -114,13 +138,20 @@ export default {
             this.page = val;
             this.getData();
         },
-        viewFeedback:function (row){
+        viewFeedback: function (row) {
             this.$router.push({
-                name : 'feedback_single',
-                params : {
-                    id : row.id
-                }
-            })
+                name: "feedback_single",
+                params: {
+                    id: row.id,
+                },
+            });
+        },
+        filterChange(filters) {
+            Object.entries(filters).forEach(([key, value]) => {
+                this.filters[key] = value.length ? value[0] : '';
+            });
+
+            this.getData();
         }
     },
 };
@@ -132,17 +163,17 @@ export default {
     flex-direction: column;
     gap: 20px;
 
-    .u-row *{
+    .u-row * {
         .pointer !important;
     }
 
-    .u-status{
-        color:#fff;
-        padding:2px 5px;
+    .u-status {
+        color: #fff;
+        padding: 2px 5px;
         .r(2px);
     }
-    .u-client{
-        padding:2px 5px;
+    .u-client {
+        padding: 2px 5px;
         .r(2px);
     }
 }

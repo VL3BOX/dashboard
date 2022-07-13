@@ -14,7 +14,7 @@
                 <el-tab-pane label="我的反馈" name="myfeedback" lazy>
                     <list v-if="active === 'myfeedback'"></list>
                 </el-tab-pane>
-                <el-tab-pane label="待处理" name="pending" lazy>
+                <el-tab-pane v-if="isTeammate" label="待处理" name="pending" lazy>
                     <pending v-if="active === 'pending'"></pending>
                 </el-tab-pane>
             </el-tabs>

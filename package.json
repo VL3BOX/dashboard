@@ -22,7 +22,7 @@
     "localforage": "^1.7.3",
     "lodash": "^4.17.15",
     "lua-json": "^1.0.0",
-    "moment": "^2.26.0",
+    "moment": "^2.29.4",
     "qs": "^6.9.4",
     "sterilizer": "^0.1.1",
     "urijs": "^1.19.2",

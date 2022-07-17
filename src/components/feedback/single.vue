@@ -245,7 +245,7 @@ export default {
         },
         showVisible() {
             this.formData.repository = this.data.repository;
-            this.formData.assign = this.data?.assign.filter((item) => item) || [];
+            this.formData.assign = this.data?.assign?.filter((item) => item) || [];
             this.visible = true;
         },
     },

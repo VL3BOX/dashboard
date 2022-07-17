@@ -154,13 +154,6 @@ export default {
                     let info = encodeURIComponent(Base64.encode(JSON.stringify(item)));
                     return `/dashboard/callback/${type}/${subtype}?info=${info}`;
 
-                // TODO:历史遗毒
-                } else if (source_type == "box_coin" || source_type == "boxcoin") {
-                    return `/dashboard/boxcoin`;
-                } else if (source_type == "sign") {
-                    return `/dashboard/cooperation`;
-                } else if (subtype == "team_join") {
-                    return `/team/member/list`;
 
                 } else {
                     return getLink(source_type, source_id);

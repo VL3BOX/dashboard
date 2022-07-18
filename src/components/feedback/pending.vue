@@ -30,7 +30,7 @@
                     {{ subtypes[row.subtype] }}
                 </template>
             </el-table-column>
-            <el-table-column label="指派人">
+            <el-table-column label="指派给">
                 <template #default="{ row }">
                     <div class="m-assign" v-if="row.assign_user && row.assign_user.length">
                         <a

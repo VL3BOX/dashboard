@@ -1,3 +1,9 @@
+/*
+ * @Author: iRuxu
+ * @Date: 2022-06-08 14:23:24
+ * @LastEditTime: 2022-07-19 14:34:21
+ * @Description:
+ */
 import { $pay, $cms } from "@jx3box/jx3box-common/js/https";
 
 function getBoxcoinCashHistory(params) {
@@ -12,8 +18,10 @@ function getBoxcoinGotHistory(params) {
     });
 }
 
-function cashBoxcoin(data) {
-    return $pay().post(`/api/my/boxcoin/cashout`, data);
+function cashBoxcoin(data, params) {
+    return $pay().post(`/api/my/boxcoin/cashout`, data,{
+        params
+    });
 }
 
 function getBoxcoinConfig() {

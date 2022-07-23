@@ -253,7 +253,7 @@ export default {
             get() {
                 if (this.client == "std") {
                     // 显示正式服余额（可能为负数） 和 真实余额较小的
-                    return Math.min(this.totalCoin, Math.max(this.total_std, 0));
+                    return Math.min(this.totalCoin, Math.max(this.total_std, 0)  + Math.max(this.total_all, 0));
                 } else {
                     // 显示怀旧服余额+双端余额（可能为负数） 和 真实余额较小的
                     return Math.min(this.totalCoin, Math.max(this.total_origin, 0) + Math.max(this.total_all, 0));

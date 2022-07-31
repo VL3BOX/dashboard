@@ -123,6 +123,14 @@
                 <el-form-item label="仓库">
                     <el-input placeholder="请输入仓库" v-model="formData.repository"></el-input>
                 </el-form-item>
+                <el-form-item label="状态">
+                    <el-radio-group v-model="formData.status">
+                        <el-radio-button :label="0">待处理</el-radio-button>
+                        <el-radio-button :label="1">已指派</el-radio-button>
+                        <el-radio-button :label="2">已处理</el-radio-button>
+                        <el-radio-button :label="3">已结束</el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button size="small" @click="visible = false">取 消</el-button>
@@ -161,6 +169,7 @@ export default {
             formData: {
                 assign: [],
                 repository: "",
+                status: 0,
             },
             rules: {},
             teammates: [],
@@ -193,6 +202,7 @@ export default {
                 this.data = res.data.data;
                 this.formData.repository = this.data?.repository || "";
                 this.formData.assign = this.data?.assign?.filter((item) => item) || [];
+                this.formData.status = this.data?.status || 0;
                 this.done = true;
             } catch (e) {
                 console.log(e);

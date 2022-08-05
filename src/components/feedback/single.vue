@@ -243,6 +243,7 @@ export default {
             updateFeedback(this.id, {
                 assign: this.formData.assign.map((item) => item),
                 repository: this.formData.repository,
+                status: this.formData.status,
             })
                 .then((res) => {
                     this.$message.success("处理成功");

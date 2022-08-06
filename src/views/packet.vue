@@ -1,7 +1,7 @@
 <template>
     <div class="m-credit m-packet">
         <h2 class="u-title">
-            <i class="el-icon-wallet"></i> 我的红包
+            <i class="el-icon-present"></i> 我的红包
         </h2>
         <div class="m-credit-total m-packet-total">
             余额 :

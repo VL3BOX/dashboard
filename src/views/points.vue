@@ -1,6 +1,6 @@
 <template>
     <div class="m-points" v-loading="loading">
-        <h2><i class="el-icon-present"></i> 我的积分</h2>
+        <h2><i class="el-icon-sugar"></i> 我的积分</h2>
         <div class="m-balance">
             <span class="u-label">余额 : </span>
             <b :class="money > 0 ? 'u-have' : ''" class="u-num">{{ money }}</b>

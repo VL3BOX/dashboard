@@ -1,6 +1,6 @@
 <template>
     <div class="m-credit m-boxcoin m-cny">
-        <h2 class="u-title"><i class="el-icon-wallet"></i> 我的电量</h2>
+        <h2 class="u-title"><i class="el-icon-wallet"></i> 我的金箔</h2>
         <div class="m-credit-total m-packet-total">
             余额 :
             <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
@@ -285,7 +285,6 @@ export default {
                 out: getBoxcoinCashHistory,
             };
             this.$router.push({
-                name: "boxcoin",
                 query: {
                     tab: this.tab,
                     page: this.page,

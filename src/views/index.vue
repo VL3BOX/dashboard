@@ -104,7 +104,7 @@
                             content="积分可用于兑换限量纪念品、激活码等，通过发布作品或参与站内活动获取"
                             placement="top"
                         >
-                            <div class="u-credit-name"><i class="el-icon-sugar"></i> 积分</div>
+                            <div class="u-credit-name"><i class="el-icon-sugar"></i> 银铛</div>
                         </el-tooltip>
                         <div class="u-credit-value">
                             <b>{{ asset.points }}</b>
@@ -124,13 +124,13 @@
                         <el-tooltip
                             class="item"
                             effect="dark"
-                            content="余额与人民币为1:1，只能通过充值获取，提现时将扣除2%手续费"
+                            content="余额与人民币为1:1，只能通过充值或玩家赠送获取"
                             placement="top"
                         >
-                            <div class="u-credit-name"><i class="el-icon-wallet"></i> 电量</div>
+                            <div class="u-credit-name"><i class="el-icon-wallet"></i> 金箔</div>
                         </el-tooltip>
                         <div class="u-credit-value">
-                            <b>{{ asset.cny }}.00</b>
+                            <b>{{ asset.cny | formatCredit }}</b>
                         </div>
                         <div class="u-credit-op">
                             <a class="el-button el-button--primary el-button--mini is-disabled" href="/vip/cny" target="_blank"
@@ -147,7 +147,7 @@
                         <el-tooltip
                             class="item"
                             effect="dark"
-                            content="红包可直接提现至支付宝/微信钱包，通过特殊活动抽奖获取"
+                            content="红包可直接提现，通过特殊活动获取"
                             placement="top"
                         >
                             <div class="u-credit-name"><i class="el-icon-present"></i> 红包</div>

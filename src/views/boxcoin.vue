@@ -317,7 +317,6 @@ export default {
                 out: getBoxcoinCashHistory,
             };
             this.$router.push({
-                name: "boxcoin",
                 query: {
                     tab: this.tab,
                     page: this.page,

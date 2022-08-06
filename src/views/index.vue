@@ -120,6 +120,29 @@
                     </div>
                 </el-col>
                 <el-col :span="6">
+                    <div class="u-cny">
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="余额与人民币为1:1，只能通过充值获取，提现时将扣除2%手续费"
+                            placement="top"
+                        >
+                            <div class="u-credit-name"><i class="el-icon-wallet"></i> 电量</div>
+                        </el-tooltip>
+                        <div class="u-credit-value">
+                            <b>{{ asset.cny }}.00</b>
+                        </div>
+                        <div class="u-credit-op">
+                            <a class="el-button el-button--primary el-button--mini is-disabled" href="/vip/cny" target="_blank"
+                                >充值</a
+                            >
+                            <router-link class="el-button el-button--primary el-button--mini is-disabled" to="/cny"
+                                >提现</router-link
+                            >
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="6">
                     <div class="u-packet">
                         <el-tooltip
                             class="item"
@@ -127,27 +150,17 @@
                             content="红包可直接提现至支付宝/微信钱包，通过特殊活动抽奖获取"
                             placement="top"
                         >
-                            <div class="u-credit-name"><i class="el-icon-wallet"></i> 红包</div>
+                            <div class="u-credit-name"><i class="el-icon-present"></i> 红包</div>
                         </el-tooltip>
                         <div class="u-credit-value">
                             <b>{{ asset.red_packet | formatCredit }}</b>
                         </div>
                         <div class="u-credit-op">
                             <router-link class="el-button el-button--primary el-button--mini" to="/packet"
-                                >提现</router-link
+                                >记录</router-link
                             >
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="6">
-                    <div class="u-gift">
-                        <div class="u-credit-name"><i class="el-icon-present"></i> 订单</div>
-                        <div class="u-credit-value">
-                            <b>{{ asset.gift || 0 }}</b>
-                        </div>
-                        <div class="u-credit-op">
-                            <router-link class="el-button el-button--primary el-button--mini" to="/order"
-                                >查看</router-link
+                            <router-link class="el-button el-button--primary el-button--mini" to="/packet"
+                                >提现</router-link
                             >
                         </div>
                     </div>

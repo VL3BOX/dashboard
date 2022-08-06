@@ -7,7 +7,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-Vue.use(VueRouter);
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
     return originalPush.call(this, location).catch((err) => err);
@@ -23,6 +22,7 @@ const order = () => import("../views/orders.vue");
 const packet = () => import("../views/packet.vue");
 const boxcoin = () => import("../views/boxcoin.vue");
 const points = () => import("../views/points.vue");
+const cny = () => import("../views/cny.vue");
 const tasks = () => import("../views/tasks.vue");
 const card= () => import("../views/card.vue");
 
@@ -52,6 +52,7 @@ const routes = [
     { name: "orders", path: "/order", component: order },
     { name: "packet", path: "/packet", component: packet },
     { name: "boxcoin", path: "/boxcoin", component: boxcoin },
+    { name: "cny", path: "/cny", component: cny },
     { name: "points", path: "/points", component: points },
     { name: "tasks", path: "/tasks", component: tasks },
     { name: "card", path: "/card", component: card},

@@ -4,7 +4,7 @@
         <div class="m-balance">
             <span class="u-label">余额 : </span>
             <b :class="money > 0 ? 'u-have' : ''" class="u-num">{{ money }}</b>
-            <!-- <el-button class="u-btn" type="primary" size="mini" :disabled="!money">兑换</el-button> -->
+            <a class="el-button u-btn el-button--primary el-button--mini is-disabled" href="/vip/mall" target="_blank">兑换</a>
         </div>
         <el-tabs class="m-tabs" type="border-card" v-model="tab_value" @tab-click="changeTab">
             <!-- 积分记录 -->

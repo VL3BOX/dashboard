@@ -21,9 +21,6 @@ import "@jx3box/jx3box-common/css/element.css";
 import "@jx3box/jx3box-common/css/normalize.css";
 Vue.use(JX3BOX_UI);
 
-import failCallback from '../utils/failCallback'
-Vue.prototype.failCallback = failCallback;
-
 import router from "../router";
 import store from "../store";
 

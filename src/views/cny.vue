@@ -1,9 +1,11 @@
 <template>
     <div class="m-credit m-boxcoin m-cny">
+
         <h2 class="u-title"><i class="el-icon-wallet"></i> 我的金箔</h2>
+
         <div class="m-credit-total m-packet-total">
             余额 :
-            <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
+            <b :class="{ hasLeft: hasLeft }">{{ formatMoney(money) }}</b>
             <a class="el-button u-btn el-button--primary el-button--mini is-disabled" href="/vip/cny" target="_blank"
                 >充值</a
             >
@@ -11,16 +13,17 @@
                 >提现</el-button
             >
         </div>
-        <!-- <div class="m-credit-pull" v-if="showPullBox">
+
+        <div class="m-credit-pull">
             <el-alert class="m-boxcoin-ac" type="error" show-icon :closable="false" v-if="breadcrumb" size="mini">
                 <slot name="title"><div v-html="breadcrumb"></div></slot>
             </el-alert>
-            <el-alert class="m-boxcoin-tip" title="电量兑换规则" type="warning" show-icon>
+            <el-alert class="m-boxcoin-tip" title="提现说明" type="warning" show-icon>
                 <slot name="description"
                     >每个月6~30日开放提现，1~5日关闭提现渠道进行汇总。（即1月6日的兑换，和1月30日的兑换，同样在2月1~5日进行汇总）<br />
-                    提现将收取手续费 2%，最低收取 0.02 元。提现时不满 1元 部分按1元计算，计算手续费时 向上 取整。<br />
+                    提现将收取手续费 2%，最低收取 0.02 元。收取规则：不满1元部分按1元计算，计算手续费时向上取整。<br />
                     比如提现15.5，16.2 向取整，分别按16，17元收取 0.32元和0.34元。<br />
-                    汇总后，通常7个工作日内转账至支付宝账号。</slot
+                    汇总后，通常7个工作日内转账至收款账号。</slot
                 >
             </el-alert>
             <el-form label-position="left" label-width="80px" class="m-boxcoin-form">
@@ -37,7 +40,10 @@
                     <el-input v-model="pull.username" placeholder="请务必填写正确的收款人"></el-input>
                 </el-form-item>
                 <el-form-item label="金额">
-                    <el-input v-model="pull.money" placeholder="请务必填写正确的金额，例如1、1.55"></el-input>
+                    <el-input v-model.number="pull.money" placeholder="请务必填写正确的金额，例如20000即200元、1268即12.68元">
+                        <template slot="append">分</template>
+                        <template slot="prepend">{{formatMoney(pull.money)}}元</template>
+                    </el-input>
                 </el-form-item>
                 <el-form-item label>
                     <el-button type="primary" @click="openConfirmBox" :disabled="!ready || lockStatus"
@@ -50,7 +56,7 @@
                     </span>
                 </el-form-item>
             </el-form>
-        </div> -->
+        </div>
         <!-- <div class="m-credit-table m-packet-table" v-loading="loading">
             <el-tabs v-model="tab" @tab-click="changeType" type="border-card">
                 <el-tab-pane label="盒币记录" name="in">
@@ -158,32 +164,26 @@
 </template>
 
 <script>
-import User from "@jx3box/jx3box-common/js/user.js";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 import { showTime } from "@jx3box/jx3box-common/js/moment";
 import types from "@/assets/data/boxcoin_types.json";
-import zones from "@jx3box/jx3box-data/data/server/server_zones.json";
 import statusMap from "@/assets/data/boxcoin_status.json";
-import {
-    getBoxcoinCashHistory,
-    getBoxcoinGotHistory,
-    cashBoxcoin,
-    getBoxcoinConfig,
-    getBoxcoinOverview,
-} from "@/service/boxcoin.js";
 import paytypes from "@/assets/data/paytypes.json";
 import paystatus from "@/assets/data/paystatus.json";
-import optypes from "@/assets/data/optypes.json";
 import _ from "lodash";
-import { authorLink } from "@jx3box/jx3box-common/js/utils";
 import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc.js";
+import { cashOut,getBalance } from "@/service/cny";
+import { getBoxcoinConfig } from "@/service/boxcoin";
 export default {
     name: "Cny",
     props: [],
     data: function () {
         return {
-            // 提现表单
-            pay_types: paytypes,
+
+            // 💠 余额
+            money: 0,
+
+            // 🌸 提现
             pull: {
                 username: "",
                 account: "",
@@ -193,8 +193,14 @@ export default {
             showPullBox: false,
             lockStatus: false,
             formStatus: false,
+            breadcrumb: "",
 
-            // 记录列表
+            // Options
+            types,
+            dates: [],
+            pay_types: paytypes,
+
+            // 🌟 列表
             loading: false,
             tab: "in",
             list: [],
@@ -202,14 +208,37 @@ export default {
             per: 10,
             total: 1,
 
-            // 杂项
-            breadcrumb: "",
-
-            // 概览
-            money: 0,
         };
     },
     computed: {
+
+        // 💠 余额
+        hasLeft: function () {
+            return this.money > 0;
+        },
+
+        // 🌸 提现
+        // 日期
+        start_date: function () {
+            return this.dates[0];
+        },
+        end_date: function () {
+            return this.dates[this.dates.length - 1];
+        },
+        isAllowDate: function () {
+            let d = new Date().getDate();
+            return !this.dates.includes(d);
+        },
+        // 限制
+        canCash: function () {
+            return this.hasLeft && this.isAllowDate;
+        },
+        ready: function () {
+            return true
+            return this.canCash && this.formStatus;
+        },
+
+        // 🌟 列表
         params: function () {
             let params = {
                 pageIndex: this.page,
@@ -217,53 +246,7 @@ export default {
             };
             return params;
         },
-        client: function () {
-            return this.$store.state.client;
-        },
 
-        // 额度
-        total_std: function () {
-            return this.toPositiveNumber(this.overview.std);
-        },
-        total_origin: function () {
-            return this.toPositiveNumber(this.overview.origin);
-        },
-        total_all: function () {
-            return this.toPositiveNumber(this.overview.all);
-        },
-        hasLeft: function () {
-            return this.money > 0;
-        },
-        min: function () {
-            return this.client == "std" ? 1500 : 3000;
-        },
-
-        // 日期
-        isAllowDate: function () {
-            let d = new Date().getDate();
-            return !this.dates.includes(d);
-        },
-        start_date: function () {
-            return this.dates[0];
-        },
-        end_date: function () {
-            return this.dates[this.dates.length - 1];
-        },
-
-        // 区服
-        zones: function () {
-            return this.client == "origin"
-                ? zones.filter((item) => item.startsWith("缘起"))
-                : zones.filter((item) => !item.startsWith("缘起"));
-        },
-
-        // 限制
-        canCash: function () {
-            return this.hasLeft && this.isAllowDate && this.money >= this.min;
-        },
-        ready: function () {
-            return this.canCash && this.formStatus;
-        },
     },
     methods: {
         // 初始化
@@ -272,57 +255,26 @@ export default {
                 this.dates = JSON.parse(res.data.data.val);
             });
             this.loadAsset();
-            this.loadData();
+            // this.loadData();
             this.loadAc();
-            this.loadOverview();
         },
 
-        // 加载列表数据
-        loadData: function () {
-            this.loading = true;
-            let fn = {
-                in: getBoxcoinGotHistory,
-                out: getBoxcoinCashHistory,
-            };
-            this.$router.push({
-                query: {
-                    tab: this.tab,
-                    page: this.page,
-                },
-            });
-            fn[this.tab](this.params)
-                .then((res) => {
-                    this.list = res.data.data.list;
-                    this.total = res.data.data.page.total;
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
-        },
-        loadOverview: function () {
-            getBoxcoinOverview().then((res) => {
-                this.overview = res.data.data;
-            });
-        },
-        changeType: function () {
-            this.page = 1;
-            this.loadData();
-        },
-        getPostLink(item) {
-            return getLink(item.post_type, item.article_id);
-        },
-
-        // 提现操作
+        // 💠 余额
         loadAsset: function () {
-            User.getAsset().then((data) => {
-                this.totalCoin = data?.box_coin || 0;
+            getBalance().then((data) => {
+                this.money = data;
             });
         },
+
+
+        // 🌸 提现
         togglePullBox: function () {
             this.showPullBox = !this.showPullBox;
         },
-        canSelect: function (val) {
-            return ~~this.money >= ~~val;
+        loadAc: function () {
+            getBreadcrumb("dashboard-cny").then((data) => {
+                this.breadcrumb = data;
+            });
         },
         checkForm: function () {
             for (let key in this.pull) {
@@ -335,7 +287,11 @@ export default {
         },
         openConfirmBox: function () {
             this.$alert(
-                `<div class="m-boxcoin-msg">大区：<b>${this.pull.zone}</b> <br/> 账号：<b>${this.pull.account}</b> <br/> 邮箱：<b>${this.pull.email}</b> <br/> 兑换：<b>${this.pull.cash}通宝</b></div>`,
+                `<div class="m-packet-msg">
+                收款账号<b>${this.pull.account}</b><br/>
+                收款人<b>${this.pull.username}</b><br/>
+                金额<b>${this.pull.money}</b>
+                </div>`,
                 "确认信息",
                 {
                     confirmButtonText: "确定",
@@ -344,9 +300,7 @@ export default {
                         if (action == "confirm") {
                             this.lockStatus = true;
                             this.loading = true;
-                            cashBoxcoin(Object.assign(this.pull, { client: this.client }), {
-                                client: this.client,
-                            })
+                            cashOut(this.pull)
                                 .then((res) => {
                                     this.$message({
                                         type: "success",
@@ -368,13 +322,42 @@ export default {
                 }
             );
         },
-        // 杂项
-        loadAc: function () {
-            getBreadcrumb("dashboard-boxcoin").then((data) => {
-                this.breadcrumb = data;
+
+        // 🌟 列 你表
+        loadData: function () {
+            this.loading = true;
+            let fn = {
+                in: getBoxcoinGotHistory,
+                out: getBoxcoinCashHistory,
+            };
+            this.$router.push({
+                query: {
+                    tab: this.tab,
+                    page: this.page,
+                },
             });
+            fn[this.tab](this.params)
+                .then((res) => {
+                    this.list = res.data.data.list;
+                    this.total = res.data.data.page.total;
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
         },
+        changeType: function () {
+            this.page = 1;
+            this.loadData();
+        },
+        getPostLink(item) {
+            return getLink(item.post_type, item.article_id);
+        },
+
+
         // filters
+        formatMoney: function (val) {
+            return val ? (val / 100).toFixed(2) : 0;
+        },
         formatDate: function (val) {
             return showTime(val);
         },
@@ -393,9 +376,6 @@ export default {
         },
         formatHistoryStatus: function (val) {
             return statusMap[val] || val;
-        },
-        toPositiveNumber: function (val) {
-            return val > 0 ? val : 0;
         },
     },
     created: function () {

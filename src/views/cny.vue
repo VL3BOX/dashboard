@@ -1,11 +1,10 @@
 <template>
     <div class="m-credit m-boxcoin m-cny">
-
         <h2 class="u-title"><i class="el-icon-wallet"></i> 我的金箔</h2>
 
         <div class="m-credit-total m-packet-total">
             余额 :
-            <b :class="{ hasLeft: hasLeft }">{{ formatMoney(money) }}</b>
+            <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
             <a class="el-button u-btn el-button--primary el-button--mini is-disabled" href="/vip/cny" target="_blank"
                 >充值</a
             >
@@ -14,23 +13,22 @@
             >
         </div>
 
-        <div class="m-credit-pull">
+        <div class="m-credit-pull" v-if="showPullBox">
             <el-alert class="m-boxcoin-ac" type="error" show-icon :closable="false" v-if="breadcrumb" size="mini">
                 <slot name="title"><div v-html="breadcrumb"></div></slot>
             </el-alert>
-            <el-alert class="m-boxcoin-tip" title="提现说明" type="warning" show-icon>
+            <el-alert class="m-boxcoin-tip" title="100金箔可兑换1元人民币，最小兑换起步100金箔" type="warning" show-icon>
                 <slot name="description"
                     >每个月6~30日开放提现，1~5日关闭提现渠道进行汇总。（即1月6日的兑换，和1月30日的兑换，同样在2月1~5日进行汇总）<br />
-                    提现将收取手续费 2%，最低收取 0.02 元。收取规则：不满1元部分按1元计算，计算手续费时向上取整。<br />
-                    比如提现15.5，16.2 向取整，分别按16，17元收取 0.32元和0.34元。<br />
+                    每笔提现收取2%手续费，最低收取0.02元。收取规则：不满1元部分按1元计算，计算手续费时向上取整。<br />
+                    比如提现15.5元，16.2向取整，分别按16，17元收取0.32元和0.34元。<br />
                     汇总后，通常7个工作日内转账至收款账号。</slot
                 >
             </el-alert>
-            <el-form label-position="left" label-width="80px" class="m-boxcoin-form">
+            <el-form label-position="left" label-width="80px" class="m-boxcoin-form" :model="pull">
                 <el-form-item label="类型">
                     <el-select v-model="pull.pay_type" placeholder="请选择">
-                        <el-option v-for="(label, key) in pay_types" :key="key" :label="label" :value="key">
-                        </el-option>
+                        <el-option v-for="(label, key) in paytypes" :key="key" :label="label" :value="key"> </el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="账号">
@@ -39,11 +37,14 @@
                 <el-form-item label="姓名">
                     <el-input v-model="pull.username" placeholder="请务必填写正确的收款人"></el-input>
                 </el-form-item>
-                <el-form-item label="金额">
-                    <el-input v-model.number="pull.money" placeholder="请务必填写正确的金额，例如20000即200元、1268即12.68元">
-                        <template slot="append">分</template>
-                        <template slot="prepend">{{formatMoney(pull.money)}}元</template>
-                    </el-input>
+                <el-form-item label="数量">
+                    <el-input-number v-model.number="pull.money" :max="money" :min="100" :step="100" placeholder="请务必填写正确的金额">
+                        <!-- <template slot="prepend"></template> -->
+                        <template slot="append">金箔（分）</template>
+                    </el-input-number>
+                    <div class="u-tip" v-if="pull.money">
+                        手续费{{ formatMoney(fee) }}元，实际到账{{ formatMoney(real) }}元
+                    </div>
                 </el-form-item>
                 <el-form-item label>
                     <el-button type="primary" @click="openConfirmBox" :disabled="!ready || lockStatus"
@@ -57,29 +58,40 @@
                 </el-form-item>
             </el-form>
         </div>
-        <!-- <div class="m-credit-table m-packet-table" v-loading="loading">
-            <el-tabs v-model="tab" @tab-click="changeType" type="border-card">
-                <el-tab-pane label="盒币记录" name="in">
+        <div class="m-credit-table m-packet-table" v-loading="loading">
+            <el-tabs type="border-card" v-model="tab">
+                <el-tab-pane label="变动记录" name="list">
                     <div class="m-packet-table" v-if="list && list.length">
                         <table class="m-boxcoin-in-list m-packet-in-list">
+                            <!-- "id": 48,
+                            "use_case": "cashout_fail_return_money", // 见下方枚举类型
+                            "action_type": 2, // 见下方枚举类型
+                            "money": 1020, // 变动金额
+                            "access_user_id": 6314, // 接收者id，如果该id为0，表示接收者为系统
+                            "pay_user_id": 0, // 支付者id， 如果该id为0，表示支付者为系统
+                            "link_rechargeId": 0, // 关联的微信或支付充值记录id
+                            "link_article_id": "", // 关联的付费文章id
+                            "link_article_type": "",// 关联的付费文章类型
+                            "link_attachment_id": 0, // 关联的付费附件id
+                            "link_point_product_id": 0, //关联的积分商城商品id
+                            "link_cashout_id": 26, // 关联的提现记录的id
+                            "description": "", // 描述
+                            "remark": "提现失败，返回金额", // 备注
+                            "has_be_read": 0, //是否已被消息队列读取，无实际意义
+                            "created_at": "2022-08-07 00:33:33",
+                            "process_success": false //相关业务是否执行成功 -->
+
                             <tr>
                                 <th>类型</th>
                                 <th>数量</th>
-                                <th>源于作品</th>
                                 <th>备注</th>
                                 <th>时间</th>
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
-                                <td>{{ formatType(item.action_type) }}</td>
-                                <td class="u-count" :class="{ isNegative: Number(item.count) < 0 }">
-                                    <span>{{ Number(item.count) > 0 ? "+" : "" }}</span>
-                                    <b>{{ item.count }}</b>
-                                </td>
-                                <td>
-                                    <a :href="getPostLink(item)" target="_blank" v-if="getPostLink(item)">
-                                        <i class="el-icon-link"></i> 点击查看
-                                    </a>
-                                    <span v-else>-</span>
+                                <td>{{ formatType(item.use_case) }}</td>
+                                <td class="u-count" :class="{ isNegative: Number(item.action_type) < 0 }">
+                                    <span>{{ Number(item.action_type) > 0 ? "+" : "-" }}</span>
+                                    <b>{{ formatMoney(item.money) }}</b>
                                 </td>
                                 <td>
                                     <span :title="item.remark">{{ formatRemark(item.remark) }}</span>
@@ -106,80 +118,24 @@
                         :total="total"
                     ></el-pagination>
                 </el-tab-pane>
-                <el-tab-pane label="兑换记录" name="out">
-                    <div class="m-packet-table" v-if="list && list.length">
-                        <table class="m-boxcoin-out-list m-packet-in-list">
-                            <tr>
-                                <th>数量</th>
-                                <th>大区</th>
-                                <th>账号</th>
-                                <th>邮箱</th>
-                                <th>处理状态</th>
-                                <th>备注</th>
-                                <th>申请时间</th>
-                            </tr>
-                            <tr v-for="(item, i) in list" :key="i">
-                                <td>
-                                    <b>{{ item.cash }}通宝</b>
-                                </td>
-                                <td>{{ item.zone }}</td>
-                                <td>{{ item.account }}</td>
-                                <td>{{ item.email }}</td>
-                                <td
-                                    :class="{
-                                        isFinished: item.status == 1,
-                                        isProcessing: !item.status,
-                                        isPending: item.status > 1,
-                                    }"
-                                >
-                                    {{ formatHistoryStatus(item.status) }}
-                                </td>
-                                <td>{{ item.remark }}</td>
-                                <td>{{ formatDate(item.created_at) }}</td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <el-alert
-                        v-else
-                        class="m-credit-null m-packet-null"
-                        title="没有找到相关条目"
-                        type="info"
-                        center
-                        show-icon
-                    ></el-alert>
-                    <el-pagination
-                        class="m-credit-pages m-packet-pages"
-                        background
-                        :page-size="per"
-                        :hide-on-single-page="true"
-                        :current-page.sync="page"
-                        layout="total, prev, pager, next, jumper"
-                        :total="total"
-                    ></el-pagination>
-                </el-tab-pane>
             </el-tabs>
-        </div> -->
+        </div>
     </div>
 </template>
 
 <script>
-import { getLink } from "@jx3box/jx3box-common/js/utils";
 import { showTime } from "@jx3box/jx3box-common/js/moment";
-import types from "@/assets/data/boxcoin_types.json";
-import statusMap from "@/assets/data/boxcoin_status.json";
+import types from "@/assets/data/cny_types.json";
 import paytypes from "@/assets/data/paytypes.json";
-import paystatus from "@/assets/data/paystatus.json";
 import _ from "lodash";
 import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc.js";
-import { cashOut,getBalance } from "@/service/cny";
+import { cashOut, getBalance, getHistory } from "@/service/cny";
 import { getBoxcoinConfig } from "@/service/boxcoin";
 export default {
     name: "Cny",
     props: [],
     data: function () {
         return {
-
             // 💠 余额
             money: 0,
 
@@ -188,7 +144,7 @@ export default {
                 username: "",
                 account: "",
                 pay_type: "alipay",
-                money: "",
+                money: 100, //转换为分
             },
             showPullBox: false,
             lockStatus: false,
@@ -196,25 +152,28 @@ export default {
             breadcrumb: "",
 
             // Options
-            types,
             dates: [],
-            pay_types: paytypes,
+            paytypes,
 
             // 🌟 列表
-            loading: false,
-            tab: "in",
             list: [],
             page: 1,
             per: 10,
             total: 1,
-
+            tab: "list",
+            loading: false,
         };
     },
     computed: {
-
         // 💠 余额
         hasLeft: function () {
-            return this.money > 0;
+            return this.money > 100;
+        },
+        fee: function () {
+            return Math.max(Math.ceil(this.pull.money / 100) * 2, 2);
+        },
+        real: function () {
+            return this.pull.money - this.fee;
         },
 
         // 🌸 提现
@@ -229,13 +188,11 @@ export default {
             let d = new Date().getDate();
             return !this.dates.includes(d);
         },
-        // 限制
         canCash: function () {
-            return this.hasLeft && this.isAllowDate;
+            return this.hasLeft && this.isAllowDate && this.pull.money <= this.money;
         },
         ready: function () {
-            return true
-            return this.canCash && this.formStatus;
+            return this.canCash && this.canPay && this.formStatus;
         },
 
         // 🌟 列表
@@ -246,7 +203,6 @@ export default {
             };
             return params;
         },
-
     },
     methods: {
         // 初始化
@@ -255,8 +211,8 @@ export default {
                 this.dates = JSON.parse(res.data.data.val);
             });
             this.loadAsset();
-            // this.loadData();
             this.loadAc();
+            this.loadData();
         },
 
         // 💠 余额
@@ -265,7 +221,6 @@ export default {
                 this.money = data;
             });
         },
-
 
         // 🌸 提现
         togglePullBox: function () {
@@ -290,7 +245,6 @@ export default {
                 `<div class="m-packet-msg">
                 收款账号<b>${this.pull.account}</b><br/>
                 收款人<b>${this.pull.username}</b><br/>
-                金额<b>${this.pull.money}</b>
                 </div>`,
                 "确认信息",
                 {
@@ -326,33 +280,15 @@ export default {
         // 🌟 列 你表
         loadData: function () {
             this.loading = true;
-            let fn = {
-                in: getBoxcoinGotHistory,
-                out: getBoxcoinCashHistory,
-            };
-            this.$router.push({
-                query: {
-                    tab: this.tab,
-                    page: this.page,
-                },
-            });
-            fn[this.tab](this.params)
+            getHistory(this.params)
                 .then((res) => {
-                    this.list = res.data.data.list;
+                    this.list = res.data.data.list || [];
                     this.total = res.data.data.page.total;
                 })
                 .finally(() => {
                     this.loading = false;
                 });
         },
-        changeType: function () {
-            this.page = 1;
-            this.loadData();
-        },
-        getPostLink(item) {
-            return getLink(item.post_type, item.article_id);
-        },
-
 
         // filters
         formatMoney: function (val) {
@@ -374,12 +310,8 @@ export default {
             }
             return "-";
         },
-        formatHistoryStatus: function (val) {
-            return statusMap[val] || val;
-        },
     },
     created: function () {
-        this.tab = this.$route.query.tab || "in";
         this.page = Number(this.$route.query.page || 1);
         this.init();
     },

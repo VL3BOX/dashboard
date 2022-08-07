@@ -31,13 +31,13 @@
                 <i class="el-icon-coin"></i>
                 <span>我的盒币</span>
             </router-link>
-            <router-link to="/points">
-                <i class="el-icon-sugar"></i>
-                <span>我的银铛</span>
-            </router-link>
             <router-link to="/cny">
                 <i class="el-icon-wallet"></i>
                 <span>我的金箔</span>
+            </router-link>
+            <router-link to="/points">
+                <i class="el-icon-sugar"></i>
+                <span>我的银铛</span>
             </router-link>
             <router-link to="/card">
                 <i class="el-icon-bank-card"></i>

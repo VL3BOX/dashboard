@@ -97,6 +97,29 @@
                     </div>
                 </el-col>
                 <el-col :span="6">
+                    <div class="u-cny">
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            content="余额与人民币为1:1，只能通过充值或玩家赠送获取"
+                            placement="top"
+                        >
+                            <div class="u-credit-name"><i class="el-icon-wallet"></i> 金箔</div>
+                        </el-tooltip>
+                        <div class="u-credit-value">
+                            <b>{{ asset.cny | formatCredit }}</b>
+                        </div>
+                        <div class="u-credit-op">
+                            <a class="el-button el-button--primary el-button--mini is-disabled" href="/vip/cny" target="_blank"
+                                >充值</a
+                            >
+                            <router-link class="el-button el-button--primary el-button--mini" to="/cny"
+                                >提现</router-link
+                            >
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="6">
                     <div class="u-dot">
                         <el-tooltip
                             class="item"
@@ -120,34 +143,11 @@
                     </div>
                 </el-col>
                 <el-col :span="6">
-                    <div class="u-cny">
-                        <el-tooltip
-                            class="item"
-                            effect="dark"
-                            content="余额与人民币为1:1，只能通过充值或玩家赠送获取"
-                            placement="top"
-                        >
-                            <div class="u-credit-name"><i class="el-icon-wallet"></i> 金箔</div>
-                        </el-tooltip>
-                        <div class="u-credit-value">
-                            <b>{{ asset.cny | formatCredit }}</b>
-                        </div>
-                        <div class="u-credit-op">
-                            <a class="el-button el-button--primary el-button--mini is-disabled" href="/vip/cny" target="_blank"
-                                >充值</a
-                            >
-                            <router-link class="el-button el-button--primary el-button--mini is-disabled" to="/cny"
-                                >提现</router-link
-                            >
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="6">
                     <div class="u-packet">
                         <el-tooltip
                             class="item"
                             effect="dark"
-                            content="红包可直接提现，通过特殊活动获取"
+                            content="红包可用于积分商城抵扣现金，通过特殊活动获取"
                             placement="top"
                         >
                             <div class="u-credit-name"><i class="el-icon-present"></i> 红包</div>
@@ -159,8 +159,8 @@
                             <router-link class="el-button el-button--primary el-button--mini" to="/packet"
                                 >记录</router-link
                             >
-                            <router-link class="el-button el-button--primary el-button--mini" to="/packet"
-                                >提现</router-link
+                            <a class="el-button el-button--primary el-button--mini is-disabled" href="/vip/mall" target="_blank"
+                                >兑换</a
                             >
                         </div>
                     </div>

@@ -402,6 +402,7 @@ export default {
         showAvatar: function (val) {
             return showAvatar(val, 'm');
         },
+        authorLink,
     }
 };
 </script>

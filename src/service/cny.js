@@ -11,3 +11,11 @@ export const getBalance = function (){
         return res.data.data.cny || 0
     })
 }
+
+// 历史记录
+export function getHistory(params){
+    return $pay().get(`/api/my/cny/history`,{
+        params,
+    })
+}
+

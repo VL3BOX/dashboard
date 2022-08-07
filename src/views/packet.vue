@@ -1,50 +1,34 @@
 <template>
     <div class="m-credit m-packet">
-        <h2 class="u-title">
-            <i class="el-icon-present"></i> 我的红包
-        </h2>
+        <h2 class="u-title"><i class="el-icon-present"></i> 我的红包</h2>
         <div class="m-credit-total m-packet-total">
             余额 :
             <b :class="{ hasLeft: hasLeft }">{{ money | formatMoney }}</b>
-            <el-button
+            <!-- <el-button
                 class="u-btn"
                 type="primary"
                 @click="togglePullBox"
                 size="mini"
                 :disabled="!money"
                 >提现</el-button
-            >
+            > -->
         </div>
         <div class="m-credit-pull m-packet-pull" v-if="showPullBox">
             <el-form label-position="left" label-width="80px">
                 <el-form-item label="类型">
                     <el-select v-model="pull.pay_type" placeholder="请选择">
-                        <el-option
-                            v-for="(label, key) in pay_types"
-                            :key="key"
-                            :label="label"
-                            :value="key"
-                        >
+                        <el-option v-for="(label, key) in pay_types" :key="key" :label="label" :value="key">
                         </el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="账号">
-                    <el-input
-                        v-model="pull.account"
-                        placeholder="请务必填写正确的收款账号"
-                    ></el-input>
+                    <el-input v-model="pull.account" placeholder="请务必填写正确的收款账号"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名">
-                    <el-input
-                        v-model="pull.username"
-                        placeholder="请务必填写正确的收款人"
-                    ></el-input>
+                    <el-input v-model="pull.username" placeholder="请务必填写正确的收款人"></el-input>
                 </el-form-item>
                 <el-form-item label="">
-                    <el-button
-                        type="primary"
-                        @click="openConfirmBox"
-                        :disabled="!money || lockStatus"
+                    <el-button type="primary" @click="openConfirmBox" :disabled="!money || lockStatus"
                         >提交申请</el-button
                     >
                 </el-form-item>
@@ -53,10 +37,7 @@
         <div class="m-credit-table m-packet-table" v-loading="loading">
             <el-tabs v-model="activeName" @tab-click="changeType" type="border-card">
                 <el-tab-pane label="红包记录" name="my_packet_list">
-                    <div
-                        class="m-packet-table"
-                        v-if="my_packet_list && my_packet_list.length"
-                    >
+                    <div class="m-packet-table" v-if="my_packet_list && my_packet_list.length">
                         <table class="m-packet-in-list">
                             <tr>
                                 <th>收入金额</th>
@@ -97,12 +78,7 @@
                     >
                     </el-pagination>
                 </el-tab-pane>
-                <el-tab-pane label="提现记录" name="my_packet_history">
-                    <!-- <el-alert
-                        title="所有提现申请72小时(工作日)内会处理完毕"
-                        type="info"
-                        show-icon
-                    ></el-alert> -->
+                <!-- <el-tab-pane label="提现记录" name="my_packet_history">
                     <div
                         class="m-packet-table"
                         v-if="my_packet_history && my_packet_history.length"
@@ -164,7 +140,7 @@
                         :total="total"
                     >
                     </el-pagination>
-                </el-tab-pane>
+                </el-tab-pane> -->
             </el-tabs>
         </div>
     </div>
@@ -192,7 +168,7 @@ import { authorLink } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "Packet",
     props: [],
-    data: function() {
+    data: function () {
         return {
             // 公共
             loading: false,
@@ -251,10 +227,10 @@ export default {
         };
     },
     computed: {
-        hasLeft: function() {
+        hasLeft: function () {
             return this.money > 0;
         },
-        params: function() {
+        params: function () {
             let params = {
                 pageIndex: this.page,
                 pageSize: this.per,
@@ -267,31 +243,31 @@ export default {
             });
             return params;
         },
-        pulldata: function() {
+        pulldata: function () {
             return {
                 username: this.pull.username,
                 account: this.pull.account,
                 pay_type: this.pull.pay_type,
             };
         },
-        pushdata: function() {
+        pushdata: function () {
             return {
                 status: ~~this.push.status,
                 why: this.push.why,
                 transaction_id: this.push.transaction_id,
             };
         },
-        giftdata: function() {
+        giftdata: function () {
             let gift = _.cloneDeep(this.gift);
             gift.money = parseFloat(gift.money) * 100;
             return gift;
         },
     },
     methods: {
-        togglePullBox: function() {
+        togglePullBox: function () {
             this.showPullBox = !this.showPullBox;
         },
-        loadData: function() {
+        loadData: function () {
             this.loading = true;
             const fns = {
                 my_packet_list: getMyPacketList,
@@ -300,12 +276,12 @@ export default {
                 all_history: getAllHistory,
             };
             this.$router.push({
-                name: 'packet',
+                name: "packet",
                 query: {
                     tab: this.activeName,
-                    page: this.page
+                    page: this.page,
                 },
-            })
+            });
             fns[this.activeName](this.params)
                 .then((res) => {
                     this[this.activeName] = res.data.data.list || [];
@@ -315,12 +291,12 @@ export default {
                     this.loading = false;
                 });
         },
-        changeType: function() {
+        changeType: function () {
             this.page = 1;
             this.$route.query.tab = this.activeName;
             this.loadData();
         },
-        openConfirmBox: function() {
+        openConfirmBox: function () {
             this.$alert(
                 `<div class="m-packet-msg">请确认收款账号和收款人 <br/> 收款账号<b>${this.pull.account}</b> <br/> 收款人<b>${this.pull.username}</b></div>`,
                 "确认信息",
@@ -349,12 +325,12 @@ export default {
                 }
             );
         },
-        check: function(item) {
+        check: function (item) {
             this.showPushBox = true;
             this.checkItem = item;
             this.checkId = item.id;
         },
-        submit: function(val) {
+        submit: function (val) {
             this.lockStatus = true;
             this.loading = true;
             checkPacket(this.checkId, this.pushdata, this.params)
@@ -371,10 +347,10 @@ export default {
                     this.loading = false;
                 });
         },
-        toggleGiftBox: function() {
+        toggleGiftBox: function () {
             this.showGiftBox = !this.showGiftBox;
         },
-        present: function() {
+        present: function () {
             this.lockStatus = true;
             this.loading = true;
             pushPacket(this.giftdata)
@@ -390,7 +366,7 @@ export default {
                     this.loading = false;
                 });
         },
-        recycle: function(item) {
+        recycle: function (item) {
             recyclePacket({
                 ids: item.id,
                 reason: User.getInfo().uid, //由哪个管理操作
@@ -399,36 +375,36 @@ export default {
                     message: `收回数量` + res.data.data.successCount,
                     type: "success",
                 });
-                item.status = -1
+                item.status = -1;
             });
         },
     },
     filters: {
-        formatDate: function(val) {
+        formatDate: function (val) {
             return showTime(val);
         },
-        formatStatus: function(val) {
+        formatStatus: function (val) {
             return val ? "已提现" : "未提现";
         },
-        formatHistoryStatus: function(val) {
+        formatHistoryStatus: function (val) {
             return val ? paystatus[val] : "审核中";
         },
-        formatPaytype: function(val) {
+        formatPaytype: function (val) {
             return val ? paytypes[val] : val;
         },
-        encryptAccount: function(val) {
+        encryptAccount: function (val) {
             return val.slice(0, 3) + "******";
         },
-        formatMoney: function(val) {
+        formatMoney: function (val) {
             return val ? (val / 100).toFixed(2) : 0;
         },
-        formatPayStatus: function(val) {
+        formatPayStatus: function (val) {
             val += "";
             return val && paystatus[val];
         },
         authorLink,
     },
-    created: function() {
+    created: function () {
         this.activeName = this.$route.query.tab || "my_packet_list";
         this.page = Number(this.$route.query.page || 1);
         getMyPacket().then((res) => {

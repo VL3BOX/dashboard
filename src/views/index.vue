@@ -107,7 +107,7 @@
                             <div class="u-credit-name"><i class="el-icon-wallet"></i> 金箔</div>
                         </el-tooltip>
                         <div class="u-credit-value">
-                            <b>{{ asset.cny | formatCredit }}</b>
+                            <b>{{ asset.cny }}</b>
                         </div>
                         <div class="u-credit-op">
                             <a class="el-button el-button--primary el-button--mini is-disabled" href="/vip/cny" target="_blank"

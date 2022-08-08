@@ -110,11 +110,11 @@
                             <b>{{ asset.cny }}</b>
                         </div>
                         <div class="u-credit-op">
-                            <a class="el-button el-button--primary el-button--mini is-disabled" href="/vip/cny" target="_blank"
+                            <a class="el-button el-button--primary el-button--mini" href="/vip/cny" target="_blank"
                                 >充值</a
                             >
                             <router-link class="el-button el-button--primary el-button--mini" to="/cny"
-                                >提现</router-link
+                                >兑现</router-link
                             >
                         </div>
                     </div>

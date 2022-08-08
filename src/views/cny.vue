@@ -91,7 +91,7 @@
                                 <td>{{ formatType(item.use_case) }}</td>
                                 <td class="u-count" :class="{ isNegative: Number(item.action_type) < 0 }">
                                     <span>{{ Number(item.action_type) > 0 ? "+" : "-" }}</span>
-                                    <b>{{ formatMoney(item.money) }}</b>
+                                    <b>{{item.money}}</b>
                                 </td>
                                 <td>
                                     <span :title="item.remark">{{ formatRemark(item.remark) }}</span>

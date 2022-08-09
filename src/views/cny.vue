@@ -189,10 +189,10 @@ export default {
             return !this.dates.includes(d);
         },
         canCash: function () {
-            return this.hasLeft && this.isAllowDate && this.pull.money <= this.money;
+            return this.hasLeft && this.isAllowDate && (this.pull.money <= this.money);
         },
         ready: function () {
-            return this.canCash && this.canPay && this.formStatus;
+            return this.canCash && this.formStatus;
         },
 
         // 🌟 列表

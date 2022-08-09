@@ -14,6 +14,11 @@
                     <el-radio-button label="ASC">最早靠前</el-radio-button>
                 </el-radio-group>
             </el-form-item>
+            <el-form-item label="接受赠礼">
+                <el-switch v-model="conf.allow_cny" active-color="#13ce66" active-text="开启" :active-value="1" :inactive-value="0"></el-switch>
+            </el-form-item>
+
+
             <!-- <el-form-item label="评论邮件通知">
                 <el-switch v-model="conf.cmt_email" active-color="#13ce66" active-text="开启" :active-value="1" :inactive-value="0" disabled></el-switch>
             </el-form-item> -->
@@ -51,6 +56,7 @@ export default {
                 cmt_email: 0,
                 cmt_order: "DESC",
                 editor_mode: "tinymce",
+                allow_cny: 1,
                 // hotkey: false,
                 // game_setting: false,
                 // custom_ui: false,

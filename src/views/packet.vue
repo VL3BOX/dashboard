@@ -3,7 +3,7 @@
         <h2 class="u-title"><i class="el-icon-present"></i> 我的红包</h2>
         <div class="m-credit-total m-packet-total">
             余额 :
-            <b :class="{ hasLeft: hasLeft }">{{ money | formatMoney }}</b>
+            <b :class="{ hasLeft: hasLeft }">{{ formatMoney(money) }}</b>
             <!-- <el-button
                 class="u-btn"
                 type="primary"
@@ -40,20 +40,20 @@
                     <div class="m-packet-table" v-if="my_packet_list && my_packet_list.length">
                         <table class="m-packet-in-list">
                             <tr>
-                                <th>收入金额</th>
+                                <th>红包金额</th>
                                 <th>红包类型</th>
-                                <th>红包批次</th>
-                                <th>红包描述</th>
+                                <th>红包状态</th>
+                                <th>备注</th>
                                 <th>收入时间</th>
                             </tr>
                             <tr v-for="(item, i) in my_packet_list" :key="i">
                                 <td>
-                                    <b>{{ item.money | formatMoney }}</b>
+                                    <b>{{ formatMoney(item.money) }}</b>
                                 </td>
-                                <td>{{ item.category }}</td>
-                                <td>{{ item.batch_no }}</td>
-                                <td>{{ item.describe }}</td>
-                                <td>{{ item.created_at | formatDate }}</td>
+                                <td>{{ formatType(item.action_type) }}</td>
+                                <td>{{ item.is_success ? "已处理" : "未处理" }}</td>
+                                <td>{{ item.description || item.remark || '-' }}</td>
+                                <td>{{ formatDate(item.created_at) }}</td>
                             </tr>
                         </table>
                     </div>
@@ -378,8 +378,17 @@ export default {
                 item.status = -1;
             });
         },
-    },
-    filters: {
+        formatType(val) {
+            const data = {
+                1: "领取红包",
+                2: "提现失败返回余额",
+                "-1": "回收红包",
+                "-2": "提现",
+                "-3": "红包过期",
+                "-4": "红包消费",
+            };
+            return data[val];
+        },
         formatDate: function (val) {
             return showTime(val);
         },

@@ -5,7 +5,7 @@ function getMyPacket() {
 }
 
 function getMyPacketList(params) {
-    return $pay().get("/api/red-packet/history", {
+    return $pay().get("/api/red-packet/log/my", {
         params: params,
     });
 }

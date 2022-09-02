@@ -82,7 +82,7 @@
                                 <td>{{ formatType(item.action_type) }}</td>
                                 <td class="u-count" :class="{ isNegative: Number(item.count) < 0 }">
                                     <span>{{ Number(item.count) > 0 ? "+" : "" }}</span>
-                                    <b>{{ item.count }}</b>
+                                    <b>{{ countBoxCoin(item) }}</b>
                                 </td>
                                 <td>
                                     <a :href="getPostLink(item)" target="_blank" v-if="getPostLink(item)">
@@ -428,6 +428,9 @@ export default {
         },
         toPositiveNumber: function (val) {
             return val > 0 ? val : 0;
+        },
+        countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
+            return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
         },
     },
     created: function () {

@@ -186,7 +186,7 @@
                     <!-- 盒币 -->
                     <span class="u-boxcoin" v-if="item.type == 'boxcoin'">
                         <span class="u-boxcoin-type">{{ item.data.action_type | showBoxcoinType }}</span>
-                        <b :class="{ isNegative: item.data.count < 0 }">{{ item.data.count }}</b>
+                        <b :class="{ isNegative: item.data.count < 0 }">{{ countBoxCoin(item.data) }}</b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
                         <a class="u-link" :href="getPostLink(item)" v-if="item.data.post_type && item.data.post_id">
@@ -360,6 +360,9 @@ export default {
         },
         showMedalIcon: function(val) {
             return __imgPath + "image/medals/user/" + val + ".gif";
+        },
+        countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
+            return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
         },
     },
     filters: {

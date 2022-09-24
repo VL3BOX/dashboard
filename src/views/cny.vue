@@ -104,7 +104,7 @@
                                         {{ item.access_user.display_name }}
                                     </a>
                                 </td>
-                                <td class="u-count" :class="{ isNegative: isIncome(item) }">
+                                <td class="u-count" :class="{ isNegative: !isIncome(item) }">
                                     <span>{{ isIncome(item) ? "+" : "-" }}</span>
                                     <b>{{item.money}}</b>
                                 </td>

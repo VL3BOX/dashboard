@@ -83,14 +83,29 @@
 
                             <tr>
                                 <th>类型</th>
+                                <th>来源</th>
+                                <th>去向</th>
                                 <th>数量</th>
                                 <th>备注</th>
                                 <th>时间</th>
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
                                 <td>{{ formatType(item.use_case) }}</td>
-                                <td class="u-count" :class="{ isNegative: Number(item.action_type) < 0 }">
-                                    <span>{{ Number(item.action_type) > 0 ? "+" : "-" }}</span>
+                                <td>
+                                    <a class="u-user" :href="authorLink(item.pay_user.id)" v-if="item.pay_user">
+                                        <img class="u-avatar" :src="showAvatar(item.pay_user.avatar)" alt="">
+                                        {{ item.pay_user.display_name }}
+                                    </a>
+                                    <span v-else>系统</span>
+                                </td>
+                                <td>
+                                    <a class="u-user" :href="authorLink(item.access_user.id)" v-if="item.access_user">
+                                        <img class="u-avatar" :src="showAvatar(item.access_user.avatar)" alt="">
+                                        {{ item.access_user.display_name }}
+                                    </a>
+                                </td>
+                                <td class="u-count" :class="{ isNegative: isIncome(item) }">
+                                    <span>{{ isIncome(item) ? "+" : "-" }}</span>
                                     <b>{{item.money}}</b>
                                 </td>
                                 <td>
@@ -127,10 +142,13 @@
 import { showTime } from "@jx3box/jx3box-common/js/moment";
 import types from "@/assets/data/cny_types.json";
 import paytypes from "@/assets/data/paytypes.json";
-import _ from "lodash";
 import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc.js";
 import { cashOut, getBalance, getHistory } from "@/service/cny";
 import { getBoxcoinConfig } from "@/service/boxcoin";
+
+import User from "@jx3box/jx3box-common/js/user";
+import { authorLink, showAvatar } from "@jx3box/jx3box-common/js/utils.js";
+
 export default {
     name: "Cny",
     props: [],
@@ -202,6 +220,9 @@ export default {
                 pageSize: this.per,
             };
             return params;
+        },
+        uid: function () {
+            return User.getInfo().uid;
         },
     },
     methods: {
@@ -289,6 +310,18 @@ export default {
                     this.loading = false;
                 });
         },
+        // 判断是否为收入
+        isIncome: function (item) {
+            const { access_user_id, action_type, pay_user_id } = item
+            if (action_type > 0) {
+                // 收入
+                return true
+            } else {
+                return access_user_id == this.uid;
+            }
+        },
+        authorLink,
+        showAvatar,
 
         // filters
         formatMoney: function (val) {

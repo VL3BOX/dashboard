@@ -107,6 +107,7 @@ export default {
         }
         .u-table-cell {
             .fz(12px);
+            cursor: pointer;
         }
     }
     .m-pagination {

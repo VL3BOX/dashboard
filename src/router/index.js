@@ -17,6 +17,7 @@ const index = () => import("../views/index.vue");
 const msg = () => import("../views/msg.vue");
 // const feed = () => import("../views/feed.vue");
 const fav = () => import("../views/fav.vue");
+const purchases = () => import("../views/purchases.vue");
 
 const order = () => import("../views/orders.vue");
 const packet = () => import("../views/packet.vue");
@@ -48,6 +49,7 @@ const routes = [
     { name: "msg", path: "/msg", component: msg },
     // { name: "feed", path: "/feed", component: feed },
     { name: "fav", path: "/fav/:subtype?", component: fav },
+    { name: "purchases", path: "/purchases", component: purchases },
 
     { name: "orders", path: "/order", component: order },
     { name: "packet", path: "/packet", component: packet },

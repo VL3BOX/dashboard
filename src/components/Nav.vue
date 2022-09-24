@@ -5,81 +5,22 @@
             <span>前往创作中心</span>
         </a>
 
-        <h5 class="u-title">我的仓库</h5>
-        <div class="m-nav-group">
-            <router-link to="/msg">
-                <i class="el-icon-bell"></i>
-                <span>我的消息</span>
-            </router-link>
-            <router-link to="/fav">
-                <i class="el-icon-star-off"></i>
-                <span>我的收藏</span>
-            </router-link>
-            <!-- TODO: -->
-            <!-- <a
-                href="/dashboard/#/feed"
-                class="disabled"
-                :class="isActive('feed')"
-            >
-                <i class="el-icon-view"></i><span>我的订阅</span>
-            </a>-->
-        </div>
-
-        <h5 class="u-title">权益中心</h5>
-        <div class="m-nav-group">
-            <router-link to="/boxcoin">
-                <i class="el-icon-coin"></i>
-                <span>我的盒币</span>
-            </router-link>
-            <router-link to="/cny">
-                <i class="el-icon-wallet"></i>
-                <span>我的金箔</span>
-            </router-link>
-            <router-link to="/points">
-                <i class="el-icon-sugar"></i>
-                <span>我的银铛</span>
-            </router-link>
-            <router-link to="/card">
-                <i class="el-icon-bank-card"></i>
-                <span>我的卡密</span>
-            </router-link>
-            <!-- <router-link to="/packet">
-                <i class="el-icon-present"></i>
-                <span>我的红包</span>
-            </router-link> -->
-            <router-link to="/order">
-                <i class="el-icon-shopping-bag-1"></i>
-                <span>我的订单</span>
-            </router-link>
-            <router-link to="/cooperation">
-                <i class="el-icon-reading"></i>
-                <span>签约作者</span>
-            </router-link>
-        </div>
-
-        <h5 class="u-title">账号中心</h5>
-        <div class="m-nav-group">
-            <router-link to="/profile" :class="isProfile">
-                <i class="el-icon-user"></i>
-                <span>资料设置</span>
-            </router-link>
-            <router-link to="/privacy">
-                <i class="el-icon-ship"></i>
-                <span>隐私设置</span>
-            </router-link>
-            <router-link to="config">
-                <i class="el-icon-setting"></i>
-                <span>全局设置</span>
-            </router-link>
-            <router-link to="/tasks">
-                <i class="el-icon-coffee-cup"></i>
-                <span>任务中心</span>
-            </router-link>
-            <router-link to="/feedback">
-                <i class="el-icon-phone-outline"></i>
-                <span>反馈中心</span>
-            </router-link>
-        </div>
+        <template v-for="item in navList">
+            <div :key="item.group_name">
+                <h5 class="u-title">{{ item.group_name }}</h5>
+                <div class="m-nav-group">
+                    <router-link
+                        v-for="child in item.children"
+                        :to="child.path"
+                        :key="child.path"
+                        :class="isProfile(child.path)"
+                    >
+                        <i :class="child.icon"></i>
+                        <span>{{ child.name }}</span>
+                    </router-link>
+                </div>
+            </div>
+        </template>
     </nav>
 </template>
 
@@ -87,28 +28,26 @@
 import { feedback } from "@jx3box/jx3box-common/data/jx3box.json";
 const profile_routes = ["profile", "avatar", "pwd", "connect", "email"];
 import dashboardLink from "@/utils/dashboardLink.js";
-import vipLink from "@/utils/dashboardLink.js";
+import navList from "@/assets/data/nav.json";
 export default {
     name: "Nav",
     data: function () {
         return {
             feedback,
+            navList,
         };
     },
     computed: {
-        isProfile: function () {
-            return profile_routes.includes(this.$route.name) ? "on" : "";
-        },
-        // publish_url: function () {
-        //     return dashboardLink(`publish`);
+        // isProfile: function () {
+        //     return profile_routes.includes(this.$route.name) ? "on" : "";
         // },
     },
     methods: {
-        // isActive: function (val) {
-        //     return this.$route.name == val ? "on" : "";
-        // },
         catg_url: function (val) {
             return dashboardLink(`#/${val}`);
+        },
+        isProfile: function (val) {
+            return val === "/profile" && profile_routes.includes(this.$route.name) ? "on" : "";
         },
     },
     mounted: function () {},
@@ -116,5 +55,5 @@ export default {
 </script>
 
 <style lang="less">
-    @import "../assets/css/components/nav.less";
+@import "../assets/css/components/nav.less";
 </style>

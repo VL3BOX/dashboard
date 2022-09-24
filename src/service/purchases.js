@@ -1,4 +1,4 @@
-import { $next } from "@jx3box/jx3box-common/js/https";
+import { $pay} from "@jx3box/jx3box-common/js/https";
 
 /**
  * 获取我购买的作品列表
@@ -6,7 +6,7 @@ import { $next } from "@jx3box/jx3box-common/js/https";
  * @returns
  */
 export function getPurchases(params) {
-    return $next().get("/api/buy-licence/history", {
+    return $pay().get("/api/buy-licence/history", {
         params,
     });
 }

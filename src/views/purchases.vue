@@ -5,7 +5,7 @@
         <el-table class="m-table" :data="list" v-loading="loading" @row-click="rowClick" @filter-change="filterChange" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell">
             <el-table-column label="购买类型" :filters="postTypeFilters" :filter-multiple="false"  column-key="post_type">
                 <template slot-scope="{ row }">
-                    {{ postType(row.post_type) }}
+                    <a :href="getLink(row.post_type, row.post_id)">{{ postType(row.post_type) }}</a>
                 </template>
             </el-table-column>
             <el-table-column label="货币类型">
@@ -76,6 +76,7 @@ export default {
                 this.loading = false
             })
         },
+        getLink,
         rowClick(row) {
             const url = getLink(row.post_type, row.post_id)
             if (url) {

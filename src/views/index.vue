@@ -186,7 +186,10 @@
                     <!-- 盒币 -->
                     <span class="u-boxcoin" v-if="item.type == 'boxcoin'">
                         <span class="u-boxcoin-type">{{ showBoxcoinType(item.data) }}</span>
-                        <b :class="{ isNegative: item.data.count < 0 }">{{ countBoxCoin(item.data) }}</b>
+                        <b :class="{ isNegative: countBoxCoin(item.data) < 0 }">
+                            <span>{{ countBoxCoin(item.data) >= 0 ? "+" : "" }}</span>
+                            {{ countBoxCoin(item.data) }}
+                        </b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
                         <a class="u-link" :href="getPostLink(item)" v-if="item.data.post_type && item.data.post_id">

@@ -5,9 +5,7 @@
         <div class="m-credit-total m-packet-total">
             余额 :
             <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
-            <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/cny" target="_blank"
-                >充值</a
-            >
+            <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/cny" target="_blank">充值</a>
             <el-button class="u-btn" type="primary" @click="togglePullBox" size="mini" :disabled="!money"
                 >提现</el-button
             >
@@ -17,7 +15,12 @@
             <el-alert class="m-boxcoin-ac" type="error" show-icon :closable="false" v-if="breadcrumb" size="mini">
                 <slot name="title"><div v-html="breadcrumb"></div></slot>
             </el-alert>
-            <el-alert class="m-boxcoin-tip" title="100金箔可兑换1元人民币，最小兑换起步100金箔" type="warning" show-icon>
+            <el-alert
+                class="m-boxcoin-tip"
+                title="100金箔可兑换1元人民币，最小兑换起步100金箔"
+                type="warning"
+                show-icon
+            >
                 <slot name="description"
                     >每个月6~30日开放提现，1~5日关闭提现渠道进行汇总。（即1月6日的兑换，和1月30日的兑换，同样在2月1~5日进行汇总）<br />
                     每笔提现收取2%手续费，最低收取0.02元。收取规则：不满1元部分按1元计算，计算手续费时向上取整。<br />
@@ -38,7 +41,13 @@
                     <el-input v-model="pull.username" placeholder="请务必填写正确的收款人"></el-input>
                 </el-form-item>
                 <el-form-item label="数量">
-                    <el-input-number v-model.number="pull.money" :max="money" :min="100" :step="100" placeholder="请务必填写正确的金额">
+                    <el-input-number
+                        v-model.number="pull.money"
+                        :max="money"
+                        :min="100"
+                        :step="100"
+                        placeholder="请务必填写正确的金额"
+                    >
                         <!-- <template slot="prepend"></template> -->
                         <template slot="append">金箔（分）</template>
                     </el-input-number>
@@ -93,20 +102,20 @@
                                 <td>{{ formatType(item.use_case) }}</td>
                                 <td>
                                     <a class="u-user" :href="authorLink(item.pay_user.id)" v-if="item.pay_user">
-                                        <img class="u-avatar" :src="showAvatar(item.pay_user.avatar)" alt="">
+                                        <img class="u-avatar" :src="showAvatar(item.pay_user.avatar)" alt="" />
                                         {{ item.pay_user.display_name }}
                                     </a>
                                     <span v-else>系统</span>
                                 </td>
                                 <td>
                                     <a class="u-user" :href="authorLink(item.access_user.id)" v-if="item.access_user">
-                                        <img class="u-avatar" :src="showAvatar(item.access_user.avatar)" alt="">
+                                        <img class="u-avatar" :src="showAvatar(item.access_user.avatar)" alt="" />
                                         {{ item.access_user.display_name }}
                                     </a>
                                 </td>
                                 <td class="u-count" :class="{ isNegative: !isIncome(item) }">
                                     <span>{{ isIncome(item) ? "+" : "-" }}</span>
-                                    <b>{{item.money}}</b>
+                                    <b>{{ item.money }}</b>
                                 </td>
                                 <td>
                                     <span :title="item.remark">{{ formatRemark(item.remark) }}</span>
@@ -207,7 +216,7 @@ export default {
             return !this.dates.includes(d);
         },
         canCash: function () {
-            return this.hasLeft && this.isAllowDate && (this.pull.money <= this.money);
+            return this.hasLeft && this.isAllowDate && this.pull.money <= this.money;
         },
         ready: function () {
             return this.canCash && this.formStatus;
@@ -240,6 +249,7 @@ export default {
         loadAsset: function () {
             getBalance().then((data) => {
                 this.money = data;
+                console.log(data, "getBalance");
             });
         },
 
@@ -282,7 +292,7 @@ export default {
                                         message: `申请成功,请耐心等待结算`,
                                     });
                                     this.showPullBox = false;
-                                    this.money = this.money - this.pull.cash;
+                                    this.money = this.money - this.pull.money;
                                 })
                                 .then(() => {
                                     // 重载数据
@@ -312,10 +322,10 @@ export default {
         },
         // 判断是否为收入
         isIncome: function (item) {
-            const { access_user_id, action_type, pay_user_id } = item
+            const { access_user_id, action_type, pay_user_id } = item;
             if (action_type > 0) {
                 // 收入
-                return true
+                return true;
             } else {
                 return access_user_id == this.uid;
             }

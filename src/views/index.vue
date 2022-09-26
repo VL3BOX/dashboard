@@ -50,7 +50,9 @@
                             :content="~~info.verify_email ? '邮箱已验证' : '邮箱未验证'"
                             placement="top"
                         >
-                            <a href="/dashboard/email" :class="info.verify_email && 'done'"><i class="el-icon-message"></i></a>
+                            <a href="/dashboard/email" :class="info.verify_email && 'done'"
+                                ><i class="el-icon-message"></i
+                            ></a>
                         </el-tooltip>
                         <el-tooltip
                             class="item"
@@ -58,7 +60,9 @@
                             :content="~~info.verify_phone ? '手机已绑定' : '手机未绑定'"
                             placement="top"
                         >
-                            <a href="/dashboard/phone" :class="info.verify_phone && 'done'"><i class="el-icon-mobile-phone"></i></a>
+                            <a href="/dashboard/phone" :class="info.verify_phone && 'done'"
+                                ><i class="el-icon-mobile-phone"></i
+                            ></a>
                         </el-tooltip>
                     </span>
                     <span class="u-group" v-if="group > 60">
@@ -136,7 +140,10 @@
                             <router-link class="el-button el-button--primary el-button--mini" to="/points"
                                 >记录</router-link
                             >
-                            <a class="el-button el-button--primary el-button--mini is-disabled" href="/vip/mall" target="_blank"
+                            <a
+                                class="el-button el-button--primary el-button--mini is-disabled"
+                                href="/vip/mall"
+                                target="_blank"
                                 >兑换</a
                             >
                         </div>
@@ -159,7 +166,10 @@
                             <router-link class="el-button el-button--primary el-button--mini" to="/packet"
                                 >记录</router-link
                             >
-                            <a class="el-button el-button--primary el-button--mini is-disabled" href="/vip/mall" target="_blank"
+                            <a
+                                class="el-button el-button--primary el-button--mini is-disabled"
+                                href="/vip/mall"
+                                target="_blank"
                                 >兑换</a
                             >
                         </div>
@@ -186,15 +196,15 @@
                     <!-- 盒币 -->
                     <span class="u-boxcoin" v-if="item.type == 'boxcoin'">
                         <span class="u-boxcoin-type">{{ showBoxcoinType(item.data) }}</span>
-                        <b :class="{ isNegative: countBoxCoin(item.data) < 0 }">
-                            <span>{{ countBoxCoin(item.data) >= 0 ? "+" : "" }}</span>
+                        <b :class="showBoxcoinCls(item.data)">
+                            <span>{{ showBoxcoinOp(item.data) }}</span>
                             {{ countBoxCoin(item.data) }}
                         </b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
-                        <a class="u-link" :href="getPostLink(item)" v-if="item.data.post_type && item.data.post_id">
-                            <i class="el-icon-link"></i>查看详情
-                        </a>
+                        <a class="u-link" :href="getPostLink(item)" v-if="item.data.post_type && item.data.post_id"
+                            ><i class="el-icon-link"></i>查看详情</a
+                        >
                     </span>
 
                     <!-- 订单 -->
@@ -218,7 +228,7 @@
 </template>
 
 <script>
-import { __userGroup, __imgPath, default_avatar ,__userLevelColor} from "@jx3box/jx3box-common/data/jx3box.json";
+import { __userGroup, __imgPath, default_avatar, __userLevelColor } from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { getThumbnail, getLink } from "@jx3box/jx3box-common/js/utils";
 import { getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo } from "@/service/index.js";
@@ -228,12 +238,12 @@ import boxcoin_types from "@/assets/data/boxcoin_types.json";
 import { products, pay_status, pay_types } from "@/assets/data/pay_order.json";
 import moment from "moment";
 import avatar from "./avatar.vue";
-import medal from '@jx3box/jx3box-common-ui/src/medal/medal.vue';
+import medal from "@jx3box/jx3box-common-ui/src/medal/medal.vue";
 export default {
     components: { avatar, medal },
     name: "index",
     props: [],
-    data: function() {
+    data: function () {
         return {
             uid: User.getInfo().uid,
             group: User.getInfo().group,
@@ -267,22 +277,20 @@ export default {
             pay_status,
             pay_types,
 
-            date: moment()
-                .subtract(30, "days")
-                .format("YYYYMMDD"),
+            date: moment().subtract(30, "days").format("YYYYMMDD"),
         };
     },
     computed: {
-        isVIP: function() {
+        isVIP: function () {
             return User._isVIP(this.asset) || false;
         },
-        isPRO: function() {
+        isPRO: function () {
             return User._isPRO(this.asset) || false;
         },
-        vipType: function() {
+        vipType: function () {
             return this.isPRO ? "PRO" : "PRE";
         },
-        expire_date: function() {
+        expire_date: function () {
             if (this.isPRO) {
                 return showDate(this.asset.pro_expire_date);
             } else if (this.isVIP) {
@@ -291,10 +299,10 @@ export default {
                 return "";
             }
         },
-        super_author_icon: function() {
+        super_author_icon: function () {
             return __imgPath + "image/user/" + "superauthor.svg";
         },
-        dates: function() {
+        dates: function () {
             return [
                 {
                     label: "今天",
@@ -302,119 +310,126 @@ export default {
                 },
                 {
                     label: "7天",
-                    value: moment()
-                        .subtract(7, "days")
-                        .format("YYYYMMDD"),
+                    value: moment().subtract(7, "days").format("YYYYMMDD"),
                 },
                 {
                     label: "30天",
-                    value: moment()
-                        .subtract(30, "days")
-                        .format("YYYYMMDD"),
+                    value: moment().subtract(30, "days").format("YYYYMMDD"),
                 },
             ];
         },
-        isSuperAuthor: function() {
+        isSuperAuthor: function () {
             return !!this.info?.sign;
         },
-        level: function() {
+        level: function () {
             return User.getLevel(this.info?.experience || 0);
         },
     },
     methods: {
-        loadUserInfo: function() {
+        loadUserInfo: function () {
             getMyInfo().then((res) => {
                 if (res.data.data) {
                     this.info = res.data.data;
                 }
             });
         },
-        loadAsset: function() {
+        loadAsset: function () {
             User.getAsset().then((data) => {
                 this.asset = data;
             });
         },
-        loadMedals: function() {
+        loadMedals: function () {
             if (!this.uid) return;
             getUserMedals(this.uid).then((res) => {
-                this.medals =  res.data.data || []
+                this.medals = res.data.data || [];
             });
         },
-        loadFrames: function() {
+        loadFrames: function () {
             getFrames().then((res) => {
                 if (res.data) {
                     this.frames = res.data || [];
                 }
             });
         },
-        loadAssetLogs: function() {
+        loadAssetLogs: function () {
             getMyAssetLogs(this.date).then((res) => {
                 this.asset_logs = res.data.data.list || [];
             });
         },
-        init: function() {
+        init: function () {
             this.loadUserInfo();
             this.loadAsset();
             this.loadMedals();
             this.loadAssetLogs();
         },
-        getPostLink: function(item) {
+        getPostLink: function (item) {
             return getLink(item.data.post_type, item.data.post_id);
         },
-        showMedalIcon: function(val) {
+        showMedalIcon: function (val) {
             return __imgPath + "image/medals/user/" + val + ".gif";
         },
         countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
             return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
         },
-        showBoxcoinType: function(item) {
+        showBoxcoinType: function (item) {
             if (item.action_type == 9) {
-                if (item.operate_user_id == this.uid) {
-                    return '作品付费';
-                }
-                return '作品收入';
+                return item.operate_user_id == this.uid ? "作品付费" : "作品收入";
             }
             return boxcoin_types[item.action_type] || item.action_type;
         },
+        showBoxcoinOp(item) {
+            let value = this.countBoxCoin(item);
+            if (item.action_type == 9) {
+                return item.operate_user_id == this.uid ? "-" : "+";
+            }
+            return value >= 0 ? "+" : "";
+        },
+        showBoxcoinCls(item) {
+            let value = this.countBoxCoin(item);
+            if (item.action_type == 9) {
+                return item.operate_user_id == this.uid && "isNegative";
+            }
+            return value < 0 && "isNegative";
+        },
     },
     filters: {
-        groupicon: function(groupid) {
+        groupicon: function (groupid) {
             return __imgPath + "image/group/" + groupid + ".svg";
         },
-        showGroupName: function(val) {
+        showGroupName: function (val) {
             return val ? __userGroup[val] : "游客";
         },
-        formatCredit: function(val) {
+        formatCredit: function (val) {
             return val ? (val / 100).toFixed(2) : "0.00";
         },
-        showAvatar: function(val) {
+        showAvatar: function (val) {
             return (val && getThumbnail(val, 120, true)) || getThumbnail(default_avatar, 120, true);
         },
-        showAssetType: function(val) {
+        showAssetType: function (val) {
             return asset_types[val]["label"] || val;
         },
-        showAssetIcon: function(val) {
+        showAssetIcon: function (val) {
             return asset_types[val]["icon"] || "el-icon-box";
         },
 
-        showProduct: function(val) {
+        showProduct: function (val) {
             return products[val];
         },
-        showPayStatus: function(val) {
+        showPayStatus: function (val) {
             return pay_status[val];
         },
-        showPayType: function(val) {
+        showPayType: function (val) {
             return pay_types[val];
         },
-        showPrice: function(val) {
+        showPrice: function (val) {
             return val ? (val / 100).toFixed(2) : "0.00";
         },
     },
-    mounted: function() {
+    mounted: function () {
         this.init();
     },
     watch: {
-        date: function() {
+        date: function () {
             this.loadAssetLogs();
         },
     },

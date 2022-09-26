@@ -80,8 +80,8 @@
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
                                 <td>{{ formatType(item.action_type) }}</td>
-                                <td class="u-count" :class="{ isNegative: Number(item.count) < 0 }">
-                                    <span>{{ countBoxCoin(item) >= 0 ? "+" : "" }}</span>
+                                <td class="u-count" :class="showBoxcoinCls(item)">
+                                    <span>{{ showBoxcoinOp(item) }}</span>
                                     <b>{{ countBoxCoin(item) }}</b>
                                 </td>
                                 <td>
@@ -225,6 +225,7 @@ export default {
                 origin: 0,
             },
             totalCoin: 0,
+            uid : User.getInfo().uid
         };
     },
     computed: {
@@ -430,8 +431,21 @@ export default {
             return val > 0 ? val : 0;
         },
         countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
-            console.log((count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type)));
             return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
+        },
+        showBoxcoinOp(item) {
+            let value = this.countBoxCoin(item);
+            if (item.action_type == 9) {
+                return item.operate_user_id == this.uid ? "-" : "+";
+            }
+            return value >= 0 ? "+" : "";
+        },
+        showBoxcoinCls(item) {
+            let value = this.countBoxCoin(item);
+            if (item.action_type == 9) {
+                return item.operate_user_id == this.uid && "isNegative";
+            }
+            return value < 0 && "isNegative";
         },
     },
     created: function () {

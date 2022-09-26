@@ -105,7 +105,7 @@
                         <el-tooltip
                             class="item"
                             effect="dark"
-                            content="余额与人民币为1:1，只能通过充值或玩家赠送获取"
+                            content="余额与人民币(单位分)为1:1，只能通过充值或玩家赠送获取"
                             placement="top"
                         >
                             <div class="u-credit-name"><i class="el-icon-wallet"></i> 金箔</div>

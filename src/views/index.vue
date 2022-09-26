@@ -190,7 +190,7 @@
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
                         <a class="u-link" :href="getPostLink(item)" v-if="item.data.post_type && item.data.post_id">
-                            <i class="el-icon-link"></i> 查看详情
+                            <i class="el-icon-link"></i>查看详情
                         </a>
                     </span>
 

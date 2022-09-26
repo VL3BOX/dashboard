@@ -68,7 +68,7 @@
         </div>
         <div class="m-credit-table m-packet-table" v-loading="loading">
             <el-tabs v-model="tab" @tab-click="changeType" type="border-card">
-                <el-tab-pane label="盒币记录" name="in">
+                <el-tab-pane label="盒币记录" name="in" lazy>
                     <div class="m-packet-table" v-if="list && list.length">
                         <table class="m-boxcoin-in-list m-packet-in-list">
                             <tr>
@@ -81,7 +81,7 @@
                             <tr v-for="(item, i) in list" :key="i">
                                 <td>{{ formatType(item.action_type) }}</td>
                                 <td class="u-count" :class="{ isNegative: Number(item.count) < 0 }">
-                                    <span>{{ Number(item.count) > 0 ? "+" : "" }}</span>
+                                    <span>{{ countBoxCoin(item) >= 0 ? "+" : "" }}</span>
                                     <b>{{ countBoxCoin(item) }}</b>
                                 </td>
                                 <td>
@@ -115,7 +115,7 @@
                         :total="total"
                     ></el-pagination>
                 </el-tab-pane>
-                <el-tab-pane label="兑换记录" name="out">
+                <el-tab-pane label="兑换记录" name="out" lazy>
                     <div class="m-packet-table" v-if="list && list.length">
                         <table class="m-boxcoin-out-list m-packet-in-list">
                             <tr>
@@ -430,6 +430,7 @@ export default {
             return val > 0 ? val : 0;
         },
         countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
+            console.log((count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type)));
             return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
         },
     },

@@ -185,7 +185,7 @@
 
                     <!-- 盒币 -->
                     <span class="u-boxcoin" v-if="item.type == 'boxcoin'">
-                        <span class="u-boxcoin-type">{{ item.data.action_type | showBoxcoinType }}</span>
+                        <span class="u-boxcoin-type">{{ showBoxcoinType(item.data) }}</span>
                         <b :class="{ isNegative: item.data.count < 0 }">{{ countBoxCoin(item.data) }}</b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
@@ -364,6 +364,15 @@ export default {
         countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
             return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
         },
+        showBoxcoinType: function(item) {
+            if (item.action_type == 9) {
+                if (item.operate_user_id == this.uid) {
+                    return '作品付费';
+                }
+                return '作品收入';
+            }
+            return boxcoin_types[item.action_type] || item.action_type;
+        },
     },
     filters: {
         groupicon: function(groupid) {
@@ -384,9 +393,7 @@ export default {
         showAssetIcon: function(val) {
             return asset_types[val]["icon"] || "el-icon-box";
         },
-        showBoxcoinType: function(val) {
-            return boxcoin_types[val] || val;
-        },
+
         showProduct: function(val) {
             return products[val];
         },

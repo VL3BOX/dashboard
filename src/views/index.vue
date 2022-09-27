@@ -381,6 +381,8 @@ export default {
             let value = this.countBoxCoin(item);
             if (item.action_type == 9) {
                 return item.operate_user_id == this.uid ? "-" : "+";
+            }else if(item.action_type == '-2'){
+                return "-";
             }
             return value >= 0 ? "+" : "";
         },
@@ -388,6 +390,8 @@ export default {
             let value = this.countBoxCoin(item);
             if (item.action_type == 9) {
                 return item.operate_user_id == this.uid && "isNegative";
+            }else if(item.action_type == '-2'){
+                return "isNegative";
             }
             return value < 0 && "isNegative";
         },

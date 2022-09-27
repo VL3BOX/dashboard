@@ -62,7 +62,6 @@ import User from "@jx3box/jx3box-common/js/user";
 import { showAvatar, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 import frames from "@jx3box/jx3box-common/data/user_avatar_frame.json";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
-import {map} from 'lodash'
 export default {
     name: "avatar",
     props: [],

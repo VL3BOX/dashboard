@@ -24,10 +24,10 @@
             <el-button
                 type="primary"
                 icon="el-icon-check"
-                :disabled="isNotExist || alreadyAccept"
+                :disabled="alreadyAccept"
                 @click="accept"
             >{{ alreadyAccept ? "已接受" : "接受" }}</el-button>
-            <el-button type="info" icon="el-icon-close" @click="confirmQuit" :disabled="isNotExist">{{ alreadyAccept ? "解除亲友关系" : "拒绝" }}</el-button>
+            <el-button type="info" icon="el-icon-close" @click="confirmQuit" :disabled="alreadyAccept">{{ alreadyAccept ? "解除亲友关系" : "拒绝" }}</el-button>
         </div>
     </div>
 </template>
@@ -69,6 +69,7 @@ export default {
             return !this.record;
         },
         alreadyAccept: function () {
+            console.log(this.record)
             return !!(this.record && this.record.status);
         },
     },
@@ -91,6 +92,7 @@ export default {
         },
         check: function () {
             isExistKithInvitation(this.uid).then((res) => {
+                console.log(res)
                 this.record = res.data?.data;
             });
         },
@@ -112,15 +114,16 @@ export default {
                     type: "success",
                 });
             });
-            this.$router.push("/whitelist");
+            this.$router.push("/msg");
         },
         accept: function () {
             acceptKithInvitation(this.uid).then((res) => {
+                console.log(res)
                 this.$message({
                     message: "操作成功",
                     type: "success",
                 });
-                this.$router.push("/whitelist");
+                this.$router.push("/msg");
             });
         },
     },

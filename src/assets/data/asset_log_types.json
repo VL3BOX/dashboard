@@ -14,5 +14,9 @@
     "order":{
         "label":"订单信息",
         "icon":"el-icon-present"
+    },
+    "cny": {
+        "label": "金箔变动",
+        "icon": "el-icon-coin"
     }
 }

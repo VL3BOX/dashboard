@@ -202,7 +202,7 @@
                         </b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
-                        <a class="u-link" :href="getPostLink(item)" v-if="item.data.post_type && item.data.post_id"
+                        <a class="u-link" :href="getPostLink(item.data.post_type, item.data.post_id)" v-if="item.data.post_type && item.data.post_id"
                             ><i class="el-icon-link"></i>查看详情</a
                         >
                     </span>
@@ -220,6 +220,20 @@
                         <b>{{ item.data.money | showPrice }}</b>
                         ， 补充信息：{{ item.data.describe || "-" }}
                     </span>
+
+                    <!-- 金箔 -->
+                    <span class="u-boxcoin" v-if="item.type == 'cny'">
+                        <span class="u-boxcoin-type">{{ showCNYType(item.data) }}</span>
+                        <b :class="showCNYCls(item.data)">
+                            <span>{{ showCNYOp(item.data) }}</span>
+                            {{ item.data.money }}
+                        </b>
+                        ,
+                        <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
+                        <a class="u-link" :href="getPostLink(item.data.link_article_type, item.data.link_article_id)" v-if="item.data.link_article_type && item.data.link_article_id"
+                            ><i class="el-icon-link"></i>查看详情</a
+                        >
+                    </span>
                 </li>
             </ul>
             <div class="u-null" v-else><i class="el-icon-warning-outline"></i> 当前时间范围内无记录</div>
@@ -235,6 +249,7 @@ import { getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo } from "@/service
 import { showDate } from "@jx3box/jx3box-common/js/moment";
 import asset_types from "@/assets/data/asset_log_types.json";
 import boxcoin_types from "@/assets/data/boxcoin_types.json";
+import cny_types from "@/assets/data/cny_types.json";
 import { products, pay_status, pay_types } from "@/assets/data/pay_order.json";
 import moment from "moment";
 import avatar from "./avatar.vue";
@@ -362,8 +377,8 @@ export default {
             this.loadMedals();
             this.loadAssetLogs();
         },
-        getPostLink: function (item) {
-            return getLink(item.data.post_type, item.data.post_id);
+        getPostLink: function (post_type, post_id) {
+            return getLink(post_type, post_id);
         },
         showMedalIcon: function (val) {
             return __imgPath + "image/medals/user/" + val + ".gif";
@@ -395,6 +410,27 @@ export default {
             }
             return value < 0 && "isNegative";
         },
+        showCNYType: function (item) {
+            if (item.action_type == '-2') {
+                return item.pay_user_id == this.uid ? "金箔消费" : "金箔收入";
+            }
+            return cny_types[item.action_type] || item.description || item.action_type;
+        },
+        showCNYOp(item) {
+            if(item.action_type == '-2'){
+                return item.pay_user_id == this.uid ? "-" : "+";
+            }
+            if (item.action_type == '-3') {
+                return item.pay_user_id == this.uid ? "-" : "+";
+            }
+            return item.money >= 0 ? "+" : "";
+        },
+        showCNYCls(item) {
+            if(item.action_type == '-2'){
+                return item.pay_user_id == this.uid && "isNegative";
+            }
+            return item.money < 0 && "isNegative";
+        },
     },
     filters: {
         groupicon: function (groupid) {
@@ -410,10 +446,10 @@ export default {
             return (val && getThumbnail(val, 120, true)) || getThumbnail(default_avatar, 120, true);
         },
         showAssetType: function (val) {
-            return asset_types[val]["label"] || val;
+            return asset_types[val]?.["label"] || val;
         },
         showAssetIcon: function (val) {
-            return asset_types[val]["icon"] || "el-icon-box";
+            return asset_types[val]?.["icon"] || "el-icon-box";
         },
 
         showProduct: function (val) {

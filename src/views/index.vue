@@ -384,7 +384,7 @@ export default {
             return __imgPath + "image/medals/user/" + val + ".gif";
         },
         countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
-            return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
+            return (Math.abs(count) + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
         },
         showBoxcoinType: function (item) {
             if (item.action_type == 9) {

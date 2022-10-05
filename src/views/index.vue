@@ -292,7 +292,7 @@ export default {
             pay_status,
             pay_types,
 
-            date: moment().subtract(30, "days").format("YYYYMMDD"),
+            date: moment().subtract(7, "days").format("YYYYMMDD"),
         };
     },
     computed: {

@@ -202,7 +202,10 @@
                         </b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
-                        <a class="u-link" :href="getPostLink(item.data.post_type, item.data.post_id)" v-if="item.data.post_type && item.data.post_id"
+                        <a
+                            class="u-link"
+                            :href="getPostLink(item.data.post_type, item.data.post_id)"
+                            v-if="item.data.post_type && item.data.post_id"
                             ><i class="el-icon-link"></i>查看详情</a
                         >
                     </span>
@@ -230,7 +233,10 @@
                         </b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
-                        <a class="u-link" :href="getPostLink(item.data.link_article_type, item.data.link_article_id)" v-if="item.data.link_article_type && item.data.link_article_id"
+                        <a
+                            class="u-link"
+                            :href="getPostLink(item.data.link_article_type, item.data.link_article_id)"
+                            v-if="item.data.link_article_type && item.data.link_article_id"
                             ><i class="el-icon-link"></i>查看详情</a
                         >
                     </span>
@@ -384,7 +390,9 @@ export default {
             return __imgPath + "image/medals/user/" + val + ".gif";
         },
         countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
-            return (Math.abs(count) + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
+            return (
+                (Math.abs(count) + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type))
+            );
         },
         showBoxcoinType: function (item) {
             if (item.action_type == 9) {
@@ -396,7 +404,7 @@ export default {
             let value = this.countBoxCoin(item);
             if (item.action_type == 9) {
                 return item.operate_user_id == this.uid ? "-" : "+";
-            }else if(item.action_type == '-2'){
+            } else if (item.action_type == "-2") {
                 return "-";
             }
             return value >= 0 ? "+" : "";
@@ -405,28 +413,28 @@ export default {
             let value = this.countBoxCoin(item);
             if (item.action_type == 9) {
                 return item.operate_user_id == this.uid && "isNegative";
-            }else if(item.action_type == '-2'){
+            } else if (item.action_type == "-2") {
                 return "isNegative";
             }
             return value < 0 && "isNegative";
         },
         showCNYType: function (item) {
-            if (item.action_type == '-2') {
+            if (item.action_type == "-2") {
                 return item.pay_user_id == this.uid ? "金箔消费" : "金箔收入";
             }
             return cny_types[item.action_type] || item.description || item.action_type;
         },
         showCNYOp(item) {
-            if(item.action_type == '-2'){
+            if (item.action_type == "-2") {
                 return item.pay_user_id == this.uid ? "-" : "+";
             }
-            if (item.action_type == '-3') {
+            if (item.action_type == "-3") {
                 return item.pay_user_id == this.uid ? "-" : "+";
             }
             return item.money >= 0 ? "+" : "";
         },
         showCNYCls(item) {
-            if(item.action_type == '-2'){
+            if (item.action_type == "-2") {
                 return item.pay_user_id == this.uid && "isNegative";
             }
             return item.money < 0 && "isNegative";

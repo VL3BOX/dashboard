@@ -431,7 +431,7 @@ export default {
             return val > 0 ? val : 0;
         },
         countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
-            return (Math.abs(count) + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
+            return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
         },
         showBoxcoinOp(item) {
             let value = this.countBoxCoin(item);

@@ -114,6 +114,7 @@
                     <el-table-column prop="subtype" label="渠道">
                         <template slot-scope="scope">{{ snOptions.subtypes[scope.row.subtype] || "其他" }}</template>
                     </el-table-column>
+                    <el-table-column prop="describe" label="描述"> </el-table-column>
                     <el-table-column label="激活码" min-width="300">
                         <template slot-scope="scope">
                             <div class="u-code">

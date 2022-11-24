@@ -14,7 +14,7 @@
             },
             {
                 "path": "/purchases",
-                "name": "我的购买",
+                "name": "付费资源",
                 "icon": "el-icon-shopping-cart-2"
             }
         ]
@@ -51,6 +51,26 @@
                 "path": "/cooperation",
                 "name": "签约作者",
                 "icon": "el-icon-reading"
+            }
+        ]
+    },
+    {
+        "group_name": "账单中心",
+        "children": [
+            {
+                "path": "/record",
+                "name": "兑换记录",
+                "icon": "el-icon-document"
+            },
+            {
+                "path": "/address",
+                "name": "地址管理",
+                "icon": "el-icon-postcard"
+            },
+            {
+                "path": "/order",
+                "name": "我的订单",
+                "icon": "el-icon-shopping-bag-1"
             }
         ]
     },

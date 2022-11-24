@@ -140,10 +140,7 @@
                             <router-link class="el-button el-button--primary el-button--mini" to="/points"
                                 >记录</router-link
                             >
-                            <a
-                                class="el-button el-button--primary el-button--mini is-disabled"
-                                href="/vip/mall"
-                                target="_blank"
+                            <a class="el-button el-button--primary el-button--mini" href="/vip/mall" target="_blank"
                                 >兑换</a
                             >
                         </div>
@@ -166,10 +163,7 @@
                             <router-link class="el-button el-button--primary el-button--mini" to="/packet"
                                 >记录</router-link
                             >
-                            <a
-                                class="el-button el-button--primary el-button--mini is-disabled"
-                                href="/vip/mall"
-                                target="_blank"
+                            <a class="el-button el-button--primary el-button--mini" href="/vip/mall" target="_blank"
                                 >兑换</a
                             >
                         </div>
@@ -390,9 +384,7 @@ export default {
             return __imgPath + "image/medals/user/" + val + ".gif";
         },
         countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
-            return (
-                (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type))
-            );
+            return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
         },
         showBoxcoinType: function (item) {
             if (item.action_type == 9) {

@@ -19,10 +19,15 @@ function delAddress(id) {
 function defaultAddress(id) {
     return $pay().put(`/mall/ship-address/default/${id}`, )
 }
+
+function getOrder(params) {
+    return $pay().get(`/mall/my/orders`, { params })
+}
 export {
     getAddress,
     addAddress,
     updateAddress,
     delAddress,
-    defaultAddress
+    defaultAddress,
+    getOrder
 };

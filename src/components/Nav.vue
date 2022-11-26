@@ -5,22 +5,20 @@
             <span>前往创作中心</span>
         </a>
 
-        <template v-for="item in navList">
-            <div :key="item.group_name">
-                <h5 class="u-title">{{ item.group_name }}</h5>
-                <div class="m-nav-group">
-                    <router-link
-                        v-for="child in item.children"
-                        :to="child.path"
-                        :key="child.path"
-                        :class="isProfile(child.path)"
-                    >
-                        <i :class="child.icon"></i>
-                        <span>{{ child.name }}</span>
-                    </router-link>
-                </div>
+        <div v-for="item in navList" :key="item.group_name">
+            <h5 class="u-title">{{ item.group_name }}</h5>
+            <div class="m-nav-group">
+                <router-link
+                    v-for="child in item.children"
+                    :to="child.path"
+                    :key="child.path"
+                    :class="isProfile(child.path)"
+                >
+                    <i :class="child.icon"></i>
+                    <span>{{ child.name }}</span>
+                </router-link>
             </div>
-        </template>
+        </div>
     </nav>
 </template>
 

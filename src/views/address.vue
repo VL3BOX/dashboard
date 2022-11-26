@@ -2,10 +2,10 @@
     <div class="m-page-address">
         <!-- 标题 -->
         <h2 class="u-title">
-            <span class="i-title"> <i class="el-icon-postcard"></i> 我的地址 </span>
+            <span class="i-title"> <i class="el-icon-postcard"></i> 地址管理 </span>
         </h2>
         <!-- 显示地址 -->
-        <el-button type="success" icon="el-icon-plus" @click="add">添加地址</el-button>
+        <el-button type="success" icon="el-icon-plus" @click="add" size="small">添加地址</el-button>
 
         <div class="m-content">
             <el-table :data="list">
@@ -23,8 +23,8 @@
                 </el-table-column>
                 <el-table-column label="操作">
                     <template>
-                        <div class="m-button">
-                            <el-button type="primary" plain @click="edit(item)">编辑</el-button>
+                        <div>
+                            <el-button plain @click="edit(item)" icon="el-icon-edit" size="mini">编辑</el-button>
                             <el-popconfirm
                                 confirm-button-text="确定"
                                 cancel-button-text="取消"
@@ -32,7 +32,9 @@
                                 title="确定删除吗？"
                                 @confirm="del(item.id)"
                             >
-                                <el-button slot="reference" type="danger" plain>删除</el-button>
+                                <el-button style="margin-left:10px" slot="reference" type="info" plain size="mini" icon="el-icon-delete"
+                                    >删除</el-button
+                                >
                             </el-popconfirm>
                         </div>
                     </template>

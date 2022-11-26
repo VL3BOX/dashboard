@@ -25,7 +25,7 @@ const boxcoin = () => import("../views/boxcoin.vue");
 const points = () => import("../views/points.vue");
 const cny = () => import("../views/cny.vue");
 const tasks = () => import("../views/tasks.vue");
-const card= () => import("../views/card.vue");
+const card = () => import("../views/card.vue");
 
 const profile = () => import("../views/profile.vue");
 const avatar = () => import("../views/avatar.vue");
@@ -35,11 +35,10 @@ const connect = () => import("../views/connect.vue");
 const config = () => import("../views/config.vue");
 const privacy = () => import("../views/privacy.vue");
 const cooperation = () => import("../views/cooperation.vue");
-const feedback = ()=> import('../views/feedback.vue')
+const feedback = () => import("../views/feedback.vue");
 
-const address = ()=> import('../views/address.vue')
-const record = ()=> import('../views/record.vue')
-
+const address = () => import("../views/address.vue");
+const mall = () => import("../views/mall.vue");
 
 const invitation_creators = () => import("../views/callback/invitation_creators.vue");
 const invitation_kith = () => import("../views/callback/invitation_kith.vue");
@@ -60,7 +59,7 @@ const routes = [
     { name: "cny", path: "/cny", component: cny },
     { name: "points", path: "/points", component: points },
     { name: "tasks", path: "/tasks", component: tasks },
-    { name: "card", path: "/card", component: card},
+    { name: "card", path: "/card", component: card },
 
     { name: "profile", path: "/profile", component: profile },
     { name: "avatar", path: "/avatar", component: avatar },
@@ -72,35 +71,33 @@ const routes = [
     { name: "privacy", path: "/privacy", component: privacy },
 
     { name: "address", path: "/address", component: address },
-    { name: "record", path: "/record", component: record },
-
+    { name: "mall", path: "/mall", component: mall },
 
     {
         name: "feedback",
         path: "/feedback",
         component: feedback,
         redirect: {
-            name: "feedback_index"
+            name: "feedback_index",
         },
         children: [
             {
-                name: 'feedback_index',
-                path: '/feedback',
-                component: () => import('@/components/feedback/index.vue')
+                name: "feedback_index",
+                path: "/feedback",
+                component: () => import("@/components/feedback/index.vue"),
             },
             {
-                name: 'feedback_erase',
-                path: '/feedback/erase',
-                component: () => import('@/components/feedback/erase.vue')
+                name: "feedback_erase",
+                path: "/feedback/erase",
+                component: () => import("@/components/feedback/erase.vue"),
             },
             {
-                name: 'feedback_single',
-                path: '/feedback/:id',
-                component: () => import('@/components/feedback/single.vue')
-            }
-        ]
+                name: "feedback_single",
+                path: "/feedback/:id",
+                component: () => import("@/components/feedback/single.vue"),
+            },
+        ],
     },
-
 
     { name: "invitation_creators", path: "/callback/invitation/creators", component: invitation_creators },
     { name: "invitation_kith", path: "/callback/invitation/kith", component: invitation_kith },
@@ -108,15 +105,15 @@ const routes = [
 
 const router = new VueRouter({
     routes,
-    mode : 'history',
-    base : 'dashboard'
+    mode: "history",
+    base: "dashboard",
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.fullPath.includes('/#')) {
-        next(to.fullPath.replace('/#', ''));
+    if (to.fullPath.includes("/#")) {
+        next(to.fullPath.replace("/#", ""));
     }
-    next()
+    next();
 });
 
 export default router;

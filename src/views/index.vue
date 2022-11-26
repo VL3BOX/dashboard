@@ -148,6 +148,17 @@
                 </el-col>
                 <el-col :span="6">
                     <div class="u-packet">
+                        <div class="u-credit-name"><i class="el-icon-bank-card"></i> 卡密</div>
+                        <div class="u-credit-value">
+                            <b>{{ Number(asset.keycode || 0) + Number(asset.sn || 0) }}</b>
+                        </div>
+                        <div class="u-credit-op">
+                            <router-link class="el-button el-button--primary el-button--mini" to="/card"
+                                >查看</router-link
+                            >
+                        </div>
+                    </div>
+                    <!-- <div class="u-packet">
                         <el-tooltip
                             class="item"
                             effect="dark"
@@ -167,7 +178,7 @@
                                 >兑换</a
                             >
                         </div>
-                    </div>
+                    </div> -->
                 </el-col>
             </el-row>
         </div>

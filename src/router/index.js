@@ -37,6 +37,9 @@ const privacy = () => import("../views/privacy.vue");
 const cooperation = () => import("../views/cooperation.vue");
 const feedback = ()=> import('../views/feedback.vue')
 
+const address = ()=> import('../views/address.vue')
+const record = ()=> import('../views/record.vue')
+
 
 const invitation_creators = () => import("../views/callback/invitation_creators.vue");
 const invitation_kith = () => import("../views/callback/invitation_kith.vue");
@@ -67,6 +70,11 @@ const routes = [
     { name: "config", path: "/config", component: config },
     { name: "cooperation", path: "/cooperation", component: cooperation },
     { name: "privacy", path: "/privacy", component: privacy },
+
+    { name: "address", path: "/address", component: address },
+    { name: "record", path: "/record", component: record },
+
+
     {
         name: "feedback",
         path: "/feedback",

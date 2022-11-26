@@ -50,6 +50,13 @@ module.exports = {
                     request.setHeader("origin", "");
                 },
             },
+            // 商城
+            "/mall": {
+                "target": "https://pay.jx3box.com",
+                "onProxyReq": function (request) {
+                    request.setHeader("origin", "");
+                }
+            },
         },
         disableHostCheck: true,
     },

@@ -150,7 +150,7 @@
                     <div class="u-packet">
                         <div class="u-credit-name"><i class="el-icon-bank-card"></i> 卡密</div>
                         <div class="u-credit-value">
-                            <b>{{ Number(asset.keycode || 0) + Number(asset.sn || 0) }}</b>
+                            <b>{{ Number(asset.ext_info.keycode || 0) + Number(asset.ext_info.sn || 0) }}</b>
                         </div>
                         <div class="u-credit-op">
                             <router-link class="el-button el-button--primary el-button--mini" to="/card"

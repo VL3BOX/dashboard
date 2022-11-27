@@ -22,17 +22,23 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="操作">
-                    <template>
+                    <template slot-scope="scope">
                         <div>
-                            <el-button plain @click="edit(item)" icon="el-icon-edit" size="mini">编辑</el-button>
+                            <el-button plain @click="edit(scope.row)" icon="el-icon-edit" size="mini">编辑</el-button>
                             <el-popconfirm
                                 confirm-button-text="确定"
                                 cancel-button-text="取消"
                                 icon="el-icon-info"
                                 title="确定删除吗？"
-                                @confirm="del(item.id)"
+                                @confirm="del(scope.row.id)"
                             >
-                                <el-button style="margin-left:10px" slot="reference" type="info" plain size="mini" icon="el-icon-delete"
+                                <el-button
+                                    style="margin-left: 10px"
+                                    slot="reference"
+                                    type="info"
+                                    plain
+                                    size="mini"
+                                    icon="el-icon-delete"
                                     >删除</el-button
                                 >
                             </el-popconfirm>
@@ -166,6 +172,7 @@ export default {
             this.form.area = list[2];
         },
         edit(item) {
+            console.log("////");
             this.visible = true;
             this.form = item;
             this.address = [this.form.province, this.form.city, this.form.area];

@@ -24,7 +24,7 @@
                 <el-table-column prop="order.remark" label="备注"> </el-table-column>
 
                 <el-table-column label="操作" min-width="200px">
-                    <template>
+                    <template slot-scope="scope">
                         <div class="m-button">
                             <el-button type="text" @click="showDetail(scope.row.order.id)">查看详情</el-button>
                             <el-popconfirm
@@ -32,7 +32,7 @@
                                 cancel-button-text="取消"
                                 icon="el-icon-info"
                                 title="确定取消吗？"
-                                @confirm="cancel(cope.row.order.id)"
+                                @confirm="cancel(scope.row.order.id)"
                             >
                                 <el-button slot="reference" type="text">取消订单</el-button>
                             </el-popconfirm>
@@ -75,7 +75,9 @@ export default {
                 this.total = res.data.data.page.total;
             });
         },
-        showDetail(id) {},
+        showDetail(id) {
+            console.log(id)
+        },
         cancel(id) {},
     },
     mounted() {

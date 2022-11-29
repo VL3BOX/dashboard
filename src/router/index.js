@@ -39,6 +39,7 @@ const feedback = () => import("../views/feedback.vue");
 
 const address = () => import("../views/address.vue");
 const mall = () => import("../views/mall.vue");
+const order_detail = () => import("../views/order_detail.vue");
 
 const invitation_creators = () => import("../views/callback/invitation_creators.vue");
 const invitation_kith = () => import("../views/callback/invitation_kith.vue");
@@ -72,6 +73,7 @@ const routes = [
 
     { name: "address", path: "/address", component: address },
     { name: "mall", path: "/mall", component: mall },
+    { name: "order-detail", path: "/mall-detail/:id", component: order_detail },
 
     {
         name: "feedback",
@@ -80,8 +82,7 @@ const routes = [
         redirect: {
             name: "feedback_index",
         },
-        children: [
-            {
+        children: [{
                 name: "feedback_index",
                 path: "/feedback",
                 component: () => import("@/components/feedback/index.vue"),

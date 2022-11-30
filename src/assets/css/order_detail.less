@@ -19,9 +19,34 @@
     .m-content {
         .r(3px);
         background-color: #fafbfc;
-        padding: 12px;
+        padding: 30px 20px;
         box-sizing: border-box;
         border: 1px solid #ddd;
         min-height: 400px;
+        .m-order {
+            .flex;
+            .mt(40px);
+            .r(5px);
+            gap: 20px;
+            padding: 20px;
+            border: 1px solid #e9e9e9;
+            .m-address {
+                .w(340px);
+                .pr(20px);
+                border-right: 1px solid #e9e9e9;
+                .u-line {
+                    .flex;
+                    .mt(10px);
+                    .u-label {
+                        .fz(16px,2);
+                        flex-shrink: 0;
+                    }
+                    .u-value {
+                        .fz(16px,2);
+                        .break;
+                    }
+                }
+            }
+        }
     }
 }

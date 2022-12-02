@@ -149,7 +149,7 @@
                 <el-col :span="6">
                     <div class="u-packet">
                         <div class="u-credit-name"><i class="el-icon-bank-card"></i> 卡密</div>
-                        <div class="u-credit-value">
+                        <div class="u-credit-value" v-if="asset.ext_info">
                             <b>{{ Number(asset.ext_info.keycode || 0) + Number(asset.ext_info.sn || 0) }}</b>
                         </div>
                         <div class="u-credit-op">

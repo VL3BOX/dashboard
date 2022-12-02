@@ -25,12 +25,12 @@
                 <el-table-column prop="order.goods_num" label="数量" width="80"> </el-table-column>
                 <el-table-column label="订单状态" width="160">
                     <template slot-scope="scope">
-                        {{ payStatus[scope.row.order.order_status] }}
+                        {{ orderStatus[scope.row.order.order_status] }}
                     </template>
                 </el-table-column>
                 <el-table-column label="付款状态" width="160">
                     <template slot-scope="scope">
-                        {{ orderStatus[scope.row.order.pay_status] }}
+                        {{ payStatus[scope.row.order.pay_status] }}
                     </template>
                 </el-table-column>
                 <!-- <el-table-column prop="order.remark" label="备注"> </el-table-column> -->
@@ -40,7 +40,7 @@
                         <div class="m-button">
                             <el-button type="text" @click="showDetail(scope.row.order.id)">查看详情</el-button>
                             <!-- 未发货允许操作： 取消订单&修改地址 -->
-                            <template v-if="scope.row.order.pay_status == 0">
+                            <template v-if="scope.row.order.order_status == 0">
                                 <el-button type="text" @click="open(scope.row.order.id, 'address')">修改地址</el-button>
                                 <el-button type="text" @click="open(scope.row.order.id, 'remark')">添加备注</el-button>
                                 <el-popconfirm
@@ -54,13 +54,13 @@
                                 </el-popconfirm>
                             </template>
                             <!-- 已发货操作： 确认收货&申请退货 -->
-                            <template v-if="scope.row.order.pay_status == 2">
+                            <template v-if="(scope.row.order.order_status == 3)">
                                 <el-button type="text">确认收货</el-button>
                                 <el-button type="text">申请退货</el-button>
                             </template>
 
                             <!-- 已收货操作： 评价 -->
-                            <template v-if="scope.row.order.pay_status == 3">
+                            <template v-if="(scope.row.order.order_status == 4)">
                                 <el-button type="text">评价商品</el-button>
                             </template>
                         </div>
@@ -224,8 +224,10 @@ export default {
                 }
             });
         },
+        // 关闭订单
+        cancel(id) {
 
-        cancel(id) {},
+        },
     },
     mounted() {
         this.load();

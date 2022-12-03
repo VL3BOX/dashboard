@@ -1,7 +1,7 @@
 <template>
     <div class="m-dashboard m-dashboard-index">
         <div class="m-basicinfo">
-            <Avatar class="u-avatar" :uid="uid" :url="info.user_avatar" :size="120" :frame="info.user_avatar_frame" />
+            <Avatar class="u-avatar" :uid="uid" :url="info.user_avatar" size="l" :frame="info.user_avatar_frame" />
             <div class="u-info">
                 <h1 class="u-name">
                     <span class="u-name-txt">{{ info.display_name }}</span>

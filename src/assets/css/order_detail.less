@@ -33,6 +33,7 @@
             .m-address {
                 .w(340px);
                 .pr(20px);
+                flex-shrink: 0;
                 border-right: 1px solid #e9e9e9;
                 .u-line {
                     .flex;
@@ -44,6 +45,58 @@
                     .u-value {
                         .fz(16px,2);
                         .break;
+                    }
+                }
+            }
+            .m-goods {
+                .flex;
+                gap: 20px;
+                .u-img {
+                    .size(240px);
+                }
+                .m-info {
+                    .flex;
+                    .fz(14px);
+                    .color(#777);
+                    flex-direction: column;
+                    gap: 10px;
+
+                    .u-title {
+                        .break(2);
+                        .color(#323232);
+                        .fz(18px);
+                    }
+                    .u-consume {
+                        .flex;
+                        .u-box {
+                            .flex;
+                            flex-direction: column;
+                            b {
+                                .bold;
+                                .color(#f00);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .m-mall-detail {
+        .m-content {
+            .m-order {
+                .flex;
+                flex-direction: column;
+                .m-address {
+                    .w(100%);
+                }
+                .m-goods {
+                    .flex;
+                    flex-direction: column;
+                    .u-img {
+                        .size(100%,auto);
                     }
                 }
             }

@@ -32,8 +32,7 @@
                     缘起（怀旧服）通过一卡通发放，可在个人中心›我的卡密中查看，如使用的第三方登录还没有设置过密码的用户，需要在个人中心›资料设置›修改密码中设置一个密码。<br />
                     重制（正式服）则会直充到账号上，不会有官方短信提醒。<br />
                     发放后，将会有魔盒公告，请关注首页侧边栏站内动态。
-                    </slot
-                >
+                </slot>
             </el-alert>
             <el-form label-position="left" label-width="80px" class="m-boxcoin-form">
                 <el-form-item label="游戏大区">
@@ -43,6 +42,9 @@
                 </el-form-item>
                 <el-form-item label="游戏账号">
                     <el-input v-model="pull.account" placeholder="请务必填写正确的账号"></el-input>
+                </el-form-item>
+                <el-form-item label="游戏账号">
+                    <el-input v-model="pull.accounts" placeholder="请重新再次输入游戏账号"></el-input>
                 </el-form-item>
                 <el-form-item label="兑换数目">
                     <el-radio-group v-model="pull.cash">
@@ -190,6 +192,7 @@ import {
     getBoxcoinOverview,
 } from "@/service/boxcoin.js";
 import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc.js";
+import { omit } from "lodash";
 export default {
     name: "Boxcoin",
     props: [],
@@ -199,6 +202,7 @@ export default {
             pull: {
                 zone: "",
                 account: "",
+                accounts: "",
                 cash: "",
                 email: "",
             },
@@ -228,7 +232,7 @@ export default {
                 origin: 0,
             },
             totalCoin: 0,
-            uid : User.getInfo().uid
+            uid: User.getInfo().uid,
         };
     },
     computed: {
@@ -257,7 +261,7 @@ export default {
             get() {
                 if (this.client == "std") {
                     // 显示正式服余额（可能为负数） 和 真实余额较小的
-                    return Math.min(this.totalCoin, Math.max(this.total_std, 0)  + Math.max(this.total_all, 0));
+                    return Math.min(this.totalCoin, Math.max(this.total_std, 0) + Math.max(this.total_all, 0));
                 } else {
                     // 显示怀旧服余额+双端余额（可能为负数） 和 真实余额较小的
                     return Math.min(this.totalCoin, Math.max(this.total_origin, 0) + Math.max(this.total_all, 0));
@@ -370,6 +374,8 @@ export default {
             this.formStatus = true;
         },
         openConfirmBox: function () {
+            if (this.pull.account !== this.pull.accounts) return this.$alert(`请确认游戏账号是否填写正确`);
+
             this.$alert(
                 `<div class="m-boxcoin-msg">大区：<b>${this.pull.zone}</b> <br/> 账号：<b>${this.pull.account}</b> <br/> 邮箱：<b>${this.pull.email}</b> <br/> 兑换：<b>${this.pull.cash}通宝</b></div>`,
                 "确认信息",
@@ -380,7 +386,8 @@ export default {
                         if (action == "confirm") {
                             this.lockStatus = true;
                             this.loading = true;
-                            cashBoxcoin(Object.assign(this.pull, { client: this.client }), {
+                            const pull = omit(this.pull, ["accounts"]);
+                            cashBoxcoin(Object.assign(pull, { client: this.client }), {
                                 client: this.client,
                             })
                                 .then((res) => {
@@ -440,7 +447,7 @@ export default {
             let value = this.countBoxCoin(item);
             if (item.action_type == 9) {
                 return item.operate_user_id == this.uid ? "-" : "+";
-            }else if(item.action_type == '-2'){
+            } else if (item.action_type == "-2") {
                 return "-";
             }
             return value >= 0 ? "+" : "";
@@ -449,7 +456,7 @@ export default {
             let value = this.countBoxCoin(item);
             if (item.action_type == 9) {
                 return item.operate_user_id == this.uid && "isNegative";
-            }else if(item.action_type == '-2'){
+            } else if (item.action_type == "-2") {
                 return "isNegative";
             }
             return value < 0 && "isNegative";

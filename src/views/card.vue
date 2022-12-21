@@ -75,6 +75,13 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="remark" label="备注" min-width="200"> </el-table-column>
+                    <el-table-column prop="used_by_self" label="是否使用">
+                        <template slot-scope="scope">
+                            {{ scope.row.used_by_self ? "是" : "否" }}
+
+                            <el-button v-show="!scope.row.used_by_self" type="text" size="mini" @click="onKeyCodeUsedClick(scope.row)">（标记使用）</el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
                 <el-alert
                     v-else
@@ -154,6 +161,13 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="remark" label="备注" min-width="300"> </el-table-column>
+                    <el-table-column prop="used_by_self" label="是否使用">
+                        <template slot-scope="scope">
+                            {{ scope.row.used_by_self ? "是" : "否" }}
+
+                            <el-button v-show="!scope.row.used_by_self" type="text" size="mini" @click="onSnUsedClick(scope.row)">（标记使用）</el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
                 <el-alert
                     v-else
@@ -179,7 +193,7 @@
     </div>
 </template>
 <script>
-import { getKeycodeList, getSnList, activationKeycode, activationSn } from "@/service/card.js";
+import { getKeycodeList, getSnList, activationKeycode, activationSn, markSn, markKeycode } from "@/service/card.js";
 import keycodeOptions from "@/assets/data/card_keycode.json";
 import snOptions from "@/assets/data/card_sn.json";
 import _ from "lodash";
@@ -305,6 +319,42 @@ export default {
             };
 
             return type == "tag" ? _tag[key] : _status[key];
+        },
+
+        // 标记使用
+        onKeyCodeUsedClick(row) {
+            this.$confirm("确认标记为已使用吗？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    markKeycode(row.id, 'used').then((res) => {
+                        this.$message({
+                            type: "success",
+                            message: "标记成功!",
+                        });
+                        this.loadKeycode();
+                    });
+                })
+                .catch(() => {});
+        },
+        onSnUsedClick(row) {
+            this.$confirm("确认标记为已使用吗？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    markSn(row.id, 'used').then((res) => {
+                        this.$message({
+                            type: "success",
+                            message: "标记成功!",
+                        });
+                        this.loadSn();
+                    });
+                })
+                .catch(() => {});
         },
 
         onCopy: function (val) {

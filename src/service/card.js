@@ -17,4 +17,12 @@ function activationKeycode(id, data) {
     return $pay().post(`/api/my/codekeycode/${id}/activation-code`, data);
 }
 
-export { getKeycodeList, getSnList, activationKeycode, activationSn };
+function markSn(id, flag){
+    return $pay().put(`/api/my/codesn/${id}/mark/${flag}`);
+}
+
+function markKeycode(id, flag){
+    return $pay().put(`/api/my/codekeycode/${id}/mark/${flag}`);
+}
+
+export { getKeycodeList, getSnList, activationKeycode, activationSn, markSn, markKeycode };

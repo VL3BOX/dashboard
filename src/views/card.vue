@@ -6,7 +6,8 @@
         >
         <el-tabs type="border-card" v-model="tab" @tab-click="tabClick">
             <el-tab-pane label="一卡通" name="keycode">
-                <el-table class="m-table" v-if="list.length" :data="list" show-header v-loading="loading">
+                <el-checkbox v-model="showUsed">显示已用</el-checkbox>
+                <el-table class="m-table" v-if="filteredList.length" :data="filteredList" show-header v-loading="loading">
                     <el-table-column prop="type" label="类型" width="140">
                         <template slot-scope="scope">{{ keycodeOptions.types[scope.row.type] || "其他" }}</template>
                     </el-table-column>
@@ -213,6 +214,7 @@ export default {
             keycodeOptions,
             snOptions,
             showPagination: true,
+            showUsed: false,
         };
     },
     computed: {
@@ -225,6 +227,9 @@ export default {
         },
         loadName() {
             return "load" + this.tab.slice(0, 1).toUpperCase() + this.tab.slice(1);
+        },
+        filteredList() {
+            return this.showUsed ? this.list : this.list.filter(i => !i.used_by_self);
         },
     },
     methods: {

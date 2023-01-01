@@ -39,20 +39,22 @@
                     <template slot-scope="scope">
                         <div class="m-button">
                             <el-button type="text" @click="showDetail(scope.row.order.id)">查看详情</el-button>
-                            <!-- 未发货允许操作： 取消订单&修改地址 -->
-                            <template v-if="scope.row.order.order_status == 0">
-                                <el-button type="text" @click="open(scope.row.order.id, 'address')">修改地址</el-button>
-                                <el-button type="text" @click="open(scope.row.order.id, 'remark')">添加备注</el-button>
-                                <el-popconfirm
-                                    confirm-button-text="确定"
-                                    cancel-button-text="取消"
-                                    icon="el-icon-info"
-                                    title="确定取消吗？"
-                                    @confirm="cancel(scope.row.order.id)"
+                            <!-- 未支付 -->
+                            <el-button type="text" v-if="showPay(scope.row.order)" @click="toPay(scope.row)">
+                                点击支付
+                            </el-button>
+                            <!-- 未发货允许操作： 取消订单 -->
+                            <el-popconfirm
+                                confirm-button-text="确定"
+                                cancel-button-text="取消"
+                                icon="el-icon-info"
+                                title="确定取消吗？"
+                                @confirm="cancel(scope.row.order.id)"
+                            >
+                                <el-button v-if="scope.row.order.order_status == 0" type="text" slot="reference"
+                                    >取消订单</el-button
                                 >
-                                    <el-button type="text" slot="reference">取消订单</el-button>
-                                </el-popconfirm>
-                            </template>
+                            </el-popconfirm>
                             <!-- 已发货操作： 确认收货&申请退货 -->
                             <template v-if="scope.row.order.order_status == 3">
                                 <el-button type="text" @click="isReceipt">确认收货</el-button>
@@ -79,55 +81,11 @@
                 :hide-on-single-page="true"
             ></el-pagination>
         </div>
-
-        <!-- 弹窗 -->
-        <el-dialog
-            :title="title"
-            :visible.sync="dialogVisible"
-            width="30%"
-            :before-close="close"
-            custom-class="m-edit-dialog"
-        >
-            <template v-if="mode == 'address'">
-                <el-form ref="address_form" :model="address_form" :rules="address_rules" class="demo-form-inline">
-                    <el-form-item label="选择收货地址" prop="address_id">
-                        <el-select v-model="address_form.address_id">
-                            <el-option
-                                :label="`【 ${item.contact_name} ${item.contact_phone} 】 ${item.province}${item.city}${item.area}${item.address}`"
-                                :value="item.id"
-                                v-for="(item, i) in addressList"
-                                :key="i"
-                            ></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item>
-                        <div class="m-button">
-                            <el-button @click="close">取 消</el-button>
-                            <el-button type="primary" @click="submit('address_form')">确定</el-button>
-                        </div>
-                    </el-form-item>
-                </el-form>
-            </template>
-            <template v-else>
-                <el-form ref="remark_form" :model="remark_form" :rules="remark_rules" class="demo-form-inline">
-                    <el-form-item label="备注" prop="remark">
-                        <el-input type="textarea" :rows="2" placeholder="请输入备注" v-model="remark_form.remark">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <div class="m-button">
-                            <el-button @click="close">取 消</el-button>
-                            <el-button type="primary" @click="submit('remark_form')">确定</el-button>
-                        </div>
-                    </el-form-item>
-                </el-form>
-            </template>
-        </el-dialog>
     </div>
 </template>
 
 <script>
-import { getOrder, updateOrderAddress, updateOrderRemark, getAddress, closeOrder } from "@/service/goods";
+import { getOrder, closeOrder, toPayOrder } from "@/service/goods";
 import { payStatus, orderStatus } from "@/assets/data/mall.json";
 export default {
     name: "record",
@@ -142,22 +100,7 @@ export default {
             payStatus,
             orderStatus,
 
-            dialogVisible: false,
-            mode: "",
             order_id: "",
-            addressList: [],
-            address_form: {
-                address_id: "",
-            },
-            address_rules: {
-                address_id: [{ required: true, message: "请选择地址", trigger: "change" }],
-            },
-            remark_form: {
-                remark: "",
-            },
-            remark_rules: {
-                remark: [{ required: true, message: "请输入备注", trigger: "blur" }],
-            },
         };
     },
     computed: {
@@ -168,8 +111,8 @@ export default {
             };
             return _params;
         },
-        title() {
-            return this.mode == "address" ? "修改收货地址" : "修改备注";
+        params_pageIndex() {
+            return this.$route.params.pageIndex;
         },
     },
     watch: {
@@ -177,6 +120,12 @@ export default {
             deep: true,
             handler: function () {
                 this.load();
+            },
+        },
+        params_pageIndex: {
+            immediate: true,
+            handler: function (val) {
+                if (val) this.pageIndex = val;
             },
         },
     },
@@ -187,49 +136,19 @@ export default {
                 this.total = res.data.data.page.total;
             });
         },
-        loadAddress() {
-            getAddress().then((res) => {
-                this.addressList = res.data.data.list;
-            });
+        // 显示支付按钮
+        showPay({ order_status, pay_status }) {
+            if (order_status == 1 || order_status == 2 || order_status == 7) return false;
+            return pay_status == 0 ? true : false;
         },
+        // 查看详情
         showDetail(id) {
             this.$router.push({
                 name: "order-detail",
                 params: {
                     id,
+                    pageIndex:this.pageIndex,
                 },
-            });
-        },
-        open(id, type) {
-            this.order_id = id;
-            if (type == "address") this.loadAddress();
-            if (this.$refs.address_form !== undefined) this.$refs.address_form.clearValidate();
-            if (this.$refs.remark_form !== undefined) this.$refs.remark_form.clearValidate();
-            this.mode = type;
-            this.dialogVisible = true;
-        },
-        close() {
-            this.dialogVisible = false;
-        },
-        submit(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    this.mode == "address"
-                        ? updateOrderAddress(this.order_id, this.address_form.address_id).then(() => {
-                              this.$message({
-                                  message: "修改地址成功",
-                                  type: "success",
-                              });
-                              this.close();
-                          })
-                        : updateOrderRemark(this.order_id, this.remark_form.remark).then(() => {
-                              this.$message({
-                                  message: "修改备注成功",
-                                  type: "success",
-                              });
-                              this.close();
-                          });
-                }
             });
         },
         // 关闭订单
@@ -241,6 +160,17 @@ export default {
                 });
             });
         },
+        // 付款
+        toPay(row) {
+            const id = row.order.id;
+            const count = row.order.goods_num;
+            const addressId = row.order.addressId;
+            toPayOrder({ id, count, addressId }).then((res) => {
+                console.log(res);
+            });
+        },
+        // 确认收货
+        isReceipt(id) {},
     },
     mounted() {
         this.load();

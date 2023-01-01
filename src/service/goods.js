@@ -37,7 +37,7 @@ function getOrderId(id) {
 }
 // 关闭订单
 function closeOrder(id) {
-    return $pay().put(`/mall/my/orders/${id}`, )
+    return $pay().put(`/mall/my/orders/${id}/cancel`, )
 }
 export {
     getAddress,

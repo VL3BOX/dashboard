@@ -5,59 +5,36 @@
         </div>
 
         <div class="m-content">
-            <!-- 订单进度条 -->
-            <el-steps :active="2" finish-status="success" align-center>
-                <el-step title="兑换商品" description="2022-12-24 12:22:54"></el-step>
-                <el-step title="积分扣除" description="2022-12-24 12:22:54"></el-step>
-                <el-step title="物品发货" description="2022-12-24 12:22:54"></el-step>
-                <el-step title="确认收货" description=""></el-step>
-                <el-step title="评价" description=""></el-step>
-                <el-step title="订单关闭" description=""></el-step>
-            </el-steps>
-
-            <!-- 订单详情 -->
-            <div class="m-order" v-if="order">
-                <div class="m-address">
-                    <div class="u-line u-name">
-                        <span class="u-label">收货地址：</span>
-                        <span class="u-value">
-                            {{ address.actual_contact }} , {{ address.actual_phone }} ,
-                            {{ address.actual_address }}
-                        </span>
-                    </div>
-                    <div class="u-line u-order">
-                        <span class="u-label">下单时间：</span>
-                        <span class="u-value">{{ order.created_at }}</span>
-                    </div>
-                    <div class="u-line u-order">
-                        <span class="u-label">订单编号：</span>
-                        <span class="u-value">{{ order.order_no }}</span>
-                    </div>
-                    <div class="u-line u-remark">
-                        <span class="u-label">留言：</span>
-                        <span class="u-value">{{ address.remark || "-" }}</span>
-                    </div>
-                </div>
-                <div class="m-goods">
-                    <img class="u-img" :src="goods.goods_images[0]" />
-                    <div class="m-info">
-                        <span class="u-title">{{ goods.title }}</span>
-                        <span>购买数量：{{ order.goods_num }}</span>
-                        <div class="u-consume">
-                            <span>购买消耗：</span>
-                            <div class="u-box">
-                                <span v-if="goods.price_cny">金箔：<b>{{ goods.price_cny * order.goods_num }}</b></span>
-                                <span v-if="goods.price_boxcoin"
-                                    >盒币：<b>{{ goods.price_boxcoin * order.goods_num }}</b></span
-                                >
-                                <span v-if="goods.price_points">积分：<b>{{ goods.price_points * order.goods_num }}</b></span>
-                            </div>
+            <div class="m-address el-card">
+                <span>收件人：{{ address.actual_contact }}</span>
+                <span>联系电话：{{ address.actual_phone }}</span>
+                <span>收货地址： {{ address.actual_address }}</span>
+            </div>
+            <div class="m-order el-card" v-if="goods">
+                <img class="u-img" :src="goods.goods_images[0]" />
+                <div class="m-box">
+                    <span class="u-title">{{ goods.title }}</span>
+                    <span>订单编号：{{ order.order_no }}</span>
+                    <span>下单时间：{{ order.created_at }}</span>
+                    <span>购买数量：{{ order.goods_num }}</span>
+                    <span>邮费：{{ goods.postage ? goods.postage / 100 + "元" : "包邮" }}</span>
+                    <span>支付状态：{{ payStatus[order.pay_status] }} </span>
+                    <span>订单状态：{{ orderStatus[order.order_status] }} </span>
+                    <div class="u-consume">
+                        <span>购买消耗：</span>
+                        <div class="u-box">
+                            <span v-if="goods.price_cny"
+                                >金箔：<b>{{ goods.price_cny * order.goods_num }}</b></span
+                            >
+                            <span v-if="goods.price_boxcoin"
+                                >盒币：<b>{{ goods.price_boxcoin * order.goods_num }}</b></span
+                            >
+                            <span v-if="goods.price_points"
+                                >积分：<b>{{ goods.price_points * order.goods_num }}</b></span
+                            >
                         </div>
-                        <span>邮费：{{ goods.postage ? goods.postage / 100 + "元" : "包邮" }}</span>
-                        <span v-if="goods.postage">邮费状态：{{ order.postage_status }}</span>
-                        <span>支付状态：{{ payStatus[order.pay_status] }} </span>
-                        <span>订单状态：{{ orderStatus[order.order_status] }} </span>
                     </div>
+                    <span>备注：{{ address.remark || "-" }}</span>
                 </div>
             </div>
         </div>

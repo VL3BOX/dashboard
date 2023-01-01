@@ -50,19 +50,19 @@
                                     title="确定取消吗？"
                                     @confirm="cancel(scope.row.order.id)"
                                 >
-                                    <el-button slot="reference" type="text">取消订单</el-button>
+                                    <el-button type="text" slot="reference">取消订单</el-button>
                                 </el-popconfirm>
                             </template>
                             <!-- 已发货操作： 确认收货&申请退货 -->
-                            <template v-if="(scope.row.order.order_status == 3)">
-                                <el-button type="text">确认收货</el-button>
-                                <el-button type="text">申请退货</el-button>
+                            <template v-if="scope.row.order.order_status == 3">
+                                <el-button type="text" @click="isReceipt">确认收货</el-button>
+                                <!-- <el-button type="text">申请退货</el-button> -->
                             </template>
 
                             <!-- 已收货操作： 评价 -->
-                            <template v-if="(scope.row.order.order_status == 4)">
+                            <!-- <template v-if="scope.row.order.order_status == 4">
                                 <el-button type="text">评价商品</el-button>
-                            </template>
+                            </template> -->
                         </div>
                     </template>
                 </el-table-column>
@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { getOrder, updateOrderAddress, updateOrderRemark, getAddress } from "@/service/goods";
+import { getOrder, updateOrderAddress, updateOrderRemark, getAddress, closeOrder } from "@/service/goods";
 import { payStatus, orderStatus } from "@/assets/data/mall.json";
 export default {
     name: "record",
@@ -170,6 +170,14 @@ export default {
         },
         title() {
             return this.mode == "address" ? "修改收货地址" : "修改备注";
+        },
+    },
+    watch: {
+        params: {
+            deep: true,
+            handler: function () {
+                this.load();
+            },
         },
     },
     methods: {
@@ -226,7 +234,12 @@ export default {
         },
         // 关闭订单
         cancel(id) {
-
+            closeOrder(id).then((res) => {
+                this.list = this.list.map((item) => {
+                    if (item.order.id == id) item.order.order_status = 1;
+                    return item;
+                });
+            });
         },
     },
     mounted() {

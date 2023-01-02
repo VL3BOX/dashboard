@@ -57,7 +57,7 @@
                             </el-popconfirm>
                             <!-- 已发货操作： 确认收货&申请退货 -->
                             <template v-if="scope.row.order.order_status == 3">
-                                <el-button type="text" @click="isReceipt">确认收货</el-button>
+                                <el-button type="text" @click="isReceipt(scope.row.order.id)">确认收货</el-button>
                                 <!-- <el-button type="text">申请退货</el-button> -->
                             </template>
 
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { getOrder, closeOrder, toPay } from "@/service/goods";
+import { getOrder, closeOrder, toPay, toConfirm } from "@/service/goods";
 import { payStatus, orderStatus } from "@/assets/data/mall.json";
 export default {
     name: "record",
@@ -153,7 +153,11 @@ export default {
         },
         // 关闭订单
         cancel(id) {
-            closeOrder(id).then((res) => {
+            closeOrder(id).then(() => {
+                this.$message({
+                    message: "关闭订单成功",
+                    type: "success",
+                });
                 this.list = this.list.map((item) => {
                     if (item.order.id == id) item.order.order_status = 1;
                     return item;
@@ -164,6 +168,10 @@ export default {
         toPay(row) {
             const id = row.order.id;
             toPay(id).then(() => {
+                this.$message({
+                    message: "付款成功",
+                    type: "success",
+                });
                 this.list = this.list.map((item) => {
                     if (item.order.id == id) item.order.pay_status = 1;
                     return item;
@@ -171,7 +179,18 @@ export default {
             });
         },
         // 确认收货
-        isReceipt(id) {},
+        isReceipt(id) {
+            toConfirm(id).then(() => {
+                this.$message({
+                    message: "收货成功",
+                    type: "success",
+                });
+                this.list = this.list.map((item) => {
+                    if (item.order.id == id) item.order.order_status = 4;
+                    return item;
+                });
+            });
+        },
     },
     mounted() {
         this.load();

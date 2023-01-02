@@ -176,6 +176,10 @@ export default {
         // 确认收货
         toConfirm(id) {
             toConfirm(id).then(() => {
+                this.$message({
+                    message: "收货成功",
+                    type: "success",
+                });
                 this.data.order.order_status = 4;
             });
         },
@@ -201,6 +205,10 @@ export default {
         // 关闭订单
         cancel(id) {
             closeOrder(id).then((res) => {
+                this.$message({
+                    message: "关闭订单成功",
+                    type: "success",
+                });
                 this.list = this.list.map((item) => {
                     if (item.order.id == id) item.order.order_status = 1;
                     return item;
@@ -211,6 +219,10 @@ export default {
         toPay(data) {
             const id = data.order.id;
             toPay(id).then(() => {
+                this.$message({
+                    message: "支付成功",
+                    type: "success",
+                });
                 this.list = this.list.map((item) => {
                     if (item.order.id == id) item.order.pay_status = 1;
                     return item;

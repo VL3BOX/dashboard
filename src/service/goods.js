@@ -43,6 +43,10 @@ function closeOrder(id) {
 function toPay(id) {
     return $pay().post(`/mall/my/orders/${id}/pay`);
 }
+// 确认收货
+function toConfirm(id) {
+    return $pay().post(`/mall/my/orders/${id}/received`);
+}
 export {
     getAddress,
     addAddress,
@@ -54,5 +58,6 @@ export {
     updateOrderRemark,
     getOrderId,
     closeOrder, 
-    toPay
+    toPay,
+    toConfirm
 };

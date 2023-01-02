@@ -38,10 +38,14 @@
                 </div>
             </div>
             <div class="m-button" v-if="closeButton(data.order)">
-                <el-button @click="cancel(data.order.id)">取消订单</el-button>
-                <el-button @click="open(data.order.id, 'address')">修改地址</el-button>
-                <el-button @click="open(data.order.id, 'remark')">添加备注</el-button>
-                <el-button @click="toPay(data)" v-show="showPay(data.order)">点击付款</el-button>
+                <template v-if="data.order.order_status == 0">
+                    <el-button @click="cancel(data.order.id)">取消订单</el-button>
+                    <el-button @click="open(data.order.id, 'address')">修改地址</el-button>
+                    <el-button @click="open(data.order.id, 'remark')">添加备注</el-button>
+                </template>
+
+                <el-button @click="toConfirm(data.order.id)" v-if="data.order.order_status == 3">确认收货</el-button>
+                <el-button @click="toPay(data)" v-if="showPay(data.order)">点击付款</el-button>
             </div>
         </div>
 
@@ -92,7 +96,7 @@
 </template>
 
 <script>
-import { updateOrderAddress, updateOrderRemark, getAddress, closeOrder, toPay } from "@/service/goods";
+import { updateOrderAddress, updateOrderRemark, getAddress, closeOrder, toPay, toConfirm } from "@/service/goods";
 import { getOrderId } from "@/service/goods";
 import { orderStatus, payStatus } from "../assets/data/mall.json";
 export default {
@@ -169,13 +173,19 @@ export default {
             }
             return false;
         },
+        // 确认收货
+        toConfirm(id) {
+            toConfirm(id).then(() => {
+                this.data.order.order_status = 4;
+            });
+        },
         goBack() {
             this.$router.push({
                 name: "mall",
                 params: {
-                    pageIndex:this.pageIndex,
+                    pageIndex: this.pageIndex,
                 },
-            }); 
+            });
         },
         open(id, type) {
             this.order_id = id;

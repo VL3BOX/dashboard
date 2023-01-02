@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { updateOrderAddress, updateOrderRemark, getAddress, closeOrder, toPayOrder } from "@/service/goods";
+import { updateOrderAddress, updateOrderRemark, getAddress, closeOrder, toPay } from "@/service/goods";
 import { getOrderId } from "@/service/goods";
 import { orderStatus, payStatus } from "../assets/data/mall.json";
 export default {
@@ -165,7 +165,6 @@ export default {
             if (data) {
                 const { order_status, pay_status } = data;
                 if (order_status == 1 || order_status == 2 || order_status == 7) return false;
-
                 return pay_status == 0 ? true : false;
             }
             return false;
@@ -201,12 +200,12 @@ export default {
         // 支付
         toPay(data) {
             const id = data.order.id;
-            const count = data.order.goods_num;
-            const addressId = data.shipAddress.id;
-            toPayOrder({ id, count, addressId }).then((res) => {
-                console.log(res);
+            toPay(id).then(() => {
+                this.list = this.list.map((item) => {
+                    if (item.order.id == id) item.order.pay_status = 1;
+                    return item;
+                });
             });
-            console.log(data);
         },
         submit(formName) {
             this.$refs[formName].validate((valid) => {

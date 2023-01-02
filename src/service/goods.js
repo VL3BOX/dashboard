@@ -40,8 +40,8 @@ function closeOrder(id) {
     return $pay().put(`/mall/my/orders/${id}/cancel`, )
 }
 // 支付订单
-function toPayOrder({ id, count, addressId }) {
-    return $pay().post(`/mall/order/item/${id}/count/${count}/to/${addressId}`);
+function toPay(id) {
+    return $pay().post(`/mall/my/orders/${id}/pay`);
 }
 export {
     getAddress,
@@ -53,6 +53,6 @@ export {
     updateOrderAddress,
     updateOrderRemark,
     getOrderId,
-    closeOrder,
-    toPayOrder
+    closeOrder, 
+    toPay
 };

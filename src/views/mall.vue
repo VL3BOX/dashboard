@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { getOrder, closeOrder, toPayOrder } from "@/service/goods";
+import { getOrder, closeOrder, toPay } from "@/service/goods";
 import { payStatus, orderStatus } from "@/assets/data/mall.json";
 export default {
     name: "record",
@@ -147,7 +147,7 @@ export default {
                 name: "order-detail",
                 params: {
                     id,
-                    pageIndex:this.pageIndex,
+                    pageIndex: this.pageIndex,
                 },
             });
         },
@@ -163,10 +163,11 @@ export default {
         // 付款
         toPay(row) {
             const id = row.order.id;
-            const count = row.order.goods_num;
-            const addressId = row.order.addressId;
-            toPayOrder({ id, count, addressId }).then((res) => {
-                console.log(res);
+            toPay(id).then(() => {
+                this.list = this.list.map((item) => {
+                    if (item.order.id == id) item.order.pay_status = 1;
+                    return item;
+                });
             });
         },
         // 确认收货

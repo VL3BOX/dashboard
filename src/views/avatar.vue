@@ -23,7 +23,7 @@
                 <span class="u-tip">当前装扮</span>
                 <div class="u-select">
                     <div class="u-avatar">
-                        <img :src="showFrame(frame)" />
+                        <img :src="showFrame(frame)" v-if="frame"/>
                     </div>
                     <div class="u-decoration">
                         <img :src="decoration[decorationActivate].list[0] | showDecoration" v-if="decoration.length>0 && decorationActivate !=null && decoration[decorationActivate].val !=='无主题'" />

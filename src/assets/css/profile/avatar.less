@@ -91,12 +91,18 @@
                 .ml(6px);
                 .mb(4px);
             }
+
             .u-decoration-item{
                 .flex;
-                justify-content: space-between;
+                // justify-content: space-between;
+                // .flex(x);
+                // align-items: flex-start;
                 flex-wrap: wrap;
+
                 .u-picbox{
                     .pr;
+                    .mr(5px);
+                    text-align-last:left;
                     cursor: pointer;
                     user-select: none;
                     -webkit-user-select: none;
@@ -143,7 +149,13 @@
                         transform: rotate(45deg);
                     }
                 }
-                
+                // .u-picbox:nth-child(1){
+
+                   
+                // }
+                .u-picbox:nth-child(5){
+                    .mr(0)
+                }
             }
         }
 }

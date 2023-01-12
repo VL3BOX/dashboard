@@ -7,7 +7,13 @@
         <el-tabs type="border-card" v-model="tab" @tab-click="tabClick">
             <el-tab-pane label="一卡通" name="keycode">
                 <el-checkbox v-model="showUsed">显示已用</el-checkbox>
-                <el-table class="m-table" v-if="filteredList.length" :data="filteredList" show-header v-loading="loading">
+                <el-table
+                    class="m-table"
+                    v-if="filteredList.length"
+                    :data="filteredList"
+                    show-header
+                    v-loading="loading"
+                >
                     <el-table-column prop="type" label="类型" width="140">
                         <template slot-scope="scope">{{ keycodeOptions.types[scope.row.type] || "其他" }}</template>
                     </el-table-column>
@@ -80,7 +86,13 @@
                         <template slot-scope="scope">
                             {{ scope.row.used_by_self ? "是" : "否" }}
 
-                            <el-button v-show="!scope.row.used_by_self" type="text" size="mini" @click="onKeyCodeUsedClick(scope.row)">（标记使用）</el-button>
+                            <el-button
+                                v-show="!scope.row.used_by_self"
+                                type="text"
+                                size="mini"
+                                @click="onKeyCodeUsedClick(scope.row)"
+                                >（标记使用）</el-button
+                            >
                         </template>
                     </el-table-column>
                 </el-table>
@@ -166,9 +178,114 @@
                         <template slot-scope="scope">
                             {{ scope.row.used_by_self ? "是" : "否" }}
 
-                            <el-button v-show="!scope.row.used_by_self" type="text" size="mini" @click="onSnUsedClick(scope.row)">（标记使用）</el-button>
+                            <el-button
+                                v-show="!scope.row.used_by_self"
+                                type="text"
+                                size="mini"
+                                @click="onSnUsedClick(scope.row)"
+                                >（标记使用）</el-button
+                            >
                         </template>
                     </el-table-column>
+                </el-table>
+                <el-alert
+                    v-else
+                    class="m-credit-null m-packet-null"
+                    title="没有找到任何记录"
+                    type="info"
+                    center
+                    show-icon
+                ></el-alert>
+                <el-pagination
+                    v-if="showPagination"
+                    @current-change="currentChange"
+                    class="m-credit-pages"
+                    background
+                    :page-size="per"
+                    :hide-on-single-page="true"
+                    :current-page.sync="page"
+                    layout="total, prev, pager, next, jumper"
+                    :total="total"
+                ></el-pagination>
+            </el-tab-pane>
+            <el-tab-pane label="虚拟商品" name="virtual">
+                <el-table class="m-table" v-if="virtualList.length" :data="virtualList" show-header v-loading="loading">
+                    <el-table-column label="名称">
+                        <template slot-scope="scope">{{ scope.row.goods.title || "-" }}</template>
+                    </el-table-column>
+                    <el-table-column label="卡密" min-width="330">
+                        <template slot-scope="scope">
+                            <div class="u-card">
+                                <div class="u-count" v-if="scope.row.goods.sub_category == 'code'">
+                                    <div class="u-line">
+                                        <span>卡号：{{ scope.row.goods.good_number || "****************" }}</span>
+                                        <el-button
+                                            class="u-btn"
+                                            v-if="scope.row.goods.good_number"
+                                            type="txt"
+                                            size="mini"
+                                            icon="el-icon-document-copy"
+                                            v-clipboard:copy="'' + scope.row.goods.good_number"
+                                            v-clipboard:success="onCopy"
+                                            v-clipboard:error="onError"
+                                            >复制卡号</el-button
+                                        >
+                                    </div>
+                                    <div class="u-line">
+                                        <span>卡密：{{ scope.row.goods.goods_secret || "****************" }} </span>
+                                        <el-button
+                                            v-if="!scope.row.goods.goods_secret"
+                                            type="primary"
+                                            icon="el-icon-view"
+                                            @click="getVirtualCode(scope.$index, scope.row)"
+                                            size="mini"
+                                            plain
+                                            >点击查看</el-button
+                                        >
+                                        <el-button
+                                            class="u-btn"
+                                            v-if="scope.row.goods.goods_secret"
+                                            type="txt"
+                                            size="mini"
+                                            icon="el-icon-document-copy"
+                                            v-clipboard:copy="'' + scope.row.goods.goods_secret"
+                                            v-clipboard:success="onCopy"
+                                            v-clipboard:error="onError"
+                                            >复制卡密</el-button
+                                        >
+                                    </div>
+                                </div>
+                                <div class="u-count" v-else>
+                                    {{ scope.row.goods.good_number }}
+                                </div>
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="过期时间" min-width="180">
+                        <template slot-scope="scope">
+                            <div class="u-time" v-if="scope.row.goods.expire_at">
+                                <span class="u-tag" :class="compareTime(scope.row.goods.expire_at, 'tag')">{{
+                                    compareTime(scope.row.goods.expire_at, "time")
+                                }}</span
+                                ><span>{{ scope.row.goods.expire_at }}</span>
+                            </div>
+                            <span v-else>-</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="remark" label="备注" min-width="200"> </el-table-column>
+                    <!-- <el-table-column prop="used_by_self" label="是否使用">
+                        <template slot-scope="scope">
+                            {{ scope.row.used_by_self ? "是" : "否" }}
+
+                            <el-button
+                                v-show="!scope.row.used_by_self"
+                                type="text"
+                                size="mini"
+                                @click="onKeyCodeUsedClick(scope.row)"
+                                >（标记使用）</el-button
+                            >
+                        </template>
+                    </el-table-column> -->
                 </el-table>
                 <el-alert
                     v-else
@@ -194,11 +311,20 @@
     </div>
 </template>
 <script>
-import { getKeycodeList, getSnList, activationKeycode, activationSn, markSn, markKeycode } from "@/service/card.js";
+import {
+    getKeycodeList,
+    getSnList,
+    activationKeycode,
+    activationSn,
+    markSn,
+    markKeycode,
+    getVirtualCode,
+} from "@/service/card.js";
+import { getVirtual } from "@/service/goods";
 import keycodeOptions from "@/assets/data/card_keycode.json";
 import snOptions from "@/assets/data/card_sn.json";
-import _ from "lodash";
 
+// import _ from "lodash";
 export default {
     name: "card",
     data: function () {
@@ -215,8 +341,10 @@ export default {
             snOptions,
             showPagination: true,
             showUsed: false,
+            virtualList: [],
         };
     },
+
     computed: {
         params() {
             return {
@@ -229,7 +357,7 @@ export default {
             return "load" + this.tab.slice(0, 1).toUpperCase() + this.tab.slice(1);
         },
         filteredList() {
-            return this.showUsed ? this.list : this.list.filter(i => !i.used_by_self);
+            return this.showUsed ? this.list : this.list.filter((i) => !i.used_by_self);
         },
     },
     methods: {
@@ -283,6 +411,31 @@ export default {
                     this.showPagination = true;
                 });
         },
+        // 获取激活码列表
+        loadVirtual() {
+            this.loading = true;
+            this.$router.push({
+                name: "card",
+                query: {
+                    tab: "virtual",
+                    page: this.page,
+                },
+            });
+            this.showPagination = false;
+            getVirtual({ ...this.params, sub_category: "code" })
+                .then((res) => {
+                    let list = res.data.data.list || [];
+                    this.virtualList = list.map((item) => {
+                        item.goods.goods_secret = "";
+                        return item;
+                    });
+                    this.total = res.data.data.page.total;
+                })
+                .finally(() => {
+                    this.loading = false;
+                    this.showPagination = true;
+                });
+        },
         //  获取单个卡密
         getKeycode(index, row) {
             this.$prompt("请输入密码", "提示", {
@@ -311,6 +464,22 @@ export default {
                 });
             });
         },
+        // 获取虚拟卡密
+        getVirtualCode(index, row) {
+            this.$prompt("请输入密码", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                inputType: "password",
+            }).then(({ value }) => {
+                getVirtualCode(row.goods.id, { password: value }).then((res) => {
+                    let { good_number, goods_secret } = res.data.data;
+                    row.goods.good_number = good_number;
+                    row.goods.goods_secret = goods_secret;
+                    console.log(index, row);
+                    this.$set(this.virtualList, index, row);
+                });
+            });
+        },
         // 判断过期时间
         compareTime(date, type) {
             const key = new Date(date).getTime() > Date.now() ? 0 : 1;
@@ -334,7 +503,7 @@ export default {
                 type: "warning",
             })
                 .then(() => {
-                    markKeycode(row.id, 'used').then((res) => {
+                    markKeycode(row.id, "used").then((res) => {
                         this.$message({
                             type: "success",
                             message: "标记成功!",
@@ -351,7 +520,7 @@ export default {
                 type: "warning",
             })
                 .then(() => {
-                    markSn(row.id, 'used').then((res) => {
+                    markSn(row.id, "used").then((res) => {
                         this.$message({
                             type: "success",
                             message: "标记成功!",

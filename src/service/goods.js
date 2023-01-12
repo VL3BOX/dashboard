@@ -47,6 +47,12 @@ function toPay(id) {
 function toConfirm(id) {
     return $pay().post(`/mall/my/orders/${id}/received`);
 }
+//
+function getVirtual(params) {
+    return $pay().get(`/mall/my/virtual_goods`, { params });
+}
+
+// 获取
 export {
     getAddress,
     addAddress,
@@ -57,7 +63,8 @@ export {
     updateOrderAddress,
     updateOrderRemark,
     getOrderId,
-    closeOrder, 
+    closeOrder,
     toPay,
+    getVirtual,
     toConfirm
 };

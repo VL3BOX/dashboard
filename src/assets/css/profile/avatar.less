@@ -84,6 +84,27 @@
             margin: 10px auto;
         }
         // 虚拟装扮部分
+        .u-decoration-box{
+            max-height: 420px;
+            overflow-y: auto;
+            &::-webkit-scrollbar {
+                width: 4px;
+            }
+            &::-webkit-scrollbar-track,
+            &::-webkit-scrollbar-track-piece {
+                background-color: #fafafa;
+                border-radius: 6px;
+            }
+            &::-webkit-scrollbar-thumb {
+                background-color: #eee;
+                border-radius: 6px;
+            }
+            &::-webkit-scrollbar-button,
+            &::-webkit-scrollbar-corner,
+            &::-webkit-resizer {
+                display: none;
+            }
+        }
         .u-decoration-list{
             padding: 0 4px;
             .mb(10px);
@@ -101,7 +122,7 @@
 
                 .u-picbox{
                     .pr;
-                    .mr(5px);
+                    .mr(4px);
                     text-align-last:left;
                     cursor: pointer;
                     user-select: none;

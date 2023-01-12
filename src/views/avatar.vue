@@ -71,7 +71,8 @@
                     <el-tab-pane label="主题装扮" name="1" class="m-profile-tab">
                         <div class="u-decoration-tip">(仅展示已拥有装扮，同主题部分可分别激活)</div>
                         <el-tag type="info" class="u-empty" v-if="decoration.length==0">暂无装扮</el-tag>
-                        <div class="u-decoration-list" v-for="(item,i) in decoration" :key="item.val">
+                        <div class="u-decoration-box">
+                            <div class="u-decoration-list" v-for="(item,i) in decoration" :key="item.val">
                             <div class="u-title">
                                 {{ decorationJson[item.val]?decorationJson[item.val].desc:'无主题' }} &nbsp;
                                 <el-checkbox v-model="selectAll[i]" @change="selectAllChange($event,i)">{{i==0?'选中':'全选'}}</el-checkbox>
@@ -83,6 +84,8 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
+                        
                     </el-tab-pane>
                 </el-tabs>
             </div>

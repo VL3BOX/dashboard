@@ -85,7 +85,6 @@
                             </div>
                         </div>
                         </div>
-                        
                     </el-tab-pane>
                 </el-tabs>
             </div>
@@ -197,6 +196,7 @@ export default {
         },
         //数据分组，设置已激活name
         formattingData(arr, group_key) {
+            // let arr=
             let map = {'无主题':[]};
             let res = [];
             let _this=this
@@ -213,15 +213,16 @@ export default {
                 let sortFind=options.find(e => e.name==ai.type);
                 if(sortFind){
                     ai.sort=sortFind.sort
+                    if (!map[ai[group_key]]) {
+                        map[ai[group_key]] = [ai];
+                    } else {
+                        map[ai[group_key]].push(ai);
+                    }
+                    if(ai.using){
+                        this.originalActivateName=ai[group_key]
+                    }
                 }
-                if (!map[ai[group_key]]) {
-                    map[ai[group_key]] = [ai];
-                } else {
-                    map[ai[group_key]].push(ai);
-                }
-                if(ai.using){
-                    this.originalActivateName=ai[group_key]
-                }
+                
             }
             let sortBy=function(sort){
                 return (x, y) => {
@@ -263,7 +264,8 @@ export default {
                 sessionStorage.setItem('decoration_json',JSON.stringify(res.data))
                 this.decorationJson=res.data
                 getDecoration().then(res=>{
-                    this.decoration=this.formattingData(res.data.data,'val')
+                    let arr=res.data.data.filter(item=>item.type !="")
+                    this.decoration=this.formattingData(arr,'val')
                     this.selectAllInit()
                 })
             })
@@ -307,7 +309,7 @@ export default {
            //需判断点击项目和原有已选择项目是否一致，不一致取消原有全部
            if(i != this.decorationActivate){
                 //需先把原有的置空再勾选点击项目
-                let res=this.decoration[this.decorationActivate].list
+                let res=this.decoration[this.decorationActivate]?this.decoration[this.decorationActivate].list:[]
                 for(let k=0;k<res.length;k++){
                     res[k].using=0
                 }

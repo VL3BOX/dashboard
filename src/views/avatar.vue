@@ -23,10 +23,10 @@
                 <span class="u-tip">当前装扮</span>
                 <div class="u-select">
                     <div class="u-avatar">
-                        <img :src="showFrame(frame)" />
+                        <img :src="showFrame(frame)" v-if="frame"/>
                     </div>
                     <div class="u-decoration">
-                        <img :src="decoration[decorationActivate].list[0] | showDecoration" v-if="decoration.length>0 && decorationActivate !=null" />
+                        <img :src="decoration[decorationActivate].list[0] | showDecoration" v-if="decoration.length>0 && decorationActivate !=null && decoration[decorationActivate].val !=='无主题'" />
                     </div>
                 </div>
                 <p class="u-btng">
@@ -71,9 +71,11 @@
                     <el-tab-pane label="主题装扮" name="1" class="m-profile-tab">
                         <div class="u-decoration-tip">(仅展示已拥有装扮，同主题部分可分别激活)</div>
                         <el-tag type="info" class="u-empty" v-if="decoration.length==0">暂无装扮</el-tag>
-                        <div class="u-decoration-list" v-for="(item,i) in decoration" :key="item.val">
+                        <div class="u-decoration-box">
+                            <div class="u-decoration-list" v-for="(item,i) in decoration" :key="item.val">
                             <div class="u-title">
-                                {{ decorationJson[item.val].desc }} &nbsp;<el-checkbox v-model="selectAll[i]" @change="selectAllChange($event,i)">全选</el-checkbox>
+                                {{ decorationJson[item.val]?decorationJson[item.val].desc:'无主题' }} &nbsp;
+                                <el-checkbox v-model="selectAll[i]" @change="selectAllChange($event,i)">{{i==0?'选中':'全选'}}</el-checkbox>
                             </div>
                             <div class="u-decoration-item">
                                 <div v-for="(item2,i2) in item.list" :key="'c'+i2" :title='item2.type | showDecorationName' class="u-picbox" :class="item2.using?'select':''" @click="decorationStatus(item2,i2,i)">
@@ -82,6 +84,8 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
+                        
                     </el-tab-pane>
                 </el-tabs>
             </div>
@@ -117,7 +121,8 @@ export default {
             decoration:[],
             decorationActivate:null,
             originalActivateName:null,
-            selectAll:[]
+            selectAll:[],
+            noDecoration:false
         };
     },
     computed: {
@@ -192,7 +197,7 @@ export default {
         },
         //数据分组，设置已激活name
         formattingData(arr, group_key) {
-            let map = {};
+            let map = {'无主题':[]};
             let res = [];
             let _this=this
             let options=[
@@ -202,6 +207,7 @@ export default {
                 {name:'sidebar',text:'侧边栏',sort:4},
                 {name:'calendar',text:'日历',sort:5},
             ]
+
             for (let i = 0; i < arr.length; i++) {
                 let ai = arr[i];
                 let sortFind=options.find(e => e.name==ai.type);
@@ -222,9 +228,25 @@ export default {
                     return x[sort] - y[sort]
                 }
             }
-            Object.keys(map).forEach((key,i) => {
-                if(key==_this.originalActivateName){
-                    _this.decorationActivate=i
+            Object.keys(map).forEach((key, i) => {
+                if (i !== 0) {
+                    let j = {
+                        type: "homebanner",
+                        using: 0,
+                        val: key,
+                        sort:1
+                    }
+                    if (key == _this.originalActivateName) {
+                        _this.decorationActivate = i
+                        j.using = 1
+                    }
+                    if(map[key].find(item=>item.type=='homebanner')){
+
+                    }else{
+                        map[key].push(j)
+                    }
+                    //默认填充banner
+                    // map[key].push(j)
                 }
                 res.push({
                     [group_key]: key,
@@ -273,10 +295,14 @@ export default {
             });
         },
         decorationStatus(item,i2,i){
+            if(item.type=='homebanner' && item.using==1){
+                return;
+            }
            if(item.using == 1){
             item.using=0
            }else{
             item.using=1
+            // this.decoration[i].list.using=1
            }
            //需判断点击项目和原有已选择项目是否一致，不一致取消原有全部
            if(i != this.decorationActivate){
@@ -288,6 +314,8 @@ export default {
                 this.selectAll[this.decorationActivate]=false
                 //勾选当前选择
                 this.decorationActivate=i
+                let homebanner=this.decoration[i].list.find(item=>item.type=='homebanner')
+                homebanner.using=1
            }else{
             //相同主题要判断全选//取消时判断该主题是否还有其他选择项目
                 let res=this.decoration[i].list
@@ -320,6 +348,10 @@ export default {
         //全选状态初始化
         selectAllInit(){
             let activate=this.decorationActivate
+            if(activate==null){
+                this.selectAll[0]=true
+                return;
+            }
             let selectAll=true
             let res=this.decoration[activate].list
             for(let i=0;i<res.length;i++){

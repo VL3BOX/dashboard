@@ -84,6 +84,27 @@
             margin: 10px auto;
         }
         // 虚拟装扮部分
+        .u-decoration-box{
+            max-height: 420px;
+            overflow-y: auto;
+            &::-webkit-scrollbar {
+                width: 4px;
+            }
+            &::-webkit-scrollbar-track,
+            &::-webkit-scrollbar-track-piece {
+                background-color: #fafafa;
+                border-radius: 6px;
+            }
+            &::-webkit-scrollbar-thumb {
+                background-color: #eee;
+                border-radius: 6px;
+            }
+            &::-webkit-scrollbar-button,
+            &::-webkit-scrollbar-corner,
+            &::-webkit-resizer {
+                display: none;
+            }
+        }
         .u-decoration-list{
             padding: 0 4px;
             .mb(10px);
@@ -91,12 +112,18 @@
                 .ml(6px);
                 .mb(4px);
             }
+
             .u-decoration-item{
                 .flex;
-                justify-content: space-between;
+                // justify-content: space-between;
+                // .flex(x);
+                // align-items: flex-start;
                 flex-wrap: wrap;
+
                 .u-picbox{
                     .pr;
+                    .mr(4px);
+                    text-align-last:left;
                     cursor: pointer;
                     user-select: none;
                     -webkit-user-select: none;
@@ -143,7 +170,13 @@
                         transform: rotate(45deg);
                     }
                 }
-                
+                // .u-picbox:nth-child(1){
+
+                   
+                // }
+                .u-picbox:nth-child(5){
+                    .mr(0)
+                }
             }
         }
 }

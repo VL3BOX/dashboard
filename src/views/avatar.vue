@@ -74,10 +74,16 @@
                         <div class="u-decoration-box">
                             <div class="u-decoration-list" v-for="(item,i) in decoration" :key="item.val">
                             <div class="u-title">
-                                {{ decorationJson[item.val]?decorationJson[item.val].desc:'无主题' }} &nbsp;
+                                {{ decorationJson[item.val]?decorationJson[item.val].desc:'取消主题' }} &nbsp;
                                 <el-checkbox v-model="selectAll[i]" @change="selectAllChange($event,i)">{{i==0?'选中':'全选'}}</el-checkbox>
                             </div>
                             <div class="u-decoration-item">
+                                
+                                <div  class="u-picbox" :class="selectAll[i]?'select':''" @click="selectAllChange(true,i)" v-show="item.list.length===0">
+                                    <img :src="require('@/assets/img/avatar/no.png')" class="u-pic" />
+                                    <div class="u-decoration-name"> 取消主题</div>
+                                </div>
+
                                 <div v-for="(item2,i2) in item.list" :key="'c'+i2" :title='item2.type | showDecorationName' class="u-picbox" :class="item2.using?'select':''" @click="decorationStatus(item2,i2,i)">
                                     <img :src="item2 | showDecoration" class="u-pic" />
                                     <div class="u-decoration-name"> {{item2.type | showDecorationName}}</div>
@@ -187,7 +193,11 @@ export default {
                     decoration_res.name = false
                 }
                 localStorage.setItem("decoration_all", JSON.stringify(decoration_res));
+                //removeItem 个人相关部位
                 sessionStorage.removeItem("decoration_me"+this.uid);
+                sessionStorage.removeItem('decoration_sidebar');
+                sessionStorage.removeItem('decoration_calendar');
+                sessionStorage.removeItem('decoration_atcard');
                 this.$message({
                     message: "主题更新成功",
                     type: "success",

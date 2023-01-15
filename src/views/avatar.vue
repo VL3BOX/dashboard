@@ -80,7 +80,7 @@
                             <div class="u-decoration-item">
                                 
                                 <div  class="u-picbox" :class="selectAll[i]?'select':''" @click="selectAllChange(true,i)" v-show="item.list.length===0">
-                                    <img :src="require('@/assets/img/avatar/no.png')" class="u-pic" />
+                                    <img :src="require('@/assets/img/avatar/no.svg')" class="u-pic" />
                                     <div class="u-decoration-name"> 取消主题</div>
                                 </div>
 

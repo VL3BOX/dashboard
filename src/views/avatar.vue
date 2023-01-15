@@ -307,7 +307,7 @@ export default {
             });
         },
         decorationStatus(item,i2,i){
-            if(item.type=='homebanner' && item.using==1){
+            if(item.type=='homebanner'){
                 return;
             }
            if(item.using == 1){
@@ -333,7 +333,7 @@ export default {
                 let res=this.decoration[i].list
                 let using=false,selectStatus=true
                 for(let k=0;k<res.length;k++){
-                    if(res[k].using){
+                    if(res[k].using && res[k].type !='homebanner'){
                         using=true
                     }else{
                         selectStatus=false
@@ -342,6 +342,8 @@ export default {
                 if(using){
                     this.decorationActivate=i
                 }else{
+                    let homebanner=this.decoration[i].list.find(item=>item.type=='homebanner')
+                    homebanner.using=0
                     this.decorationActivate=null
                 }
                 this.selectAll[i]=selectStatus
@@ -418,7 +420,7 @@ export default {
         },
         showDecorationName:function(val){
             let options=[
-                {name:'homebanner',text:'资料卡'},
+                {name:'homebanner',text:'资料卡(默认)'},
                 {name:'atcard',text:'艾特卡'},
                 {name:'homebg',text:'主页背景'},
                 {name:'sidebar',text:'侧边栏'},

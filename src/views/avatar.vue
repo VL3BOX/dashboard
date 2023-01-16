@@ -256,9 +256,9 @@ export default {
                 localStorage.setItem("decoration_all", JSON.stringify(decoration_res));
                 //removeItem 个人相关部位
                 sessionStorage.removeItem("decoration_me" + this.uid);
-                sessionStorage.removeItem("decoration_sidebar");
+                sessionStorage.removeItem("decoration_sidebar"+ this.uid);
                 sessionStorage.removeItem("decoration_calendar");
-                sessionStorage.removeItem("decoration_atcard");
+                sessionStorage.removeItem("decoration_atcard"+ this.uid);
                 this.$message({
                     message: "主题更新成功",
                     type: "success",
@@ -272,7 +272,7 @@ export default {
             let res = [];
             let _this = this;
             let options = [
-                { name: "homebanner", text: "资料卡", sort: 1 },
+                // { name: "homebanner", text: "资料卡", sort: 1 },
                 { name: "atcard", text: "艾特卡", sort: 2 },
                 { name: "homebg", text: "主页背景", sort: 3 },
                 { name: "sidebar", text: "侧边栏", sort: 4 },
@@ -301,20 +301,20 @@ export default {
             };
             Object.keys(map).forEach((key, i) => {
                 if (i !== 0) {
-                    let j = {
-                        type: "homebanner",
-                        using: 0,
-                        val: key,
-                        sort: 1,
-                    };
+                    // let j = {
+                    //     type: "homebanner",
+                    //     using: 0,
+                    //     val: key,
+                    //     sort: 1,
+                    // };
                     if (key == _this.originalActivateName) {
                         _this.decorationActivate = i;
-                        j.using = 1;
+                        // j.using = 1;
                     }
-                    if (map[key].find((item) => item.type == "homebanner")) {
-                    } else {
-                        map[key].push(j);
-                    }
+                    // if (map[key].find((item) => item.type == "homebanner")) {
+                    // } else {
+                    //     map[key].push(j);
+                    // }
                     //默认填充banner
                     // map[key].push(j)
                 }

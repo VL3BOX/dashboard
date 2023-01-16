@@ -65,7 +65,7 @@
                             ></a>
                         </el-tooltip>
                     </span>
-                    <span class="u-group" v-if="group > 60">
+                    <span class="u-group" v-if="group > 30">
                         <em>Group</em>
                         <b>{{ group | showGroupName }}</b>
                     </span>
@@ -294,6 +294,7 @@ export default {
                 red_packet: 0, //红包
                 points: 0, //积分
                 gift: 0, //礼品、商城订单
+                cny:0,//金箔
             },
             medals: [],
             asset_logs: [],

@@ -8,7 +8,7 @@
         <el-button type="success" icon="el-icon-plus" @click="add" size="small">添加地址</el-button>
 
         <div class="m-content">
-            <el-table :data="list">
+            <el-table :data="list" size="small">
                 <el-table-column prop="contact_name" label="姓名" width="180"> </el-table-column>
                 <el-table-column prop="contact_phone" label="电话" width="180"> </el-table-column>
                 <el-table-column label="默认地址" width="180">

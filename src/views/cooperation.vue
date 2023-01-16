@@ -1,32 +1,18 @@
 <template>
     <div class="m-dashboard m-cooperation">
-        <h2 class="u-title">
-            <i class="el-icon-reading"></i> 签约作者
-        </h2>
-        <div class="m-block m-ac">
-            <h3>【签约条件】</h3>
-            <div>
-                <p>1、需要每个赛季在魔盒独家首发不少于3篇优质作品（或参与公共栏目构建、或累计盒币品鉴超过30000点）。</p>
-                <p>2、每赛季末重新进行评审，稿件时效性低将被降权，将不会作为有效校验产出稿件。</p>
-                <p>3、积极参与公共栏目建设者，将有机会被升级为特约签约作者。</p>
-                <p>4、按键类工具、单纯的宏或其他随意涂鸦的作品等不作为申请依据。</p>
-            </div>
-            <h3>【福利特权】</h3>
-            <div>
-                <p>1、享有诸多内部数据支持，支撑作者撰写更为专业的攻略，并优先进行头版推送。</p>
-                <p>2、享有更多游戏激活码等多种权益和内部资格。</p>
-                <p>3、有不定期KOL奖励派送或稿费、节日福利等。</p>
-                <p>4、（特约签约作者）享有每月一定额度的盒币评分额度。</p>
-            </div>
-        </div>
-        <div class="m-form m-block">
+        <h2 class="u-title"><i class="el-icon-reading"></i> 签约作者</h2>
+        <div class="m-cooperation-ac m-block" v-html="data"></div>
+        <div class="m-cooperation-form m-block">
             <h3>【认证说明】</h3>
             <div>
                 <p>1、以下所有项目请务必填写真实有效，否则将不会处理，多次提交被拒后将不再接受申请。</p>
                 <p>2、自述部分请填写魔盒内发布的有效作品链接（不少于3篇），站外链接将不会作为参考依据。</p>
-                <p>3、当成功接受申请后，请加入Q群<a href="https://jq.qq.com/?_wv=1027&k=3Hgmu6jg">140129951</a>，不定期发放奖励或其它通知。</p>
+                <p>
+                    3、当成功接受申请后，请加入Q群<a href="https://jq.qq.com/?_wv=1027&k=3Hgmu6jg">140129951</a
+                    >，不定期发放奖励或其它通知。
+                </p>
             </div>
-            <hr>
+            <hr />
             <el-alert
                 title="签约成功！"
                 type="success"
@@ -97,7 +83,8 @@
                         @click="submitForm('form')"
                         icon="el-icon-s-promotion"
                         :disabled="isSuperAuthor || processing"
-                    >提交签约申请</el-button>
+                        >提交签约申请</el-button
+                    >
                 </el-form-item>
             </el-form>
         </div>
@@ -105,7 +92,8 @@
 </template>
 <script>
 import User from "@jx3box/jx3box-common/js/user";
-import { contractAuthorApply, getSuperAuthorState, getContractAuthorLogs } from '@/service/cooperation'
+import { contractAuthorApply, getSuperAuthorState, getContractAuthorLogs } from "@/service/cooperation";
+import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc.js";
 export default {
     name: "cooperation",
     props: [],
@@ -120,9 +108,7 @@ export default {
                 description: "",
             },
             rules: {
-                nickname: [
-                    { required: true, message: "请输入昵称", trigger: "blur" },
-                ],
+                nickname: [{ required: true, message: "请输入昵称", trigger: "blur" }],
                 qq: [
                     {
                         required: true,
@@ -154,62 +140,72 @@ export default {
             // 签约记录
             logs: [],
 
-            processing : false
+            processing: false,
+
+            data: "",
         };
     },
     computed: {
         // 最近一次申请记录
-        log : function (){
-            return this.logs && this.logs[0]
-        }
+        log: function () {
+            return this.logs && this.logs[0];
+        },
     },
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     const data = {
-                        action: 'create',
+                        action: "create",
                         log: {
-                            ...this.form
-                        }
-                    }
-                    this.processing = true
-                    contractAuthorApply(data).then(res => {
-                        this.checked = 0
-                        this.$message.success('提交申请成功，请等待管理审核。')
-                    }).catch(e => {
-                        this.$message.error(e.message)
-                    }).finally(() => {
-                        this.processing = false
-                    })
+                            ...this.form,
+                        },
+                    };
+                    this.processing = true;
+                    contractAuthorApply(data)
+                        .then((res) => {
+                            this.checked = 0;
+                            this.$message.success("提交申请成功，请等待管理审核。");
+                        })
+                        .catch((e) => {
+                            this.$message.error(e.message);
+                        })
+                        .finally(() => {
+                            this.processing = false;
+                        });
                 }
             });
         },
         // 是否为签约作者
-        checkSuperUser: function() {
-            getSuperAuthorState(this.user?.profile?.uid)
-                .then(res => {
-                    this.isSuperAuthor = res.data.data
-                })
+        checkSuperUser: function () {
+            getSuperAuthorState(this.user?.profile?.uid).then((res) => {
+                this.isSuperAuthor = res.data.data;
+            });
         },
         // 加载申请记录
-        loadContractAuthorLogs: function() {
-            getContractAuthorLogs().then(res => {
+        loadContractAuthorLogs: function () {
+            getContractAuthorLogs().then((res) => {
                 this.logs = res.data.data.data;
-                if(this.logs && this.logs.length){
-                    this.checked = this.logs[0]['checked']
-                    this.form = this.logs[0]
+                if (this.logs && this.logs.length) {
+                    this.checked = this.logs[0]["checked"];
+                    this.form = this.logs[0];
                 }
-            })
+            });
+        },
+        loadAc() {
+            getBreadcrumb("sign-ac").then((data) => {
+                this.data = data;
+            });
         },
         // 初始化
-        init: function() {
-            this.loadContractAuthorLogs()
+        init: function () {
+            this.loadContractAuthorLogs();
             this.checkSuperUser();
-        }
+            this.loadAc();
+        },
     },
     mounted: function () {
-        this.init()
+        this.init();
     },
     // watch: {
     //     'logs': {
@@ -233,7 +229,7 @@ export default {
     // }
 };
 </script>
-<style scoped lang="less">
+<style lang="less">
 .m-block {
     background-color: #fafbfc;
     border: 1px solid @color-link;
@@ -242,15 +238,15 @@ export default {
     border-radius: 6px;
     position: relative;
 
-    h3 {
-        .fz(14px,22px);
+    h3,h6 {
+        .fz(13px,22px);
         color: #333;
+        margin:10px 0;
     }
     p {
         font-size: 12px;
-        line-height: 22px;
+        line-height: 26px;
+        margin:0;
     }
 }
-// .m-cooperation {
-// }
 </style>

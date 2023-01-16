@@ -6,7 +6,7 @@
         </h2>
         <!--  -->
         <div class="m-content">
-            <el-table :data="list">
+            <el-table :data="list"  size="small">
                 <el-table-column prop="order.created_at" label="兑换时间" width="180"> </el-table-column>
                 <el-table-column label="兑换商品">
                     <template slot-scope="scope">

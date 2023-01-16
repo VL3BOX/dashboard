@@ -273,10 +273,10 @@ export default {
             let _this = this;
             let options = [
                 // { name: "homebanner", text: "资料卡", sort: 1 },
-                { name: "atcard", text: "艾特卡", sort: 2 },
-                { name: "homebg", text: "主页背景", sort: 3 },
-                { name: "sidebar", text: "侧边栏", sort: 4 },
-                { name: "calendar", text: "日历", sort: 5 },
+                { name: "atcard", text: "个人名片", sort: 2 },
+                { name: "homebg", text: "主页风格", sort: 3 },
+                { name: "sidebar", text: "侧边栏主题", sort: 4 },
+                { name: "calendar", text: "首页日历", sort: 5 },
             ];
 
             for (let i = 0; i < arr.length; i++) {
@@ -482,10 +482,10 @@ export default {
         showDecorationName: function (val) {
             let options = [
                 { name: "homebanner", text: "资料卡(默认)" },
-                { name: "atcard", text: "艾特卡" },
-                { name: "homebg", text: "主页背景" },
-                { name: "sidebar", text: "侧边栏" },
-                { name: "calendar", text: "日历" },
+                { name: "atcard", text: "个人名片" },
+                { name: "homebg", text: "主页风格" },
+                { name: "sidebar", text: "侧边栏主题" },
+                { name: "calendar", text: "首页日历" },
             ];
             let res = options.find((item) => item.name == val);
             if (res) {

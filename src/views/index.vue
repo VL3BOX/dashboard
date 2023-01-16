@@ -390,13 +390,10 @@ export default {
             this.loadAssetLogs();
         },
         getPostLink: function (post_type, post_id) {
-            return getLink(post_type, post_id);
+            return post_type == 'mall_order' ? `/vip/mall/${post_id}` : getLink(post_type, post_id);
         },
         showMedalIcon: function (val) {
             return __imgPath + "image/medals/user/" + val + ".gif";
-        },
-        countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
-            return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
         },
         showBoxcoinType: function (item) {
             if (item.action_type == 9) {
@@ -404,13 +401,20 @@ export default {
             }
             return boxcoin_types[item.action_type] || item.action_type;
         },
+        countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
+            if (action_type == 2) {
+                return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
+            }
+            return count;
+        },
         showBoxcoinOp(item) {
             let value = this.countBoxCoin(item);
-            if (item.action_type == 9) {
-                return item.operate_user_id == this.uid ? "-" : "+";
-            } else if (item.action_type == "-2") {
-                return "-";
-            }
+            // if (item.action_type == 9) {
+            //     return item.operate_user_id == this.uid ? "-" : "+";
+            // }
+            // else if (item.action_type == "-2") {
+            //     return "-";
+            // }
             return value >= 0 ? "+" : "";
         },
         showBoxcoinCls(item) {

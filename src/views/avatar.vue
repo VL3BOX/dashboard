@@ -299,6 +299,11 @@ export default {
                     return x[sort] - y[sort];
                 };
             };
+            let uniqueFromObject=function (arr, uniId) {
+                const res = new Map();
+                return arr.filter((item) => !res.has(item[uniId]) && res.set(item[uniId], 1));
+            }
+
             Object.keys(map).forEach((key, i) => {
                 if (i !== 0) {
                     // let j = {
@@ -320,7 +325,7 @@ export default {
                 }
                 res.push({
                     [group_key]: key,
-                    list: map[key].sort(sortBy("sort")),
+                    list: uniqueFromObject(map[key],'type').sort(sortBy("sort")),
                 });
             });
             return res;

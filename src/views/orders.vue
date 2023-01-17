@@ -3,9 +3,7 @@
         <div class="m-dashboard-orders-cont">
             <!-- title -->
             <h2 class="u-title">
-                <span class="i-title">
-                    <i class="el-icon-shopping-bag-1"></i> 系统订单
-                </span>
+                <span class="i-title"> <i class="el-icon-shopping-bag-1"></i> 系统订单 </span>
             </h2>
             <!-- 表单 -->
             <div class="m-order-list" v-if="list && list.length">
@@ -20,14 +18,14 @@
                         <th>订单创建时间</th>
                     </thead>
                     <tbody>
-                        <tr v-for="(item,i) in list" :key="i">
-                            <td>{{item.product_id | showProduct}}</td>
-                            <td>{{item.id}}</td>
-                            <td>¥{{item.total_fee | showPrice}}</td>
-                            <td>{{item.pay_type | showPayType}}</td>
-                            <td>{{item.transaction_id}}</td>
-                            <td>{{item.pay_status | showPayStatus}}</td>
-                            <td>{{item.created_time | showTime}}</td>
+                        <tr v-for="(item, i) in list" :key="i">
+                            <td>{{ item.product_id | showProduct }}</td>
+                            <td>{{ item.id }}</td>
+                            <td>¥{{ item.total_fee | showPrice }}</td>
+                            <td>{{ item.pay_type | showPayType }}</td>
+                            <td>{{ item.transaction_id }}</td>
+                            <td>{{ item.pay_status | showPayStatus }}</td>
+                            <td>{{ item.created_time | showTime }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -51,7 +49,7 @@
 <script>
 import { getOrderList } from "@/service/order.js";
 import { products, pay_status, pay_types } from "@/assets/data/pay_order.json";
-import {showTime } from '@jx3box/jx3box-common/js/moment'
+import { showTime } from "@jx3box/jx3box-common/js/moment";
 export default {
     name: "oeders",
     props: [],
@@ -92,16 +90,16 @@ export default {
         showProduct: function (val) {
             return products[val];
         },
-        showPayStatus : function (val){
-            return pay_status[val]
+        showPayStatus: function (val) {
+            return pay_status[val];
         },
-        showPayType : function (val){
-            return pay_types[val]
+        showPayType: function (val) {
+            return pay_types[val];
         },
-        showPrice : function (val){
-            return val ? (val / 100).toFixed(2) : '0.00'
+        showPrice: function (val) {
+            return val ? (val / 100).toFixed(2) : "0.00";
         },
-        showTime
+        showTime,
     },
     mounted: function () {},
 };

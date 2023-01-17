@@ -25,14 +25,7 @@
                 <slot name="title"><div v-html="breadcrumb"></div></slot>
             </el-alert>
             <el-alert class="m-boxcoin-tip" title="1盒币可兑换1通宝，不可折现" type="warning" show-icon>
-                <slot name="description"
-                    >每个月6~30日开放兑换，1~5日关闭兑换渠道进行汇总。（即1月6日的兑换，和1月30日的兑换，同样在2月1~5日进行汇总）<br />
-                    汇总后，重制（正式服）通常21个工作日内发放奖励，即前一月的兑换，通常在后一个月的月底发放，如遇特殊原因可能会在某些月份锁定兑换，超过6个月的盒币将自动过期。<br />
-                    汇总后，缘起（怀旧服）通常赛季中和赛季末一次性发放，其中赛季末未兑换部分将清空该赛季所有盒币。<br />
-                    缘起（怀旧服）通过一卡通发放，可在个人中心›我的卡密中查看，如使用的第三方登录还没有设置过密码的用户，需要在个人中心›资料设置›修改密码中设置一个密码。<br />
-                    重制（正式服）则会直充到账号上，不会有官方短信提醒。<br />
-                    发放后，将会有魔盒公告，请关注首页侧边栏站内动态。
-                </slot>
+                <slot name="description"><div class="u-tips" v-html="tips"></div> </slot>
             </el-alert>
             <el-form label-position="left" label-width="80px" class="m-boxcoin-form">
                 <el-form-item label="游戏大区">
@@ -54,6 +47,7 @@
                         <el-radio :label="3000" border :disabled="!canSelect(3000)">3000通宝</el-radio>
                         <el-radio :label="5000" border :disabled="!canSelect(5000)">5000通宝</el-radio>
                         <el-radio :label="10000" border :disabled="!canSelect(10000)">10000通宝</el-radio>
+                        <el-radio :label="50000" border :disabled="!canSelect(50000)">50000通宝</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="邮箱地址">
@@ -233,6 +227,14 @@ export default {
             },
             totalCoin: 0,
             uid: User.getInfo().uid,
+
+            tips: `每个月6~31日开放兑换，1~5日关闭兑换渠道进行汇总。（即1月6日的兑换，和1月31日的兑换，同样在2月1~5日进行汇总）<br />
+                    重制（正式服）汇总后，通常21个工作日内发放奖励，即前一月的兑换，通常在后一个月的月底发放，如遇特殊原因可能会在某些月份锁定兑换。<br />
+                    重制（正式服）会直充到账号上，不会有官方短信/邮件提醒，在个人充值记录中也不可查到。<br />
+                    缘起（怀旧服）汇总后，通常赛季末一次性发放，其中赛季末未兑换部分将被清空重置。<br />
+                    缘起（怀旧服）通过一卡通发放，可在个人中心›我的卡密中查看，如使用的第三方登录还没有设置过密码的用户，需要在个人中心›资料设置›修改密码中设置一个密码。<br />
+
+                    发放后，将会有魔盒公告，请关注首页侧边栏站内动态。`,
         };
     },
     computed: {
@@ -416,6 +418,9 @@ export default {
             getBreadcrumb("dashboard-boxcoin").then((data) => {
                 this.breadcrumb = data;
             });
+            getBreadcrumb("boxcoin-tips").then((data) => {
+                this.tips = data;
+            });
         },
         // filters
         formatDate: function (val) {
@@ -441,15 +446,19 @@ export default {
             return val > 0 ? val : 0;
         },
         countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
-            return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
+            if (action_type == 2) {
+                return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
+            }
+            return count;
         },
         showBoxcoinOp(item) {
             let value = this.countBoxCoin(item);
-            if (item.action_type == 9) {
-                return item.operate_user_id == this.uid ? "-" : "+";
-            } else if (item.action_type == "-2") {
-                return "-";
-            }
+            // if (item.action_type == 9) {
+            //     return item.operate_user_id == this.uid ? "-" : "+";
+            // }
+            // else if (item.action_type == "-2") {
+            //     return "-";
+            // }
             return value >= 0 ? "+" : "";
         },
         showBoxcoinCls(item) {

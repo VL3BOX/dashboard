@@ -22,7 +22,7 @@
                 show-icon
             >
                 <slot name="description"
-                    >每个月6~30日开放提现，1~5日关闭提现渠道进行汇总。（即1月6日的兑换，和1月30日的兑换，同样在2月1~5日进行汇总）<br />
+                    >每个月6~31日开放提现，1~5日关闭提现渠道进行汇总。（即1月6日的兑换，和1月31日的兑换，同样在2月1~5日进行汇总）<br />
                     每笔提现收取2%手续费，最低收取0.02元。收取规则：不满1元部分按1元计算，计算手续费时向上取整。<br />
                     比如提现15.5元，16.2向取整，分别按16，17元收取0.32元和0.34元。<br />
                     汇总后，通常7个工作日内转账至收款账号。</slot
@@ -99,7 +99,10 @@
                                 <th>时间</th>
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
-                                <td>{{ formatType(item.use_case) }}</td>
+                                <td>
+                                    {{ item.description || '未知' }}
+                                    <!-- {{ formatType(item.use_case) }} -->
+                                </td>
                                 <td>
                                     <a class="u-user" :href="authorLink(item.pay_user.id)" v-if="item.pay_user">
                                         <img class="u-avatar" :src="showAvatar(item.pay_user.avatar)" alt="" />

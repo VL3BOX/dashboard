@@ -390,8 +390,8 @@ export default {
                 this.selectAll[this.decorationActivate] = false;
                 //勾选当前选择
                 this.decorationActivate = i;
-                let homebanner = this.decoration[i].list.find((item) => item.type == "homebanner");
-                homebanner.using = 1;
+                // let homebanner = this.decoration[i].list.find((item) => item.type == "homebanner");
+                // homebanner.using = 1;
             } else {
                 //相同主题要判断全选//取消时判断该主题是否还有其他选择项目
                 let res = this.decoration[i].list;
@@ -407,8 +407,8 @@ export default {
                 if (using) {
                     this.decorationActivate = i;
                 } else {
-                    let homebanner = this.decoration[i].list.find((item) => item.type == "homebanner");
-                    homebanner.using = 0;
+                    // let homebanner = this.decoration[i].list.find((item) => item.type == "homebanner");
+                    // homebanner.using = 0;
                     this.decorationActivate = null;
                 }
                 this.selectAll[i] = selectStatus;

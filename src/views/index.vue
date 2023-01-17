@@ -401,11 +401,14 @@ export default {
             }
             return boxcoin_types[item.action_type] || item.action_type;
         },
-        countBoxCoin: function ({ count, ext_take_off_count, ext2_take_off_count, action_type }) {
-            if (action_type == 2) {
-                return (count + ~~ext_take_off_count + ~~ext2_take_off_count) * (action_type / Math.abs(action_type));
+        countBoxCoin: function (item) {
+           let i = 1;
+            if(item.user_id == this.uid){
+                i = item.action_type > 0 ? 1 : -1;
+            }else if (item.operate_user_id == this.uid) {
+                i = item.action_type > 0 ? -1 : 1;
             }
-            return count;
+            return Math.abs(item.count + ~~item.ext_take_off_count + ~~item.ext2_take_off_count)*i ;
         },
         showBoxcoinOp(item) {
             let value = this.countBoxCoin(item);

@@ -6,7 +6,7 @@
         </h2>
         <!--  -->
         <div class="m-content">
-            <el-table :data="list"  size="small">
+            <el-table :data="list" size="small">
                 <el-table-column prop="order.created_at" label="兑换时间" width="180"> </el-table-column>
                 <el-table-column label="兑换商品">
                     <template slot-scope="scope">
@@ -38,7 +38,10 @@
                 <el-table-column label="操作" min-width="200px">
                     <template slot-scope="scope">
                         <div class="m-button">
-                            <el-button type="text" @click="showDetail(scope.row)">查看详情</el-button>
+                            <template v-if="scope.row.goods.sub_category !== 'emotion'">
+                                <el-button type="text" @click="showDetail(scope.row)">查看详情</el-button>
+                            </template>
+
                             <!-- 未支付 -->
                             <el-button type="text" v-if="showPay(scope.row.order)" @click="toPay(scope.row)">
                                 点击支付
@@ -163,7 +166,6 @@ export default {
                         name: "avatar",
                     });
                 }
-
                 if (link) window.open(link.href, "_blank");
             } else {
                 this.$router.push({

@@ -16,6 +16,11 @@
                 "path": "/purchases",
                 "name": "付费资源",
                 "icon": "el-icon-shopping-cart-2"
+            },
+            {
+                "path": "/theme",
+                "name": "主题装扮",
+                "icon": "el-icon-brush"
             }
         ]
     },

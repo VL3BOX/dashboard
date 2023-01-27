@@ -13,9 +13,9 @@ export default {
         return {
             tabList: [
                 { name: "frame", icon: "el-icon-camera", label: "头像框" },
-                { name: "theme", icon: "el-icon-s-shop", label: "主题风格" },
+                { name: "theme", icon: "el-icon-orange", label: "主题风格" },
                 { name: "emotion", icon: "el-icon-picture-outline-round", label: "表情包" },
-                { name: "honor", icon: "el-icon-s-flag", label: "称号" }
+                { name: "honor", icon: "el-icon-collection-tag", label: "称号" }
             ],
         };
     },

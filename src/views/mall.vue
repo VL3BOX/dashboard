@@ -1,5 +1,5 @@
 <template>
-    <div class="m-page-record">
+    <div class="m-page-record p-mall-orders">
         <!-- 标题 -->
         <h2 class="u-title">
             <span class="i-title"> <i class="el-icon-document"></i> 商城订单</span>
@@ -38,14 +38,35 @@
                 <el-table-column label="操作" min-width="200px">
                     <template slot-scope="scope">
                         <div class="m-button">
-                            <template v-if="scope.row.goods.sub_category !== 'emotion'">
-                                <el-button type="text" @click="showDetail(scope.row)">查看详情</el-button>
-                            </template>
+                            <!-- <template v-if="scope.row.goods.sub_category !== 'emotion'"> -->
+                            <el-button size="small" @click="showDetail(scope.row)" icon="el-icon-link"
+                                >查看详情</el-button
+                            >
+                            <!-- </template> -->
 
                             <!-- 未支付 -->
-                            <el-button type="text" v-if="showPay(scope.row.order)" @click="toPay(scope.row)">
-                                点击支付
-                            </el-button>
+                            <el-button
+                                size="small"
+                                type="primary"
+                                icon="el-icon-position"
+                                v-if="showPay(scope.row.order)"
+                                @click="toPay(scope.row)"
+                                >点击支付</el-button
+                            >
+
+                            <!-- 已发货操作： 确认收货&申请退货 -->
+                            <template v-if="scope.row.order.order_status == 3">
+                                <el-button
+                                    v-if="!scope.row.goods.is_virtual"
+                                    size="small"
+                                    type="success"
+                                    icon="el-icon-circle-check"
+                                    @click="isReceipt(scope.row.order.id)"
+                                    >确认收货</el-button
+                                >
+                                <!-- <el-button type="text">申请退货</el-button> -->
+                            </template>
+
                             <!-- 未发货允许操作： 取消订单 -->
                             <el-popconfirm
                                 confirm-button-text="确定"
@@ -54,20 +75,16 @@
                                 title="确定取消吗？"
                                 @confirm="cancel(scope.row.order.id)"
                             >
-                                <el-button v-if="scope.row.order.order_status == 0" type="text" slot="reference"
+                                <el-button
+                                    v-if="scope.row.order.order_status == 0"
+                                    size="small"
+                                    slot="reference"
+                                    type="info"
+                                    plain
+                                    icon="el-icon-circle-close"
                                     >取消订单</el-button
                                 >
                             </el-popconfirm>
-                            <!-- 已发货操作： 确认收货&申请退货 -->
-                            <template v-if="scope.row.order.order_status == 3">
-                                <el-button
-                                    v-if="!scope.row.goods.is_virtual"
-                                    type="text"
-                                    @click="isReceipt(scope.row.order.id)"
-                                    >确认收货</el-button
-                                >
-                                <!-- <el-button type="text">申请退货</el-button> -->
-                            </template>
 
                             <!-- 已收货操作： 评价 -->
                             <!-- <template v-if="scope.row.order.order_status == 4">
@@ -160,10 +177,9 @@ export default {
                             tab: "virtual",
                         },
                     });
-                }
-                if (goods.sub_category == "skin") {
+                }else{
                     link = this.$router.resolve({
-                        name: "avatar",
+                        name: "frame",
                     });
                 }
                 if (link) window.open(link.href, "_blank");

@@ -12,7 +12,7 @@
                     v-for="child in item.children"
                     :to="child.path"
                     :key="child.path"
-                    :class="isProfile(child.path)"
+                    :class="isProfile(child.path) || isTheme(child.path)"
                 >
                     <i :class="child.icon"></i>
                     <span>{{ child.name }}</span>
@@ -24,9 +24,10 @@
 
 <script>
 import { feedback } from "@jx3box/jx3box-common/data/jx3box.json";
-const profile_routes = ["profile", "avatar", "pwd", "connect", "email"];
 import dashboardLink from "@/utils/dashboardLink.js";
 import navList from "@/assets/data/nav.json";
+const profile_routes = ["profile", "avatar", "pwd", "connect", "email"];
+const theme_routes = ["theme", "frame", "emotion", "honor"];
 export default {
     name: "Nav",
     data: function () {
@@ -46,6 +47,9 @@ export default {
         },
         isProfile: function (val) {
             return val === "/profile" && profile_routes.includes(this.$route.name) ? "on" : "";
+        },
+        isTheme: function (val) {
+            return val === "/frame" && theme_routes.includes(this.$route.name) ? "on" : "";
         },
     },
     mounted: function () {},

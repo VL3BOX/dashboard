@@ -18,6 +18,10 @@ const msg = () => import("../views/msg.vue");
 // const feed = () => import("../views/feed.vue");
 const fav = () => import("../views/fav.vue");
 const purchases = () => import("../views/purchases.vue");
+const frame = () => import("../views/frame.vue");
+const theme = () => import("../views/theme.vue");
+const emotion = () => import("../views/emotion.vue");
+const honor = () => import("../views/honor.vue");
 
 const order = () => import("../views/orders.vue");
 const packet = () => import("../views/packet.vue");
@@ -53,6 +57,10 @@ const routes = [
     // { name: "feed", path: "/feed", component: feed },
     { name: "fav", path: "/fav/:subtype?", component: fav },
     { name: "purchases", path: "/purchases", component: purchases },
+    { name: "frame", path: "/frame", component: frame },
+    { name: "theme", path: "/theme", component: theme },
+    { name: "emotion", path: "/emotion", component: emotion },
+    { name: "honor", path: "/honor", component: honor },
 
     { name: "orders", path: "/order", component: order },
     { name: "packet", path: "/packet", component: packet },

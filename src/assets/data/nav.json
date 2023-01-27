@@ -18,7 +18,7 @@
                 "icon": "el-icon-shopping-cart-2"
             },
             {
-                "path": "/theme",
+                "path": "/frame",
                 "name": "主题装扮",
                 "icon": "el-icon-brush"
             }

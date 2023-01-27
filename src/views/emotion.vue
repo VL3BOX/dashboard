@@ -1,12 +1,16 @@
 <template>
-    <uc class="m-dashboard-frame" icon="el-icon-brush" title="主题装扮" :tab-list="tabList">
-        <el-alert type="warning" title="特殊表情最多只能选择三个" show-icon class="u-tips"></el-alert>
-        <div class="m-list">
+    <uc class="m-dashboard-frame m-dashboard-emotion" icon="el-icon-brush" title="主题装扮" :tab-list="tabList">
+        <div class="u-tips"><i class="el-icon-warning-outline"></i>自定义表情包最多只能同时激活三个，<a href="/vip/mall/#/list" target="_blank">前往购买表情包</a>。</div>
+        <div class="u-list">
             <div
                 class="u-item"
                 v-for="item in emotions"
                 :key="item.group_id"
-                :class="{ 'is-using': isUsing(item.group_name), disabled: isDisabled(item.group_name), hidden: isHidden(item.group_name) }"
+                :class="{
+                    'is-using': isUsing(item.group_name),
+                    disabled: isDisabled(item.group_name),
+                    hidden: isHidden(item.group_name),
+                }"
                 @click.stop="handleEmotionClick(item)"
             >
                 <img class="u-img" :src="imgSrc(item.group_name)" :alt="item.group_name" />
@@ -14,8 +18,10 @@
             </div>
         </div>
 
-        <div class="m-actions">
-            <el-button type="primary" @click="handleSave" icon="el-icon-circle-check" :loading="loading">保存</el-button>
+        <div class="u-actions">
+            <el-button type="primary" @click="handleSave" icon="el-icon-circle-check" :loading="loading"
+                >保存</el-button
+            >
         </div>
     </uc>
 </template>
@@ -76,7 +82,7 @@ export default {
             return !this.emotionList.map((item) => item.val).includes(val) && val !== "默认";
         },
         isHidden(val) {
-            return val === '默认';
+            return val === "默认";
         },
         handleEmotionClick(item) {
             if (this.isDisabled(item.group_name)) {
@@ -114,13 +120,18 @@ export default {
 </script>
 
 <style lang="less">
-.m-dashboard-frame {
-    .m-list {
-        .flex;
-        flex-wrap: wrap;
-    }
+.m-dashboard-emotion {
     .u-tips {
         margin-bottom: 16px;
+        .fz(13px);
+        i{.mr(2px);}
+        a:hover{
+            text-decoration: underline;
+        }
+    }
+    .u-list {
+        .flex;
+        flex-wrap: wrap;
     }
     .u-item {
         .flex;
@@ -135,6 +146,7 @@ export default {
         }
         .u-title {
             margin-left: 4px;
+            .fz(13px);
         }
 
         &.hidden {
@@ -174,7 +186,7 @@ export default {
             cursor: not-allowed;
         }
     }
-    .m-actions {
+    .u-actions {
         margin-top: 16px;
         text-align: center;
     }

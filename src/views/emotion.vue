@@ -102,8 +102,14 @@ export default {
         },
         handleSave() {
             this.loading = true;
-            const val = this.active.join(",");
-            setDecoration({ type: "emotion", val }).then((res) => {
+            const data = this.emotionList.map((item) => {
+                return {
+                    type: "emotion",
+                    val: item.val,
+                    using: this.active.includes(item.val),
+                };
+            });
+            setDecoration(data).then((res) => {
                 this.$message.success("保存成功");
                 this.loading = false;
             });

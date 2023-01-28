@@ -167,6 +167,7 @@ import User from "@jx3box/jx3box-common/js/user";
 import { showAvatar, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 import frames from "@jx3box/jx3box-common/data/user_avatar_frame.json";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
+import { flatten } from "lodash";
 export default {
     name: "avatar",
     props: [],
@@ -239,11 +240,14 @@ export default {
             let tabActivate = this.decorationActivate;
             let decorationName = tabActivate ? this.decoration[tabActivate].val : "";
             //激活主题
-            let activate = this.getActivate();
-            let params = {
-                val: decorationName,
-                type: activate.toString(),
-            };
+            const _decorations = flatten(this.decoration.map((item) => item.list));
+            const params = _decorations.map((item) => {
+                return {
+                    val: item.val,
+                    using: item.using,
+                    type: item.type,
+                };
+            });
             setDecoration(params).then((data) => {
                 //开始设置主题缓存,设置执行持久缓存，同时设置session,其他库优先获取session,无则获取local,还没数据则请求库所在主题位置接口
                 let decoration_res = {
@@ -256,9 +260,9 @@ export default {
                 localStorage.setItem("decoration_all", JSON.stringify(decoration_res));
                 //removeItem 个人相关部位
                 sessionStorage.removeItem("decoration_me" + this.uid);
-                sessionStorage.removeItem("decoration_sidebar"+ this.uid);
+                sessionStorage.removeItem("decoration_sidebar" + this.uid);
                 sessionStorage.removeItem("decoration_calendar");
-                sessionStorage.removeItem("decoration_atcard"+ this.uid);
+                sessionStorage.removeItem("decoration_atcard" + this.uid);
                 this.$message({
                     message: "主题更新成功",
                     type: "success",
@@ -299,10 +303,10 @@ export default {
                     return x[sort] - y[sort];
                 };
             };
-            let uniqueFromObject=function (arr, uniId) {
+            let uniqueFromObject = function (arr, uniId) {
                 const res = new Map();
                 return arr.filter((item) => !res.has(item[uniId]) && res.set(item[uniId], 1));
-            }
+            };
 
             Object.keys(map).forEach((key, i) => {
                 if (i !== 0) {
@@ -325,7 +329,7 @@ export default {
                 }
                 res.push({
                     [group_key]: key,
-                    list: uniqueFromObject(map[key],'type').sort(sortBy("sort")),
+                    list: uniqueFromObject(map[key], "type").sort(sortBy("sort")),
                 });
             });
             return res;

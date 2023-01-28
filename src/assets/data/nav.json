@@ -48,28 +48,8 @@
                 "icon": "el-icon-bank-card"
             },
             {
-                "path": "/cooperation",
-                "name": "签约作者",
-                "icon": "el-icon-reading"
-            }
-        ]
-    },
-    {
-        "group_name": "账单中心",
-        "children": [
-            {
-                "path": "/address",
-                "name": "地址管理",
-                "icon": "el-icon-postcard"
-            },
-            {
                 "path": "/mall",
-                "name": "商城订单",
-                "icon": "el-icon-present"
-            },
-            {
-                "path": "/order",
-                "name": "系统订单",
+                "name": "我的订单",
                 "icon": "el-icon-shopping-bag-1"
             }
         ]
@@ -91,6 +71,11 @@
                 "path": "/config",
                 "name": "全局设置",
                 "icon": "el-icon-setting"
+            },
+            {
+                "path": "/cooperation",
+                "name": "签约作者",
+                "icon": "el-icon-reading"
             },
             {
                 "path": "/tasks",

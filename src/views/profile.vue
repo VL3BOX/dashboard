@@ -66,7 +66,7 @@
                     :picker-options="birthday_options"
                 ></el-date-picker>
             </el-form-item>
-            <el-form-item class="u-phone">
+            <!-- <el-form-item class="u-phone">
                 <div slot="label">
                     <el-tooltip
                         class="item"
@@ -80,9 +80,9 @@
                     </el-tooltip>
                 </div>
                 <el-input v-model="form.phone" placeholder="请输入收货电话"></el-input>
-            </el-form-item>
+            </el-form-item> -->
 
-            <el-form-item class="u-address">
+            <!-- <el-form-item class="u-address">
                 <div slot="label">
                     <el-tooltip
                         class="item"
@@ -96,11 +96,11 @@
                     </el-tooltip>
                 </div>
                 <el-input v-model="form.address" placeholder="请输入收货地址" type="textarea"></el-input>
-            </el-form-item>
+            </el-form-item> -->
 
-            <el-form-item class="u-tuilan" label="推栏">
+            <!-- <el-form-item class="u-tuilan" label="推栏">
                 <el-input v-model="form.tuilan_id" placeholder="请输入推栏ID"></el-input>
-            </el-form-item>
+            </el-form-item> -->
 
             <el-form-item class="u-name" label="签名">
                 <el-input

@@ -2,7 +2,7 @@
     <div class="m-page-record p-mall-orders">
         <!-- 标题 -->
         <h2 class="u-title">
-            <span class="i-title"> <i class="el-icon-document"></i> 商城订单</span>
+            <span class="i-title"> <i class="el-icon-present"></i> 商城订单</span>
         </h2>
         <!--  -->
         <div class="m-content">

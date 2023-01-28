@@ -28,6 +28,7 @@ export default {
                     { name: "pwd", icon: "el-icon-lock", label: "修改密码" },
                     { name: "email", icon: "el-icon-message", label: "邮箱设置" },
                     { name: "connect", icon: "el-icon-connection", label: "绑定账号" },
+                    { name: "address", icon: "el-icon-map-location", label: "地址管理" },
                 ];
             },
         }

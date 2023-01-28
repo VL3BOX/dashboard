@@ -1,0 +1,141 @@
+.m-theme-box{
+    // min-height: calc(100vh - 64px - 48px - 52px - 54px);
+    // background-color: #eee;
+    .flex;
+    .flex(x);
+    .m-theme-left{
+        .w(420px);
+        border: 1px solid #eee;
+        .mr(20px);
+        .u-top{
+            .size(100%,325px);
+        }
+        .u-bottom{
+            .mt(20px);
+            .size(100%,100px);
+            .flex;
+            .flex(x);
+            text-align: center;
+            .u-type-box{
+                // border: 1px dashed #eee;
+                padding: 4px;
+                .mr(10px);
+                .u-img{
+                    .size(64px);
+                    border-radius: 10px;
+                }
+                .u-title{
+                    .fz(14px);
+                }
+            }
+            .u-type-box:nth-child(5){
+                .mr(0);
+            }
+        }
+    }
+    .m-theme-right{
+        .w(424px);
+        border: 1px solid #eee;
+        .u-no-theme{
+            .flex;
+            .size(404px,86px);
+            margin: 10px auto;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #F3F3F3;
+            border-radius: 10px;
+            color: #B0B0B0;
+            .fz(14px,18px);
+            font-weight: 400;
+            &.on{
+                color: #fff;
+                background-color: rgb(145, 186, 240);
+            }
+        }
+        .u-theme{
+            .u-decoration-list {
+                padding: 0 4px;
+                .mb(10px);
+                .u-title {
+                    // .ml(6px);
+                    .mb(8px);
+                    // padding-bottom: 4px;
+                    padding: 0 0 4px 6px;
+                    border-bottom: 1px solid #eee;
+                }
+        
+                .u-decoration-item {
+                    .flex;
+                    // justify-content: space-between;
+                    // .flex(x);
+                    // align-items: flex-start;
+                    flex-wrap: wrap;
+                    .u-picbox {
+                        .pr;
+                        .mr(4px);
+                        cursor: pointer;
+                        user-select: none;
+                        -webkit-user-select: none;
+                        .w(86px);
+                        .mb(6px);
+                        .u-pic {
+                            .size(86px);
+                            object-fit: contain;
+                            
+                           img{
+                            border-radius: 10px;
+                           }
+                            &.select {
+                                .pr;
+                                text-align: center;
+                                color: #4abe84;
+                                background-color: #fff;
+                            }
+                            &.select:before {
+                                content: "";
+                                .pa;
+                                right: 0;
+                                bottom: 0;
+                                border: 16px solid #4abe84;
+                               border-radius: 0 0  10px 0;
+                                border-top-color: transparent;
+                                border-left-color: transparent;
+                            }
+                            &.select:after {
+                                content: "";
+                                width: 4px;
+                                height: 12px;
+                                .pa;
+                                right: 6px;
+                                bottom: 2px;
+                                border: 2px solid #fff;
+                                border-top-color: transparent;
+                                border-left-color: transparent;
+                                transform: rotate(45deg);
+                            }
+                        }
+                        .u-decoration-name {
+                            overflow: hidden; //超出的文本隐藏
+                            text-overflow: ellipsis; //溢出用省略号显示
+                            white-space: nowrap;
+                            .w(100%);
+                            .fz(14px,18px);
+                            color: #000;
+                            text-align: center !important;
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+}
+@media screen and (max-width: @phone) {
+    .m-theme-box{
+        display: block;
+        .m-theme-right{
+            .mt(20px);
+        }
+    }
+}

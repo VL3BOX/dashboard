@@ -12,7 +12,7 @@
                     v-for="child in item.children"
                     :to="child.path"
                     :key="child.path"
-                    :class="isProfile(child.path) || isTheme(child.path)"
+                    :class="isProfile(child.path) || isTheme(child.path) || isMall(child.path)"
                 >
                     <i :class="child.icon"></i>
                     <span>{{ child.name }}</span>
@@ -28,6 +28,7 @@ import dashboardLink from "@/utils/dashboardLink.js";
 import navList from "@/assets/data/nav.json";
 const profile_routes = ["profile", "avatar", "pwd", "connect", "email"];
 const theme_routes = ["theme", "frame", "emotion", "honor"];
+const mall_routes = ["mall", "orders"];
 export default {
     name: "Nav",
     data: function () {
@@ -50,6 +51,9 @@ export default {
         },
         isTheme: function (val) {
             return val === "/frame" && theme_routes.includes(this.$route.name) ? "on" : "";
+        },
+        isMall: function (val) {
+            return val === "/mall" && mall_routes.includes(this.$route.name) ? "on" : "";
         },
     },
     mounted: function () {},

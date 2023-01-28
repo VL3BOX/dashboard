@@ -5,13 +5,13 @@
 
 <script>
 import uc from "@/components/uc.vue";
-import { tabList } from "@/assets/data/theme.json";
+import { themeTab } from "@/assets/data/tabs.json";
 export default {
     name: "frame",
     props: [],
     data: function() {
         return {
-            tabList
+            tabList: themeTab,
         };
     },
     computed: {},

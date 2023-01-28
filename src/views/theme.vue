@@ -29,12 +29,12 @@
                                         :key="'c' + i2"
                                         :title="item2.name"
                                         class="u-picbox"
-                                        
+
                                     >
                                     <div class="u-pic" :class="item2.using ? 'select' : ''">
                                         <img src="https://cdn.jx3box.com/static/dashboard/img/no.5fe91973.svg"/>
                                     </div>
-                                     
+
                                         <div class="u-decoration-name">{{ item2.name }}</div>
                                     </div>
                                 </div>
@@ -48,17 +48,13 @@
 <script>
 import uc from "@/components/uc.vue";
 import { getDecoration, setDecoration, getDecorationJson } from "@/service/decoration";
+import { themeTab } from "@/assets/data/tabs.json";
 export default {
     name: "theme",
     props: [],
     data: function() {
         return {
-            tabList: [
-                { name: "frame", icon: "el-icon-camera", label: "头像框" },
-                { name: "theme", icon: "el-icon-s-shop", label: "主题风格" },
-                { name: "emotion", icon: "el-icon-picture-outline-round", label: "表情包" },
-                { name: "honor", icon: "el-icon-s-flag", label: "称号" }
-            ],
+            tabList: themeTab,
             themeType:[
                 {name:'艾特卡',val:'atcard',statue:1},
                 {name:'主页背景',val:'homebanner',statue:1},

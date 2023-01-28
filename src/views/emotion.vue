@@ -1,6 +1,12 @@
 <template>
-    <uc class="m-dashboard-frame m-dashboard-emotion" icon="el-icon-brush" title="主题装扮" :tab-list="tabList">
-        <div class="u-tips"><i class="el-icon-warning-outline"></i>自定义表情包最多只能同时激活三个，<a href="/vip/mall/#/list" target="_blank">前往购买表情包</a>。</div>
+    <uc class="m-dashboard-frame m-dashboard-emotion" icon="el-icon-brush" title="主题装扮">
+        <div class="u-tips">
+            <i class="el-icon-warning-outline"></i>自定义表情包最多只能同时激活三个，<a
+                href="/vip/mall/#/list?type=virtual&subtype=emotion"
+                target="_blank"
+                >前往购买表情包</a
+            >。
+        </div>
         <div class="u-list">
             <div
                 class="u-item"
@@ -30,13 +36,13 @@
 import uc from "@/components/uc.vue";
 import { getDecoration, getEmotion, setDecoration } from "@/service/decoration";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
-import { tabList } from "@/assets/data/theme.json";
+import { themeTab } from "@/assets/data/tabs.json";
 export default {
     name: "emotion",
     props: [],
     data: function () {
         return {
-            tabList,
+            tabList: themeTab,
 
             emotionList: [],
             emotions: [],
@@ -130,8 +136,10 @@ export default {
     .u-tips {
         margin-bottom: 16px;
         .fz(13px);
-        i{.mr(2px);}
-        a:hover{
+        i {
+            .mr(2px);
+        }
+        a:hover {
             text-decoration: underline;
         }
     }

@@ -1,119 +1,121 @@
 <template>
-    <div class="m-page-record p-mall-orders">
-        <!-- 标题 -->
-        <h2 class="u-title">
-            <span class="i-title"> <i class="el-icon-present"></i> 商城订单</span>
-        </h2>
-        <!--  -->
-        <div class="m-content">
-            <el-table :data="list" size="small">
-                <el-table-column prop="order.created_at" label="兑换时间" width="180"> </el-table-column>
-                <el-table-column label="兑换商品">
-                    <template slot-scope="scope">
-                        <div class="m-line">
-                            {{ scope.row.goods.title }}
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column label="订单号">
-                    <template slot-scope="scope">
-                        <div class="m-line">
-                            {{ scope.row.order.order_no }}
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="order.goods_num" label="数量" width="80"> </el-table-column>
-                <el-table-column label="订单状态" width="160">
-                    <template slot-scope="scope">
-                        {{ orderStatus[scope.row.order.order_status] }}
-                    </template>
-                </el-table-column>
-                <el-table-column label="付款状态" width="160">
-                    <template slot-scope="scope">
-                        {{ payStatus[scope.row.order.pay_status] }}
-                    </template>
-                </el-table-column>
-                <!-- <el-table-column prop="order.remark" label="备注"> </el-table-column> -->
+    <uc icon="el-icon-present" title="我的订单" :tabList="tabList">
+        <div class="m-page-record p-mall-orders" v-loading="loading">
+            <div class="m-content">
+                <el-table :data="list" size="small">
+                    <el-table-column prop="order.created_at" label="兑换时间" width="180"> </el-table-column>
+                    <el-table-column label="兑换商品">
+                        <template slot-scope="scope">
+                            <div class="m-line">
+                                {{ scope.row.goods.title }}
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="订单号">
+                        <template slot-scope="scope">
+                            <div class="m-line">
+                                {{ scope.row.order.order_no }}
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="order.goods_num" label="数量" width="80"> </el-table-column>
+                    <el-table-column label="订单状态" width="160">
+                        <template slot-scope="scope">
+                            {{ orderStatus[scope.row.order.order_status] }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="付款状态" width="160">
+                        <template slot-scope="scope">
+                            {{ payStatus[scope.row.order.pay_status] }}
+                        </template>
+                    </el-table-column>
+                    <!-- <el-table-column prop="order.remark" label="备注"> </el-table-column> -->
 
-                <el-table-column label="操作" min-width="200px">
-                    <template slot-scope="scope">
-                        <div class="m-button">
-                            <!-- <template v-if="scope.row.goods.sub_category !== 'emotion'"> -->
-                            <el-button size="small" @click="showDetail(scope.row)" icon="el-icon-link"
-                                >查看详情</el-button
-                            >
-                            <!-- </template> -->
-
-                            <!-- 未支付 -->
-                            <el-button
-                                size="small"
-                                type="primary"
-                                icon="el-icon-position"
-                                v-if="showPay(scope.row.order)"
-                                @click="toPay(scope.row)"
-                                >点击支付</el-button
-                            >
-
-                            <!-- 已发货操作： 确认收货&申请退货 -->
-                            <template v-if="scope.row.order.order_status == 3">
-                                <el-button
-                                    v-if="!scope.row.goods.is_virtual"
-                                    size="small"
-                                    type="success"
-                                    icon="el-icon-circle-check"
-                                    @click="isReceipt(scope.row.order.id)"
-                                    >确认收货</el-button
+                    <el-table-column label="操作" min-width="200px">
+                        <template slot-scope="scope">
+                            <div class="m-button">
+                                <!-- <template v-if="scope.row.goods.sub_category !== 'emotion'"> -->
+                                <el-button size="small" @click="showDetail(scope.row)" icon="el-icon-link"
+                                    >查看详情</el-button
                                 >
-                                <!-- <el-button type="text">申请退货</el-button> -->
-                            </template>
+                                <!-- </template> -->
 
-                            <!-- 未发货允许操作： 取消订单 -->
-                            <el-popconfirm
-                                confirm-button-text="确定"
-                                cancel-button-text="取消"
-                                icon="el-icon-info"
-                                title="确定取消吗？"
-                                @confirm="cancel(scope.row.order.id)"
-                            >
+                                <!-- 未支付 -->
                                 <el-button
-                                    v-if="scope.row.order.order_status == 0"
                                     size="small"
-                                    slot="reference"
-                                    type="info"
-                                    plain
-                                    icon="el-icon-circle-close"
-                                    >取消订单</el-button
+                                    type="primary"
+                                    icon="el-icon-position"
+                                    v-if="showPay(scope.row.order)"
+                                    @click="toPay(scope.row)"
+                                    >点击支付</el-button
                                 >
-                            </el-popconfirm>
 
-                            <!-- 已收货操作： 评价 -->
-                            <!-- <template v-if="scope.row.order.order_status == 4">
+                                <!-- 已发货操作： 确认收货&申请退货 -->
+                                <template v-if="scope.row.order.order_status == 3">
+                                    <el-button
+                                        v-if="!scope.row.goods.is_virtual"
+                                        size="small"
+                                        type="success"
+                                        icon="el-icon-circle-check"
+                                        @click="isReceipt(scope.row.order.id)"
+                                        >确认收货</el-button
+                                    >
+                                    <!-- <el-button type="text">申请退货</el-button> -->
+                                </template>
+
+                                <!-- 未发货允许操作： 取消订单 -->
+                                <el-popconfirm
+                                    confirm-button-text="确定"
+                                    cancel-button-text="取消"
+                                    icon="el-icon-info"
+                                    title="确定取消吗？"
+                                    @confirm="cancel(scope.row.order.id)"
+                                >
+                                    <el-button
+                                        v-if="scope.row.order.order_status == 0"
+                                        size="small"
+                                        slot="reference"
+                                        type="info"
+                                        plain
+                                        icon="el-icon-circle-close"
+                                        >取消订单</el-button
+                                    >
+                                </el-popconfirm>
+
+                                <!-- 已收货操作： 评价 -->
+                                <!-- <template v-if="scope.row.order.order_status == 4">
                                 <el-button type="text">评价商品</el-button>
                             </template> -->
-                        </div>
-                    </template>
-                </el-table-column>
-            </el-table>
+                            </div>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+            <!-- 分页 -->
+            <div class="m-record-pages">
+                <el-pagination
+                    background
+                    layout="total, prev, pager, next,jumper"
+                    :page-size="pageSize"
+                    :total="total"
+                    :current-page.sync="pageIndex"
+                    :hide-on-single-page="true"
+                ></el-pagination>
+            </div>
         </div>
-        <!-- 分页 -->
-        <div class="m-record-pages">
-            <el-pagination
-                background
-                layout="total, prev, pager, next,jumper"
-                :page-size="pageSize"
-                :total="total"
-                :current-page.sync="pageIndex"
-                :hide-on-single-page="true"
-            ></el-pagination>
-        </div>
-    </div>
+    </uc>
 </template>
 
 <script>
+import uc from "@/components/uc.vue";
 import { getOrder, closeOrder, toPay, toConfirm } from "@/service/goods";
 import { payStatus, orderStatus } from "@/assets/data/mall.json";
+import { mallTab } from "@/assets/data/tabs.json";
 export default {
-    name: "record",
+    name: "mall",
+    components: {
+        uc,
+    },
     data: function () {
         return {
             list: [],
@@ -121,11 +123,14 @@ export default {
             total: 0,
             pageIndex: 1,
             pageSize: 10,
+            loading: false,
 
             payStatus,
             orderStatus,
 
             order_id: "",
+
+            tabList: mallTab,
         };
     },
     computed: {
@@ -156,9 +161,11 @@ export default {
     },
     methods: {
         load() {
+            this.loading = true;
             getOrder(this.params).then((res) => {
                 this.list = res.data.data.list;
                 this.total = res.data.data.page.total;
+                this.loading = false;
             });
         },
         // 显示支付按钮
@@ -177,7 +184,7 @@ export default {
                             tab: "virtual",
                         },
                     });
-                }else{
+                } else {
                     link = this.$router.resolve({
                         name: "frame",
                     });

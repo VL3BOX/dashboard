@@ -1,106 +1,113 @@
 <template>
-    <div class="m-mall-detail">
-        <div class="m-breadcrumb">
-            <span @click="goBack" class="u-back"><i class="el-icon-arrow-left"></i> 返回</span>
-        </div>
-
-        <div class="m-content">
-            <div class="m-address el-card">
-                <span>收件人：{{ address.actual_contact }}</span>
-                <span>联系电话：{{ address.actual_phone }}</span>
-                <span>收货地址： {{ address.actual_address }}</span>
+    <uc icon="el-icon-present" title="我的订单" :tabList="tabList">
+        <div class="m-mall-detail">
+            <div class="m-breadcrumb">
+                <span @click="goBack" class="u-back"><i class="el-icon-arrow-left"></i> 返回</span>
             </div>
-            <div class="m-order el-card" v-if="goods">
-                <img class="u-img" :src="goods.goods_images[0]" />
-                <div class="m-box">
-                    <span class="u-title">{{ goods.title }}</span>
-                    <span>订单编号：{{ order.order_no }}</span>
-                    <span>下单时间：{{ order.created_at }}</span>
-                    <span>购买数量：{{ order.goods_num }}</span>
-                    <span>邮费：{{ goods.postage ? goods.postage / 100 + "元" : "包邮" }}</span>
-                    <span>支付状态：{{ payStatus[order.pay_status] }} </span>
-                    <span>订单状态：{{ orderStatus[order.order_status] }} </span>
-                    <div class="u-consume">
-                        <span>购买消耗：</span>
-                        <div class="u-box">
-                            <span v-if="goods.price_cny"
-                                >金箔：<b>{{ goods.price_cny * order.goods_num }}</b></span
-                            >
-                            <span v-if="goods.price_boxcoin"
-                                >盒币：<b>{{ goods.price_boxcoin * order.goods_num }}</b></span
-                            >
-                            <span v-if="goods.price_points"
-                                >积分：<b>{{ goods.price_points * order.goods_num }}</b></span
-                            >
+
+            <div class="m-content">
+                <div class="m-address el-card">
+                    <span>收件人：{{ address.actual_contact }}</span>
+                    <span>联系电话：{{ address.actual_phone }}</span>
+                    <span>收货地址： {{ address.actual_address }}</span>
+                </div>
+                <div class="m-order el-card" v-if="goods">
+                    <img class="u-img" :src="goods.goods_images[0]" />
+                    <div class="m-box">
+                        <span class="u-title">{{ goods.title }}</span>
+                        <span>订单编号：{{ order.order_no }}</span>
+                        <span>下单时间：{{ order.created_at }}</span>
+                        <span>购买数量：{{ order.goods_num }}</span>
+                        <span>邮费：{{ goods.postage ? goods.postage / 100 + "元" : "包邮" }}</span>
+                        <span>支付状态：{{ payStatus[order.pay_status] }} </span>
+                        <span>订单状态：{{ orderStatus[order.order_status] }} </span>
+                        <div class="u-consume">
+                            <span>购买消耗：</span>
+                            <div class="u-box">
+                                <span v-if="goods.price_cny"
+                                    >金箔：<b>{{ goods.price_cny * order.goods_num }}</b></span
+                                >
+                                <span v-if="goods.price_boxcoin"
+                                    >盒币：<b>{{ goods.price_boxcoin * order.goods_num }}</b></span
+                                >
+                                <span v-if="goods.price_points"
+                                    >积分：<b>{{ goods.price_points * order.goods_num }}</b></span
+                                >
+                            </div>
                         </div>
+                        <span>备注：{{ order.remark || "-" }}</span>
                     </div>
-                    <span>备注：{{ order.remark || "-" }}</span>
+                </div>
+                <div class="m-button" v-if="closeButton(data.order)">
+                    <template v-if="data.order.order_status == 0">
+                        <el-button @click="cancel(data.order.id)">取消订单</el-button>
+                        <el-button @click="open(data.order.id, 'address')">修改地址</el-button>
+                        <el-button @click="open(data.order.id, 'remark')">添加备注</el-button>
+                    </template>
+
+                    <el-button @click="toConfirm(data.order.id)" v-if="data.order.order_status == 3"
+                        >确认收货</el-button
+                    >
+                    <el-button @click="toPay(data)" v-if="showPay(data.order)">点击付款</el-button>
                 </div>
             </div>
-            <div class="m-button" v-if="closeButton(data.order)">
-                <template v-if="data.order.order_status == 0">
-                    <el-button @click="cancel(data.order.id)">取消订单</el-button>
-                    <el-button @click="open(data.order.id, 'address')">修改地址</el-button>
-                    <el-button @click="open(data.order.id, 'remark')">添加备注</el-button>
+
+            <!-- 弹窗 -->
+            <el-dialog
+                :title="title"
+                :visible.sync="dialogVisible"
+                width="30%"
+                :before-close="close"
+                custom-class="m-edit-dialog"
+            >
+                <template v-if="mode == 'address'">
+                    <el-form ref="address_form" :model="address_form" :rules="address_rules" class="demo-form-inline">
+                        <el-form-item label="选择收货地址" prop="address_id">
+                            <el-select v-model="address_form.address_id">
+                                <el-option
+                                    :label="`【 ${item.contact_name} ${item.contact_phone} 】 ${item.province}${item.city}${item.area}${item.address}`"
+                                    :value="item.id"
+                                    v-for="(item, i) in addressList"
+                                    :key="i"
+                                ></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <div class="m-button">
+                                <el-button @click="close">取 消</el-button>
+                                <el-button type="primary" @click="submit('address_form')">确定</el-button>
+                            </div>
+                        </el-form-item>
+                    </el-form>
                 </template>
-
-                <el-button @click="toConfirm(data.order.id)" v-if="data.order.order_status == 3">确认收货</el-button>
-                <el-button @click="toPay(data)" v-if="showPay(data.order)">点击付款</el-button>
-            </div>
+                <template v-else>
+                    <el-form ref="remark_form" :model="remark_form" :rules="remark_rules" class="demo-form-inline">
+                        <el-form-item label="备注" prop="remark">
+                            <el-input type="textarea" :rows="2" placeholder="请输入备注" v-model="remark_form.remark">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <div class="m-button">
+                                <el-button @click="close">取 消</el-button>
+                                <el-button type="primary" @click="submit('remark_form')">确定</el-button>
+                            </div>
+                        </el-form-item>
+                    </el-form>
+                </template>
+            </el-dialog>
         </div>
-
-        <!-- 弹窗 -->
-        <el-dialog
-            :title="title"
-            :visible.sync="dialogVisible"
-            width="30%"
-            :before-close="close"
-            custom-class="m-edit-dialog"
-        >
-            <template v-if="mode == 'address'">
-                <el-form ref="address_form" :model="address_form" :rules="address_rules" class="demo-form-inline">
-                    <el-form-item label="选择收货地址" prop="address_id">
-                        <el-select v-model="address_form.address_id">
-                            <el-option
-                                :label="`【 ${item.contact_name} ${item.contact_phone} 】 ${item.province}${item.city}${item.area}${item.address}`"
-                                :value="item.id"
-                                v-for="(item, i) in addressList"
-                                :key="i"
-                            ></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item>
-                        <div class="m-button">
-                            <el-button @click="close">取 消</el-button>
-                            <el-button type="primary" @click="submit('address_form')">确定</el-button>
-                        </div>
-                    </el-form-item>
-                </el-form>
-            </template>
-            <template v-else>
-                <el-form ref="remark_form" :model="remark_form" :rules="remark_rules" class="demo-form-inline">
-                    <el-form-item label="备注" prop="remark">
-                        <el-input type="textarea" :rows="2" placeholder="请输入备注" v-model="remark_form.remark">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <div class="m-button">
-                            <el-button @click="close">取 消</el-button>
-                            <el-button type="primary" @click="submit('remark_form')">确定</el-button>
-                        </div>
-                    </el-form-item>
-                </el-form>
-            </template>
-        </el-dialog>
-    </div>
+    </uc>
 </template>
 
 <script>
 import { updateOrderAddress, updateOrderRemark, getAddress, closeOrder, toPay, toConfirm } from "@/service/goods";
 import { getOrderId } from "@/service/goods";
 import { orderStatus, payStatus } from "../assets/data/mall.json";
+import uc from "@/components/uc";
+import { mallTab } from "@/assets/data/tabs.json";
 export default {
     name: "orderDetail",
+    components: { uc },
     data: function () {
         return {
             data: {},
@@ -119,6 +126,8 @@ export default {
             remark_rules: {
                 remark: [{ required: true, message: "请输入备注", trigger: "blur" }],
             },
+
+            tabList: mallTab,
         };
     },
     computed: {

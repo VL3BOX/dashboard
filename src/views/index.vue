@@ -202,8 +202,7 @@
                     <span class="u-boxcoin" v-if="item.type == 'boxcoin'">
                         <span class="u-boxcoin-type">{{ showBoxcoinType(item.data) }}</span>
                         <b :class="showBoxcoinCls(item.data)">
-                            <span>{{ showBoxcoinOp(item.data) }}</span>
-                            {{ countBoxCoin(item.data) }}
+                            <span>{{ showBoxcoinOp(item.data) }}</span>{{ countBoxCoin(item.data) }}
                         </b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
@@ -233,8 +232,7 @@
                     <span class="u-boxcoin" v-if="item.type == 'cny'">
                         <span class="u-boxcoin-type">{{ showCNYType(item.data) }}</span>
                         <b :class="showCNYCls(item.data)">
-                            <span>{{ showCNYOp(item.data) }}</span>
-                            {{ item.data.money }}
+                            <span>{{ showCNYOp(item.data) }}</span>{{ item.data.money }}
                         </b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>

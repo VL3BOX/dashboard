@@ -241,6 +241,7 @@ export default {
             let decorationName = tabActivate ? this.decoration[tabActivate].val : "";
             //激活主题
             const _decorations = flatten(this.decoration.map((item) => item.list));
+            let activate = this.getActivate();
             const params = _decorations.map((item) => {
                 return {
                     val: item.val,

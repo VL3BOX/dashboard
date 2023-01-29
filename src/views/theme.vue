@@ -46,23 +46,19 @@ import { getDecoration, setDecoration, getDecorationJson } from "@/service/decor
 import User from "@jx3box/jx3box-common/js/user";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import { cloneDeep,orderBy,includes,groupBy } from "lodash";
+import { themeTab } from "@/assets/data/tabs.json";
 export default {
     name: "theme",
     props: [],
     data: function () {
         return {
-            tabList: [
-                { name: "frame", icon: "el-icon-camera", label: "头像框" },
-                { name: "theme", icon: "el-icon-s-shop", label: "主题风格" },
-                { name: "emotion", icon: "el-icon-picture-outline-round", label: "表情包" },
-                { name: "honor", icon: "el-icon-s-flag", label: "称号" }
-            ],
-            themeType: [
-                { name: '艾特卡', val: 'atcard', statue: 1 },
-                { name: '主页背景', val: 'homebanner', statue: 1 },
-                { name: '侧边栏', val: 'sidebar', statue: 1 },
-                { name: '日历', val: 'calendar', statue: 1 },
-                { name: '社区称号', val: '', statue: 0 }
+            tabList: themeTab,
+            themeType:[
+                {name:'艾特卡',val:'atcard',statue:1},
+                {name:'主页背景',val:'homebanner',statue:1},
+                {name:'侧边栏',val:'sidebar',statue:1},
+                {name:'日历',val:'calendar',statue:1},
+                {name:'社区称号',val:'',statue:0}
             ],
             bg: "url('https://cdn.jx3box.com/static/dashboard/img/no.5fe91973.svg')", //预览合成背景
             decoration: [],

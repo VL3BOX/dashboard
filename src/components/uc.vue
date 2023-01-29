@@ -8,6 +8,7 @@
 
 <script>
 import tabs from "@/components/tabs.vue";
+import { profileTab } from "@/assets/data/tabs.json";
 export default {
     name: "uc",
     props: {
@@ -22,13 +23,7 @@ export default {
         tabList: {
             type: Array,
             default: function () {
-                return [
-                    { name: "profile", icon: "el-icon-user", label: "基本资料" },
-                    { name: "avatar", icon: "el-icon-camera", label: "修改头像" },
-                    { name: "pwd", icon: "el-icon-lock", label: "修改密码" },
-                    { name: "email", icon: "el-icon-message", label: "邮箱设置" },
-                    { name: "connect", icon: "el-icon-connection", label: "绑定账号" },
-                ];
+                return profileTab;
             },
         }
     },

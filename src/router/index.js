@@ -23,7 +23,7 @@ const theme = () => import("../views/theme.vue");
 const emotion = () => import("../views/emotion.vue");
 const honor = () => import("../views/honor.vue");
 
-const order = () => import("../views/orders.vue");
+const orders = () => import("../views/orders.vue");
 const packet = () => import("../views/packet.vue");
 const boxcoin = () => import("../views/boxcoin.vue");
 const points = () => import("../views/points.vue");
@@ -62,7 +62,8 @@ const routes = [
     { name: "emotion", path: "/emotion", component: emotion },
     { name: "honor", path: "/honor", component: honor },
 
-    { name: "orders", path: "/order", component: order },
+    { name: "mall", path: "/mall", component: mall },
+    { name: "orders", path: "/orders", component: orders },
     { name: "packet", path: "/packet", component: packet },
     { name: "boxcoin", path: "/boxcoin", component: boxcoin },
     { name: "cny", path: "/cny", component: cny },
@@ -80,7 +81,6 @@ const routes = [
     { name: "privacy", path: "/privacy", component: privacy },
 
     { name: "address", path: "/address", component: address },
-    { name: "mall", path: "/mall", component: mall },
     { name: "order-detail", path: "/mall-detail/:id", component: order_detail },
 
     {
@@ -115,7 +115,7 @@ const routes = [
 const router = new VueRouter({
     routes,
     mode: "history",
-    base: "dashboard",
+    base: "/dashboard",
 });
 
 router.beforeEach((to, from, next) => {

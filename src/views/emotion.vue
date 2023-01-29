@@ -1,5 +1,5 @@
 <template>
-    <uc class="m-dashboard-frame m-dashboard-emotion" icon="el-icon-brush" title="主题装扮">
+    <uc class="m-dashboard-frame m-dashboard-emotion" icon="el-icon-brush" title="主题装扮" :tabList="tabList">
         <div class="u-tips">
             <i class="el-icon-warning-outline"></i>自定义表情包最多只能同时激活三个，<a
                 href="/vip/mall/#/list?type=virtual&subtype=emotion"

@@ -5,16 +5,22 @@
     .flex(x);
     .m-theme-left{
         .w(420px);
-        border: 1px solid #eee;
+        // border: 1px solid #eee;
         .mr(20px);
         .u-top{
-            .size(100%,325px);
+            .size(100%,350px);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
         }
         .u-bottom{
             .mt(20px);
             .size(100%,100px);
             .flex;
             .flex(x);
+            .pt(4px);
+            border:1px dashed #eee;
+            // padding: 20px 0 ;
             text-align: center;
             .u-type-box{
                 // border: 1px dashed #eee;
@@ -35,10 +41,32 @@
     }
     .m-theme-right{
         .w(424px);
+        .size(424px,470px);
         border: 1px solid #eee;
+        border-radius: 10px;
+        box-shadow: 0 0 0 4px rgba(245, 241, 241, 0.4);
+        overflow-y: scroll;
+        // max-height: 70vh;
+        &::-webkit-scrollbar {
+            width: 4px;
+        }
+        &::-webkit-scrollbar-track,
+        &::-webkit-scrollbar-track-piece {
+            background-color: #fafafa;
+            border-radius: 6px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #eee;
+            border-radius: 6px;
+        }
+        &::-webkit-scrollbar-button,
+        &::-webkit-scrollbar-corner,
+        &::-webkit-resizer {
+            display: none;
+        }
         .u-no-theme{
             .flex;
-            .size(404px,86px);
+            .size(400px,86px);
             margin: 10px auto;
             flex-direction: column;
             justify-content: center;
@@ -48,28 +76,31 @@
             color: #B0B0B0;
             .fz(14px,18px);
             font-weight: 400;
-            &.on{
+            cursor: pointer;
+            &.select{
                 color: #fff;
-                background-color: rgb(145, 186, 240);
+                background-color: #0366D6;
             }
         }
         .u-theme{
             .u-decoration-list {
                 padding: 0 4px;
-                .mb(10px);
+                .mb(20px);
+                padding: 0 10px;
                 .u-title {
-                    // .ml(6px);
-                    .mb(8px);
-                    // padding-bottom: 4px;
-                    padding: 0 0 4px 6px;
-                    border-bottom: 1px solid #eee;
+                    .dbi;
+                    .h(28px);
+                    .mb(10px);
+                    background: #0366D6;
+                    border-radius: 5px;
+                    .fz(14px,28px);
+                    color: #ffffff;
+                    font-weight: 400;
+                    padding: 5px 10px;
                 }
-        
                 .u-decoration-item {
                     .flex;
-                    // justify-content: space-between;
-                    // .flex(x);
-                    // align-items: flex-start;
+                    justify-content: space-between;
                     flex-wrap: wrap;
                     .u-picbox {
                         .pr;
@@ -81,8 +112,9 @@
                         .mb(6px);
                         .u-pic {
                             .size(86px);
-                            object-fit: contain;
-                            
+                            box-sizing: border-box;
+                            border: 1px dashed #eee;
+                            border-radius: 10px;
                            img{
                             border-radius: 10px;
                            }
@@ -101,6 +133,7 @@
                                border-radius: 0 0  10px 0;
                                 border-top-color: transparent;
                                 border-left-color: transparent;
+                                z-index: 2;
                             }
                             &.select:after {
                                 content: "";
@@ -113,6 +146,7 @@
                                 border-top-color: transparent;
                                 border-left-color: transparent;
                                 transform: rotate(45deg);
+                                z-index: 2;
                             }
                         }
                         .u-decoration-name {
@@ -121,10 +155,10 @@
                             white-space: nowrap;
                             .w(100%);
                             .fz(14px,18px);
-                            color: #000;
+                            color: #7B7B7B;
                             text-align: center !important;
+                            .mt(5px);
                         }
-                        
                     }
                 }
             }

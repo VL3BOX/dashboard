@@ -32,7 +32,7 @@
                     </div> -->
                 </el-upload>
                 <!-- 选中展示区，左头像框右主题小图 -->
-                <span class="u-tip">当前装扮</span>
+                <!-- <span class="u-tip">当前装扮</span>
                 <div class="u-select">
                     <div class="u-avatar">
                         <img :src="showFrame(frame)" v-if="frame" />
@@ -47,7 +47,7 @@
                             "
                         />
                     </div>
-                </div>
+                </div> -->
                 <p class="u-btng">
                     <el-button type="primary" @click="submit">确认</el-button>
                     <el-button @click="reset">重置</el-button>
@@ -113,7 +113,7 @@
                             「限定头像框」仅在指定时间段可选择激活。
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="主题装扮" name="1" class="m-profile-tab">
+                    <!-- <el-tab-pane label="主题装扮" name="1" class="m-profile-tab">
                         <el-tag type="info" class="u-empty" v-if="decoration.length == 0">暂无装扮</el-tag>
                         <div class="u-decoration-box">
                             <div class="u-decoration-list" v-for="(item, i) in decoration" :key="item.val">
@@ -152,7 +152,7 @@
                             <i class="el-icon-warning-outline"></i>
                             仅展示已拥有装扮，同主题部分可分别激活
                         </div>
-                    </el-tab-pane>
+                    </el-tab-pane> -->
                 </el-tabs>
             </div>
         </div>
@@ -217,7 +217,7 @@ export default {
             this.avatar = this.bak;
         },
         submit: function () {
-            this.decorationSubmit();
+            // this.decorationSubmit();
             if (!this.isVIP) {
                 if (this.frame) {
                     this.$notify({

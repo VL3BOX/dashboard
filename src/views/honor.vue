@@ -1,6 +1,6 @@
 <template>
     <uc class="m-dashboard-frame" icon="el-icon-brush" title="主题装扮" :tab-list="tabList">
-        honor
+        敬请期待。
     </uc>
 </template>
 

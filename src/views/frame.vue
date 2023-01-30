@@ -1,5 +1,6 @@
 <template>
     <uc class="m-dashboard-frame" icon="el-icon-brush" title="主题装扮" :tab-list="tabList">
+        敬请期待新版本。
     </uc>
 </template>
 

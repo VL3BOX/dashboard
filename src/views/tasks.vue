@@ -1,6 +1,6 @@
 <template>
     <div class="m-credit m-tasks">
-        <h2 class="u-title"><i class="el-icon-coffee-cup"></i> 我的任务</h2>
+        <h2 class="u-title"><i class="el-icon-coffee-cup"></i> 任务中心</h2>
         <div class="m-tasks-list" v-loading="loading">
             <div class="u-item" v-for="(item, index) in list" :key="index">
                 <img class="u-img" :src="item.task.task_icon || defaultTaskIcon" :alt="item.task.action_type_desc" />

@@ -14,7 +14,7 @@
         { "name": "address", "icon": "el-icon-map-location", "label": "地址管理" }
     ],
     "mallTab": [
-        { "name": "mall", "icon": "el-icon-present", "label": "商城订单" },
-        { "name": "orders", "icon": "el-icon-shopping-bag-1", "label": "系统订单" }
+        { "name": "mall", "icon": "el-icon-shopping-bag-1", "label": "商城订单" },
+        { "name": "orders", "icon": "el-icon-shopping-bag-2", "label": "系统订单" }
     ]
 }

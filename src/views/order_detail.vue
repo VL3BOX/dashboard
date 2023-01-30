@@ -1,5 +1,5 @@
 <template>
-    <uc icon="el-icon-present" title="我的订单" :tabList="tabList">
+    <uc icon="el-icon-shopping-bag-1" title="订单中心" :tabList="tabList">
         <div class="m-mall-detail">
             <div class="m-breadcrumb">
                 <span @click="goBack" class="u-back"><i class="el-icon-arrow-left"></i> 返回</span>

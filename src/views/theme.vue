@@ -1,30 +1,30 @@
 <template>
-    <uc class="m-dashboard-frame" icon="el-icon-brush" title="主题装扮" :tab-list="tabList">
-        <div class="u-tips">
-            <i class="el-icon-warning-outline"></i>仅限同主题配置，该主题下部位可分别激活，<a
-                href="/vip/mall/#/list?type=virtual&subtype=skin"
-                target="_blank"
-                >前往购买主题装扮。</a>
-        </div>
+    <uc class="m-dashboard-theme" icon="el-icon-brush" title="主题装扮" :tab-list="tabList">
         <div class="m-theme-box">
             <!-- 左右两侧 -->
             <div class="m-theme-left">
                 <div class="u-top">
-                    <img :src="previewUrl" class="u-img" fit="contain" v-if="previewUrl"/>
+                    <img :src="previewUrl" class="u-img" fit="contain" v-if="previewUrl" />
                     <div class="u-no-preview" v-else>
-                            暂 无<br/>
-                            预 览
-                        </div>
+                        暂 无<br />
+                        预 览
+                    </div>
                 </div>
                 <div class="u-bottom">
                     <div class="u-type-box" v-for="(item, index) in themeType" :key="index">
-                        <img :src="getActiveImg(item)" class="u-img" fit="contain" v-if="isStatus(item)" @click="preview(item)"/>
+                        <img
+                            :src="getActiveImg(item)"
+                            class="u-img"
+                            fit="contain"
+                            v-if="isStatus(item)"
+                            @click="preview(item)"
+                        />
                         <div class="u-no-select" v-else-if="!item.statue">
-                            敬 请<br/>
+                            敬 请<br />
                             期 待
                         </div>
                         <div class="u-no-select" v-else>
-                            暂 无<br/>
+                            暂 无<br />
                             设 置
                         </div>
                         <div class="u-title">{{ item.name }}</div>
@@ -32,12 +32,14 @@
                 </div>
             </div>
             <div class="m-theme-right">
-                <div class="u-no-theme" :class="decorationActivate==null?'select':''" @click="noSet">不设置主题</div>
+                <div class="u-tips"><i class="el-icon-warning-outline"></i> 仅限同主题配置，该主题下部位可分别激活</div>
+                <!-- <div class="u-no-theme" :class="decorationActivate==null?'select':''" @click="noSet">不设置主题</div> -->
                 <!-- 主题渲染列表 -->
                 <div class="u-theme">
                     <div class="u-decoration-list" v-for="(item, i) in decoration" :key="i + item.val">
                         <div class="u-title">
-                            {{ item.name }}
+                            <span class="u-name"><i class="el-icon-collection-tag"></i> {{ item.name }}</span>
+                            <a class="u-buy" :href="`/vip/mall/#/list?type=virtual&subtype=skin&search=${item.name}`" target="_blank"><i class="el-icon-shopping-cart-2"></i> 前往获取</a>
                         </div>
                         <div class="u-decoration-item">
                             <div v-for="(item2, i2) in item.list" :key="'c' + i2" :title="item2.name" class="u-picbox">
@@ -57,9 +59,9 @@
             </div>
         </div>
         <div class="u-btn">
-                    <el-button type="primary" @click="decorationSubmit">确认</el-button>
-                    <el-button @click="reset">重置</el-button>
-                </div>
+            <el-button type="primary" @click="decorationSubmit">确认</el-button>
+            <el-button @click="reset">重置</el-button>
+        </div>
     </uc>
 </template>
 
@@ -86,23 +88,23 @@ export default {
                 { name: "社区称号", type: "", statue: 0 },
             ],
             // bg: "url('https://cdn.jx3box.com/static/dashboard/img/no.5fe91973.svg')", //预览合成背景
-            previewUrl:'',
+            previewUrl: "",
             decoration: [],
             decorationJson: [], //远程json
             decorationActivate: null,
             originalActivateName: null,
-            back:{}
+            back: {},
         };
     },
     computed: {},
     methods: {
-        reset(){
-            let back=cloneDeep(this.back)
+        reset() {
+            let back = cloneDeep(this.back);
             // let back=this.back
-            this.previewUrl=''
-            this.decoration=back.decoration
-            this.decorationActivate= back.decorationActivate
-            this.originalActivateName= back.originalActivateName
+            this.previewUrl = "";
+            this.decoration = back.decoration;
+            this.decorationActivate = back.decorationActivate;
+            this.originalActivateName = back.originalActivateName;
         },
         loadDecoration() {
             getDecorationJson().then((res) => {
@@ -112,9 +114,9 @@ export default {
                     let typeArr = ["atcard", "homebg", "sidebar", "calendar"];
                     let arr = res.data.data.filter((item) => item.type != "" && typeArr.indexOf(item.type) != -1);
                     this.decoration = this.formattingData(arr, "val");
-                    this.back.decoration=cloneDeep(this.decoration)
-                    this.back.decorationActivate=cloneDeep(this.decorationActivate)
-                    this.back.originalActivateName=cloneDeep(this.originalActivateName)
+                    this.back.decoration = cloneDeep(this.decoration);
+                    this.back.decorationActivate = cloneDeep(this.decorationActivate);
+                    this.back.originalActivateName = cloneDeep(this.originalActivateName);
                 });
             });
         },
@@ -190,14 +192,14 @@ export default {
             });
             return res;
         },
-        noSet(){
+        noSet() {
             let decorationActivate = this.decorationActivate;
             let res = this.decoration[decorationActivate] ? this.decoration[decorationActivate].list : [];
             for (let k = 0; k < res.length; k++) {
                 res[k].using = 0;
             }
-            this.decorationActivate = null
-            this.previewUrl=''
+            this.decorationActivate = null;
+            this.previewUrl = "";
         },
         //设置选中/取消
         setStatus(i, i2, item) {
@@ -217,15 +219,15 @@ export default {
                 this.decorationActivate = i;
             }
         },
-        isStatus(item){
+        isStatus(item) {
             let decorationActivate = this.decorationActivate;
             let res = this.decoration[decorationActivate] ? this.decoration[decorationActivate].list : [];
             let findSelect = res.find((e) => e.type == item.type && e.using == 1);
             if (findSelect) return true;
             else return false;
         },
-        preview(item){
-            this.previewUrl=this.getActiveImg(item)
+        preview(item) {
+            this.previewUrl = this.getActiveImg(item);
         },
         getActiveImg(item) {
             let decorationActivate = this.decorationActivate;

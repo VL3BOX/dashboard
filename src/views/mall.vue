@@ -1,5 +1,5 @@
 <template>
-    <uc icon="el-icon-present" title="我的订单" :tabList="tabList">
+    <uc icon="el-icon-shopping-bag-1" title="订单中心" :tabList="tabList">
         <div class="m-page-record p-mall-orders" v-loading="loading">
             <div class="m-content">
                 <el-table :data="list" size="small">

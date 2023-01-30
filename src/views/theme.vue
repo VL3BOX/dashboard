@@ -124,7 +124,8 @@ export default {
         //数据分组，设置已激活name
         formattingData(arr, group_key) {
             let map = {},
-                res = [];
+                res = [],
+                noKey=[];
             let options = [
                 { type: "atcard", text: "艾特卡", sort: 1, isHave: 0, using: 0 },
                 { type: "homebg", text: "主页背景", sort: 2, isHave: 0, using: 0 },
@@ -157,11 +158,13 @@ export default {
                 let optionsClone = cloneDeep(options);
                 let filterArr = arr.filter((item) => !res.has(item[uniId]) && res.set(item[uniId], 1));
                 optionsClone.forEach((item, i) => {
-                    let find = filterArr.find((e) => e.type == item.type);
                     item.val = key;
-                    if (find) {
-                        item.isHave = 1;
-                        item.using = find.using;
+                    if(noKey.indexOf(key)===-1){
+                        let find = filterArr.find((e) => e.type == item.type);                       
+                        if (find) {
+                            item.isHave = 1;
+                            item.using = find.using;
+                        }                        
                     }
                     newArr.push(item);
                 });
@@ -170,6 +173,7 @@ export default {
             let decorationJson = cloneDeep(this.decorationJson);
             Object.keys(decorationJson).forEach((key, i) => {
                 if (!map[key] && decorationJson[key].status == 1) {
+                    noKey.push(key)
                     let optionsClone = cloneDeep(options);
                     let newArr = [];
                     optionsClone.forEach((item) => {

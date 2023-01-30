@@ -1,5 +1,8 @@
 <template>
     <uc class="m-dashboard-frame m-dashboard-emotion" icon="el-icon-brush" title="主题装扮" :tabList="tabList">
+        <template #header>
+            <a class="u-link" href="/vip/mall">前往获取装扮</a>
+        </template>
         <div class="u-tips">
             <i class="el-icon-warning-outline"></i>自定义表情包最多只能同时激活三个，<a
                 href="/vip/mall/#/list?type=virtual&subtype=emotion"
@@ -56,6 +59,19 @@ export default {
             getDecoration({ type: "emotion" }).then((res) => {
                 this.emotionList = res.data.data;
                 this.active = this.emotionList.filter((item) => item.using).map((item) => item.val);
+                const _emotionList = this.emotionList.map((item) => item.val);
+                // 已购买的表情包排在前列
+                this.emotions.sort((a, b) => {
+                    const aUsing = _emotionList.includes(a.group_name);
+                    const bUsing = _emotionList.includes(b.group_name);
+                    if (aUsing && !bUsing) {
+                        return -1;
+                    } else if (!aUsing && bUsing) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                });
             });
         },
         getEmotion() {
@@ -74,6 +90,8 @@ export default {
             } catch (e) {
                 console.log(e);
                 this.emotions = [];
+            } finally {
+                this.loadDecoration();
             }
         },
         imgSrc(val) {
@@ -122,7 +140,6 @@ export default {
         },
     },
     mounted: function () {
-        this.loadDecoration();
         this.getEmotion();
     },
     components: {

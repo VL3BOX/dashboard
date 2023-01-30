@@ -1,5 +1,8 @@
 <template>
     <uc class="m-dashboard-frame" icon="el-icon-brush" title="主题装扮" :tab-list="tabList">
+        <template #header>
+            <a class="u-link" href="/vip/mall">前往获取装扮</a>
+        </template>
         <div class="u-tips">
             <i class="el-icon-warning-outline"></i>仅限同主题配置，该主题下部位可分别激活，<a
                 href="/vip/mall/#/list?type=virtual&subtype=skin"

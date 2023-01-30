@@ -1,5 +1,13 @@
 <template>
-    <uc class="m-dashboard-theme" icon="el-icon-brush" title="主题装扮" :tab-list="tabList">
+    <uc class="m-dashboard-theme m-dashboard-skin" icon="el-icon-brush" title="主题装扮" :tab-list="tabList">
+        <template #header>
+            <a
+                class="u-link el-button el-button--default el-button--mini is-round is-plain"
+                href="/vip/mall/#/list?type=virtual"
+                target="_blank"
+                ><i class="el-icon-shopping-cart-2"></i> 前往获取装扮</a
+            >
+        </template>
         <div class="m-theme-box">
             <!-- 左右两侧 -->
             <div class="m-theme-left">
@@ -39,7 +47,12 @@
                     <div class="u-decoration-list" v-for="(item, i) in decoration" :key="i + item.val">
                         <div class="u-title">
                             <span class="u-name"><i class="el-icon-collection-tag"></i> {{ item.name }}</span>
-                            <a class="u-buy" :href="`/vip/mall/#/list?type=virtual&subtype=skin&search=${item.name}`" target="_blank"><i class="el-icon-shopping-cart-2"></i> 前往获取</a>
+                            <a
+                                class="u-buy"
+                                :href="`/vip/mall/#/list?type=virtual&subtype=skin&search=${item.name}`"
+                                target="_blank"
+                                ><i class="el-icon-shopping-cart-2"></i> 前往获取</a
+                            >
                         </div>
                         <div class="u-decoration-item">
                             <div v-for="(item2, i2) in item.list" :key="'c' + i2" :title="item2.name" class="u-picbox">
@@ -123,7 +136,8 @@ export default {
         //数据分组，设置已激活name
         formattingData(arr, group_key) {
             let map = {},
-                res = [];
+                res = [],
+                noKey = [];
             let options = [
                 { type: "atcard", text: "艾特卡", sort: 1, isHave: 0, using: 0 },
                 { type: "homebg", text: "主页背景", sort: 2, isHave: 0, using: 0 },
@@ -156,11 +170,13 @@ export default {
                 let optionsClone = cloneDeep(options);
                 let filterArr = arr.filter((item) => !res.has(item[uniId]) && res.set(item[uniId], 1));
                 optionsClone.forEach((item, i) => {
-                    let find = filterArr.find((e) => e.type == item.type);
                     item.val = key;
-                    if (find) {
-                        item.isHave = 1;
-                        item.using = find.using;
+                    if (noKey.indexOf(key) === -1) {
+                        let find = filterArr.find((e) => e.type == item.type);
+                        if (find) {
+                            item.isHave = 1;
+                            item.using = find.using;
+                        }
                     }
                     newArr.push(item);
                 });
@@ -169,6 +185,7 @@ export default {
             let decorationJson = cloneDeep(this.decorationJson);
             Object.keys(decorationJson).forEach((key, i) => {
                 if (!map[key] && decorationJson[key].status == 1) {
+                    noKey.push(key);
                     let optionsClone = cloneDeep(options);
                     let newArr = [];
                     optionsClone.forEach((item) => {

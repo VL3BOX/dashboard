@@ -3,9 +3,9 @@
         <template #header>
             <a
                 class="u-link el-button el-button--default el-button--mini is-round is-plain"
-                href="/vip/mall/#/list?type=virtual"
+                href="/vip/mall/virtual"
                 target="_blank"
-                ><i class="el-icon-shopping-cart-2"></i> 前往获取装扮</a
+                ><is class="el-icon-shopping-cart-2"></is> 前往获取装扮</a
             >
         </template>
         <div class="u-tips">

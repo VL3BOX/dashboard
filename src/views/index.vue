@@ -388,7 +388,7 @@ export default {
             this.loadAssetLogs();
         },
         getPostLink: function (post_type, post_id) {
-            return post_type == 'mall_order' ? `/vip/mall/#/view/${post_id}` : getLink(post_type, post_id);
+            return post_type == 'mall_order' ? `/vip/mall/${post_id}` : getLink(post_type, post_id);
         },
         showMedalIcon: function (val) {
             return __imgPath + "image/medals/user/" + val + ".gif";

@@ -3,7 +3,7 @@
         <template #header>
             <a
                 class="u-link el-button el-button--default el-button--mini is-round is-plain"
-                href="/vip/mall/virtual"
+                href="/vip/mall/?type=virtual"
                 target="_blank"
                 ><is class="el-icon-shopping-cart-2"></is> 前往获取装扮</a
             >

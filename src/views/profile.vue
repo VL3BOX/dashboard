@@ -63,6 +63,7 @@
                     type="date"
                     placeholder="选择日期"
                     value-format="yyyy-MM-dd"
+                    placement="bottom-start"
                     :picker-options="birthday_options"
                 ></el-date-picker>
             </el-form-item>

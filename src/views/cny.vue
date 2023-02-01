@@ -252,7 +252,6 @@ export default {
         loadAsset: function () {
             getBalance().then((data) => {
                 this.money = data;
-                console.log(data, "getBalance");
             });
         },
 

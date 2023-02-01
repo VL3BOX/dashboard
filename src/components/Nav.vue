@@ -26,7 +26,7 @@
 import { feedback } from "@jx3box/jx3box-common/data/jx3box.json";
 import dashboardLink from "@/utils/dashboardLink.js";
 import navList from "@/assets/data/nav.json";
-const profile_routes = ["profile", "avatar", "pwd", "connect", "email"];
+const profile_routes = ["profile", "avatar", "pwd", "connect", "email", "address"];
 const theme_routes = ["theme", "frame", "emotion", "honor"];
 const mall_routes = ["mall", "orders"];
 export default {

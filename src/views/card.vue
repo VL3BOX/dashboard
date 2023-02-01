@@ -485,7 +485,6 @@ export default {
                     let { good_number, goods_secret } = res.data.data;
                     row.goods.good_number = good_number;
                     row.goods.goods_secret = goods_secret;
-                    console.log(index, row);
                     this.$set(this.virtualList, index, row);
                 });
             });

@@ -106,7 +106,6 @@ export default {
     },
     methods: {
         beforeUpload: function (file){
-            console.log(file)
             // 判断上传的文件类型
             const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp';
             if (!isJPG) {
@@ -116,7 +115,6 @@ export default {
         },
         // 提交图片成功
         done: function (res) {
-            console.log(res)
             this.imgs = [...this.imgs, res.data[0]];
         },
         // 提交图片失败

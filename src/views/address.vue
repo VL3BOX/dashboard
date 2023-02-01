@@ -174,7 +174,6 @@ export default {
             this.form.area = list[2];
         },
         edit(item) {
-            console.log("////");
             this.visible = true;
             this.form = item;
             this.address = [this.form.province, this.form.city, this.form.area];

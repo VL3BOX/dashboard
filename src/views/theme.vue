@@ -94,10 +94,10 @@ export default {
             tabList: themeTab,
             uid: User.getInfo().uid,
             themeType: [
-                { name: "艾特卡", type: "atcard", statue: 1 },
-                { name: "主页背景", type: "homebg", statue: 1 },
-                { name: "侧边栏", type: "sidebar", statue: 1 },
-                { name: "日历", type: "calendar", statue: 1 },
+                { name: "个人名片", type: "atcard", statue: 1 },
+                { name: "主页风格", type: "homebg", statue: 1 },
+                { name: "侧栏主题", type: "sidebar", statue: 1 },
+                { name: "首页日历", type: "calendar", statue: 1 },
                 { name: "社区称号", type: "", statue: 0 },
             ],
             // bg: "url('https://cdn.jx3box.com/static/dashboard/img/no.5fe91973.svg')", //预览合成背景
@@ -139,10 +139,10 @@ export default {
                 res = [],
                 noKey = [];
             let options = [
-                { type: "atcard", text: "艾特卡", sort: 1, isHave: 0, using: 0 },
-                { type: "homebg", text: "主页背景", sort: 2, isHave: 0, using: 0 },
-                { type: "sidebar", text: "侧边栏", sort: 3, isHave: 0, using: 0 },
-                { type: "calendar", text: "日历", sort: 4, isHave: 0, using: 0 },
+                { type: "atcard", text: "个人名片", sort: 1, isHave: 0, using: 0 },
+                { type: "homebg", text: "主页风格", sort: 2, isHave: 0, using: 0 },
+                { type: "sidebar", text: "侧栏主题", sort: 3, isHave: 0, using: 0 },
+                { type: "calendar", text: "首页日历", sort: 4, isHave: 0, using: 0 },
             ];
             arr.forEach((item, i) => {
                 let sortFind = options.find((e) => e.type == item.type);

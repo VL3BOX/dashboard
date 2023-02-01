@@ -196,10 +196,8 @@ export default {
                 }
             });
             Object.keys(map).forEach((key, i) => {
-                if (i !== 0) {
-                    if (key == this.originalActivateName) {
-                        this.decorationActivate = i;
-                    }
+                if (key == this.originalActivateName) {
+                    this.decorationActivate = i;
                 }
                 res.push({
                     [group_key]: key,

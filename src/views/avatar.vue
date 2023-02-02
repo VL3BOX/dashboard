@@ -53,7 +53,7 @@
                     <el-button @click="reset">重置</el-button>
                 </p>
             </div>
-            <div class="m-profile-avatar-frame">
+            <!-- <div class="m-profile-avatar-frame">
                 <el-tabs v-model="tabActivate" type="card">
                     <el-tab-pane label="头像框" name="0" class="m-profile-tab">
                         <h3 class="u-title">
@@ -112,8 +112,8 @@
                             <i class="el-icon-warning-outline"></i>
                             「限定头像框」仅在指定时间段可选择激活。
                         </div>
-                    </el-tab-pane>
-                    <!-- <el-tab-pane label="主题装扮" name="1" class="m-profile-tab">
+                    </el-tab-pane> -->
+            <!-- <el-tab-pane label="主题装扮" name="1" class="m-profile-tab">
                         <el-tag type="info" class="u-empty" v-if="decoration.length == 0">暂无装扮</el-tag>
                         <div class="u-decoration-box">
                             <div class="u-decoration-list" v-for="(item, i) in decoration" :key="item.val">
@@ -153,8 +153,8 @@
                             仅展示已拥有装扮，同主题部分可分别激活
                         </div>
                     </el-tab-pane> -->
-                </el-tabs>
-            </div>
+            <!-- </el-tabs> -->
+            <!-- </div> -->
         </div>
     </uc>
 </template>
@@ -218,16 +218,16 @@ export default {
         },
         submit: function () {
             // this.decorationSubmit();
-            if (!this.isVIP) {
-                if (this.frame) {
-                    this.$notify({
-                        title: "头像框未生效",
-                        message: "头像框仅高级/专业账号可用",
-                        type: "warning",
-                    });
-                }
-                this.frame = "";
-            }
+            // if (!this.isVIP) {
+            //     if (this.frame) {
+            //         this.$notify({
+            //             title: "头像框未生效",
+            //             message: "头像框仅高级/专业账号可用",
+            //             type: "warning",
+            //         });
+            //     }
+            //     this.frame = "";
+            // }
             updateAvatar(this.data).then((res) => {
                 User.refresh("avatar", this.avatar);
                 this.$message({

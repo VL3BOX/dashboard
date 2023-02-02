@@ -1,21 +1,22 @@
 import { $cms } from "@jx3box/jx3box-common/js/https.js";
-import axios from 'axios'
+import axios from "axios";
 import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 function getDecoration(params) {
     return $cms().get(`/api/cms/user/decoration`, {
-        params
+        params,
     });
 }
 function setDecoration(data) {
     return $cms().post(`/api/cms/user/decoration`, data);
 }
 function getDecorationJson() {
-    let url = __imgPath + "decoration/index.json"
-    return axios.get(url)
+    let url = __imgPath + "decoration/index.json";
+    return axios.get(url);
 }
-function getEmotion(){
+function getEmotion() {
     return axios.get(`${__dataPath}emotion/output/catalog.json`);
 }
-export {
-    getDecoration, setDecoration, getDecorationJson, getEmotion
-};
+function receive(user_id, val) {
+    return $cms().post(`/api/cms/user/decoration/check-suit/${user_id}/${val}/for/avatar`);
+}
+export { getDecoration, setDecoration, getDecorationJson, getEmotion, receive };

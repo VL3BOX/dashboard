@@ -134,11 +134,7 @@
                                 <td>{{ item.account }}</td>
                                 <td>{{ item.email }}</td>
                                 <td
-                                    :class="{
-                                        isFinished: item.status == 1,
-                                        isProcessing: !item.status,
-                                        isPending: item.status > 1,
-                                    }"
+                                    :class="statusClass(item)"
                                 >
                                     {{ formatHistoryStatus(item) }}
                                 </td>
@@ -440,8 +436,23 @@ export default {
             return "-";
         },
         formatHistoryStatus: function (item) {
-            if (item.received_in_game) return "已到账";
-            return statusMap[item.status] || item.status;
+            const { status, received_in_game } = item;
+            if (status == 0) return "待处理";
+            if (status == 2) return "异常";
+            if (status == 1) {
+                if (received_in_game == 1) return "已完成";
+                return "审批中";
+            }
+        },
+        statusClass(item) {
+            const { status, received_in_game } = item;
+
+            if (status == 0) return "isProcessing";
+            if (status == 2) return "isPending";
+            if (status == 1) {
+                if (received_in_game == 1) return "isFinished";
+                return "isProcessing";
+            }
         },
         toPositiveNumber: function (val) {
             return val > 0 ? val : 0;

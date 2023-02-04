@@ -5,49 +5,84 @@
                 <span @click="goBack" class="u-back"><i class="el-icon-arrow-left"></i> 返回</span>
             </div>
 
-            <div class="m-content">
-                <div class="m-address el-card">
+            <div class="m-content" v-if="goods">
+                <div class="m-address el-card" v-if="!goods.is_virtual">
                     <span>收件人：{{ address.actual_contact }}</span>
                     <span>联系电话：{{ address.actual_phone }}</span>
                     <span>收货地址： {{ address.actual_address }}</span>
                 </div>
                 <div class="m-order el-card" v-if="goods">
-                    <img class="u-img" :src="goods.goods_images[0]" />
-                    <div class="m-box">
-                        <span class="u-title">{{ goods.title }}</span>
-                        <span>订单编号：{{ order.order_no }}</span>
-                        <span>下单时间：{{ order.created_at }}</span>
-                        <span>购买数量：{{ order.goods_num }}</span>
-                        <span>邮费：{{ goods.postage ? goods.postage / 100 + "元" : "包邮" }}</span>
-                        <span>支付状态：{{ payStatus[order.pay_status] }} </span>
-                        <span>订单状态：{{ orderStatus[order.order_status] }} </span>
-                        <div class="u-consume">
-                            <span>购买消耗：</span>
-                            <div class="u-box">
-                                <span v-if="goods.price_cny"
-                                    >金箔：<b>{{ goods.price_cny * order.goods_num }}</b></span
-                                >
-                                <span v-if="goods.price_boxcoin"
-                                    >盒币：<b>{{ goods.price_boxcoin * order.goods_num }}</b></span
-                                >
-                                <span v-if="goods.price_points"
-                                    >积分：<b>{{ goods.price_points * order.goods_num }}</b></span
-                                >
-                            </div>
-                        </div>
-                        <span>备注：{{ order.remark || "-" }}</span>
+                    <div class="m-img">
+                        <img v-if="goods.goods_images" :src="goods.goods_images[0]" />
+                        <span class="u-link" v-if="goods.is_virtual" @click="openVirtual(goods)">点击查看</span>
                     </div>
+                    <el-descriptions
+                        class="m-descriptions"
+                        :title="goods.title"
+                        direction="vertical"
+                        :column="3"
+                        border
+                    >
+                        <el-descriptions-item label="下单时间">{{ order.created_at }}</el-descriptions-item>
+                        <el-descriptions-item label="订单编号" :span="2">{{ order.order_no }}</el-descriptions-item>
+
+                        <el-descriptions-item label="购买数量">{{ order.goods_num }}</el-descriptions-item>
+                        <el-descriptions-item label="邮费">
+                            {{ goods.postage ? goods.postage / 100 + "元" : "包邮" }}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="支付状态">{{ payStatus[order.pay_status] }}</el-descriptions-item>
+                        <el-descriptions-item label="订单状态">
+                            {{ orderStatus[order.order_status] }}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="购买消耗">
+                            <div class="u-box">
+                                <span v-if="order.goods_price_cny">
+                                    金箔：<b>{{ order.goods_price_cny * order.goods_num }}</b>
+                                </span>
+                                <span v-if="order.goods_price_boxcoin">
+                                    盒币：<b>{{ order.goods_price_boxcoin * order.goods_num }}</b>
+                                </span>
+                                <span v-if="order.goods_price_point">
+                                    银铛：<b>{{ order.goods_price_point * order.goods_num }}</b>
+                                </span>
+                            </div>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="备注">{{ order.remark || "-" }}</el-descriptions-item>
+                        <el-descriptions-item label="评价" v-if="rate.comment" :span="3">
+                            <div class="m-comment">
+                                <div class="m-text">
+                                    <span class="u-comment">{{ rate.comment }}</span>
+                                    <span class="u-add_comment" v-if="rate.add_comment"
+                                        >追加评价：{{ rate.add_comment }}</span
+                                    >
+                                    <el-input v-if="append" class="u-textarea" v-model="content">
+                                        <template slot="append">
+                                            <span style="cursor: pointer" @click="appendComment">确定</span>
+                                        </template>
+                                    </el-input>
+                                </div>
+                                <div class="u-button">
+                                    <el-button @click="append = !append" type="text" v-if="order.order_status == 5">
+                                        追加评论
+                                    </el-button> 
+                                    <el-popconfirm title="确认删除评价吗？" :width="200" @confirm="delComment(rate.id)">
+                                        <el-button slot="reference" type="text">删除</el-button>
+                                    </el-popconfirm>
+                                </div>
+                            </div>
+                        </el-descriptions-item>
+                    </el-descriptions>
                 </div>
-                <div class="m-button" v-if="closeButton(data.order)">
+                <div class="m-button">
                     <template v-if="data.order.order_status == 0">
                         <el-button @click="cancel(data.order.id)">取消订单</el-button>
                         <el-button @click="open(data.order.id, 'address')">修改地址</el-button>
                         <el-button @click="open(data.order.id, 'remark')">添加备注</el-button>
                     </template>
 
-                    <el-button @click="toConfirm(data.order.id)" v-if="data.order.order_status == 3"
-                        >确认收货</el-button
-                    >
+                    <el-button @click="toConfirm(data.order.id)" v-if="data.order.order_status == 3">
+                        确认收货
+                    </el-button>
                     <el-button @click="toPay(data)" v-if="showPay(data.order)">点击付款</el-button>
                 </div>
             </div>
@@ -100,11 +135,21 @@
 </template>
 
 <script>
-import { updateOrderAddress, updateOrderRemark, getAddress, closeOrder, toPay, toConfirm } from "@/service/goods";
+import {
+    updateOrderAddress,
+    updateOrderRemark,
+    getAddress,
+    closeOrder,
+    toPay,
+    toConfirm,
+    appendGoodsRate,
+    delGoodsRate,
+} from "@/service/goods";
 import { getOrderId } from "@/service/goods";
 import { orderStatus, payStatus } from "../assets/data/mall.json";
 import uc from "@/components/uc";
 import { mallTab } from "@/assets/data/tabs.json";
+import { append } from "domutils/lib/manipulation";
 export default {
     name: "orderDetail",
     components: { uc },
@@ -126,6 +171,8 @@ export default {
             remark_rules: {
                 remark: [{ required: true, message: "请输入备注", trigger: "blur" }],
             },
+            content: "",
+            append: false,
 
             tabList: mallTab,
         };
@@ -146,6 +193,9 @@ export default {
         goods() {
             return this.data.goods;
         },
+        rate() {
+            return this.data.rate;
+        },
         payStatus() {
             return payStatus;
         },
@@ -160,6 +210,7 @@ export default {
         load() {
             getOrderId(this.id).then((res) => {
                 this.data = res.data.data;
+                console.log(this.data);
             });
         },
         loadAddress() {
@@ -269,6 +320,52 @@ export default {
                               this.close();
                           });
                 }
+            });
+        },
+        // 跳转查看
+        openVirtual({ sub_category }) {
+            let link = null;
+            const data = {
+                code: this.$router.resolve({
+                    name: "card",
+                    query: {
+                        tab: "virtual",
+                    },
+                }),
+                emotion: this.$router.resolve({
+                    name: "emotion",
+                }),
+                skin: this.$router.resolve({
+                    name: "theme",
+                }),
+                avatar: this.$router.resolve({
+                    name: "frame",
+                }),
+                honor: this.$router.resolve({
+                    name: "honor",
+                }),
+            };
+            link = data[sub_category];
+            if (link) window.open(link.href, "_blank");
+        },
+        // 追评
+        appendComment() {
+            if (this.content)
+                appendGoodsRate(this.rate.id, { content: this.content }).then((res) => {
+                    this.$message({
+                        message: "追评成功",
+                        type: "success",
+                    });
+                    this.append = false;
+                });
+        },
+        // 删除评价
+        delComment(id) {
+            delGoodsRate(id).then((res) => {
+                this.$message({
+                    message: "删除评价成功",
+                    type: "success",
+                });
             });
         },
     },

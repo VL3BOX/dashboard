@@ -47,12 +47,25 @@ function toPay(id) {
 function toConfirm(id) {
     return $pay().post(`/mall/my/orders/${id}/received`);
 }
-//
+// 获取虚拟商品
 function getVirtual(params) {
     return $pay().get(`/mall/my/virtual_goods`, { params });
 }
 
-// 获取
+// 商品评价
+function goodsRate(data) {
+    return $pay().post(`/mall/goods-rate`, data);
+}
+// 追评
+function appendGoodsRate(id, data) {
+    return $pay().post(`/mall/goods-rate/${id}/append-comments`,data);
+}
+// 删除评论
+function delGoodsRate(id) {
+    return $pay().delete(`/mall/goods-rate/${id}`);
+}
+
+
 export {
     getAddress,
     addAddress,
@@ -66,5 +79,9 @@ export {
     closeOrder,
     toPay,
     getVirtual,
-    toConfirm
+    toConfirm,
+    // 评价
+    goodsRate,
+    appendGoodsRate,
+    delGoodsRate
 };

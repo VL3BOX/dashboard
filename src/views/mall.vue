@@ -35,9 +35,9 @@
                         <template slot-scope="scope">
                             <div class="m-button">
                                 <!-- <template v-if="scope.row.goods.sub_category !== 'emotion'"> -->
-                                <el-button size="small" @click="showDetail(scope.row)" icon="el-icon-link"
-                                    >查看详情</el-button
-                                >
+                                <el-button size="small" @click="showDetail(scope.row)" icon="el-icon-link">
+                                    查看详情
+                                </el-button>
                                 <!-- </template> -->
 
                                 <!-- 未支付 -->
@@ -53,7 +53,6 @@
                                 <!-- 已发货操作： 确认收货&申请退货 -->
                                 <template v-if="scope.row.order.order_status == 3">
                                     <el-button
-                                        v-if="!scope.row.goods.is_virtual"
                                         size="small"
                                         type="success"
                                         icon="el-icon-circle-check"
@@ -83,9 +82,11 @@
                                 </el-popconfirm>
 
                                 <!-- 已收货操作： 评价 -->
-                                <!-- <template v-if="scope.row.order.order_status == 4">
-                                <el-button type="text">评价商品</el-button>
-                            </template> -->
+                                <template v-if="scope.row.order.order_status == 4">
+                                    <el-button @click="handleShow('comment', scope.row.order.id)" type="text">
+                                        评价商品
+                                    </el-button>
+                                </template>
                             </div>
                         </template>
                     </el-table-column>
@@ -103,11 +104,15 @@
                 ></el-pagination>
             </div>
         </div>
+        <el-dialog :title="title" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+            <GoodComment :order_id="order_id" :type="type" @close="handleClose" />
+        </el-dialog>
     </uc>
 </template>
 
 <script>
 import uc from "@/components/uc.vue";
+import GoodComment from "@/components/form/comment.vue";
 import { getOrder, closeOrder, toPay, toConfirm } from "@/service/goods";
 import { payStatus, orderStatus } from "@/assets/data/mall.json";
 import { mallTab } from "@/assets/data/tabs.json";
@@ -115,6 +120,7 @@ export default {
     name: "mall",
     components: {
         uc,
+        GoodComment,
     },
     data: function () {
         return {
@@ -131,6 +137,8 @@ export default {
             order_id: "",
 
             tabList: mallTab,
+            dialogVisible: false,
+            type: "",
         };
     },
     computed: {
@@ -143,6 +151,13 @@ export default {
         },
         params_pageIndex() {
             return this.$route.params.pageIndex;
+        },
+        title() {
+            const data = {
+                comment: "商品评价",
+                append: "追加评价",
+            };
+            return data[this.type] || "";
         },
     },
     watch: {
@@ -166,6 +181,7 @@ export default {
                 this.list = res.data.data.list;
                 this.total = res.data.data.page.total;
                 this.loading = false;
+                console.log(this.list);
             });
         },
         // 显示支付按钮
@@ -174,31 +190,14 @@ export default {
             return pay_status == 0 ? true : false;
         },
         // 查看详情
-        showDetail({ goods, order }) {
-            if (goods.is_virtual) {
-                let link = null;
-                if (goods.sub_category == "code") {
-                    link = this.$router.resolve({
-                        name: "card",
-                        query: {
-                            tab: "virtual",
-                        },
-                    });
-                } else {
-                    link = this.$router.resolve({
-                        name: "frame",
-                    });
-                }
-                if (link) window.open(link.href, "_blank");
-            } else {
-                this.$router.push({
-                    name: "order-detail",
-                    params: {
-                        id: order.id,
-                        pageIndex: this.pageIndex,
-                    },
-                });
-            }
+        showDetail({ order }) {
+            this.$router.push({
+                name: "order-detail",
+                params: {
+                    id: order.id,
+                    pageIndex: this.pageIndex,
+                },
+            });
         },
         // 关闭订单
         cancel(id) {
@@ -239,6 +238,16 @@ export default {
                     return item;
                 });
             });
+        },
+        handleShow(type, id) {
+            this.type = type;
+            this.order_id = id;
+            this.dialogVisible = true;
+        },
+        handleClose() {
+            this.dialogVisible = false;
+            this.order_id = "";
+            this.type = "";
         },
     },
     mounted() {

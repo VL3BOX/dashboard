@@ -140,7 +140,7 @@
                                         isPending: item.status > 1,
                                     }"
                                 >
-                                    {{ formatHistoryStatus(item.status) }}
+                                    {{ formatHistoryStatus(item) }}
                                 </td>
                                 <td>{{ item.remark }}</td>
                                 <td>{{ formatDate(item.created_at) }}</td>
@@ -439,8 +439,9 @@ export default {
             }
             return "-";
         },
-        formatHistoryStatus: function (val) {
-            return statusMap[val] || val;
+        formatHistoryStatus: function (item) {
+            if (item.received_in_game) return "已到账";
+            return statusMap[item.status] || item.status;
         },
         toPositiveNumber: function (val) {
             return val > 0 ? val : 0;

@@ -52,6 +52,10 @@
                 </div>
             </div>
         </div>
+        <div class="m-btn">
+            <el-button type="primary" @click="updateAvatarFrame">确认</el-button>
+            <el-button @click="reset">重置</el-button>
+        </div>
     </uc>
 </template>
 
@@ -73,6 +77,9 @@ export default {
             tabList: themeTab,
             uid: User.getInfo().uid,
             frameList: [],
+            //头像框备份
+            framebak: "",
+            framesBak: {},
             // 数据
             avatar: User.getInfo().avatar_origin,
             frame: null,
@@ -83,6 +90,11 @@ export default {
     },
     computed: {},
     methods: {
+        reset() {
+            this.frame = this.framebak;
+            this.frames = this.framesBak;
+            this.dataProcessing();
+        },
         frameUrl: function (name) {
             if (!name) return;
             return __imgPath + `avatar/images/${name}/${name}.svg`;
@@ -133,9 +145,11 @@ export default {
         load: function () {
             getUserOverview(this.uid).then((res) => {
                 this.frame = res.data.data.user_avatar_frame || "";
+                this.framebak = res.data.data.user_avatar_frame || "";
             });
             getFrames().then((res) => {
                 this.frames = res.data;
+                this.framesBak = res.data;
                 this.loadDecoration();
             });
         },

@@ -11,7 +11,12 @@
         <div class="m-frame">
             <!-- 左右两侧 -->
             <div class="m-frame-left">
-                <div class="u-btn" @click="updateAvatarFrame">修改头像</div>
+                <a
+                    class="u-btn el-button el-button--default el-button--mini is-plain"
+                    href="/dashboard/avatar"
+                    target="_blank"
+                    ><i class="el-icon-picture-outline-round"></i> 修改头像</a
+                >
                 <div class="u-avatar-box">
                     <div class="u-avatar">
                         <img :src="showAvatar(avatar)" class="u-avatar-pic" />
@@ -28,7 +33,7 @@
                     <div class="u-frame-list">
                         <div class="u-title">
                             <span class="u-name"><i class="el-icon-collection-tag"></i>头像框</span>
-                            <a class="u-buy" :href="`/vip/mall/?type=virtual&subtype=avator`" target="_blank"
+                            <a class="u-buy" :href="`/vip/mall/?type=virtual&subtype=avatar`" target="_blank"
                                 ><i class="el-icon-shopping-cart-2"></i> 前往获取</a
                             >
                         </div>

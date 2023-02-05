@@ -2,9 +2,9 @@
     <uc class="m-dashboard-avatar">
         <div class="m-profile-avatar">
             <div class="m-profile-avatar-primary">
-                <!-- <div class="u-avatar">
-                        <img class="u-avatar u-avatar-l" :src="avatar | showAvatar" />
-                    </div> -->
+                <div class="u-avatar">
+                    <img class="u-avatar u-avatar-l" :src="avatar | showAvatar" />
+                </div>
                 <el-upload
                     class="u-upload"
                     drag
@@ -13,7 +13,7 @@
                     action="upload/avatar"
                     :auto-upload="false"
                 >
-                    <el-tooltip
+                    <!-- <el-tooltip
                         class="item"
                         effect="dark"
                         content="点击上传，只能上传jpg/png/gif文件"
@@ -22,14 +22,14 @@
                         <div class="u-avatar">
                             <img class="u-avatar u-avatar-l" :src="avatar | showAvatar" />
                         </div>
-                    </el-tooltip>
-                    <!-- <i class="el-icon-upload"></i> -->
-                    <!-- <div class="el-upload__text">
+                    </el-tooltip> -->
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">
                         将文件拖到此处，或
                         <em>点击上传</em>
                         <br />
                         <span class="u-tip">只能上传jpg/png/gif文件</span>
-                    </div> -->
+                    </div>
                 </el-upload>
                 <!-- 选中展示区，左头像框右主题小图 -->
                 <!-- <span class="u-tip">当前装扮</span>

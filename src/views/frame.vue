@@ -177,8 +177,8 @@ export default {
         //装扮收集判断
         decorationAather(key) {
             let typeArr = ["atcard", "homebg", "sidebar", "calendar"];
-            let arr = this.decoration[key].filter((item) => item.type != "" && typeArr.indexOf(item.type) != -1);
-            if (arr.length >= 4) return true;
+            let arr = this.decoration[key]?.filter((item) => item.type != "" && typeArr.indexOf(item.type) != -1);
+            if (arr?.length >= 4) return true;
             return false;
         },
         dataProcessing() {

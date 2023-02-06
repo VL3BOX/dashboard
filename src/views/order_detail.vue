@@ -210,7 +210,6 @@ export default {
         load() {
             getOrderId(this.id).then((res) => {
                 this.data = res.data.data;
-                console.log(this.data);
             });
         },
         loadAddress() {

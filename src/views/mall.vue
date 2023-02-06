@@ -181,7 +181,6 @@ export default {
                 this.list = res.data.data.list;
                 this.total = res.data.data.page.total;
                 this.loading = false;
-                console.log(this.list);
             });
         },
         // 显示支付按钮

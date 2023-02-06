@@ -64,7 +64,7 @@
                                 <div class="u-button">
                                     <el-button @click="append = !append" type="text" v-if="order.order_status == 5">
                                         追加评论
-                                    </el-button> 
+                                    </el-button>
                                     <el-popconfirm title="确认删除评价吗？" :width="200" @confirm="delComment(rate.id)">
                                         <el-button slot="reference" type="text">删除</el-button>
                                     </el-popconfirm>
@@ -356,6 +356,8 @@ export default {
                         message: "追评成功",
                         type: "success",
                     });
+                    this.data.rate.add_comment = this.comment;
+                    this.data.order.order_status = 8;
                     this.append = false;
                 });
         },
@@ -366,6 +368,7 @@ export default {
                     message: "删除评价成功",
                     type: "success",
                 });
+                this.data.rate.comment = ""
             });
         },
     },

@@ -244,10 +244,16 @@ export default {
             this.order_id = id;
             this.dialogVisible = true;
         },
-        handleClose() {
+        handleClose(id) {
             this.dialogVisible = false;
             this.order_id = "";
             this.type = "";
+            if (id) {
+                this.list = this.list.map((item) => {
+                    if (item.order.id == id) item.order.order_status = 5;
+                    return item;
+                });
+            }
         },
     },
     mounted() {

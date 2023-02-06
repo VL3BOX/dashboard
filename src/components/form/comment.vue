@@ -41,8 +41,8 @@ export default {
     },
 
     methods: {
-        close() {
-            this.$emit("close");
+        close(data) {
+            this.$emit("close", data);
         },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
@@ -52,7 +52,7 @@ export default {
                             message: "评价成功",
                             type: "success",
                         });
-                        this.close();
+                        this.close(this.order_id);
                     });
                 }
             });

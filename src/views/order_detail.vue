@@ -355,7 +355,7 @@ export default {
                         message: "追评成功",
                         type: "success",
                     });
-                    this.data.rate.add_comment = this.comment;
+                    this.data.rate.add_comment = this.content;
                     this.data.order.order_status = 8;
                     this.append = false;
                 });

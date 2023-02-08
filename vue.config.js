@@ -43,19 +43,19 @@ module.exports = {
                     request.setHeader("origin", "");
                 },
             },
+            // 商城
+            "/api/mall": {
+                "target": "https://pay.jx3box.com",
+                "onProxyReq": function (request) {
+                    request.setHeader("origin", "");
+                }
+            },
             // 默认PAY服务
             "/api": {
                 target: "https://pay.jx3box.com",
                 onProxyReq: function (request) {
                     request.setHeader("origin", "");
                 },
-            },
-            // 商城
-            "/mall": {
-                "target": "https://pay.jx3box.com",
-                "onProxyReq": function (request) {
-                    request.setHeader("origin", "");
-                }
             },
         },
         disableHostCheck: true,

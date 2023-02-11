@@ -19,4 +19,8 @@ function getEmotion() {
 function receive(user_id, val) {
     return $cms().post(`/api/cms/user/decoration/check-suit/${user_id}/${val}/for/avatar`);
 }
-export { getDecoration, setDecoration, getDecorationJson, getEmotion, receive };
+
+function updateAvatarFrame(data) {
+    return $cms().put("/api/cms/user/my/avatar-frame", data);
+}
+export { getDecoration, setDecoration, getDecorationJson, getEmotion, receive, updateAvatarFrame };

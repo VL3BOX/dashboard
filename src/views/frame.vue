@@ -65,8 +65,8 @@ import { themeTab } from "@/assets/data/tabs.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { showAvatar } from "@jx3box/jx3box-common/js/utils";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
-import { updateAvatar, getFrames, getUserOverview } from "@/service/profile";
-import { getDecoration, receive, setDecoration } from "@/service/decoration";
+import { getFrames, getUserOverview } from "@/service/profile";
+import { updateAvatarFrame, getDecoration, receive, setDecoration } from "@/service/decoration";
 import { cloneDeep } from "lodash";
 // import frames from "@jx3box/jx3box-common/data/user_avatar_frame.json";
 export default {
@@ -108,7 +108,7 @@ export default {
             if (item.using) return "select";
         },
         updateAvatarFrame() {
-            updateAvatar({ user_avatar_frame: this.frame, user_avatar: this.avatar }).then((res) => {
+            updateAvatarFrame({ user_avatar_frame: this.frame}).then((res) => {
                 this.$message({
                     message: "头像框更新成功",
                     type: "success",

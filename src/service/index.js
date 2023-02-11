@@ -9,18 +9,26 @@ function getUserMedals(uid) {
 }
 
 function getUserInfo(uid) {
-    return $cms().get(`/api/cms/user/${uid}/info`);
+    return $cms().get(`/api/cms/user/${uid}/info`, {
+        params: {
+            __no_cache: 1
+        }
+    });
 }
 
-function getMyInfo(){
-    return $cms().get(`/api/cms/user/my/info`);
+function getMyInfo() {
+    return $cms().get(`/api/cms/user/my/info`, {
+        params: {
+            __no_cache: 1
+        }
+    });
 }
 
-function getMyAssetLogs(start_date){
-    return $pay().get(`/api/my/asserts/history`,{
-        params : {
+function getMyAssetLogs(start_date) {
+    return $pay().get(`/api/my/asserts/history`, {
+        params: {
             start: start_date || moment().format('YYYYMMDD'),
-            end : moment().add(1, 'day').format('YYYYMMDD')
+            end: moment().add(1, 'day').format('YYYYMMDD')
         }
     })
 }
@@ -36,8 +44,8 @@ function isTeammate() {
  * 获得团队成员
  * @returns
  */
-function getTeammates(){
+function getTeammates() {
     return $cms().get(`/api/cms/config/teammates`)
 }
 
-export { getMyAsset, getUserMedals, getUserInfo ,getMyAssetLogs, getMyInfo, isTeammate, getTeammates };
+export { getMyAsset, getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo, isTeammate, getTeammates };

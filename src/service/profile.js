@@ -30,7 +30,11 @@ function getFrames() {
     return axios.get(url)
 }
 function getUserOverview(uid) {
-    return $cms().get(`/api/cms/user/${uid}/info`);
+    return $cms().get(`/api/cms/user/${uid}/info`,{
+        params: {
+            __no_cache: 1
+        }
+    });
 }
 
 // 3.密码

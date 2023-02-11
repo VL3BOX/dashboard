@@ -3,7 +3,7 @@
         <template #header>
             <a
                 class="u-link el-button el-button--default el-button--mini is-round is-plain"
-                href="/vip/mall/?type=virtual"
+                href="/vip/mall?category=virtual"
                 target="_blank"
                 ><i class="el-icon-shopping-cart-2"></i> 前往获取装扮</a
             >
@@ -33,7 +33,7 @@
                     <div class="u-frame-list">
                         <div class="u-title">
                             <span class="u-name"><i class="el-icon-collection-tag"></i>头像框</span>
-                            <a class="u-buy" :href="`/vip/mall/?type=virtual&subtype=avatar`" target="_blank"
+                            <a class="u-buy" :href="`/vip/mall?category=virtual&sub_category=avatar`" target="_blank"
                                 ><i class="el-icon-shopping-cart-2"></i> 前往获取</a
                             >
                         </div>

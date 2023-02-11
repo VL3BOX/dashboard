@@ -3,18 +3,13 @@
         <template #header>
             <a
                 class="u-link el-button el-button--default el-button--mini is-round is-plain"
-                href="/vip/mall/?type=virtual"
+                href="/vip/mall?category=virtual"
                 target="_blank"
                 ><i class="el-icon-shopping-cart-2"></i> 前往获取装扮</a
             >
         </template>
         <div class="u-tips">
             <i class="el-icon-warning-outline"></i>自定义表情包最多只能同时激活三个。
-            <!-- <a
-                href="/vip/mall/#/list?type=virtual&subtype=emotion"
-                target="_blank"
-                >前往购买表情包</a
-            >。 -->
         </div>
         <div class="u-list">
             <div

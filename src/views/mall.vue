@@ -29,6 +29,11 @@
                             {{ payStatus[scope.row.order.pay_status] }}
                         </template>
                     </el-table-column>
+                    <el-table-column label="是否为赠送" width="160">
+                        <template slot-scope="scope">
+                            {{ scope.row.order.is_vitural_gift_order ? "是" : "否" }}
+                        </template>
+                    </el-table-column>
                     <!-- <el-table-column prop="order.remark" label="备注"> </el-table-column> -->
 
                     <el-table-column label="操作" min-width="200px">

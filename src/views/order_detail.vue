@@ -47,6 +47,9 @@
                                 </span>
                             </div>
                         </el-descriptions-item>
+                        <el-descriptions-item label="是否为赠送">{{
+                            order.is_vitural_gift_order ? "是" : "否"
+                        }}</el-descriptions-item>
                         <el-descriptions-item label="备注">{{ order.remark || "-" }}</el-descriptions-item>
                         <el-descriptions-item label="评价" v-if="rate.comment" :span="3">
                             <div class="m-comment">
@@ -367,7 +370,7 @@ export default {
                     message: "删除评价成功",
                     type: "success",
                 });
-                this.data.rate.comment = ""
+                this.data.rate.comment = "";
             });
         },
     },

@@ -153,8 +153,6 @@ export default {
                 } else if (source_type == "callback") {
                     let info = encodeURIComponent(Base64.encode(JSON.stringify(item)));
                     return `/dashboard/callback/${type}/${subtype}?info=${info}`;
-
-
                 } else {
                     return getLink(source_type, source_id);
                 }

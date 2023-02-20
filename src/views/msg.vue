@@ -69,7 +69,6 @@ import { getMsgs, readMsg, removeMsg } from "../service/msg.js";
 import { showTime } from "@jx3box/jx3box-common/js/moment.js";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 import { Base64 } from "js-base64";
-import { join } from "path";
 const ignoreLinkTypes = ["namespace"];
 export default {
     name: "msg",

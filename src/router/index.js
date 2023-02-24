@@ -15,6 +15,7 @@ VueRouter.prototype.push = function push(location) {
 const index = () => import("../views/index.vue");
 
 const msg = () => import("../views/msg.vue");
+const letter = () => import("../views/letter.vue");
 // const feed = () => import("../views/feed.vue");
 const fav = () => import("../views/fav.vue");
 const purchases = () => import("../views/purchases.vue");
@@ -54,6 +55,7 @@ const routes = [
     { name: "index", path: "/", component: index },
 
     { name: "msg", path: "/msg", component: msg },
+    { name: "letter", path: "/letter", component: letter },
     // { name: "feed", path: "/feed", component: feed },
     { name: "fav", path: "/fav/:subtype?", component: fav },
     { name: "purchases", path: "/purchases", component: purchases },

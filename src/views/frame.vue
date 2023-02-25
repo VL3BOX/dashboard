@@ -38,7 +38,7 @@
                             >
                         </div>
                         <div class="u-frame-item">
-                            <div title="xxx" class="u-picbox" v-for="(item, i) in frameList" :key="i">
+                            <div class="u-picbox" v-for="(item, i) in frameList" :key="i">
                                 <el-tooltip effect="dark" placement="top" :open-delay="200">
                                     <div slot="content">{{ item.desc }}<br />{{ item.postscript }}</div>
                                     <div class="u-pic" :class="setClass(item)" @click="setAvatar(item)">
@@ -108,7 +108,7 @@ export default {
             if (item.using) return "select";
         },
         updateAvatarFrame() {
-            updateAvatarFrame({ user_avatar_frame: this.frame}).then((res) => {
+            updateAvatarFrame({ user_avatar_frame: this.frame }).then((res) => {
                 this.$message({
                     message: "头像框更新成功",
                     type: "success",

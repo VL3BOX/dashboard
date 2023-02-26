@@ -5,7 +5,7 @@ import { $next } from "@jx3box/jx3box-common/js/https";
  * @param {number} uid
  * @returns
  */
-export function createRecentContacts(uid) {
+export function createRecentContact(uid) {
     return $next().post(`/api/letter/recently/contacts/${uid}`);
 }
 
@@ -19,7 +19,7 @@ export function getRecentContacts() {
  * @param {number} uid
  * @returns
  */
-export function deleteRecentContacts(uid) {
+export function deleteRecentContact(uid) {
     return $next().delete(`/api/letter/recently/contacts/${uid}`);
 }
 

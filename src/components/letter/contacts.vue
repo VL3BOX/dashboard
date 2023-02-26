@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { getRecentContacts, deleteRecentContacts, createRecentContacts } from "@/service/letter";
+import { getRecentContacts, deleteRecentContact, createRecentContact } from "@/service/letter";
 import { showAvatar } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "contacts",
@@ -45,8 +45,10 @@ export default {
         '$route.query': {
             deep: true,
             immediate: true,
-            handler() {
-                // this.active = this.$route.query?.id;
+            handler(val) {
+                if (val?.receiver) {
+                    this.addContact(val.receiver);
+                }
             }
         }
     },
@@ -54,9 +56,15 @@ export default {
         this.getContacts();
     },
     methods: {
+        addContact(uid) {
+            if (!uid) return;
+            createRecentContact(uid).then(res => {
+                this.getContacts();
+            })
+        },
         getContacts() {
             this.loading = true;
-            getRecentContacts().then(res => {
+            return getRecentContacts().then(res => {
                 this.contacts = res.data?.data || [];
 
                 this.active = this.contacts[0]?.receiver_info?.id;
@@ -67,7 +75,7 @@ export default {
             });
         },
         removeContact(item) {
-            deleteRecentContacts(item?.receiver_info?.id).then((res) => {
+            deleteRecentContact(item?.receiver_info?.id).then((res) => {
                 this.contacts = this.contacts.filter((contact) => contact.receiver_info.id != item.receiver_info.id);
                 if (this.active == item.receiver_info.id && this.contacts.length) {
                     this.active = this.contacts[0].receiver_info.id;

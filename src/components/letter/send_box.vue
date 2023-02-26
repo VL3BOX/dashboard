@@ -6,7 +6,7 @@
         </div>
         <div class="u-send-action">
             <span class="u-text-sum">
-                <span class="u-current-sum" :class="{ 'over': isOver }">{{ currentSum }}</span>
+                <span class="u-current-sum" :class="{ over: isOver }">{{ currentSum }}</span>
                 <span class="u-max-sum">/{{ max }}</span>
             </span>
             <el-button size="mini" :disabled="isOver || !currentSum">发送</el-button>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {sendLetter} from "@/service/letter";
+import { sendLetter } from "@/service/letter";
 import User from "@jx3box/jx3box-common/js/user";
 export default {
     name: "sendBox",
@@ -27,7 +27,7 @@ export default {
             user: User.getInfo(),
 
             isLogin: User.isLogin(),
-        }
+        };
     },
     computed: {
         currentSum() {
@@ -36,16 +36,16 @@ export default {
         // 是否超过
         isOver() {
             return this.currentSum > this.max;
-        }
+        },
     },
     methods: {
         // 发送
         send() {
             if (this.isOver || !this.currentSum) return;
-            sendLetter(this.user.uid).then(res => {
+            sendLetter(this.user.uid).then((res) => {
                 this.content = "";
-            })
-        }
-    }
-}
+            });
+        },
+    },
+};
 </script>

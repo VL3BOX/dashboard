@@ -4,10 +4,10 @@
         <div class="m-dashboard-letter" v-if="hasData">
             <div class="m-dashboard-letter__left">
                 <div class="u-title">近期消息</div>
-                <contact-list @update:contact="updateContact" @check:contacts="checkContacts" />
+                <contact-list @update:contact="updateContact" @check:contacts="checkContacts" ref="contacts" />
             </div>
             <div class="m-dashboard-letter__right">
-                <letter-list :contact="contact" />
+                <letter-list :contact="contact" @update:contact="letterUpdateContact" />
             </div>
         </div>
         <div class="u-null" v-else>
@@ -48,11 +48,13 @@ export default {
     methods: {
         // 更新联系人
         updateContact(item) {
-            console.log(item)
             this.contact = cloneDeep(item);
         },
         checkContacts(hasData) {
             this.hasData = hasData;
+        },
+        letterUpdateContact() {
+            this.$refs.contacts?.getContacts();
         }
     }
 }

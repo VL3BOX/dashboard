@@ -8,6 +8,7 @@
     display: flex;
     position: relative;
     height: calc(100vh - 264px);
+    margin: 0 15px;
 }
 
 .m-dashboard-letter__left {
@@ -129,8 +130,31 @@
     overflow-x: hidden;
     overflow-y: auto;
     background-color: #f4f5f7;
-    box-sizing: border-box;
     .scrollbar();
+
+    .u-letter-more {
+        padding: 16px 0 0;
+        text-align: center;
+        color: #23ade5;
+        min-height: 38px;
+    }
+    .u-load-more {
+        .pointer;
+    }
+    .u-more-icon {
+        // 旋转90度
+        transform: rotate(-90deg);
+    }
+    .u-no-more {
+        color: #999;
+    }
+    .u-error {
+        color: #999;
+    }
+    .u-error__btn {
+        color: #23ade5;
+        .pointer;
+    }
 }
 
 .m-letter-list-content {
@@ -176,6 +200,13 @@
             z-index: 1;
         }
 
+        .u-letter-image {
+            .u-letter-text;
+            padding: 0;
+            height: 150px;
+            width: 99px;
+        }
+
         &.me {
             .u-letter-content {
                 float: right;
@@ -184,6 +215,9 @@
                 background: #80b9f2;
                 border-radius: 16px 0 16px 16px;
                 color: #fff;
+            }
+            .u-letter-image {
+                border-radius: 16px 0 16px 16px;
             }
             .u-avatar {
                 float: right;
@@ -202,8 +236,22 @@
     position: relative;
     z-index: 2;
 
-    .u-send-tool {
+    .m-send-tools {
         height: 48px;
+        .flex;
+        align-items: center;
+
+        .u-upload-icon {
+            font-size: 22px;
+            .pointer;
+
+            &:hover {
+                color: #23ade5;
+            }
+        }
+        .u-upload-file {
+            display: none;
+        }
     }
 
     .u-send-content {
@@ -217,6 +265,7 @@
             padding: 0;
             background-color: #f4f5f7;
             .scrollbar(5px);
+            resize: none;
         }
     }
 

@@ -48,4 +48,9 @@ function getTeammates() {
     return $cms().get(`/api/cms/config/teammates`)
 }
 
-export { getMyAsset, getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo, isTeammate, getTeammates };
+// 通用上传
+function upload(formData) {
+    return $cms().post(`/api/cms/upload`, formData);
+}
+
+export { getMyAsset, getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo, isTeammate, getTeammates, upload };

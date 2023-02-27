@@ -10,14 +10,19 @@
                 accept=".jpg, .jpeg, .png, .gif, .bmp,.webp"
             />
         </div>
+        <Emotion type="pop" @selected="emotionSelect" />
     </div>
 </template>
 
 <script>
 import { upload } from "@/service";
+import Emotion from "@jx3box/jx3box-emotion/src/Emotion.vue";
 export default {
     name: "sendTools",
-    emits: ["update:image"],
+    components: {
+        Emotion,
+    },
+    emits: ["update:image", "update:text"],
     data() {
         return {
             data: ""
@@ -52,9 +57,9 @@ export default {
                 this.$emit("update:image", this.data);
             });
         },
+        emotionSelect(data) {
+            this.$emit("update:text", data.key);
+        },
     }
 }
 </script>
-
-<style lang="less">
-</style>

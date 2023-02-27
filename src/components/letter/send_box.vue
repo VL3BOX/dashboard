@@ -1,8 +1,8 @@
 <template>
     <div class="m-letter-sendbox">
-        <sendTools @update:image="sendImage" />
+        <sendTools @update:image="sendImage" @update:text="updateText" />
         <div class="u-send-content">
-            <el-input type="textarea" v-model="content"></el-input>
+            <el-input type="textarea" v-model="content" id="letterInput"></el-input>
         </div>
         <div class="u-send-action">
             <span class="u-text-sum">
@@ -54,6 +54,29 @@ export default {
         sendImage(image) {
             this.$emit("send", { content: image, content_type: 1 }); // 图片类型
         },
+        async updateText(key) {
+            const myField = document.querySelector(`#letterInput`);
+            const value = key
+            if (myField.selectionStart || myField.selectionStart === 0) {
+                let startPos = myField.selectionStart;
+                let endPos = myField.selectionEnd;
+
+                this.content =
+                    myField.value.substring(0, startPos) +
+                    value +
+                    myField.value.substring(endPos, myField.value.length);
+
+                await this.$nextTick();
+
+                myField.focus();
+                myField.setSelectionRange(
+                    endPos + value.length,
+                    endPos + value.length
+                );
+            } else {
+                this.content = value;
+            }
+        }
     },
 };
 </script>

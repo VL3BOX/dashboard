@@ -26,6 +26,9 @@
                 </div>
             </div>
         </div>
+        <div class="u-letter-new" v-show="newMessage">
+            <div class="u-text" @click="toBottom">您有新消息</div>
+        </div>
         <send-box @send="send" ref="sendBox" />
     </div>
 </template>
@@ -59,10 +62,10 @@ export default {
             loading: false,
             isInit: true, // 是否初始化
 
-            firstId: 0,
-            lastId: 0,
-            limit: 10,
-            timer: null,
+            firstId: 0, // 第一条数据的id
+            lastId: 0, // 最后一条数据的id
+            limit: 10, // 每次获取的数据条数
+            timer: null, // 循环获取数据的定时器
             hasHistory: true, // 是否有历史消息
             historyFetched: false, // 是否已经获取过历史消息
             historyFetching: false, // 是否正在获取历史消息
@@ -74,6 +77,9 @@ export default {
     computed: {
         hasData() {
             return !!this.contact?.receiver_info?.id;
+        },
+        letterList() {
+            return this.$refs.letterList;
         }
     },
     watch: {
@@ -106,7 +112,14 @@ export default {
         nl2br(str) {
             return str.replace(/\n/g, "<br>");
         },
-        loadLetter() {
+        toBottom() {
+            this.newMessage = false;
+            this.$nextTick(() => {
+                const letterList = this.letterList;
+                letterList && (letterList.scrollTop = letterList.scrollHeight);
+            });
+        },
+        loadLetter(mute = true) {
             if (!this.hasData) return;
             if (this.isInit) this.loading = true;
             const params = {
@@ -123,11 +136,20 @@ export default {
 
                 if (this.isInit) {
                     this.$nextTick(() => {
-                        const letterList = this.$refs.letterList;
+                        const letterList = this.letterList;
                         letterList && (letterList.scrollTop = letterList.scrollHeight);
                     });
                 }
                 this.isInit = false;
+
+                // 如果有新消息，并且滚动条没有到底，设置newMessage为true
+                if (res.data.data?.letters.length > 0 && this.lastId && mute) { // lastId为0说明是第一次加载
+                    const letterList = this.letterList;
+                    if (letterList && letterList.scrollTop < letterList.scrollHeight - letterList.clientHeight) {
+                        this.newMessage = true;
+                    }
+                }
+
             }).finally(() => {
                 this.loading = false;
             })
@@ -136,6 +158,7 @@ export default {
         cycleLoad() {
             this.timer = setInterval(() => {
                 this.loadLetter();
+                this.$emit("update:contact");
             }, 15000);
         },
         getHistory() {
@@ -185,14 +208,14 @@ export default {
         },
         send(data) {
             sendLetter(this.contact.sender_info.id, this.contact.receiver_info.id, data).then((res) => {
-                this.loadLetter().then(res => {
+                this.loadLetter(false).then(res => {
                     this.$refs.sendBox?.clear();
                     this.$emit("update:contact");
 
                     this.$nextTick(() => {
                         // 新消息直接滑到底部
-                        if (this.$refs.letterList) {
-                            this.$refs.letterList.scrollTop = this.$refs.letterList.scrollHeight;
+                        if (this.letterList) {
+                            this.letterList.scrollTop = this.letterList.scrollHeight;
                         }
                     })
                 });

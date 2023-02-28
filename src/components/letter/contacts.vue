@@ -76,7 +76,9 @@ export default {
                 .then((res) => {
                     this.contacts = res.data?.data || [];
 
-                    this.active = this.contacts[0]?.receiver_info?.id;
+                    // 如果active不在联系人列表中，就默认选中第一个
+
+                    this.active = this.isInit ? res.data?.data[0]?.receiver_info?.id : this.active;
 
                     this.isInit = false;
 

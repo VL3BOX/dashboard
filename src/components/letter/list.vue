@@ -106,7 +106,7 @@ export default {
             },
         }
     },
-    unmounted() {
+    beforeDestroy() {
         clearInterval(this.timer);
     },
     methods: {

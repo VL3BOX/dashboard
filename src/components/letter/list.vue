@@ -216,6 +216,9 @@ export default {
                     this.$refs.sendBox?.clear();
                     this.$emit("update:contact");
 
+                    clearInterval(this.timer);
+                    this.cycleLoad();
+
                     this.$nextTick(() => {
                         // 新消息直接滑到底部
                         if (this.letterList) {

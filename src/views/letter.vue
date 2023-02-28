@@ -79,7 +79,7 @@ export default {
         loadUserInfo: function () {
             getMyInfo().then((res) => {
                 if (res.data.data) {
-                    this.info = Object.assign(this.info, res.data.data);
+                    this.info = res.data.data
                 }
             });
         },

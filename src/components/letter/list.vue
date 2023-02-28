@@ -29,7 +29,7 @@
         <div class="u-letter-new" v-show="newMessage">
             <div class="u-text" @click="toBottom">您有新消息</div>
         </div>
-        <send-box @send="send" ref="sendBox" />
+        <send-box @send="send" ref="sendBox" :disabled="!canOp" />
     </div>
 </template>
 
@@ -52,6 +52,10 @@ export default {
             type: Object,
             default: () => ({}),
         },
+        canOp: {
+            type: Boolean,
+            default: false,
+        }
     },
     emits: ["update:contact"],
     data() {
@@ -143,7 +147,7 @@ export default {
                 this.isInit = false;
 
                 // 如果有新消息，并且滚动条没有到底，设置newMessage为true
-                if (res.data.data?.letters.length > 0 && this.lastId && mute) { // lastId为0说明是第一次加载
+                if (res.data.data?.letters?.length > 0 && this.lastId && mute) { // lastId为0说明是第一次加载
                     const letterList = this.letterList;
                     if (letterList && letterList.scrollTop < letterList.scrollHeight - letterList.clientHeight) {
                         this.newMessage = true;
@@ -170,7 +174,7 @@ export default {
             }
             getLetterListBefore(this.contact.sender_info.id, this.contact.receiver_info.id, params).then(res => {
                 this.letters = [...res.data.data?.letters || [], ...this.letters];
-                this.hasHistory = !(res.data.data?.letters.length < this.limit)
+                this.hasHistory = !(res.data.data.letters?.length < this.limit)
                 this.firstId = this.letters[0]?.id || this.firstId;
 
                 this.historyFetched = true;

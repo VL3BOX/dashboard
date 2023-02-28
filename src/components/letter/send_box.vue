@@ -1,5 +1,5 @@
 <template>
-    <div class="m-letter-sendbox">
+    <div class="m-letter-sendbox" :class="{ disabled: disabled }">
         <sendTools @update:image="sendImage" @update:text="updateText" />
         <div class="u-send-content">
             <el-input type="textarea" v-model="content" id="letterInput"></el-input>
@@ -19,6 +19,12 @@ import User from "@jx3box/jx3box-common/js/user";
 import sendTools from "./send_tools.vue";
 export default {
     name: "sendBox",
+    props: {
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+    },
     components: {
         sendTools,
     },

@@ -7,8 +7,15 @@
     height: 100%;
     display: flex;
     position: relative;
-    height: calc(100vh - 264px);
+    height: calc(100vh - 260px);
     margin: 0 15px;
+}
+
+.u-null  {
+    height: calc(100vh - 260px);
+    .flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .m-dashboard-letter__left {
@@ -260,6 +267,19 @@
     padding: 0 16px;
     position: relative;
     z-index: 2;
+
+    &.disabled {
+        pointer-events: none;
+        cursor: not-allowed;
+        opacity: 0.5;
+        .pr;
+        &::after {
+            content: "用户Lv.4以上才能使用";
+            .pa;
+            top: 50%;
+            left: 50%;
+        }
+    }
 
     .m-send-tools {
         height: 48px;

@@ -29,6 +29,12 @@ import { getRecentContacts, deleteRecentContact, createRecentContact } from "@/s
 import { showAvatar } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "contacts",
+    props: {
+        canOp: {
+            type: Boolean,
+            default: false,
+        }
+    },
     emits: ["update:contact", "check:contacts"],
     data() {
         return {
@@ -49,14 +55,17 @@ export default {
             deep: true,
             immediate: true,
             handler(val) {
-                if (val?.receiver) {
-                    this.addContact(val.receiver);
+                if (this.canOp) {
+                    if (val?.receiver) {
+                        this.addContact(val.receiver);
+                    } else {
+                        this.getContacts();
+                    }
+                } else {
+                    this.getContacts();
                 }
             },
         },
-    },
-    mounted() {
-        this.getContacts();
     },
     methods: {
         addContact(uid) {

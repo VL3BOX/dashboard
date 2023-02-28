@@ -147,12 +147,12 @@ export default {
                 this.isInit = false;
 
                 // 如果有新消息，并且滚动条没有到底，设置newMessage为true
-                if (res.data.data?.letters?.length > 0 && this.lastId && mute) { // lastId为0说明是第一次加载
+                /* if (res.data.data?.letters?.length > 0 && this.lastId && mute) { // lastId为0说明是第一次加载
                     const letterList = this.letterList;
                     if (letterList && letterList.scrollTop < letterList.scrollHeight - letterList.clientHeight) {
                         this.newMessage = true;
                     }
-                }
+                } */
 
             }).finally(() => {
                 this.loading = false;

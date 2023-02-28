@@ -25,7 +25,9 @@ export default {
     emits: ["update:image", "update:text"],
     data() {
         return {
-            data: ""
+            data: "",
+
+            maxSize: 10
         }
     },
     computed: {
@@ -46,8 +48,8 @@ export default {
         upload() {
             const file = this.fileInput.files[0];
             if (!file) return;
-            if (file.size > 2 * 1024 * 1024) {
-                this.$message.error("图片大小不能超过" + 2 + "M");
+            if (file.size > this.maxSize * 1024 * 1024) {
+                this.$message.error("图片大小不能超过" + this.maxSize + "M");
                 return;
             }
             const formData = new FormData();

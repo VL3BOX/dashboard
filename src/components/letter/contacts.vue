@@ -55,12 +55,8 @@ export default {
             deep: true,
             immediate: true,
             handler(val) {
-                if (this.canOp) {
-                    if (val?.receiver) {
-                        this.addContact(val.receiver);
-                    } else {
-                        this.getContacts();
-                    }
+                if (val?.receiver) {
+                    this.addContact(val.receiver);
                 } else {
                     this.getContacts();
                 }

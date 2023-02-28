@@ -3,8 +3,13 @@
     <uc class="m-dashboard-frame m-dashboard-skin" icon="el-icon-bell" title="我的消息" :tab-list="tabList">
         <div class="m-dashboard-letter" v-if="hasData">
             <div class="m-dashboard-letter__left">
-                <div class="u-title">近期消息</div>
-                <contact-list @update:contact="updateContact" @check:contacts="checkContacts" ref="contacts" :can-op="canOp" />
+                <div class="u-title">近期消息 <span class="u-limit">每日上限{{ total_limit }}条</span></div>
+                <contact-list
+                    @update:contact="updateContact"
+                    @check:contacts="checkContacts"
+                    ref="contacts"
+                    :can-op="canOp"
+                />
             </div>
             <div class="m-dashboard-letter__right">
                 <letter-list :contact="contact" @update:contact="letterUpdateContact" :can-op="canOp" />
@@ -27,12 +32,13 @@ import uc from "@/components/uc.vue";
 import contactList from "@/components/letter/contacts.vue";
 import letterList from "@/components/letter/list.vue";
 import User from "@jx3box/jx3box-common/js/user";
+import { getConfig } from "@/service/letter";
 export default {
     name: "letter",
     components: {
         uc,
         contactList,
-        letterList
+        letterList,
     },
     data() {
         return {
@@ -45,10 +51,12 @@ export default {
                 user_avatar_frame: "default",
                 bio: "-",
                 sign: 0,
+                experience: 0,
             },
 
-            contact: {}
-        }
+            contact: {},
+            total_limit: 0,
+        };
     },
     computed: {
         emptyPng() {
@@ -59,10 +67,11 @@ export default {
         },
         canOp() {
             return this.userLevel >= 3;
-        }
+        },
     },
     mounted() {
         this.loadUserInfo();
+        this.loadConf();
     },
     methods: {
         // 更新联系人
@@ -79,12 +88,17 @@ export default {
         loadUserInfo: function () {
             getMyInfo().then((res) => {
                 if (res.data.data) {
-                    this.info = Object.assign(this.info, res.data.data);
+                    this.info = res.data.data;
                 }
             });
         },
-    }
-}
+        loadConf() {
+            getConfig({ key: "private_letter_everyday_count_limit" }).then((res) => {
+                this.total_limit = ~~res.data.data.val;
+            });
+        },
+    },
+};
 </script>
 
 <style lang="less">

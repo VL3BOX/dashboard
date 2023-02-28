@@ -1,4 +1,10 @@
-import { $next } from "@jx3box/jx3box-common/js/https";
+import { $next,$cms } from "@jx3box/jx3box-common/js/https";
+
+export function getConfig(params) {
+    return $cms({ mute: true }).get("/api/cms/config",{
+        params
+    });
+}
 
 /**
  * 新建最新联系人

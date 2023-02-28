@@ -1,7 +1,7 @@
-.scrollbar(){
+.scrollbar(@width: 4px){
     // max-height: 70vh;
     &::-webkit-scrollbar {
-        width: 4px;
+        width: @width;
     }
     &::-webkit-scrollbar-track,
     &::-webkit-scrollbar-track-piece {

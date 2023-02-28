@@ -16,5 +16,9 @@
     "mallTab": [
         { "name": "mall", "icon": "el-icon-shopping-bag-1", "label": "商城订单" },
         { "name": "orders", "icon": "el-icon-shopping-bag-2", "label": "系统订单" }
+    ],
+    "msgTab": [
+        { "name": "msg", "icon": "el-icon-message", "label": "消息" },
+        { "name": "letter", "icon": "el-icon-chat-dot-square", "label": "私信" }
     ]
 }

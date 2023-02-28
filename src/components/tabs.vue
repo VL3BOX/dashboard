@@ -1,7 +1,7 @@
 <template>
     <el-tabs class="m-dashboard-tabs" v-model="active" @tab-click="changeTab">
         <el-tab-pane v-for="item in tabs" :key="item.name" :name="item.name">
-            <span slot="label"><i :class="item.icon"></i> {{ item.label }}</span>
+            <span slot="label"><i :class="item.icon" class="u-tab-icon"></i> {{ item.label }}</span>
         </el-tab-pane>
     </el-tabs>
 </template>

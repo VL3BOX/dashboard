@@ -40,6 +40,7 @@ import { getLetterList, sendLetter, getLetterListBefore } from "@/service/letter
 import User from "@jx3box/jx3box-common/js/user";
 import { formatContent } from "@/utils/emotion";
 import { showAvatar, authorLink, resolveImagePath } from "@jx3box/jx3box-common/js/utils";
+import { uniqBy } from "lodash";
 // components
 import sendBox from "@/components/letter/send_box.vue";
 export default {
@@ -131,7 +132,7 @@ export default {
                 limit: this.limit,
             }
             return getLetterList(this.contact.sender_info.id, this.contact.receiver_info.id, params).then((res) => {
-                this.letters = this.letters.concat(res.data.data?.letters || []);
+                this.letters = uniqBy(this.letters.concat(res.data.data?.letters || []), 'id');
                 this.peoples = res.data.data?.peoples || {};
                 this.lastId = this.letters[this.letters.length - 1]?.id || this.lastId;
                 this.firstId = this.letters[0]?.id || this.firstId;
@@ -173,7 +174,7 @@ export default {
                 limit: this.limit,
             }
             getLetterListBefore(this.contact.sender_info.id, this.contact.receiver_info.id, params).then(res => {
-                this.letters = [...res.data.data?.letters || [], ...this.letters];
+                this.letters = uniqBy([...res.data.data?.letters || [], ...this.letters], 'id');
                 this.hasHistory = !(res.data.data.letters?.length < this.limit)
                 this.firstId = this.letters[0]?.id || this.firstId;
 

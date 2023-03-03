@@ -74,15 +74,17 @@ export default {
             if (this.isInit) this.loading = true;
             return getRecentContacts()
                 .then((res) => {
-                    this.contacts = res.data?.data || [];
+                    this.contacts = res?.data?.data || [];
 
+                    this.$emit("check:contacts", !!this.contacts?.length);
+
+                    if (!this.contacts.length) return;
                     // 如果active不在联系人列表中，就默认选中第一个
 
                     this.active = this.isInit ? res.data?.data[0]?.receiver_info?.id : this.active;
 
                     this.isInit = false;
 
-                    this.$emit("check:contacts", !!this.contacts?.length);
                 })
                 .finally(() => {
                     this.loading = false;

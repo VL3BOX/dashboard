@@ -2,20 +2,20 @@
     <uc class="m-dashboard-frame m-dashboard-skin" icon="el-icon-bell" title="我的消息" :tab-list="tabList">
         <div class="m-dashboard m-dashboard-work m-dashboard-msg">
             <div class="m-dashboard-msg-header">
-                <el-button class="u-read-all" type="primary" size="mini" @click="read(null)" :disabled="!unread_total">
+                <el-input
+                    class="m-dashboard-work-search"
+                    placeholder="请输入搜索内容"
+                    v-model="keyword"
+                    @keyup.enter.native="changePage(1)"
+                >
+                    <template slot="prepend">关键词</template>
+                    <el-button slot="append" icon="el-icon-search" @click="changePage(1)"></el-button>
+                </el-input>
+                <el-button class="u-read-all" type="primary" @click="read(null)" :disabled="!unread_total">
                     <i class="el-icon el-icon-check"></i>
                     <span v-text="'全部设为已读'"></span>
                 </el-button>
             </div>
-            <el-input
-                class="m-dashboard-work-search"
-                placeholder="请输入搜索内容"
-                v-model="keyword"
-                @keyup.enter.native="changePage(1)"
-            >
-                <template slot="prepend">关键词</template>
-                <el-button slot="append" icon="el-icon-search" @click="changePage(1)"></el-button>
-            </el-input>
             <ul class="m-dashboard-box-list" v-if="data.length">
                 <li v-for="(item, i) in data" :key="i" :class="{ on: item.read == 1 }" v-show="item.deleted == 0">
                     <div class="u-primary">

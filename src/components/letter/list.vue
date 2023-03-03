@@ -3,7 +3,9 @@
         <div class="u-chat-name" v-if="hasData">{{ contact.receiver_info.display_name }}</div>
         <div class="m-letter-list" v-loading="loading" element-loading-spinner="el-icon-loading" ref="letterList">
             <div class="u-letter-more">
-                <span class="u-load-more" v-show="hasHistory" @click.stop="getHistory"><i class="el-icon-d-arrow-right u-more-icon"></i>查看历史消息</span>
+                <span class="u-load-more" v-show="hasHistory" @click.stop="getHistory"
+                    ><i class="el-icon-d-arrow-right u-more-icon"></i>查看历史消息</span
+                >
                 <span class="u-no-more" v-show="historyFetched && !hasHistory">没有更多消息了~</span>
                 <span class="u-loading" v-show="historyFetching"><i class="el-icon-loading"></i></span>
                 <span class="u-error" v-show="historyError">
@@ -14,13 +16,19 @@
                 <div class="u-time" v-if="showTime(item, index)">{{ item.created_at }}</div>
                 <div class="m-letter-item" :class="letterItemClass(item)">
                     <a :href="link(item)" class="u-avatar" target="_blank">
-                        <img :src="letterBelong(item)" class="u-img" :alt="item.id">
+                        <img :src="letterBelong(item)" class="u-img" :alt="item.id" />
                     </a>
                     <div class="u-letter-content">
-                        <div class="u-letter-text" v-if="item.content_type == 0" v-html="formatContent(item.content)">
-                        </div>
+                        <div
+                            class="u-letter-text"
+                            v-if="item.content_type == 0"
+                            v-html="formatContent(item.content)"
+                        ></div>
                         <div class="u-letter-image" v-if="item.content_type == 1" title="点击查看大图">
-                            <el-image :src="resolveImagePath(item.content)" :preview-src-list="[item.content]"></el-image>
+                            <el-image
+                                :src="resolveImagePath(item.content)"
+                                :preview-src-list="[item.content]"
+                            ></el-image>
                         </div>
                     </div>
                 </div>
@@ -40,6 +48,7 @@ import { getLetterList, sendLetter, getLetterListBefore } from "@/service/letter
 import User from "@jx3box/jx3box-common/js/user";
 import { formatContent } from "@/utils/emotion";
 import { showAvatar, authorLink, resolveImagePath } from "@jx3box/jx3box-common/js/utils";
+import { uniqBy } from "lodash";
 // components
 import sendBox from "@/components/letter/send_box.vue";
 export default {
@@ -55,7 +64,7 @@ export default {
         canOp: {
             type: Boolean,
             default: false,
-        }
+        },
     },
     emits: ["update:contact"],
     data() {
@@ -84,7 +93,7 @@ export default {
         },
         letterList() {
             return this.$refs.letterList;
-        }
+        },
     },
     watch: {
         contact: {
@@ -97,15 +106,15 @@ export default {
                     this.firstId = 0;
                     this.lastId = 0;
                     this.hasHistory = false;
-                    this.isInit = true;
                 }
+                this.isInit = true;
                 this.loadLetter();
                 clearInterval(this.timer);
                 this.cycleLoad();
             },
-        }
+        },
     },
-    unmounted() {
+    beforeDestroy() {
         clearInterval(this.timer);
     },
     methods: {
@@ -129,34 +138,36 @@ export default {
             const params = {
                 begin: this.lastId,
                 limit: this.limit,
-            }
-            return getLetterList(this.contact.sender_info.id, this.contact.receiver_info.id, params).then((res) => {
-                this.letters = this.letters.concat(res.data.data?.letters || []);
-                this.peoples = res.data.data?.peoples || {};
-                this.lastId = this.letters[this.letters.length - 1]?.id || this.lastId;
-                this.firstId = this.letters[0]?.id || this.firstId;
-                // 如果letters的长度小于limit，说明没有更多数据了
-                this.hasHistory = !(this.letters.length < this.limit);
+            };
+            return getLetterList(this.contact.sender_info.id, this.contact.receiver_info.id, params)
+                .then((res) => {
+                    this.letters = uniqBy(this.letters.concat(res.data.data?.letters || []), "id");
+                    this.peoples = res.data.data?.peoples || {};
+                    this.lastId = this.letters[this.letters.length - 1]?.id || this.lastId;
+                    this.firstId = this.letters[0]?.id || this.firstId;
+                    // 如果letters的长度小于limit，说明没有更多数据了
+                    this.hasHistory = !(this.letters.length < this.limit);
 
-                if (this.isInit) {
                     this.$nextTick(() => {
-                        const letterList = this.letterList;
-                        letterList && (letterList.scrollTop = letterList.scrollHeight);
+                        if (this.isInit) {
+                            if (this.letterList) {
+                                this.letterList.scrollTop = this.letterList.scrollHeight;
+                            }
+                        }
                     });
-                }
-                this.isInit = false;
+                    this.isInit = false;
 
-                // 如果有新消息，并且滚动条没有到底，设置newMessage为true
-                /* if (res.data.data?.letters?.length > 0 && this.lastId && mute) { // lastId为0说明是第一次加载
+                    // 如果有新消息，并且滚动条没有到底，设置newMessage为true
+                    /* if (res.data.data?.letters?.length > 0 && this.lastId && mute) { // lastId为0说明是第一次加载
                     const letterList = this.letterList;
                     if (letterList && letterList.scrollTop < letterList.scrollHeight - letterList.clientHeight) {
                         this.newMessage = true;
                     }
                 } */
-
-            }).finally(() => {
-                this.loading = false;
-            })
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
         },
         // 循环获取最新的数据
         cycleLoad() {
@@ -171,20 +182,22 @@ export default {
             const params = {
                 begin: this.firstId,
                 limit: this.limit,
-            }
-            getLetterListBefore(this.contact.sender_info.id, this.contact.receiver_info.id, params).then(res => {
-                this.letters = [...res.data.data?.letters || [], ...this.letters];
-                this.hasHistory = !(res.data.data.letters?.length < this.limit)
-                this.firstId = this.letters[0]?.id || this.firstId;
+            };
+            getLetterListBefore(this.contact.sender_info.id, this.contact.receiver_info.id, params)
+                .then((res) => {
+                    this.letters = uniqBy([...(res.data.data?.letters || []), ...this.letters], "id");
+                    this.hasHistory = !(res.data.data.letters?.length < this.limit);
+                    this.firstId = this.letters[0]?.id || this.firstId;
 
-                this.historyFetched = true;
-                this.historyFetching = false;
-                this.historyError = false;
-            }).catch(err => {
-                this.historyFetched = true;
-                this.historyFetching = false;
-                this.historyError = true;
-            })
+                    this.historyFetched = true;
+                    this.historyFetching = false;
+                    this.historyError = false;
+                })
+                .catch((err) => {
+                    this.historyFetched = true;
+                    this.historyFetching = false;
+                    this.historyError = true;
+                });
         },
         letterItemClass(item) {
             if (item.sender == this.user.uid) {
@@ -212,7 +225,7 @@ export default {
         },
         send(data) {
             sendLetter(this.contact.sender_info.id, this.contact.receiver_info.id, data).then((res) => {
-                this.loadLetter(false).then(res => {
+                this.loadLetter(false).then((res) => {
                     this.$refs.sendBox?.clear();
                     this.$emit("update:contact");
 
@@ -224,10 +237,10 @@ export default {
                         if (this.letterList) {
                             this.letterList.scrollTop = this.letterList.scrollHeight;
                         }
-                    })
+                    });
                 });
             });
-        }
-    }
+        },
+    },
 };
 </script>

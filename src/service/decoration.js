@@ -23,4 +23,7 @@ function receive(user_id, val) {
 function updateAvatarFrame(data) {
     return $cms().put("/api/cms/user/my/avatar-frame", data);
 }
-export { getDecoration, setDecoration, getDecorationJson, getEmotion, receive, updateAvatarFrame };
+function getHonor() {
+    return axios.get(`${__imgPath}decoration/honor.json`);
+}
+export { getDecoration, setDecoration, getDecorationJson, getEmotion, receive, updateAvatarFrame, getHonor };

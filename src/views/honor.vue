@@ -37,20 +37,36 @@
                                 </span>
                             </el-tooltip>
                         </div>
-                        <div class="u-honor" v-if="!isSelect.isCustomize">{{ isSelect.val }}</div>
+                        <div
+                            class="u-honor"
+                            v-if="!isSelect.isCustomize"
+                            :style="{ backgroundImage: `url(${imgUrl(isSelect)})` }"
+                        >
+                            <span :style="{ color: isSelect.color }">{{ isSelect.honor }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="m-honor-right">
-                <div
-                    class="u-btn"
-                    :class="item.using ? 'on' : ''"
-                    v-for="(item, i) in list"
-                    :key="i"
-                    @click="selectChange(item)"
-                >
-                    {{ item.val }}
+                <div class="u-honor-list">
+                    <div class="u-title">
+                        <span class="u-name"><i class="el-icon-collection-tag"></i>称号</span>
+                        <a class="u-buy" :href="`/vip/mall?category=virtual&sub_category=honor`" target="_blank"
+                            ><i class="el-icon-shopping-cart-2"></i> 前往获取</a
+                        >
+                    </div>
+                    <div class="u-honor-item">
+                        <div class="u-picbox" v-for="(item, i) in list" :key="i">
+                            <el-tooltip effect="dark" placement="top" :open-delay="200">
+                                <div slot="content">{{ item.honor }}</div>
+                                <div class="u-pic" :class="setClass(item)" @click="selectChange(item)">
+                                    <el-image :src="imgUrl(item)" fit="contain" v-if="!item.isCustomize" />
+                                    <div v-else class="u-noHonor"></div>
+                                </div>
+                            </el-tooltip>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,8 +83,8 @@ import { themeTab } from "@/assets/data/tabs.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { getMyInfo } from "@/service/index.js";
 import { __userLevelColor, __imgPath } from "@jx3box/jx3box-common/data/jx3box";
-import { getDecoration, setDecoration } from "@/service/decoration";
-import { cloneDeep } from "lodash";
+import { getDecoration, setDecoration, getHonor } from "@/service/decoration";
+import { cloneDeep, inRange } from "lodash";
 export default {
     name: "honor",
     props: [],
@@ -79,7 +95,7 @@ export default {
             info: {
                 uid: User.getInfo().uid,
                 name: "匿名",
-                user_avatar: "https://img.jx3box.com/image/common/avatar.png",
+                user_avatar: `${__imgPath}/image/common/avatar.png`,
                 user_avatar_frame: "default",
                 bio: "-",
                 sign: 0,
@@ -88,6 +104,7 @@ export default {
             listBak: [],
             isSelect: {},
             isSelectBak: {},
+            honorList: {},
         };
     },
     computed: {
@@ -120,6 +137,17 @@ export default {
         },
     },
     methods: {
+        imgUrl: function (item) {
+            if (!item || item.isCustomize || !item.val) return;
+            if (item.isImgIndex) {
+                return __imgPath + `decoration/honor/${item.val}/${item.val}_${item.imgIndex}.${item.ext}`;
+            }
+            return __imgPath + `decoration/honor/${item.val}/${item.val}.${item.ext}`;
+        },
+        setClass(item) {
+            if (!item.isHave) return "noHave";
+            if (item.using) return "select";
+        },
         loadUserInfo: function () {
             getMyInfo().then((res) => {
                 if (res.data.data) {
@@ -127,29 +155,138 @@ export default {
                 }
             });
         },
+        loadHonor() {
+            getHonor().then((res) => {
+                this.honorList = res.data;
+                this.loadDecoration();
+            });
+        },
         loadDecoration() {
             getDecoration({ type: "honor" }).then((data) => {
                 let res = data.data.data;
-                let filter = res.filter((item) => item.using == 1);
-                this.list = res || [];
+                // res[0].server = "长安城";
+                // res[0].ranking = 0;
+                // res[0].extra = "备注";
+                let honorList = this.honorList;
+                let newArr = [];
+                Object.keys(honorList).forEach((key, i) => {
+                    let data = res.find((item) => item.val == key);
+                    let honorConfig = honorList[key];
+
+                    let disposeHonor = function (data) {
+                        //正则取出前缀
+                        let prefix = honorConfig.prefix;
+                        let regPrefix = honorConfig.prefix.match(/(?<=\{)(.+?)(?=\})/g);
+                        let ranking = honorConfig.ranking;
+                        let honorStr = honorConfig.year || "";
+                        if (regPrefix) {
+                            honorStr = honorStr + (data[regPrefix[0]] || "");
+                        } else {
+                            honorStr = honorStr + prefix;
+                        }
+                        //排名处理
+                        if (ranking.length > 0) {
+                            data.imgIndex = 0;
+                            for (let i = 0; i < ranking.length; i++) {
+                                //处在范围内取数组第三个值进行称号拼接
+                                if (
+                                    data.ranking != undefined &&
+                                    inRange(Number(data.ranking), ranking[i][0], ranking[i][1])
+                                ) {
+                                    data.imgIndex = i;
+                                    let str = ranking[i][2];
+                                    //正则取出需替换值，如果没有则直接拼接
+                                    let regStr = str.match(/(?<=\{)(.+?)(?=\})/g);
+                                    if (regStr) {
+                                        //包含花括号替换
+                                        honorStr = honorStr + str.replace(/\{(.+?)\}/g, data[regStr[0]]);
+                                    } else {
+                                        honorStr = honorStr + str;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        return honorStr + honorConfig.suffix;
+                    };
+                    if (data) {
+                        // let data = filter[0];
+                        //正则取出前缀
+                        // let prefix = honorConfig.prefix;
+                        // let regPrefix = honorConfig.prefix.match(/(?<=\{)(.+?)(?=\})/g);
+                        // let ranking = honorConfig.ranking;
+                        // let honorStr = honorConfig.year || "";
+                        // if (regPrefix) {
+                        //     honorStr = honorStr + (data[regPrefix[0]] || "");
+                        // } else {
+                        //     honorStr = honorStr + prefix;
+                        // }
+                        // //排名处理
+                        // if (ranking.length > 0) {
+                        //     data.imgIndex = 0;
+                        //     for (let i = 0; i < ranking.length; i++) {
+                        //         //处在范围内取数组第三个值进行称号拼接
+                        //         if (
+                        //             data.ranking != undefined &&
+                        //             inRange(Number(data.ranking), ranking[i][0], ranking[i][1])
+                        //         ) {
+                        //             data.imgIndex = i;
+                        //             let str = ranking[i][2];
+                        //             //正则取出需替换值，如果没有则直接拼接
+                        //             let regStr = str.match(/(?<=\{)(.+?)(?=\})/g);
+                        //             if (regStr) {
+                        //                 //包含花括号替换
+                        //                 honorStr = honorStr + str.replace(/\{(.+?)\}/g, data[regStr[0]]);
+                        //             } else {
+                        //                 honorStr = honorStr + str;
+                        //             }
+                        //             break;
+                        //         }
+                        //     }
+                        // }
+                        data.honor = disposeHonor(data);
+                        data.color = honorConfig.color;
+                        data.ext = honorConfig.ext;
+                        data.isHave = true;
+                        (data.isImgIndex = honorConfig.ranking.length > 0 ? true : false), newArr.push(data);
+                    } else {
+                        let json = {
+                            color: honorConfig.color,
+                            ext: honorConfig.ext,
+                            honor: disposeHonor(),
+                            extra: "尚未获取的称号框",
+                            using: 0,
+                            type: "honor",
+                            val: key,
+                            isHave: false,
+                            isImgIndex: honorConfig.ranking.length > 0 ? true : false,
+                        };
+                        newArr.push(json);
+                    }
+                });
+                let isUsing = newArr.find((item) => item.using == 1);
+                this.list = newArr || [];
                 let isCustomize = {
                     type: "honor_customize",
                     val: "不佩戴称号",
-                    using: filter.length ? 0 : 1,
-                    isCustomize: true,
+                    honor: "取消佩戴称号",
+                    using: isUsing ? 0 : 1,
+                    isHave: true,
+                    isCustomize: true, //是否是自己定义的
                 };
-                if (filter.length) {
-                    this.isSelect = filter[0];
+                if (isUsing) {
+                    this.isSelect = isUsing;
                 } else {
                     this.isSelect = isCustomize;
                 }
-
                 this.list.unshift(isCustomize);
                 this.isSelectBak = cloneDeep(this.isSelect);
                 this.listBak = cloneDeep(this.list);
             });
         },
+
         selectChange(item) {
+            if (!item.isHave) return;
             let list = this.list;
             let find = list.find((e) => e.using == 1);
             if (find) find.using = 0;
@@ -174,7 +311,7 @@ export default {
     },
     mounted: function () {
         this.loadUserInfo();
-        this.loadDecoration();
+        this.loadHonor();
     },
     components: {
         uc,

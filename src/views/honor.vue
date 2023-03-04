@@ -11,7 +11,13 @@
         <div class="m-honor">
             <div class="m-honor-left">
                 <div class="u-header-info">
-                    <Avatar class="u-author-avatar" :uid="uid" :url="avatar" :frame="avatar_frame" />
+                    <Avatar
+                        class="u-author-avatar"
+                        :uid="uid"
+                        :url="avatar"
+                        :size="avatarSize()"
+                        :frame="avatar_frame"
+                    />
                     <div class="u-author-info">
                         <span class="u-name">
                             <span @click="copyData(data.display_name || '匿名')">{{ data.display_name || "匿名" }}</span
@@ -147,6 +153,16 @@ export default {
         setClass(item) {
             if (!item.isHave) return "noHave";
             if (item.using) return "select";
+        },
+        avatarSize() {
+            let w = document.body.clientWidth || document.documentElement.clientWidth;
+            if (w > 720) {
+                return "l";
+            } else if (w > 500) {
+                return "m";
+            } else {
+                return "s";
+            }
         },
         loadUserInfo: function () {
             getMyInfo().then((res) => {

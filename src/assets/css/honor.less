@@ -271,3 +271,33 @@
         }
     }
 }
+@media screen and (max-width: @phone) {
+    .m-honor {
+        flex-direction: column;
+        .m-honor-left,
+        .m-honor-right {
+            .min-width(0);
+        }
+        .m-honor-left {
+            .h(auto);
+            .u-header-info{
+                flex-direction: column;
+                gap:20px;
+                .h(auto);
+                padding:20px 0;
+            }
+            .u-author-info{
+                .w(auto);
+            }
+            .u-author-avatar{
+
+            }
+        }
+        .m-honor-right {
+            .mt(20px);
+            .u-honor-item {
+                .flex(x);
+            }
+        }
+    }
+}

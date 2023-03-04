@@ -178,6 +178,7 @@ export default {
         loadDecoration() {
             getDecoration({ type: "honor" }).then((data) => {
                 let res = data.data.data;
+                // let res = [];
                 let honorList = this.honorList;
                 let newArr = [];
                 Object.keys(honorList).forEach((key, i) => {
@@ -191,6 +192,7 @@ export default {
                         let ranking = honorConfig.ranking;
                         let honorStr = honorConfig.year || "";
                         if (regPrefix) {
+                            if (!data) return;
                             honorStr = honorStr + (data[regPrefix[0]] || "");
                         } else {
                             honorStr = honorStr + prefix;
@@ -236,6 +238,7 @@ export default {
                             type: "honor",
                             val: key,
                             isHave: false,
+                            imgIndex: 0,
                             isImgIndex: honorConfig.ranking.length > 0 ? true : false,
                         };
                         newArr.push(json);

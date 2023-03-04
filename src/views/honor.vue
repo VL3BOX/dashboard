@@ -192,13 +192,14 @@ export default {
                         let ranking = honorConfig.ranking;
                         let honorStr = honorConfig.year || "";
                         if (regPrefix) {
-                            if (!data) return;
-                            honorStr = honorStr + (data[regPrefix[0]] || "");
+                            if (data) {
+                                honorStr = honorStr + (data[regPrefix[0]] || "");
+                            }
                         } else {
                             honorStr = honorStr + prefix;
                         }
                         //排名处理
-                        if (ranking.length > 0) {
+                        if (ranking.length > 0 && data) {
                             data.imgIndex = 0;
                             for (let i = 0; i < ranking.length; i++) {
                                 //处在范围内取数组第三个值进行称号拼接

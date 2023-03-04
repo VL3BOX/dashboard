@@ -156,9 +156,7 @@ export default {
         },
         avatarSize() {
             let w = document.body.clientWidth || document.documentElement.clientWidth;
-            if (w > 720) {
-                return "l";
-            } else if (w > 500) {
+            if (w > 500) {
                 return "m";
             } else {
                 return "s";

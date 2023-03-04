@@ -164,9 +164,6 @@ export default {
         loadDecoration() {
             getDecoration({ type: "honor" }).then((data) => {
                 let res = data.data.data;
-                // res[0].server = "长安城";
-                // res[0].ranking = 0;
-                // res[0].extra = "备注";
                 let honorList = this.honorList;
                 let newArr = [];
                 Object.keys(honorList).forEach((key, i) => {
@@ -210,40 +207,6 @@ export default {
                         return honorStr + honorConfig.suffix;
                     };
                     if (data) {
-                        // let data = filter[0];
-                        //正则取出前缀
-                        // let prefix = honorConfig.prefix;
-                        // let regPrefix = honorConfig.prefix.match(/(?<=\{)(.+?)(?=\})/g);
-                        // let ranking = honorConfig.ranking;
-                        // let honorStr = honorConfig.year || "";
-                        // if (regPrefix) {
-                        //     honorStr = honorStr + (data[regPrefix[0]] || "");
-                        // } else {
-                        //     honorStr = honorStr + prefix;
-                        // }
-                        // //排名处理
-                        // if (ranking.length > 0) {
-                        //     data.imgIndex = 0;
-                        //     for (let i = 0; i < ranking.length; i++) {
-                        //         //处在范围内取数组第三个值进行称号拼接
-                        //         if (
-                        //             data.ranking != undefined &&
-                        //             inRange(Number(data.ranking), ranking[i][0], ranking[i][1])
-                        //         ) {
-                        //             data.imgIndex = i;
-                        //             let str = ranking[i][2];
-                        //             //正则取出需替换值，如果没有则直接拼接
-                        //             let regStr = str.match(/(?<=\{)(.+?)(?=\})/g);
-                        //             if (regStr) {
-                        //                 //包含花括号替换
-                        //                 honorStr = honorStr + str.replace(/\{(.+?)\}/g, data[regStr[0]]);
-                        //             } else {
-                        //                 honorStr = honorStr + str;
-                        //             }
-                        //             break;
-                        //         }
-                        //     }
-                        // }
                         data.honor = disposeHonor(data);
                         data.color = honorConfig.color;
                         data.ext = honorConfig.ext;

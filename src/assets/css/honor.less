@@ -4,6 +4,7 @@
     .flex(x);
     .m-honor-left {
         // .pr;
+        .min-width(440px);
         .size(440px,470px);
         .mr(20px);
         border: 1px solid #eee;
@@ -106,6 +107,7 @@
         }
     }
     .m-honor-right {
+        .min-width(504px);
         .size(504px,470px);
         border: 1px solid #eee;
         box-sizing: border-box;
@@ -256,5 +258,17 @@
     .el-button {
         padding-left: 40px;
         padding-right: 40px;
+    }
+}
+@media screen and (max-width: @ipad) {
+    .m-honor {
+        flex-direction: column;
+        .m-honor-left,
+        .m-honor-right {
+            .w(100%);
+        }
+        .m-honor-right {
+            .mt(20px);
+        }
     }
 }

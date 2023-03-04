@@ -97,7 +97,7 @@ export default {
                 { name: "主页风格", type: "homebg", statue: 1 },
                 { name: "侧栏主题", type: "sidebar", statue: 1 },
                 { name: "首页日历", type: "calendar", statue: 1 },
-                { name: "社区称号", type: "", statue: 0 },
+                //{ name: "社区称号", type: "", statue: 0 },
             ],
             // bg: "url('https://cdn.jx3box.com/static/dashboard/img/no.5fe91973.svg')", //预览合成背景
             previewUrl: "",

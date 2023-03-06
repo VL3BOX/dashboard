@@ -9,7 +9,7 @@
             >
         </template>
         <div class="u-tips">
-            <i class="el-icon-warning-outline"></i>自定义表情包最多只能同时激活三个。
+            <i class="el-icon-warning-outline"></i>自定义表情包最多只能同时激活五个。
         </div>
         <div class="u-list">
             <div
@@ -112,9 +112,9 @@ export default {
             if (this.isDisabled(item.group_name)) {
                 return;
             }
-            // 最多只能选择三个
-            if (this.active.length >= 3 && !this.isUsing(item.group_name)) {
-                this.$message.error("最多只能选择三个表情包");
+            // 最多只能选择五个
+            if (this.active.length >= 5 && !this.isUsing(item.group_name)) {
+                this.$message.error("最多只能选择五个表情包");
                 return;
             } else {
                 if (this.isUsing(item.group_name)) {

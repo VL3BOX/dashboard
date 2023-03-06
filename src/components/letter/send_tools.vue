@@ -10,7 +10,7 @@
                 accept=".jpg, .jpeg, .png, .gif, .bmp,.webp"
             />
         </div>
-        <Emotion type="pop" @selected="emotionSelect" />
+        <Emotion type="pop" @selected="emotionSelect" :max="6" />
     </div>
 </template>
 

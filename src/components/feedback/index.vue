@@ -113,6 +113,11 @@ export default {
         width: 100%;
     }
 }
+@media screen and (max-width:@phone){
+    .m-feedback-aside {
+        display: none;
+    }
+}
 .m-feedback-faq {
     margin-top: 20px;
     border-radius: 4px;

@@ -1,7 +1,19 @@
 <template>
     <div class="m-add-feedback">
         <div class="type-box">
-            <div class="type-box-item">
+            <el-form inline>
+                <el-form-item label="来源">
+                    <el-select v-model="form.type" placeholder="请选择问题来源" size="small">
+                        <el-option v-for="(value, key) in types" :key="key" :value="key" :label="value"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="类别">
+                    <el-select v-model="form.subtype" placeholder="请选择问题类别" size="small">
+                        <el-option v-for="(value, key) in subtypes" :key="key" :value="key" :label="value"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <!-- <div class="type-box-item">
                 <span class="u-label">来源：</span>
                 <el-select v-model="form.type" placeholder="请选择问题来源" size="small">
                     <el-option v-for="(value, key) in types" :key="key" :value="key" :label="value"></el-option>
@@ -12,7 +24,7 @@
                 <el-select v-model="form.subtype" placeholder="请选择问题类别" size="small">
                     <el-option v-for="(value, key) in subtypes" :key="key" :value="key" :label="value"></el-option>
                 </el-select>
-            </div>
+            </div> -->
         </div>
         <div class="m-content">
             <el-input v-model="form.content" type="textarea" :rows="10" placeholder="输入反馈内容"></el-input>
@@ -160,13 +172,8 @@ export default {
 <style lang="less" scoped>
 .m-add-feedback {
     .type-box {
-        display: flex;
-
-        .type-box-item {
-            margin-right: 10px;
-            .u-label {
-                margin-right: 5px;
-            }
+        .el-form-item {
+            margin-bottom: 0;
         }
     }
 

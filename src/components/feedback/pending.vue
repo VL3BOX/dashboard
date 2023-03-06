@@ -199,6 +199,7 @@ export default {
     .m-assign {
         display: flex;
         gap: 10px;
+        flex-wrap: wrap;
 
         .u-assign {
             display: flex;

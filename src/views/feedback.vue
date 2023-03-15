@@ -27,7 +27,11 @@ export default {
     watch: {},
     methods: {
         goBack() {
-            this.$router.go(-1);
+            if (window.history.length > 1) {
+                this.$router.go(-1);
+            } else {
+                this.$router.push({ path: '/feedback?tab=pending' });
+            }
         },
     },
     created: function () {},

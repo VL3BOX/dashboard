@@ -100,8 +100,7 @@
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
                                 <td>
-                                    {{ item.description || '未知' }}
-                                    <!-- {{ formatType(item.use_case) }} -->
+                                    {{ item.description || formatType(item.action_type) || '未知' }}
                                 </td>
                                 <td>
                                     <a class="u-user" :href="authorLink(item.pay_user.id)" v-if="item.pay_user">
@@ -111,10 +110,11 @@
                                     <span v-else>系统</span>
                                 </td>
                                 <td>
-                                    <a class="u-user" :href="authorLink(item.access_user.id)" v-if="item.access_user">
+                                    <a class="u-user" :href="authorLink(item.access_user.id)" v-if="!!item.access_user">
                                         <img class="u-avatar" :src="showAvatar(item.access_user.avatar)" alt="" />
                                         {{ item.access_user.display_name }}
                                     </a>
+                                    <span v-else>系统</span>
                                 </td>
                                 <td class="u-count" :class="{ isNegative: !isIncome(item) }">
                                     <span>{{ isIncome(item) ? "+" : "-" }}</span>
@@ -329,7 +329,7 @@ export default {
                 // 收入
                 return true;
             } else {
-                return access_user_id == this.uid;
+                return access_user_id == User.getInfo().uid;
             }
         },
         authorLink,

@@ -158,12 +158,7 @@ export default {
             this.getData();
         },
         viewFeedback: function (row) {
-            this.$router.push({
-                name: "feedback_single",
-                params: {
-                    id: row.id,
-                },
-            });
+            window.open("/feedback/" + row.id, "_blank");
         },
         filterChange(filters) {
             Object.entries(filters).forEach(([key, value]) => {

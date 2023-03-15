@@ -249,4 +249,9 @@ export default {
         margin:0;
     }
 }
+@media screen and (max-width: @phone) {
+    .m-block {
+        margin: 0
+    }
+}
 </style>

@@ -83,11 +83,12 @@
             span {
                 .mr(10px);
             }
-            .u-superauth {
-                img {
-                    width: 16px;
-                    vertical-align: -2px;
-                }
+        }
+        .u-superauth {
+            margin-left: 5px;
+            img {
+                width: 16px;
+                vertical-align: -2px;
             }
         }
 
@@ -163,6 +164,7 @@
             .u-name {
                 .fz(15px, 24px);
                 .bold;
+                .pr;
             }
             * {
                 .fz(13px);
@@ -173,16 +175,26 @@
                 }
                 .u-group {
                     .none;
-    
+
                 }
             }
-            
+
             .u-edit-name {
                 .ps;
                 .w(auto);
             }
             .u-vip {
                 .db;
+            }
+            .u-superauth {
+                .pa;
+                bottom: 0;
+                right: 100px;
+
+                &.is-vip {
+                    bottom: -2px;
+                    right: 70px;
+                }
             }
         }
 

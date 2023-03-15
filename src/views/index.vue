@@ -10,31 +10,28 @@
                             <i class="el-icon-edit-outline"></i>
                         </a>
                     </el-tooltip>
-                    <el-tooltip class="item" effect="dark" content="购买/续费会员服务" placement="top">
-                        <span class="u-vip">
-                            <template v-if="isVIP || isPRO">
-                                <a
-                                    class="i-icon-vip"
-                                    :class="{ on: isVIP || isPRO }"
-                                    href="/vip/premium?from=dashboard_index"
-                                    target="_blank"
-                                    >{{ vipType }}</a
-                                >
-                                <span class="u-expire" v-if="expire_date">(有效期至:{{ expire_date }})</span>
-                            </template>
-                            <a class="u-upgrade" href="/vip/premium?from=dashboard_index" target="_blank" v-else
-                                >升级账号类型</a
+                    <span class="u-vip" :title="expire_date ? `有效期至:${ expire_date }` : '购买/续费会员服务'">
+                        <template v-if="isVIP || isPRO">
+                            <a
+                                class="i-icon-vip"
+                                :class="{ on: isVIP || isPRO }"
+                                href="/vip/premium?from=dashboard_index"
+                                target="_blank"
+                                >{{ vipType }}</a
                             >
-                        </span>
-                    </el-tooltip>
+                        </template>
+                        <a class="u-upgrade" href="/vip/premium?from=dashboard_index" target="_blank" v-else
+                            >升级账号类型</a
+                        >
+                    </span>
+                    <span class="u-superauth" :class="{'is-vip': !(isVIP || isPRO)}" v-if="isSuperAuthor" title="签约作者">
+                        <img :src="super_author_icon" alt="superAuthor" />
+                    </span>
                 </h1>
                 <div class="u-identity">
                     <span class="u-uid">
                         <em>UID</em>
                         <b>{{ uid }}</b>
-                    </span>
-                    <span class="u-superauth" v-if="isSuperAuthor" title="签约作者">
-                        <img :src="super_author_icon" alt="superAuthor" />
                     </span>
                     <span class="u-level">
                         <el-tooltip :content="`当前经验 ${info.experience || 0}`">

@@ -36,7 +36,7 @@
                     </el-table-column>
                     <!-- <el-table-column prop="order.remark" label="备注"> </el-table-column> -->
 
-                    <el-table-column label="操作" min-width="200px">
+                    <el-table-column label="操作" min-width="220">
                         <template slot-scope="scope">
                             <div class="m-button">
                                 <!-- <template v-if="scope.row.goods.sub_category !== 'emotion'"> -->

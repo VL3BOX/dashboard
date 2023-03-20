@@ -12,7 +12,7 @@
                     v-for="child in item.children"
                     :to="child.path"
                     :key="child.path"
-                    :class="isProfile(child.path) || isTheme(child.path) || isMall(child.path)"
+                    :class="isProfile(child.path) || isTheme(child.path) || isMall(child.path) || isMsg(child.path)"
                 >
                     <i :class="child.icon"></i>
                     <span>{{ child.name }}</span>
@@ -29,6 +29,7 @@ import navList from "@/assets/data/nav.json";
 const profile_routes = ["profile", "avatar", "pwd", "connect", "email", "address"];
 const theme_routes = ["theme", "frame", "emotion", "honor"];
 const mall_routes = ["mall", "orders"];
+const msg_routes = ["msg", "letter"]
 export default {
     name: "Nav",
     data: function () {
@@ -54,6 +55,9 @@ export default {
         },
         isMall: function (val) {
             return val === "/mall" && mall_routes.includes(this.$route.name) ? "on" : "";
+        },
+        isMsg: function (val) {
+            return val === '/msg' && msg_routes.includes(this.$route.name) ? "on" : "";
         },
     },
     mounted: function () {},

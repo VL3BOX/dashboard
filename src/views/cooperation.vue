@@ -251,7 +251,7 @@ export default {
 }
 @media screen and (max-width: @phone) {
     .m-block {
-        margin: 0
+        margin: 10px 0;
     }
 }
 </style>

@@ -30,9 +30,8 @@
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="100">
-                <template #default="{ row }">
-                    <!-- <el-button type="text" size="small" @click="handleView(row)">查看</el-button> -->
-                    <a :href="`/dashboard/feedback/${row.id}`" target="_blank">查看</a>
+                <template #default>
+                    <el-button type="text" size="small">查看</el-button>
                 </template>
             </el-table-column>
         </el-table>

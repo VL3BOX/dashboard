@@ -20,9 +20,18 @@
                     <span class="u-client" :class="'i-client-' + row.client">{{ formatClient(row.client) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="来源" prop="type">
+            <el-table-column label="提交人" prop="user">
                 <template #default="{ row }">
-                    {{ types[row.type] }}
+                    <div class="m-assign">
+                        <a
+                            class="u-assign"
+                            :href="authorLink(row.user.id)"
+                            target="_blank"
+                        >
+                            <img class="u-assign-avatar" :src="showAvatar(row.user.avatar)" />
+                            <span class="u-assign-name">{{ row.user.display_name }}</span>
+                        </a>
+                    </div>
                 </template>
             </el-table-column>
             <el-table-column label="类型" prop="subtype">

@@ -20,7 +20,17 @@
                     <span class="u-client" :class="'i-client-' + row.client">{{ formatClient(row.client) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="提交人" prop="user">
+            <el-table-column label="来源" prop="type" v-show="!isEditor">
+                <template #default="{ row }">
+                    {{ types[row.type] }}
+                </template>
+            </el-table-column>
+            <el-table-column label="类型" prop="subtype">
+                <template #default="{ row }">
+                    {{ subtypes[row.subtype] }}
+                </template>
+            </el-table-column>
+            <el-table-column label="提交人" prop="user" v-show="isEditor">
                 <template #default="{ row }">
                     <div class="m-assign">
                         <a
@@ -32,11 +42,6 @@
                             <span class="u-assign-name">{{ row.user.display_name }}</span>
                         </a>
                     </div>
-                </template>
-            </el-table-column>
-            <el-table-column label="类型" prop="subtype">
-                <template #default="{ row }">
-                    {{ subtypes[row.subtype] }}
                 </template>
             </el-table-column>
             <el-table-column label="指派给">
@@ -102,7 +107,7 @@ export default {
             total: 0,
             filterOptions,
             filters: {
-                status: '',
+                status: 1,
                 client: ''
             },
 
@@ -110,10 +115,13 @@ export default {
             subtypes,
             statusMap,
             statusColors,
+
+            isEditor : false,
         };
     },
     mounted() {
         this.getData();
+        this.isEditor = User.isEditor();
     },
     computed: {
         user() {

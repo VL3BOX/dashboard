@@ -347,7 +347,7 @@ export default {
             this.loadData();
         },
         getPostLink(item) {
-            return getLink(item.post_type, item.article_id);
+            return getLink(item.post_type_sub ||item.post_type, item.article_id);
         },
 
         // 提现操作

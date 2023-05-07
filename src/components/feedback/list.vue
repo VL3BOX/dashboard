@@ -1,6 +1,6 @@
 <template>
     <div class="m-feedback-list" v-loading="loading">
-        <el-table :data="data" highlight-current-row size="small" row-class-name="u-row">
+        <el-table :data="data" highlight-current-row size="small" row-class-name="u-row" @row-click="viewFeedback">
             <el-table-column label="状态" prop="status">
                 <template #default="{ row }">
                     <span class="u-status" :style="{ backgroundColor: statusColors[row.status] }">{{
@@ -107,14 +107,9 @@ export default {
             this.page = val;
             this.getData();
         },
-        viewFeedback:function (row){
-            this.$router.push({
-                name : 'feedback_single',
-                params : {
-                    id : row.id
-                }
-            })
-        }
+        viewFeedback: function (row) {
+            window.open("/feedback/" + row.id, "_blank");
+        },
     },
 };
 </script>

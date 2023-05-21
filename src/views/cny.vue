@@ -37,6 +37,9 @@
                 <el-form-item label="账号">
                     <el-input v-model="pull.account" placeholder="请务必填写正确的收款账号"></el-input>
                 </el-form-item>
+                <el-form-item label="确认账号">
+                    <el-input v-model="pull.account_sure" placeholder="请务必填写正确的收款账号"></el-input>
+                </el-form-item>
                 <el-form-item label="姓名">
                     <el-input v-model="pull.username" placeholder="请务必填写正确的收款人"></el-input>
                 </el-form-item>
@@ -100,7 +103,7 @@
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
                                 <td>
-                                    {{ item.description || formatType(item.action_type) || '未知' }}
+                                    {{ item.description || formatType(item.action_type) || "未知" }}
                                 </td>
                                 <td>
                                     <a class="u-user" :href="authorLink(item.pay_user.id)" v-if="item.pay_user">
@@ -173,6 +176,7 @@ export default {
             pull: {
                 username: "",
                 account: "",
+                account_sure: "",
                 pay_type: "alipay",
                 money: 100, //转换为分
             },
@@ -274,6 +278,9 @@ export default {
             this.formStatus = true;
         },
         openConfirmBox: function () {
+            const { account_sure, account } = this.pull;
+            if (account_sure !== account) return this.$message.error("填写的账户不一致");
+            delete this.pull.account_sure;
             this.$alert(
                 `<div class="m-packet-msg">
                 收款账号<b>${this.pull.account}</b><br/>

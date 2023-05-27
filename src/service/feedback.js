@@ -1,4 +1,4 @@
-import { $pay, $next } from "@jx3box/jx3box-common/js/https";
+import { $pay, $next, $cms } from "@jx3box/jx3box-common/js/https";
 
 /**
  * 用户注销
@@ -55,7 +55,18 @@ function getFeedback(id) {
 function updateFeedback(id, data) {
     return $next().patch(`/api/miscfeedback/${id}`, data)
 }
-
+/**
+ * 获取反馈assign名单
+ */
+function getTeammates(){
+    return $cms().get(`/api/cms/config/teammates`,{
+        params : {
+            status : 1
+        }
+    }).then((res) => {
+        return res.data.data
+    })
+}
 export {
     leave,
     feedback,
@@ -63,4 +74,5 @@ export {
     getFeedback,
     getMiscfeedback,
     updateFeedback,
+    getTeammates
 }

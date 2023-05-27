@@ -15,10 +15,12 @@
                     <list v-if="active === 'myfeedback'"></list>
                 </el-tab-pane>
                 <el-tab-pane v-if="isTeammate" label="待处理" name="pending" lazy>
-                    <pending v-if="active === 'pending'" :only-me="onlyMe"></pending>
+                    <pending v-if="active === 'pending'" :only-me="onlyMe" @changeUser="changeUser"></pending>
                 </el-tab-pane>
             </el-tabs>
-            <el-checkbox class="u-only-check" v-if="isTeammate && active === 'pending'" v-model="onlyMe">指派给我的</el-checkbox>
+            <el-checkbox class="u-only-check" v-if="isTeammate && active === 'pending'" v-model="onlyMe"
+                >指派给我的</el-checkbox
+            >
         </section>
         <aside class="m-feedback-aside">
             <el-button class="u-btn" size="small" type="warning" plain @click="handleEraseClick">注销账号</el-button>
@@ -53,8 +55,8 @@ export default {
     },
     computed: {
         isTeammate() {
-            return this.$store.state.isTeammate
-        }
+            return this.$store.state.isTeammate;
+        },
     },
     watch: {
         "$route.query": {
@@ -84,7 +86,10 @@ export default {
             getMenus({ names: ["feedback_faq"] }).then((res) => {
                 this.faq = res.feedback_faq;
             });
-        }
+        },
+        changeUser() {
+            this.onlyMe = false;
+        },
     },
 };
 </script>
@@ -113,7 +118,7 @@ export default {
         width: 100%;
     }
 }
-@media screen and (max-width:@phone){
+@media screen and (max-width: @phone) {
     .m-feedback-aside {
         display: none;
     }
@@ -124,24 +129,24 @@ export default {
     .u-title {
         .fz(14px,2);
         font-weight: bold;
-        border-bottom: 1px solid #e6e6e6
+        border-bottom: 1px solid #e6e6e6;
     }
 
-    .u-list{
+    .u-list {
         padding: 10px 0;
     }
-    .u-item{
+    .u-item {
         .db;
-        padding:0 5px;
-        border-bottom:1px dotted #ddd;
+        padding: 0 5px;
+        border-bottom: 1px dotted #ddd;
         .fz(13px,2);
-        &:before{
-            content:'»';
-            color:#999;
+        &:before {
+            content: "»";
+            color: #999;
             .mr(5px);
         }
-        &:hover{
-            color:#fba524;
+        &:hover {
+            color: #fba524;
         }
     }
 }

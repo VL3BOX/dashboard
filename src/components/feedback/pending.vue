@@ -1,95 +1,134 @@
 <template>
-    <div class="m-feedback-list" v-loading="loading">
-        <el-table
-            :data="data"
-            highlight-current-row
-            size="small"
-            @row-click="viewFeedback"
-            row-class-name="u-row"
-            @filter-change="filterChange"
-        >
-            <el-table-column label="状态" prop="status" column-key="status" :filters="filterOptions.status" :filter-multiple="false">
-                <template #default="{ row }">
-                    <span class="u-status" :style="{ backgroundColor: statusColors[row.status] }">{{
-                        statusMap[row.status]
-                    }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="客户端" prop="client" column-key="client" :filters="filterOptions.client" :filter-multiple="false">
-                <template #default="{ row }">
-                    <span class="u-client" :class="'i-client-' + row.client">{{ formatClient(row.client) }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="来源" prop="type" v-show="!isEditor">
-                <template #default="{ row }">
-                    {{ types[row.type] }}
-                </template>
-            </el-table-column>
-            <el-table-column label="类型" prop="subtype">
-                <template #default="{ row }">
-                    {{ subtypes[row.subtype] }}
-                </template>
-            </el-table-column>
-            <el-table-column label="提交人" prop="user" v-show="isEditor">
-                <template #default="{ row }">
-                    <div class="m-assign">
-                        <a
-                            class="u-assign"
-                            :href="authorLink(row.user.id)"
-                            target="_blank"
-                        >
-                            <img class="u-assign-avatar" :src="showAvatar(row.user.avatar)" />
-                            <span class="u-assign-name">{{ row.user.display_name }}</span>
-                        </a>
-                    </div>
-                </template>
-            </el-table-column>
-            <el-table-column label="指派给">
-                <template #default="{ row }">
-                    <div class="m-assign" v-if="row.assign_user && row.assign_user.length">
-                        <a
-                            class="u-assign"
-                            :href="authorLink(assign.id)"
-                            target="_blank"
-                            v-for="assign in row.assign_user"
-                            :key="assign.id"
-                        >
-                            <img class="u-assign-avatar" :src="showAvatar(assign.avatar)" />
-                            <span class="u-assign-name">{{ assign.display_name }}</span>
-                        </a>
-                    </div>
-                </template>
-            </el-table-column>
-            <el-table-column label="提交时间" prop="created_at">
-                <template #default="{ row }">
-                    {{ formatTime(row.created_at) }}
-                </template>
-            </el-table-column>
-            <el-table-column label="操作" width="100">
-                <template #default>
-                    <el-button type="text" size="small">查看</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <el-pagination
-            class="m-credit-pages m-packet-pages"
-            background
-            :page-size="per"
-            :hide-on-single-page="true"
-            :current-page.sync="page"
-            @current-change="currentChange"
-            layout="total, prev, pager, next, jumper"
-            :total="total"
-        ></el-pagination>
+    <div>
+        <!-- tool -->
+        <div class="m-feedback-tool">
+            <label> 处理者 </label>
+            <el-select v-model="select" class="u-select" slot="prepend" size="small" placeholder="请选择">
+                <el-option
+                    :label="item.teammate_info.display_name"
+                    v-for="(item, i) in assigns"
+                    :key="i"
+                    :value="item.user_id"
+                ></el-option>
+            </el-select>
+            <label> 时间 </label>
+            <el-date-picker
+                v-model="time"
+                type="daterange"
+                class="u-date"
+                popper-class="m-feedback-date"
+                unlink-panels
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions"
+                size="small"
+                append-to-body
+            >
+            </el-date-picker>
+        </div>
+        <!-- list -->
+        <div class="m-feedback-list" v-loading="loading">
+            <el-table
+                :data="data"
+                highlight-current-row
+                size="small"
+                @row-click="viewFeedback"
+                row-class-name="u-row"
+                @filter-change="filterChange"
+            >
+                <el-table-column
+                    label="状态"
+                    prop="status"
+                    column-key="status"
+                    :filters="filterOptions.status"
+                    :filter-multiple="false"
+                >
+                    <template #default="{ row }">
+                        <span class="u-status" :style="{ backgroundColor: statusColors[row.status] }">{{
+                            statusMap[row.status]
+                        }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    label="客户端"
+                    prop="client"
+                    column-key="client"
+                    :filters="filterOptions.client"
+                    :filter-multiple="false"
+                >
+                    <template #default="{ row }">
+                        <span class="u-client" :class="'i-client-' + row.client">{{ formatClient(row.client) }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="来源" prop="type" v-show="!isEditor">
+                    <template #default="{ row }">
+                        {{ types[row.type] }}
+                    </template>
+                </el-table-column>
+                <el-table-column label="类型" prop="subtype">
+                    <template #default="{ row }">
+                        {{ subtypes[row.subtype] }}
+                    </template>
+                </el-table-column>
+                <el-table-column label="提交人" prop="user" v-show="isEditor">
+                    <template #default="{ row }">
+                        <div class="m-assign">
+                            <a class="u-assign" :href="authorLink(row.user.id)" target="_blank">
+                                <img class="u-assign-avatar" :src="showAvatar(row.user.avatar)" />
+                                <span class="u-assign-name">{{ row.user.display_name }}</span>
+                            </a>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="指派给">
+                    <template #default="{ row }">
+                        <div class="m-assign" v-if="row.assign_user && row.assign_user.length">
+                            <a
+                                class="u-assign"
+                                :href="authorLink(assign.id)"
+                                target="_blank"
+                                v-for="assign in row.assign_user"
+                                :key="assign.id"
+                            >
+                                <img class="u-assign-avatar" :src="showAvatar(assign.avatar)" />
+                                <span class="u-assign-name">{{ assign.display_name }}</span>
+                            </a>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="提交时间" prop="created_at">
+                    <template #default="{ row }">
+                        {{ formatTime(row.created_at) }}
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" width="100">
+                    <template #default>
+                        <el-button type="text" size="small">查看</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                class="m-credit-pages m-packet-pages"
+                background
+                :page-size="per"
+                :hide-on-single-page="true"
+                :current-page.sync="page"
+                @current-change="currentChange"
+                layout="total, prev, pager, next, jumper"
+                :total="total"
+            ></el-pagination>
+        </div>
     </div>
 </template>
 
 <script>
-import { getMiscfeedback } from "@/service/feedback";
+import { getMiscfeedback, getTeammates } from "@/service/feedback";
 import { types, subtypes, statusMap, statusColors, filterOptions } from "@/assets/data/feedback.json";
 import { showAvatar, authorLink } from "@jx3box/jx3box-common/js/utils";
 import User from "@jx3box/jx3box-common/js/user";
 import moment from "moment";
+import { concat } from "lodash";
 export default {
     name: "pendingList",
     props: {
@@ -108,7 +147,7 @@ export default {
             filterOptions,
             filters: {
                 status: 1,
-                client: ''
+                client: "",
             },
 
             types,
@@ -116,22 +155,78 @@ export default {
             statusMap,
             statusColors,
 
-            isEditor : false,
+            isEditor: false,
+
+            time: "",
+            select: "",
+            assigns: [],
+            pickerOptions: {
+                shortcuts: [
+                    {
+                        text: "最近一周",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit("pick", [start, end]);
+                        },
+                    },
+                    {
+                        text: "最近一个月",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit("pick", [start, end]);
+                        },
+                    },
+                    {
+                        text: "最近三个月",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit("pick", [start, end]);
+                        },
+                    },
+                ],
+            },
         };
     },
     mounted() {
         this.getData();
+        this.loadTeam();
         this.isEditor = User.isEditor();
     },
     computed: {
         user() {
             return User.getInfo();
         },
+        params() {
+            const _params = {
+                pageIndex: this.page,
+                pageSize: this.per,
+                ...this.filters,
+            };
+            if (this.onlyMe) _params.assign = this.user.uid;
+            if (this.select) _params.assign = this.select;
+            if (this.time) {
+                _params.start = moment(this.time[0]).format("YYYYMMDDHHmmsss");
+                _params.end = moment(this.time[1]).format("YYYYMMDDHHmmsss");
+            }
+            return _params;
+        },
     },
     watch: {
-        onlyMe() {
-            this.page = 1;
-            this.getData();
+        select() {
+            this.$emit("changeUser");
+        },
+        params: {
+            deep: true,
+            handler: function () {
+                this.page = 1;
+                this.getData();
+            },
         },
     },
     methods: {
@@ -140,12 +235,7 @@ export default {
         async getData() {
             try {
                 this.loading = true;
-                const params = {
-                    pageIndex: this.page,
-                    pageSize: this.per,
-                    ...this.filters,
-                };
-                this.onlyMe && (params.assign = this.user.uid);
+                const params = this.params;
                 let res = await getMiscfeedback(params);
                 this.data = res.data.data.list || [];
                 this.total = res.data.data.page.total;
@@ -174,11 +264,17 @@ export default {
         },
         filterChange(filters) {
             Object.entries(filters).forEach(([key, value]) => {
-                this.filters[key] = value.length ? value[0] : '';
+                this.filters[key] = value.length ? value[0] : "";
             });
 
             this.getData();
-        }
+        },
+        async loadTeam() {
+            const list = await getTeammates().then((res) => {
+                return res.filter((item) => item.status);
+            });
+            this.assigns = concat({ user_id: 0, teammate_info: { display_name: "全部" } }, list);
+        },
     },
 };
 </script>
@@ -217,6 +313,36 @@ export default {
                 .mr(5px);
             }
         }
+    }
+}
+.m-feedback-tool {
+    .flex;
+    .fz(14px);
+    .pb(10px);
+    align-items: center;
+    gap: 20px;
+    label {
+        flex-shrink: 0;
+    }
+    .u-select {
+        min-width: 100px;
+    }
+    .u-date {
+        min-width: 240px;
+    }
+}
+@media screen and (max-width: @phone) {
+    .m-feedback-tool {
+        overflow: auto;
+    }
+}
+</style>
+<style lang="less">
+@media screen and (max-width: @phone) {
+    .el-date-range-picker.m-feedback-date {
+        left: 0;
+        overflow: auto;
+        width: 100%;
     }
 }
 </style>

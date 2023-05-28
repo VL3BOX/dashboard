@@ -218,8 +218,11 @@ export default {
         },
     },
     watch: {
-        select() {
-            this.$emit("changeUser");
+        select(val) {
+            if (val) this.$emit("changeOnly");
+        },
+        onlyMe(isTrue) {
+            if (isTrue) this.select = "";
         },
         params: {
             deep: true,

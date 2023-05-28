@@ -15,12 +15,12 @@
                     <list v-if="active === 'myfeedback'"></list>
                 </el-tab-pane>
                 <el-tab-pane v-if="isTeammate" label="待处理" name="pending" lazy>
-                    <pending v-if="active === 'pending'" :only-me="onlyMe" @changeUser="changeUser"></pending>
+                    <pending v-if="active === 'pending'" :only-me="onlyMe" @changeOnly="changeOnly"></pending>
                 </el-tab-pane>
             </el-tabs>
-            <el-checkbox class="u-only-check" v-if="isTeammate && active === 'pending'" v-model="onlyMe"
-                >指派给我的</el-checkbox
-            >
+            <el-checkbox class="u-only-check" v-if="isTeammate && active === 'pending'" v-model="onlyMe">
+                指派给我的
+            </el-checkbox>
         </section>
         <aside class="m-feedback-aside">
             <el-button class="u-btn" size="small" type="warning" plain @click="handleEraseClick">注销账号</el-button>
@@ -87,7 +87,7 @@ export default {
                 this.faq = res.feedback_faq;
             });
         },
-        changeUser() {
+        changeOnly() {
             this.onlyMe = false;
         },
     },

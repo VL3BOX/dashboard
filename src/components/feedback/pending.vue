@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="p-feedback">
         <!-- tool -->
         <div class="m-feedback-tool">
             <div class="m-feedback-tool__item">
@@ -115,7 +115,7 @@
                 </el-table-column>
                 <el-table-column label="操作" width="100">
                     <template #default="{row}">
-                        <el-tooltip :content="row.content" placement="top">
+                        <el-tooltip :content="row.content" placement="top" popper-class="m-content-popover">
                             <el-button type="text" size="small">查看</el-button>
                         </el-tooltip>
                         <el-button type="text" size="small" @click.stop="onRemarkClick(row)">备注</el-button>
@@ -317,7 +317,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .m-feedback-list {
     display: flex;
     flex-direction: column;
@@ -352,6 +352,10 @@ export default {
             }
         }
     }
+}
+.m-content-popover {
+    max-width: 300px !important;
+    line-height: 1.8;
 }
 .m-feedback-tool {
     .flex;

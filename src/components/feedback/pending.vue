@@ -2,30 +2,39 @@
     <div>
         <!-- tool -->
         <div class="m-feedback-tool">
-            <label> 处理者 </label>
-            <el-select v-model="select" class="u-select" slot="prepend" size="small" placeholder="请选择">
-                <el-option
-                    :label="item.teammate_info.display_name"
-                    v-for="(item, i) in assigns"
-                    :key="i"
-                    :value="item.user_id"
-                ></el-option>
-            </el-select>
-            <label> 时间 </label>
-            <el-date-picker
-                v-model="time"
-                type="daterange"
-                class="u-date"
-                popper-class="m-feedback-date"
-                unlink-panels
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                :picker-options="pickerOptions"
-                size="small"
-                append-to-body
-            >
-            </el-date-picker>
+            <div class="m-feedback-tool__item">
+                <el-select
+                    v-model="select"
+                    class="u-select"
+                    slot="prepend"
+                    size="small"
+                    placeholder="请选择处理人"
+                    filterable
+                >
+                    <el-option
+                        :label="item.teammate_info.display_name"
+                        v-for="(item, i) in assigns"
+                        :key="i"
+                        :value="item.user_id"
+                    >
+                        <div class="m-teammate">
+                            <div class="m-user">
+                                <img class="u-avatar" :src="showAvatar(item.teammate_info.user_avatar)" />
+                                <span class="u-name">{{ item.teammate_info.display_name }}</span>
+                                <span class="u-user-id">(ID: {{ item.user_id }})</span>
+                            </div>
+                            <div class="m-duty">
+                                <span class="u-duty" v-if="item.duty">{{ formateDuty(item.duty) }} | </span>
+                                <span class="u-remark">{{ item.remark }}</span>
+                            </div>
+                        </div>
+                    </el-option>
+                </el-select>
+            </div>
+            <div class="m-feedback-tool__item">
+                <el-date-picker v-model="time" type="month" placeholder="选择月份" size="small" format="yyyy年MM月"> </el-date-picker>
+            </div>
+            <el-checkbox class="u-only-check" v-model="onlyMe"> 指派给我的 </el-checkbox>
         </div>
         <!-- list -->
         <div class="m-feedback-list" v-loading="loading">
@@ -36,6 +45,7 @@
                 @row-click="viewFeedback"
                 row-class-name="u-row"
                 @filter-change="filterChange"
+                stripe
             >
                 <el-table-column
                     label="状态"
@@ -71,6 +81,7 @@
                         {{ subtypes[row.subtype] }}
                     </template>
                 </el-table-column>
+                <el-table-column label="备注" prop="remark"></el-table-column>
                 <el-table-column label="提交人" prop="user" v-show="isEditor">
                     <template #default="{ row }">
                         <div class="m-assign">
@@ -103,8 +114,11 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="操作" width="100">
-                    <template #default>
-                        <el-button type="text" size="small">查看</el-button>
+                    <template #default="{row}">
+                        <el-tooltip :content="row.content" placement="left">
+                            <el-button type="text" size="small">查看</el-button>
+                        </el-tooltip>
+                        <el-button type="text" size="small" @click.stop="onRemarkClick(row)">备注</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -123,20 +137,14 @@
 </template>
 
 <script>
-import { getMiscfeedback, getTeammates } from "@/service/feedback";
+import { getMiscfeedback, getTeammates, updateFeedback } from "@/service/feedback";
 import { types, subtypes, statusMap, statusColors, filterOptions } from "@/assets/data/feedback.json";
 import { showAvatar, authorLink } from "@jx3box/jx3box-common/js/utils";
 import User from "@jx3box/jx3box-common/js/user";
 import moment from "moment";
-import { concat } from "lodash";
+import { concat, isEqual } from "lodash";
 export default {
     name: "pendingList",
-    props: {
-        onlyMe: {
-            type: Boolean,
-            default: true,
-        },
-    },
     data() {
         return {
             data: [],
@@ -156,45 +164,14 @@ export default {
             statusColors,
 
             isEditor: false,
+            onlyMe: true,
 
             time: "",
             select: "",
             assigns: [],
-            pickerOptions: {
-                shortcuts: [
-                    {
-                        text: "最近一周",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                            picker.$emit("pick", [start, end]);
-                        },
-                    },
-                    {
-                        text: "最近一个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                            picker.$emit("pick", [start, end]);
-                        },
-                    },
-                    {
-                        text: "最近三个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                            picker.$emit("pick", [start, end]);
-                        },
-                    },
-                ],
-            },
         };
     },
     mounted() {
-        this.getData();
         this.loadTeam();
         this.isEditor = User.isEditor();
     },
@@ -204,30 +181,55 @@ export default {
         },
         params() {
             const _params = {
-                pageIndex: this.page,
-                pageSize: this.per,
                 ...this.filters,
             };
-            if (this.onlyMe) _params.assign = this.user.uid;
-            if (this.select) _params.assign = this.select;
+            if (this.onlyMe) {
+                _params.assign = this.user.uid;
+            } else {
+                _params.assign = this.select;
+            }
             if (this.time) {
-                _params.start = moment(this.time[0]).format("YYYYMMDDHHmmsss");
-                _params.end = moment(this.time[1]).format("YYYYMMDDHHmmsss");
+                // time 是月份
+                _params.start = moment(this.time).startOf("month").format("YYYYMMDDHHmmss");
+                _params.end = moment(this.time).endOf("month").format("YYYYMMDDHHmmss");
             }
             return _params;
         },
+        // 重置参数
+        reset_params() {
+            return {
+                ...this.filters,
+                assign: this.params.assign,
+                time: this.time,
+            };
+        },
+        page_params() {
+            return {
+                pageIndex: this.page,
+                pageSize: this.per,
+            }
+        }
     },
     watch: {
         select(val) {
-            if (val) this.$emit("changeOnly");
+            if (val) this.onlyMe = false;
         },
-        onlyMe(isTrue) {
-            if (isTrue) this.select = "";
+        onlyMe(val) {
+            if (val) this.select = "";
+        },
+        reset_params: {
+            deep: true,
+            handler: function (val, oldVal) {
+                if (!isEqual(val, oldVal)) {
+                    this.page = 1;
+                    console.log("reset", this.page_params)
+                }
+            },
         },
         params: {
             deep: true,
+            immediate: true,
             handler: function () {
-                this.page = 1;
                 this.getData();
             },
         },
@@ -238,7 +240,10 @@ export default {
         async getData() {
             try {
                 this.loading = true;
-                const params = this.params;
+                const params = {
+                    ...this.page_params,
+                    ...this.params,
+                }
                 let res = await getMiscfeedback(params);
                 this.data = res.data.data.list || [];
                 this.total = res.data.data.page.total;
@@ -258,8 +263,7 @@ export default {
         handleView(row) {
             window.open(`/dashboard/feedback/${row.id}`, "_blank");
         },
-        currentChange(val) {
-            this.page = val;
+        currentChange() {
             this.getData();
         },
         viewFeedback: function (row) {
@@ -269,8 +273,6 @@ export default {
             Object.entries(filters).forEach(([key, value]) => {
                 this.filters[key] = value.length ? value[0] : "";
             });
-
-            this.getData();
         },
         async loadTeam() {
             const list = await getTeammates().then((res) => {
@@ -278,6 +280,39 @@ export default {
             });
             this.assigns = concat({ user_id: 0, teammate_info: { display_name: "全部" } }, list);
         },
+        formateDuty(val) {
+            return (
+                (val &&
+                    val.reduce((prev, curr) => {
+                        return prev + " | " + curr;
+                    })) ||
+                ""
+            );
+        },
+        onRemarkClick(row) {
+            this.$prompt("请输入备注", "备注", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                inputValue: row.remark,
+                beforeClose: (action, instance, done) => {
+                    if (action === "confirm") {
+                        if (!instance.inputValue) {
+                            this.$message.error("请输入备注");
+                            done();
+                        } else {
+                            updateFeedback(row.id, {
+                                remark: instance.inputValue,
+                            }).then(() => {
+                                done()
+                                this.getData();
+                            });
+                        }
+                    } else {
+                        done();
+                    }
+                },
+            })
+        }
     },
 };
 </script>
@@ -333,6 +368,27 @@ export default {
     .u-date {
         min-width: 240px;
     }
+}
+.m-teammate {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .m-user {
+        display: flex;
+        align-items: center;
+        .u-avatar {
+            .size(24px);
+            .r(100%);
+            .mr(5px);
+        }
+
+        .u-user-id {
+            margin-left: 5px;
+            color: #999;
+        }
+    }
+
 }
 @media screen and (max-width: @phone) {
     .m-feedback-tool {

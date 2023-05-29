@@ -115,7 +115,7 @@
                 </el-table-column>
                 <el-table-column label="操作" width="100">
                     <template #default="{row}">
-                        <el-tooltip :content="row.content" placement="left">
+                        <el-tooltip :content="row.content" placement="top">
                             <el-button type="text" size="small">查看</el-button>
                         </el-tooltip>
                         <el-button type="text" size="small" @click.stop="onRemarkClick(row)">备注</el-button>

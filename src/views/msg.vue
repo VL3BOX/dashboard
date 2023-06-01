@@ -2,12 +2,8 @@
     <uc class="m-dashboard-frame m-dashboard-skin" icon="el-icon-bell" title="我的消息" :tab-list="tabList">
         <div class="m-dashboard m-dashboard-work m-dashboard-msg">
             <div class="m-dashboard-msg-header">
-                <el-input
-                    class="m-dashboard-work-search"
-                    placeholder="请输入搜索内容"
-                    v-model="keyword"
-                    @keyup.enter.native="changePage(1)"
-                >
+                <el-input class="m-dashboard-work-search" placeholder="请输入搜索内容" v-model="keyword"
+                    @keyup.enter.native="changePage(1)">
                     <template slot="prepend">关键词</template>
                     <el-button slot="append" icon="el-icon-search" @click="changePage(1)"></el-button>
                 </el-input>
@@ -23,13 +19,8 @@
                             <span class="u-label u-hasChecked" v-if="item.read == 1">已读</span>
                             <span class="u-label u-hasNotChecked" v-else>未读</span>
                             <span v-html="item.content"></span>
-                            <a
-                                :href="msgLink(item)"
-                                class="u-msg-link"
-                                v-if="hasLink(item)"
-                                @click="read(item)"
-                                target="_blank"
-                            >
+                            <a :href="msgLink(item)" class="u-msg-link" v-if="hasLink(item)" @click="read(item)"
+                                target="_blank">
                                 <i class="el-icon-link"></i> 点击查看
                             </a>
                         </span>
@@ -39,42 +30,23 @@
                         </time>
                     </div>
                     <el-button-group class="u-action">
-                        <el-button
-                            size="mini"
-                            icon="el-icon-check"
-                            title="设为已读"
-                            @click="read(item)"
-                            :disabled="item.read == 1"
-                        ></el-button>
+                        <el-button size="mini" icon="el-icon-check" title="设为已读" @click="read(item)"
+                            :disabled="item.read == 1"></el-button>
                         <el-button size="mini" icon="el-icon-delete" title="删除" @click="del(item)"></el-button>
                     </el-button-group>
                 </li>
             </ul>
-            <el-alert
-                v-else
-                class="m-dashboard-box-null"
-                title="没有找到相关条目"
-                type="info"
-                center
-                show-icon
-            ></el-alert>
-            <el-pagination
-                v-if="paginationShow"
-                class="m-dashboard-box-pages"
-                background
-                :hide-on-single-page="true"
-                @current-change="changePage"
-                :current-page.sync="page"
-                layout="total, prev, pager, next, jumper"
-                :total="total"
-            ></el-pagination>
+            <el-alert v-else class="m-dashboard-box-null" title="没有找到相关条目" type="info" center show-icon></el-alert>
+            <el-pagination v-if="paginationShow" class="m-dashboard-box-pages" background :hide-on-single-page="true"
+                @current-change="changePage" :current-page.sync="page" :page-size.sync="limit"
+                layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
         </div>
     </uc>
 </template>
 
 <script>
 import { msgTab } from "@/assets/data/tabs.json";
-import { getMsgs, readMsg, removeMsg } from "../service/msg.js";
+import { getMsgs, readMsg, removeMsg, readAll } from "../service/msg.js";
 import { showTime } from "@jx3box/jx3box-common/js/moment.js";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 import { Base64 } from "js-base64";
@@ -96,6 +68,7 @@ export default {
             unread_total: 0,
             total: 1,
             page: 1,
+            limit: 15,
             paginationShow: true,
 
             tabList: msgTab,
@@ -113,13 +86,15 @@ export default {
             this.paginationShow = false;
             getMsgs({
                 content: this.keyword,
-                page: i,
+                index: i,
+                pageSize: this.limit,
             })
                 .then((res) => {
                     this.unread_total = res.data.data.unread_count;
-                    this.total = res.data.data.total;
-                    this.data = res.data.data.messages;
+                    this.total = res.data.data.page.total;
+                    this.data = res.data.data.data || [];
                     this.paginationShow = true;
+                    console.log(this.total);
                 })
                 .catch((err) => {
                     this.$message.error(err.message);
@@ -127,21 +102,28 @@ export default {
                 });
         },
         read(item) {
-            readMsg(item ? [item.ID] : null).then((res) => {
-                if (res.data.code === 200) {
-                    if (item) {
+            if (item) {
+                readMsg(item.ID).then((res) => {
+                    if (res.data.code === 0) {
                         item.read = 1;
                     } else {
-                        this.changePage(this.page);
+                        this.$notify.error({ title: res.data.message });
                     }
-                } else {
-                    this.$notify.error({ title: res.data.message });
-                }
-            });
+                });
+            } else {
+                readAll().then(res => {
+                    if (res.data.code === 0) {
+                        this.changePage(this.page);
+                    } else {
+                        this.$notify.error({ title: res.data.message });
+                    }
+                })
+            }
+
         },
         del(item) {
-            removeMsg([item.ID]).then((res) => {
-                if (res.data.code === 200) {
+            removeMsg(item.ID).then((res) => {
+                if (res.data.code === 0) {
                     item.deleted = Math.round(new Date() / 1000);
                 } else {
                     this.$notify.error({ title: res.data.message });

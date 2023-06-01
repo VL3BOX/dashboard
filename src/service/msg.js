@@ -1,24 +1,20 @@
-import { $helper } from "@jx3box/jx3box-common/js/https";
+import { $next } from "@jx3box/jx3box-common/js/https";
 import qs from "qs";
 
 function getMsgs(params) {
-    return $helper().get(`/api/messages?${qs.stringify(params)}`);
+    return $next().get(`/api/messages`, { params });
 }
 
-function readMsg(ids) {
-    let data = {};
-    if (ids) data.ids = ids;
-
-    return $helper().put(`/api/messages/read`, qs.stringify(data));
+function readMsg(id) {
+    return $next().put(`/api/messages/read/${id}`);
 }
 
-function removeMsg(ids) {
-    return $helper().put(
-        `/api/messages/remove`,
-        qs.stringify({
-            ids: ids,
-        })
-    );
+function readAll() {
+    return $next().put(`/api/messages/read`);
 }
 
-export { getMsgs, readMsg, removeMsg };
+function removeMsg(id) {
+    return $next().delete(`/api/messages/${id}`);
+}
+
+export { getMsgs, readMsg, readAll, removeMsg };

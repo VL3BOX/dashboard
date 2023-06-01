@@ -49,12 +49,18 @@ module.exports = {
                     request.setHeader("origin", "");
                 },
             },
+            "/api/messages": {
+                target: "https://next2.jx3box.com",
+                onProxyReq: function (request) {
+                    request.setHeader("origin", "");
+                },
+            },
             // 商城
             "/api/mall": {
-                "target": "https://pay.jx3box.com",
-                "onProxyReq": function (request) {
+                target: "https://pay.jx3box.com",
+                onProxyReq: function (request) {
                     request.setHeader("origin", "");
-                }
+                },
             },
             // 默认PAY服务
             "/api": {

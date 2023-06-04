@@ -278,7 +278,7 @@ export default {
             const list = await getTeammates().then((res) => {
                 return res.filter((item) => item.status);
             });
-            this.assigns = concat({ user_id: 0, teammate_info: { display_name: "全部" } }, list);
+            this.assigns = concat({ user_id: 0, teammate_info: { display_name: "全部" } }, list.filter(item => item.group && ['mp', 'developer', 'designer'].includes(item.group)));
         },
         formateDuty(val) {
             return (

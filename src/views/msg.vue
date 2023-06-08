@@ -94,7 +94,6 @@ export default {
                     this.total = res.data.data.page.total;
                     this.data = res.data.data.data || [];
                     this.paginationShow = true;
-                    console.log(this.total);
                 })
                 .catch((err) => {
                     this.$message.error(err.message);

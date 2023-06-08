@@ -23,7 +23,7 @@
             <el-button class="u-btn" size="small" type="warning" plain @click="handleEraseClick">注销账号</el-button>
             <div class="m-feedback-faq">
                 <div class="u-title"><i class="el-icon-question"></i> FAQ</div>
-                <div class="u-list" v-for="item in faq.menus" :key="item.link">
+                <div class="u-list" v-for="item in faq" :key="item.link">
                     <a class="u-item" :href="item.link">{{ item.label }}</a>
                 </div>
             </div>
@@ -35,7 +35,7 @@
 import add from "./add.vue";
 import list from "./list.vue";
 import pending from "./pending.vue";
-import { getMenus } from "@jx3box/jx3box-common/js/api_misc";
+import { getMenu } from "@jx3box/jx3box-common/js/api_misc";
 export default {
     name: "FeedbackIndex",
     components: {
@@ -80,8 +80,8 @@ export default {
             this.$router.push({ name: "feedback_erase" });
         },
         getFAQ() {
-            getMenus({ names: ["feedback_faq"] }).then((res) => {
-                this.faq = res.feedback_faq;
+            getMenu("feedback_faq").then((res) => {
+                this.faq = res;
             });
         }
     },

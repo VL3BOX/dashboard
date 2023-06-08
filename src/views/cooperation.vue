@@ -94,6 +94,7 @@
 import User from "@jx3box/jx3box-common/js/user";
 import { contractAuthorApply, getSuperAuthorState, getContractAuthorLogs } from "@/service/cooperation";
 import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc.js";
+import { pick } from "lodash"
 export default {
     name: "cooperation",
     props: [],
@@ -155,12 +156,7 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    const data = {
-                        action: "create",
-                        log: {
-                            ...this.form,
-                        },
-                    };
+                    const data = pick(this.form, ["nickname", "qq", "phone", "weibo", "description"]);
                     this.processing = true;
                     contractAuthorApply(data)
                         .then((res) => {
@@ -185,7 +181,7 @@ export default {
         // 加载申请记录
         loadContractAuthorLogs: function () {
             getContractAuthorLogs().then((res) => {
-                this.logs = res.data.data.data;
+                this.logs = res.data.data.list;
                 if (this.logs && this.logs.length) {
                     this.checked = this.logs[0]["checked"];
                     this.form = this.logs[0];

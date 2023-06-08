@@ -1,11 +1,11 @@
 import { $helper, $cms } from "@jx3box/jx3box-common/js/https";
 
 function contractAuthorApply(data) {
-    return $helper().post('/api/contract_author/log', data)
+    return $cms().post('/api/cms/contract-author/log', data)
 }
 
 function getContractAuthorLogs() {
-    return $helper().get('/api/my/contract_author/logs')
+    return $cms().get('/api/cms/contract-author/log/mine')
 }
 
 function getSuperAuthorState(userId) {

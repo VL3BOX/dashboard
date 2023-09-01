@@ -54,7 +54,7 @@
         </div>
         <div class="m-btn">
             <el-button type="primary" @click="updateAvatarFrame">确认</el-button>
-            <el-button @click="reset">重置</el-button>
+            <el-button @click="reset">清除所有装扮</el-button>
         </div>
     </uc>
 </template>

@@ -412,6 +412,7 @@ export default {
                     let list = res.data.data.list || [];
                     this.list = list.map((item) => {
                         item.sn = "";
+                        item.code = "";
                         return item;
                     });
                     this.total = res.data.data.page.total;

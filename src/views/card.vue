@@ -81,6 +81,7 @@
                                 <span v-else>-</span>
                             </template>
                         </el-table-column>
+                        <el-table-column label="发放时间" min-width="180" prop="grant_at"></el-table-column>
                         <el-table-column prop="remark" label="备注" min-width="200"> </el-table-column>
                         <el-table-column prop="used_by_self" label="是否使用">
                             <template slot-scope="scope">
@@ -175,6 +176,7 @@
                                 <span v-else>-</span>
                             </template>
                         </el-table-column>
+                        <el-table-column label="发放时间" min-width="180" prop="grant_at"></el-table-column>
                         <el-table-column prop="remark" label="备注" min-width="300"> </el-table-column>
                         <el-table-column prop="used_by_self" label="是否使用">
                             <template slot-scope="scope">

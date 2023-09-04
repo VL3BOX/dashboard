@@ -119,8 +119,8 @@
                 <el-tab-pane label="激活码" name="sn">
                     <el-table
                         class="m-table"
-                        v-if="list.length"
-                        :data="list"
+                        v-if="filteredList.length"
+                        :data="filteredList"
                         show-header
                         cell-class-name="u-table-cell"
                         header-cell-class-name="u-header-cell"
@@ -316,7 +316,7 @@
                     ></el-pagination>
                 </el-tab-pane>
             </el-tabs>
-            <div class="u-only"><el-switch v-model="onlyNew" active-text="仅查看未使用"></el-switch></div>
+            <div class="u-only" v-if="tab !== 'virtual'"><el-switch v-model="onlyNew" active-text="仅查看未使用"></el-switch></div>
         </div>
     </div>
 </template>

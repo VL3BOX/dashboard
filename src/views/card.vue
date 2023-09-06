@@ -2,8 +2,8 @@
     <div class="m-dashboard-keycode m-credit">
         <h2 class="u-title"><i class="el-icon-bank-card"></i> 我的卡密</h2>
         <el-alert class="m-boxcoin-tip" title="请务必妥善保管，并注意过期时间。" type="warning" show-icon>
-            <a href="https://charge.xoyo.com/pay?item=jx3&way=kcard" target="_blank">金山一卡通充值页面</a></el-alert
-        >
+            <a href="https://charge.xoyo.com/pay?item=jx3&way=kcard" target="_blank">金山一卡通充值页面</a>
+        </el-alert>
         <div class="m-keycode-tab">
             <el-tabs type="border-card" v-model="tab" @tab-click="tabClick">
                 <el-tab-pane label="一卡通" name="keycode">
@@ -226,47 +226,66 @@
                         <el-table-column label="卡密" min-width="330">
                             <template slot-scope="scope">
                                 <div class="u-card">
-                                    <div class="u-count" v-if="scope.row.goods.sub_category == 'code'">
-                                        <div class="u-line">
-                                            <span>卡号：{{ scope.row.goods.good_number || "****************" }}</span>
+                                    <div class="u-count">
+                                        <template v-if="scope.row.goods.sub_category == 'keycode'">
+                                            <div class="u-line">
+                                                <span
+                                                    >卡号：{{ scope.row.goods.good_number || "****************" }}</span
+                                                >
+                                                <el-button
+                                                    class="u-btn"
+                                                    v-if="scope.row.goods.good_number"
+                                                    type="txt"
+                                                    size="mini"
+                                                    icon="el-icon-document-copy"
+                                                    v-clipboard:copy="'' + scope.row.goods.good_number"
+                                                    v-clipboard:success="onCopy"
+                                                    v-clipboard:error="onError"
+                                                    >复制卡号</el-button
+                                                >
+                                            </div>
+                                            <div class="u-line">
+                                                <span
+                                                    >卡密：{{ scope.row.goods.goods_secret || "****************" }}
+                                                </span>
+                                                <el-button
+                                                    v-if="!scope.row.goods.goods_secret"
+                                                    type="primary"
+                                                    icon="el-icon-view"
+                                                    @click="getVirtualCode(scope.$index, scope.row)"
+                                                    size="mini"
+                                                    plain
+                                                    >点击查看</el-button
+                                                >
+                                                <el-button
+                                                    class="u-btn"
+                                                    v-if="scope.row.goods.goods_secret"
+                                                    type="txt"
+                                                    size="mini"
+                                                    icon="el-icon-document-copy"
+                                                    v-clipboard:copy="'' + scope.row.goods.goods_secret"
+                                                    v-clipboard:success="onCopy"
+                                                    v-clipboard:error="onError"
+                                                >
+                                                    复制卡密
+                                                </el-button>
+                                            </div>
+                                        </template>
+                                        <div class="u-line" v-else>
+                                            <span> {{ scope.row.goods.good_number }}</span>
                                             <el-button
                                                 class="u-btn"
-                                                v-if="scope.row.goods.good_number"
-                                                type="txt"
+                                                type="primary"
                                                 size="mini"
                                                 icon="el-icon-document-copy"
+                                                plain
                                                 v-clipboard:copy="'' + scope.row.goods.good_number"
                                                 v-clipboard:success="onCopy"
                                                 v-clipboard:error="onError"
-                                                >复制卡号</el-button
                                             >
+                                                复制卡号
+                                            </el-button>
                                         </div>
-                                        <div class="u-line">
-                                            <span>卡密：{{ scope.row.goods.goods_secret || "****************" }} </span>
-                                            <el-button
-                                                v-if="!scope.row.goods.goods_secret"
-                                                type="primary"
-                                                icon="el-icon-view"
-                                                @click="getVirtualCode(scope.$index, scope.row)"
-                                                size="mini"
-                                                plain
-                                                >点击查看</el-button
-                                            >
-                                            <el-button
-                                                class="u-btn"
-                                                v-if="scope.row.goods.goods_secret"
-                                                type="txt"
-                                                size="mini"
-                                                icon="el-icon-document-copy"
-                                                v-clipboard:copy="'' + scope.row.goods.goods_secret"
-                                                v-clipboard:success="onCopy"
-                                                v-clipboard:error="onError"
-                                                >复制卡密</el-button
-                                            >
-                                        </div>
-                                    </div>
-                                    <div class="u-count" v-else>
-                                        {{ scope.row.goods.good_number }}
                                     </div>
                                 </div>
                             </template>
@@ -282,7 +301,11 @@
                                 <span v-else>-</span>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="remark" label="备注" min-width="200"> </el-table-column>
+                        <el-table-column label="备注" min-width="200">
+                            <template slot-scope="scope">
+                                {{ scope.row.goods.mark || scope.row.goods.subtitle }}
+                            </template>
+                        </el-table-column>
                         <!-- <el-table-column prop="used_by_self" label="是否使用">
                         <template slot-scope="scope">
                             {{ scope.row.used_by_self ? "是" : "否" }}
@@ -318,7 +341,9 @@
                     ></el-pagination>
                 </el-tab-pane>
             </el-tabs>
-            <div class="u-only" v-if="tab !== 'virtual'"><el-switch v-model="onlyNew" active-text="仅查看未使用"></el-switch></div>
+            <div class="u-only" v-if="tab !== 'virtual'">
+                <el-switch v-model="onlyNew" active-text="仅查看未使用"></el-switch>
+            </div>
         </div>
     </div>
 </template>
@@ -435,7 +460,7 @@ export default {
                 },
             });
             this.showPagination = false;
-            getVirtual({ ...this.params, sub_category: "code" })
+            getVirtual({ sub_category: "codesn", virtual_type: 1 })
                 .then((res) => {
                     let list = res.data.data.list || [];
                     this.virtualList = list.map((item) => {

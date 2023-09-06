@@ -48,7 +48,7 @@ function toConfirm(id) {
     return $pay().post(`/api/mall/my/orders/${id}/received`);
 }
 // 获取虚拟商品
-function getVirtual(params) {
+function getVirtual(params) { 
     return $pay().get(`/api/mall/my/virtual_goods`, { params });
 }
 

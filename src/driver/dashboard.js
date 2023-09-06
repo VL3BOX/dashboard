@@ -15,6 +15,8 @@ import ElementUI from "element-ui";
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI);
 
+import reporter from "@jx3box/jx3box-common/js/reporter";
+reporter.install(Vue);
 
 // 通用UI模块
 import JX3BOX_UI from '@jx3box/jx3box-common-ui'

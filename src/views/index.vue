@@ -33,12 +33,12 @@
                         <em>UID</em>
                         <b>{{ uid }}</b>
                     </span>
-                    <span class="u-level">
+                    <!-- <span class="u-level">
                         <el-tooltip :content="`当前经验 ${info.experience || 0}`">
                             <em>Level</em>
                         </el-tooltip>
                         <b>Lv.{{ level }}</b>
-                    </span>
+                    </span> -->
                     <span class="u-group">
                         <em>Verify</em>
                         <el-tooltip
@@ -69,6 +69,15 @@
                 </div>
                 <div class="u-medals" v-if="medals && medals.length">
                     <medal :medals="medals" :showIcon="showMedalIcon"></medal>
+                </div>
+                <div class="u-identity m-level">
+                    <span class="u-level">
+                        <em>Level</em>
+                        <b>Lv.{{ level }}</b>
+                    </span>
+                    <a href="/notice/28917" target="_blank">
+                        <el-progress :percentage="levelProgress" color="#ffb502" text-inside class="u-level-progress" :stroke-width="16" :format="formatProgress" :show-text="true"></el-progress>
+                    </a>
                 </div>
             </div>
         </div>
@@ -248,7 +257,7 @@
 </template>
 
 <script>
-import { __userGroup, __imgPath, default_avatar, __userLevelColor } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __userGroup, __imgPath, default_avatar, __userLevelColor, __userLevel } from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { getThumbnail, getLink } from "@jx3box/jx3box-common/js/utils";
 import { getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo } from "@/service/index.js";
@@ -346,8 +355,20 @@ export default {
         level: function () {
             return User.getLevel(this.info?.experience || 0);
         },
+        levelProgress: function () {
+            const [min,max] = __userLevel[this.level];
+            // 小数点后两位
+            return this.level == 6 ? 100 : ((this.info?.experience) / (max) * 100).toFixed(2);
+        },
+        currentLevelMaxExp: function () {
+            const [min,max] = __userLevel[this.level];
+            return max;
+        },
     },
     methods: {
+        formatProgress: function() {
+            return `${this.info?.experience || 0} / ${this.currentLevelMaxExp}`;
+        },
         loadUserInfo: function () {
             getMyInfo().then((res) => {
                 if (res.data.data) {

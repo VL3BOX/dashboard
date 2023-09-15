@@ -72,8 +72,8 @@
                         <em>Level</em>
                         <b>Lv.{{ level }}</b>
                     </span>
-                    <a href="/notice/28917" target="_blank">
-                        <el-progress :percentage="levelProgress" color="#ffb502" text-inside class="u-level-progress" :stroke-width="16" :format="formatProgress" :show-text="true"></el-progress>
+                    <a href="/notice/28917" target="_blank" class="u-progress">
+                        <el-progress class="u-level-progress" :percentage="levelProgress" color="#ffb502" text-inside  :stroke-width="16" :format="formatProgress" :show-text="true"></el-progress>
                     </a>
                 </div>
                 <div class="u-medals" v-if="medals && medals.length">

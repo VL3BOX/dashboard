@@ -67,9 +67,6 @@
                         <b>{{ group | showGroupName }}</b>
                     </span>
                 </div>
-                <div class="u-medals" v-if="medals && medals.length">
-                    <medal :medals="medals" :showIcon="showMedalIcon"></medal>
-                </div>
                 <div class="u-identity m-level">
                     <span class="u-level">
                         <em>Level</em>
@@ -78,6 +75,9 @@
                     <a href="/notice/28917" target="_blank">
                         <el-progress :percentage="levelProgress" color="#ffb502" text-inside class="u-level-progress" :stroke-width="16" :format="formatProgress" :show-text="true"></el-progress>
                     </a>
+                </div>
+                <div class="u-medals" v-if="medals && medals.length">
+                    <medal :medals="medals" :showIcon="showMedalIcon"></medal>
                 </div>
             </div>
         </div>

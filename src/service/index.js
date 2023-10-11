@@ -37,7 +37,7 @@ function getMyAssetLogs(start_date) {
  * @returns
  */
 function isTeammate() {
-    return $cms().get(`/api/cms/config/teammates/check`)
+    return $cms().get(`/api/cms/account/teammate`)
 }
 
 /**
@@ -45,7 +45,7 @@ function isTeammate() {
  * @returns
  */
 function getTeammates() {
-    return $cms().get(`/api/cms/config/teammates`)
+    return $cms().get(`/api/cms/account/teammate`)
 }
 
 // 通用上传

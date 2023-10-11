@@ -58,12 +58,8 @@ function updateFeedback(id, data) {
 /**
  * 获取反馈assign名单
  */
-function getTeammates(){
-    return $cms().get(`/api/cms/config/teammates`,{
-        params : {
-            status : 1
-        }
-    }).then((res) => {
+function getTeammates() {
+    return $cms().get(`/api/cms/account/teammate`).then((res) => {
         return res.data.data
     })
 }

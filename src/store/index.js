@@ -25,7 +25,7 @@ let store = {
     },
     actions: {
         getIsTeammate({ commit }) {
-            isTeammate().then(res => {
+            isTeammate().then(res => { 
                 commit('setIsTeammate', res.data.data);
             }).catch(err => {
                 console.log(err);

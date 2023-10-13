@@ -379,8 +379,8 @@ export default {
         levelProgress: function () {
             const [min, max] = __userLevel[this.level];
             // 小数点后两位
-            const val = this.level == 6 ? 100 : ((this.info?.experience / max) * 100).toFixed(2);
-            return Number(val)
+            const val = this.level == 6 ? 100 : ((this.info?.experience / max) * 100).toFixed(0);
+            return isNaN(val) ? 0 : Number(val)
         },
         currentLevelMaxExp: function () {
             const [min, max] = __userLevel[this.level];

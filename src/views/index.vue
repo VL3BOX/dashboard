@@ -10,7 +10,7 @@
                             <i class="el-icon-edit-outline"></i>
                         </a>
                     </el-tooltip>
-                    <span class="u-vip" :title="expire_date ? `有效期至:${ expire_date }` : '购买/续费会员服务'">
+                    <span class="u-vip" :title="expire_date ? `有效期至:${expire_date}` : '购买/续费会员服务'">
                         <template v-if="isVIP || isPRO">
                             <a
                                 class="i-icon-vip"
@@ -24,7 +24,12 @@
                             >升级账号类型</a
                         >
                     </span>
-                    <span class="u-superauth" :class="{'is-vip': !(isVIP || isPRO)}" v-if="isSuperAuthor" title="签约作者">
+                    <span
+                        class="u-superauth"
+                        :class="{ 'is-vip': !(isVIP || isPRO) }"
+                        v-if="isSuperAuthor"
+                        title="签约作者"
+                    >
                         <img :src="super_author_icon" alt="superAuthor" />
                     </span>
                 </h1>
@@ -73,7 +78,15 @@
                         <b>Lv.{{ level }}</b>
                     </span>
                     <a href="/notice/28917" target="_blank" class="u-progress">
-                        <el-progress class="u-level-progress" :percentage="levelProgress" color="#ffb502" text-inside  :stroke-width="16" :format="formatProgress" :show-text="true"></el-progress>
+                        <el-progress
+                            class="u-level-progress"
+                            :percentage="levelProgress"
+                            color="#ffb502"
+                            text-inside
+                            :stroke-width="16"
+                            :format="formatProgress"
+                            :show-text="true"
+                        ></el-progress>
                     </a>
                 </div>
                 <div class="u-medals" v-if="medals && medals.length">
@@ -208,7 +221,8 @@
                     <span class="u-boxcoin" v-if="item.type == 'boxcoin'">
                         <span class="u-boxcoin-type">{{ showBoxcoinType(item.data) }}</span>
                         <b :class="showBoxcoinCls(item.data)">
-                            <span>{{ showBoxcoinOp(item.data) }}</span>{{ countBoxCoin(item.data) }}
+                            <span>{{ showBoxcoinOp(item.data) }}</span
+                            >{{ countBoxCoin(item.data) }}
                         </b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
@@ -238,7 +252,8 @@
                     <span class="u-boxcoin" v-if="item.type == 'cny'">
                         <span class="u-boxcoin-type">{{ showCNYType(item.data) }}</span>
                         <b :class="showCNYCls(item.data)">
-                            <span>{{ showCNYOp(item.data) }}</span>{{ item.data.money }}
+                            <span>{{ showCNYOp(item.data) }}</span
+                            >{{ item.data.money }}
                         </b>
                         ,
                         <span class="u-boxcoin-remark">{{ item.data.remark || "-" }}</span>
@@ -257,7 +272,13 @@
 </template>
 
 <script>
-import { __userGroup, __imgPath, default_avatar, __userLevelColor, __userLevel } from "@jx3box/jx3box-common/data/jx3box.json";
+import {
+    __userGroup,
+    __imgPath,
+    default_avatar,
+    __userLevelColor,
+    __userLevel,
+} from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import { getThumbnail, getLink } from "@jx3box/jx3box-common/js/utils";
 import { getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo } from "@/service/index.js";
@@ -298,7 +319,7 @@ export default {
                 red_packet: 0, //红包
                 points: 0, //积分
                 gift: 0, //礼品、商城订单
-                cny:0,//金箔
+                cny: 0, //金箔
             },
             medals: [],
             asset_logs: [],
@@ -356,17 +377,18 @@ export default {
             return User.getLevel(this.info?.experience || 0);
         },
         levelProgress: function () {
-            const [min,max] = __userLevel[this.level];
+            const [min, max] = __userLevel[this.level];
             // 小数点后两位
-            return this.level == 6 ? 100 : ((this.info?.experience) / (max) * 100).toFixed(2);
+            const val = this.level == 6 ? 100 : ((this.info?.experience / max) * 100).toFixed(2);
+            return Number(val)
         },
         currentLevelMaxExp: function () {
-            const [min,max] = __userLevel[this.level];
+            const [min, max] = __userLevel[this.level];
             return max;
         },
     },
     methods: {
-        formatProgress: function() {
+        formatProgress: function () {
             return `${this.info?.experience || 0} / ${this.currentLevelMaxExp}`;
         },
         loadUserInfo: function () {
@@ -406,7 +428,7 @@ export default {
             this.loadAssetLogs();
         },
         getPostLink: function (post_type, post_id) {
-            return post_type == 'mall_order' ? `/vip/mall/${post_id}` : getLink(post_type, post_id);
+            return post_type == "mall_order" ? `/vip/mall/${post_id}` : getLink(post_type, post_id);
         },
         showMedalIcon: function (val) {
             return __imgPath + "image/medals/user/" + val + ".gif";
@@ -418,13 +440,13 @@ export default {
             return boxcoin_types[item.action_type] || item.action_type;
         },
         countBoxCoin: function (item) {
-           let i = 1;
-            if(item.user_id == this.uid){
+            let i = 1;
+            if (item.user_id == this.uid) {
                 i = item.action_type > 0 ? 1 : -1;
-            }else if (item.operate_user_id == this.uid) {
+            } else if (item.operate_user_id == this.uid) {
                 i = item.action_type > 0 ? -1 : 1;
             }
-            return Math.abs(item.count + ~~item.ext_take_off_count + ~~item.ext2_take_off_count)*i ;
+            return Math.abs(item.count + ~~item.ext_take_off_count + ~~item.ext2_take_off_count) * i;
         },
         showBoxcoinOp(item) {
             let value = this.countBoxCoin(item);

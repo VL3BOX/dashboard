@@ -224,6 +224,12 @@
                             <span>{{ showBoxcoinOp(item.data) }}</span>
                             {{ countBoxCoin(item.data) }}
                         </b>
+                        <a
+                            class="u-link"
+                            :href="getPostLink(item.data.post_type, item.data.article_id)"
+                            v-if="item.data.post_type && item.data.article_id"
+                            ><i class="el-icon-link"></i>查看详情</a
+                        >
                     </span>
                     <!-- 盒币 -->
                     <span class="u-boxcoin" v-if="item.type == 'boxcoin'">

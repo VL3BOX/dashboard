@@ -25,7 +25,7 @@ function getMyInfo() {
 }
 
 function getMyAssetLogs(start_date) {
-    return $pay().get(`/api/my/asserts/history`, {
+    return $pay().get(`/api/my/assets/history`, {
         params: {
             start: start_date || moment().format('YYYYMMDD'),
             end: moment().add(1, 'day').format('YYYYMMDD')

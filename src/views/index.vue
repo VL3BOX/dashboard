@@ -278,6 +278,8 @@
                             ><i class="el-icon-link"></i>查看详情</a
                         >
                     </span>
+
+                    <time class="u-time">{{ showTime(item.created_at) }}</time>
                 </li>
             </ul>
             <div class="u-null" v-else><i class="el-icon-warning-outline"></i> 当前时间范围内无记录</div>
@@ -289,13 +291,12 @@
 import {
     __userGroup,
     __imgPath,
-    default_avatar,
     __userLevelColor,
     __userLevel,
 } from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
-import { getThumbnail, getLink } from "@jx3box/jx3box-common/js/utils";
-import { getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo } from "@/service/index.js";
+import { getLink } from "@jx3box/jx3box-common/js/utils";
+import { getUserMedals, getMyAssetLogs, getMyInfo } from "@/service/index.js";
 import { showDate } from "@jx3box/jx3box-common/js/moment";
 import asset_types from "@/assets/data/asset_log_types.json";
 import boxcoin_types from "@/assets/data/boxcoin_types.json";
@@ -470,7 +471,7 @@ export default {
             // }
             // else if (item.action_type == "-2") {
             //     return "-";
-            // } 
+            // }
             return value >= 0 ? "+" : "";
         },
         showBoxcoinCls(item) {
@@ -535,6 +536,9 @@ export default {
         showPrice: function (val) {
             return val ? (val / 100).toFixed(2) : "0.00";
         },
+        showTime(val) {
+            return moment(val).format("YYYY-MM-DD HH:mm:ss");
+        }
     },
     mounted: function () {
         this.init();

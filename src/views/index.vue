@@ -5,33 +5,36 @@
             <div class="u-info">
                 <h1 class="u-name">
                     <span class="u-name-txt">{{ info.display_name }}</span>
-                    <el-tooltip class="item" effect="dark" content="修改昵称" placement="top">
+                    <!-- <el-tooltip class="item" effect="dark" content="修改昵称" placement="top">
                         <a class="u-edit-name" href="/vip/rename?from=dashboard_index">
                             <i class="el-icon-edit-outline"></i>
                         </a>
-                    </el-tooltip>
-                    <span class="u-vip" :title="expire_date ? `有效期至:${expire_date}` : '购买/续费会员服务'">
-                        <template v-if="isVIP || isPRO">
-                            <a
-                                class="i-icon-vip"
-                                :class="{ on: isVIP || isPRO }"
-                                href="/vip/premium?from=dashboard_index"
-                                target="_blank"
-                                >{{ vipType }}</a
-                            >
-                        </template>
-                        <a class="u-upgrade" href="/vip/premium?from=dashboard_index" target="_blank" v-else
-                            >升级账号类型</a
+                    </el-tooltip> -->
+                    <div class="u-name-meta">
+                        <span
+                            class="u-superauth"
+                            :class="{ 'is-vip': !(isVIP || isPRO) }"
+                            v-if="isSuperAuthor"
+                            title="签约作者"
                         >
-                    </span>
-                    <span
-                        class="u-superauth"
-                        :class="{ 'is-vip': !(isVIP || isPRO) }"
-                        v-if="isSuperAuthor"
-                        title="签约作者"
-                    >
-                        <img :src="super_author_icon" alt="superAuthor" />
-                    </span>
+                            <img :src="super_author_icon" alt="superAuthor" />
+                        </span>
+                        <span class="u-vip">
+                            <template v-if="isVIP || isPRO">
+                                <a
+                                    class="i-icon-vip"
+                                    :class="{ on: isVIP || isPRO }"
+                                    href="/vip/premium?from=dashboard_index"
+                                    target="_blank"
+                                    >{{ vipType }}</a
+                                >
+                                <span class="u-expire">（{{ `有效期至:${expire_date}` }}）</span>
+                            </template>
+                            <a class="u-upgrade" href="/vip/premium?from=dashboard_index" target="_blank" v-else
+                                >升级账号类型</a
+                            >
+                        </span>
+                    </div>
                 </h1>
                 <div class="u-identity">
                     <span class="u-uid">
@@ -380,7 +383,7 @@ export default {
             const [min, max] = __userLevel[this.level];
             // 小数点后两位
             const val = this.level == 6 ? 100 : ((this.info?.experience / max) * 100).toFixed(2);
-            return Number(val)
+            return Number(val);
         },
         currentLevelMaxExp: function () {
             const [min, max] = __userLevel[this.level];

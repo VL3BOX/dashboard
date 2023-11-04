@@ -2,8 +2,12 @@
     <uc class="m-dashboard-frame m-dashboard-skin" icon="el-icon-bell" title="我的消息" :tab-list="tabList">
         <div class="m-dashboard m-dashboard-work m-dashboard-msg">
             <div class="m-dashboard-msg-header">
-                <el-input class="m-dashboard-work-search" placeholder="请输入搜索内容" v-model="keyword"
-                    @keyup.enter.native="changePage(1)">
+                <el-input
+                    class="m-dashboard-work-search"
+                    placeholder="请输入搜索内容"
+                    v-model="keyword"
+                    @keyup.enter.native="changePage(1)"
+                >
                     <template slot="prepend">关键词</template>
                     <el-button slot="append" icon="el-icon-search" @click="changePage(1)"></el-button>
                 </el-input>
@@ -19,8 +23,13 @@
                             <span class="u-label u-hasChecked" v-if="item.read == 1">已读</span>
                             <span class="u-label u-hasNotChecked" v-else>未读</span>
                             <span v-html="item.content"></span>
-                            <a :href="msgLink(item)" class="u-msg-link" v-if="hasLink(item)" @click="read(item)"
-                                target="_blank">
+                            <a
+                                :href="msgLink(item)"
+                                class="u-msg-link"
+                                v-if="hasLink(item)"
+                                @click="read(item)"
+                                target="_blank"
+                            >
                                 <i class="el-icon-link"></i> 点击查看
                             </a>
                         </span>
@@ -30,16 +39,36 @@
                         </time>
                     </div>
                     <el-button-group class="u-action">
-                        <el-button size="mini" icon="el-icon-check" title="设为已读" @click="read(item)"
-                            :disabled="item.read == 1"></el-button>
+                        <el-button
+                            size="mini"
+                            icon="el-icon-check"
+                            title="设为已读"
+                            @click="read(item)"
+                            :disabled="item.read == 1"
+                        ></el-button>
                         <el-button size="mini" icon="el-icon-delete" title="删除" @click="del(item)"></el-button>
                     </el-button-group>
                 </li>
             </ul>
-            <el-alert v-else class="m-dashboard-box-null" title="没有找到相关条目" type="info" center show-icon></el-alert>
-            <el-pagination v-if="paginationShow" class="m-dashboard-box-pages" background :hide-on-single-page="true"
-                @current-change="changePage" :current-page.sync="page" :page-size.sync="limit"
-                layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
+            <el-alert
+                v-else
+                class="m-dashboard-box-null"
+                title="没有找到相关条目"
+                type="info"
+                center
+                show-icon
+            ></el-alert>
+            <el-pagination
+                v-if="paginationShow"
+                class="m-dashboard-box-pages"
+                background
+                :hide-on-single-page="true"
+                @current-change="changePage"
+                :current-page.sync="page"
+                :page-size.sync="limit"
+                layout="total, prev, pager, next, jumper"
+                :total="total"
+            ></el-pagination>
         </div>
     </uc>
 </template>
@@ -110,15 +139,14 @@ export default {
                     }
                 });
             } else {
-                readAll().then(res => {
+                readAll().then((res) => {
                     if (res.data.code === 0) {
                         this.changePage(this.page);
                     } else {
                         this.$notify.error({ title: res.data.message });
                     }
-                })
+                });
             }
-
         },
         del(item) {
             removeMsg(item.ID).then((res) => {
@@ -144,13 +172,18 @@ export default {
             let { source_id, source_type, type, subtype, redirect, user_id } = item;
 
             if (redirect) {
-                return "/" + redirect.split("_").join("/");
+                // 内部链接与外部链接
+                return redirect.startsWith("http") ? redirect : ("/" + redirect.split("_").join("/"));
             } else {
+                // 贺卡处理
+                // TODO: 重构后使用getLink规范化？
                 if (source_type == "birthday") {
                     return `/author/birthday/${user_id}?code=` + Base64.encode(source_id);
+                // 特殊回调
                 } else if (source_type == "callback") {
                     let info = encodeURIComponent(Base64.encode(JSON.stringify(item)));
                     return `/dashboard/callback/${type}/${subtype}?info=${info}`;
+                // 通用资源
                 } else {
                     return getLink(source_type, source_id);
                 }

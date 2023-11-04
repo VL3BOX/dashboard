@@ -72,7 +72,7 @@
                     </span>
                     <span class="u-group" v-if="group > 30">
                         <em>Group</em>
-                        <b>{{ group | showGroupName }}</b>
+                        <b>{{ showGroupName(group) }}</b>
                     </span>
                 </div>
                 <div class="u-identity m-level">
@@ -190,7 +190,7 @@
                             <div class="u-credit-name"><i class="el-icon-present"></i> 红包</div>
                         </el-tooltip>
                         <div class="u-credit-value">
-                            <b>{{ asset.red_packet | formatCredit }}</b>
+                            <b>{{ formatCredit(asset.red_packet)  }}</b>
                         </div>
                         <div class="u-credit-op">
                             <router-link class="el-button el-button--primary el-button--mini" to="/packet"
@@ -216,10 +216,24 @@
             </h2>
             <ul class="u-list" v-if="asset_logs && asset_logs.length">
                 <li class="u-item" v-for="(item, i) in asset_logs" :key="i">
-                    <i :class="item.type | showAssetIcon"></i>
-                    <span class="u-type">{{ item.type | showAssetType }}</span>
-                    <span class="u-div">／</span>
+                    <i :class="showAssetIcon(item.type)"></i>
 
+                    <span class="u-type">{{ showAssetType(item.type) }}</span>
+                    <span class="u-div">／</span>
+                    <!-- 积分 -->
+                    <span class="u-boxcoin" v-if="item.type == 'points'">
+                        <span class="u-boxcoin-type">{{ item.data.remark }}</span>
+                        <b :class="showBoxcoinCls(item.data)">
+                            <span>{{ showBoxcoinOp(item.data) }}</span>
+                            {{ countBoxCoin(item.data) }}
+                        </b>
+                        <a
+                            class="u-link"
+                            :href="getPostLink(item.data.post_type, item.data.article_id)"
+                            v-if="item.data.post_type && item.data.article_id"
+                            ><i class="el-icon-link"></i>查看详情</a
+                        >
+                    </span>
                     <!-- 盒币 -->
                     <span class="u-boxcoin" v-if="item.type == 'boxcoin'">
                         <span class="u-boxcoin-type">{{ showBoxcoinType(item.data) }}</span>
@@ -239,15 +253,15 @@
 
                     <!-- 订单 -->
                     <span class="u-order" v-if="item.type == 'order'">
-                        产品：{{ item.data.product_id | showProduct }}， 金额：¥
-                        <b>{{ item.data.total_fee | showPrice }}</b>
-                        ， 状态：{{ item.data.pay_status | showPayStatus }}
+                        产品：{{ showProduct(item.data.product_id) }}， 金额：¥
+                        <b>{{ showPrice(item.data.total_fee) }}</b>
+                        ， 状态：{{ showPayStatus(item.data.pay_status) }}
                     </span>
 
                     <!-- 红包 -->
                     <span class="u-redpack" v-if="item.type == 'redpack'">
                         金额：¥
-                        <b>{{ item.data.money | showPrice }}</b>
+                        <b>{{ showPrice(item.data.money) }}</b>
                         ， 补充信息：{{ item.data.describe || "-" }}
                     </span>
 
@@ -267,6 +281,8 @@
                             ><i class="el-icon-link"></i>查看详情</a
                         >
                     </span>
+
+                    <time class="u-time">{{ showTime(item.created_at) }}</time>
                 </li>
             </ul>
             <div class="u-null" v-else><i class="el-icon-warning-outline"></i> 当前时间范围内无记录</div>
@@ -278,13 +294,12 @@
 import {
     __userGroup,
     __imgPath,
-    default_avatar,
     __userLevelColor,
     __userLevel,
 } from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
-import { getThumbnail, getLink } from "@jx3box/jx3box-common/js/utils";
-import { getUserMedals, getUserInfo, getMyAssetLogs, getMyInfo } from "@/service/index.js";
+import { getLink } from "@jx3box/jx3box-common/js/utils";
+import { getUserMedals, getMyAssetLogs, getMyInfo } from "@/service/index.js";
 import { showDate } from "@jx3box/jx3box-common/js/moment";
 import asset_types from "@/assets/data/asset_log_types.json";
 import boxcoin_types from "@/assets/data/boxcoin_types.json";
@@ -382,8 +397,8 @@ export default {
         levelProgress: function () {
             const [min, max] = __userLevel[this.level];
             // 小数点后两位
-            const val = this.level == 6 ? 100 : ((this.info?.experience / max) * 100).toFixed(2);
-            return Number(val);
+            const val = this.level == 6 ? 100 : ((this.info?.experience / max) * 100).toFixed(0);
+            return isNaN(val) ? 0 : Number(val);
         },
         currentLevelMaxExp: function () {
             const [min, max] = __userLevel[this.level];
@@ -443,6 +458,7 @@ export default {
             return boxcoin_types[item.action_type] || item.action_type;
         },
         countBoxCoin: function (item) {
+            if (!item.ext_take_off_count) return item.count;
             let i = 1;
             if (item.user_id == this.uid) {
                 i = item.action_type > 0 ? 1 : -1;
@@ -491,20 +507,19 @@ export default {
             }
             return item.money < 0 && "isNegative";
         },
-    },
-    filters: {
-        groupicon: function (groupid) {
-            return __imgPath + "image/group/" + groupid + ".svg";
-        },
+
+        // groupicon: function (groupid) {
+        //     return __imgPath + "image/group/" + groupid + ".svg";
+        // },
         showGroupName: function (val) {
             return val ? __userGroup[val] : "游客";
         },
         formatCredit: function (val) {
             return val ? (val / 100).toFixed(2) : "0.00";
         },
-        showAvatar: function (val) {
-            return (val && getThumbnail(val, 120, true)) || getThumbnail(default_avatar, 120, true);
-        },
+        // showAvatar: function (val) {
+        //     return (val && getThumbnail(val, 120, true)) || getThumbnail(default_avatar, 120, true);
+        // },
         showAssetType: function (val) {
             return asset_types[val]?.["label"] || val;
         },
@@ -518,12 +533,15 @@ export default {
         showPayStatus: function (val) {
             return pay_status[val];
         },
-        showPayType: function (val) {
-            return pay_types[val];
-        },
+        // showPayType: function (val) {
+        //     return pay_types[val];
+        // },
         showPrice: function (val) {
             return val ? (val / 100).toFixed(2) : "0.00";
         },
+        showTime(val) {
+            return moment(val).format("YYYY-MM-DD HH:mm:ss");
+        }
     },
     mounted: function () {
         this.init();

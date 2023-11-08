@@ -73,7 +73,7 @@
             <div class="m-content m-textarea">
                 <el-divider content-position="left"><i class="el-icon-edit-outline"></i> 反馈内容</el-divider>
                 <div class="u-detail">
-                    {{ data.content }}
+                    <span v-html="data.content"></span>
                 </div>
             </div>
             <div class="m-attachment m-textarea">
@@ -200,6 +200,7 @@ export default {
                 this.loading = true;
                 let res = await getFeedback(this.id);
                 this.data = res.data.data;
+                this.data.content = this.data.content.replace(/\n/g, "<br>");
                 this.formData.repository = this.data?.repository || "";
                 this.formData.assign = this.data?.assign?.filter((item) => item) || [];
                 this.formData.status = this.data?.status || 0;
@@ -213,7 +214,9 @@ export default {
         async loadTeammates() {
             try {
                 let res = await getTeammates();
-                this.teammates = res.data.data.filter(item => item.group && ['mp', 'developer', 'designer'].includes(item.group));
+                this.teammates = res.data.data.filter(
+                    (item) => item.group && ["mp", "developer", "designer"].includes(item.group)
+                );
             } catch (e) {
                 console.log(e);
             }

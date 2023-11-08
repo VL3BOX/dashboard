@@ -123,6 +123,7 @@ export default {
                 sessionStorage.setItem("decoration_json", JSON.stringify(res.data));
                 this.decorationJson = res.data;
                 getDecoration().then((res) => {
+                    console.log(res)
                     let typeArr = ["atcard", "homebg", "sidebar", "calendar"];
                     let arr = res.data.data.filter((item) => item.type != "" && typeArr.indexOf(item.type) != -1);
                     this.decoration = this.formattingData(arr, "val");

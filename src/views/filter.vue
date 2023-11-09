@@ -5,10 +5,10 @@
             <el-input type="textarea" :rows="6" placeholder="请输入敏感词 / 粘贴段落" v-model="textarea"> </el-input>
             <template v-if="textarea">
                 <el-card shadow="never" v-if="content">
-                    <el-divider content-position="left">显示内容</el-divider><span v-html="content"></span>
+                    <el-divider content-position="left"><i class="el-icon-chat-line-round"></i> 显示内容</el-divider><span v-html="content"></span>
                 </el-card>
                 <el-card shadow="never" v-if="reason && reason.length">
-                    <el-divider content-position="left">被屏蔽原因</el-divider>
+                    <el-divider content-position="left"><i class="el-icon-warning-outline"></i> 被屏蔽原因</el-divider>
                     <div class="m-item">
                         <span v-for="(item, i) in reason" :key="i">
                             <strong>{{ i + 1 }} . </strong><span v-html="item"></span>

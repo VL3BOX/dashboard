@@ -2,7 +2,14 @@
     <div class="m-dashboard m-cooperation">
         <h2 class="u-title">
             <span><i class="el-icon-reading"></i> 签约作者</span>
-            <el-button type="primary" @click="openPage" size="small" v-if="isSuperAuthor">敏感词测试</el-button>
+            <el-button
+                type="primary"
+                @click="openPage"
+                size="small"
+                :disabled="!isSuperAuthor"
+                :icon="isSuperAuthor ? 'el-icon-unlock' : 'el-icon-lock'"
+                >敏感词测试</el-button
+            >
         </h2>
         <div class="m-cooperation-ac m-block" v-html="data"></div>
         <div class="m-cooperation-form m-block">

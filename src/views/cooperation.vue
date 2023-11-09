@@ -1,6 +1,9 @@
 <template>
     <div class="m-dashboard m-cooperation">
-        <h2 class="u-title"><i class="el-icon-reading"></i> 签约作者</h2>
+        <h2 class="u-title">
+            <span><i class="el-icon-reading"></i> 签约作者</span>
+            <el-button type="primary" @click="openPage" size="small">敏感词测试</el-button>
+        </h2>
         <div class="m-cooperation-ac m-block" v-html="data"></div>
         <div class="m-cooperation-form m-block">
             <h3>【认证说明】</h3>
@@ -94,7 +97,7 @@
 import User from "@jx3box/jx3box-common/js/user";
 import { contractAuthorApply, getSuperAuthorState, getContractAuthorLogs } from "@/service/cooperation";
 import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc.js";
-import { pick } from "lodash"
+import { pick } from "lodash";
 export default {
     name: "cooperation",
     props: [],
@@ -199,6 +202,9 @@ export default {
             this.checkSuperUser();
             this.loadAc();
         },
+        openPage() {
+            this.$router.push({ name: "filter" });
+        },
     },
     mounted: function () {
         this.init();
@@ -234,16 +240,21 @@ export default {
     border-radius: 6px;
     position: relative;
 
-    h3,h6 {
+    h3,
+    h6 {
         .fz(13px,22px);
         color: #333;
-        margin:10px 0;
+        margin: 10px 0;
     }
     p {
         font-size: 12px;
         line-height: 26px;
-        margin:0;
+        margin: 0;
     }
+}
+.m-cooperation .u-title {
+    .flex;
+    justify-content: space-between;
 }
 @media screen and (max-width: @phone) {
     .m-block {

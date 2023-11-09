@@ -12,8 +12,12 @@ function getSuperAuthorState(userId) {
     return $cms().get('/api/cms/user/is_super_author/' + userId)
 }
 
+function filterSeaSun(data) {
+    return $cms().post('/api/cms/system/seasun/filter', data)
+}
 export {
     contractAuthorApply,
     getSuperAuthorState,
-    getContractAuthorLogs
+    getContractAuthorLogs,
+    filterSeaSun
 }

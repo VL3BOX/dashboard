@@ -1,30 +1,25 @@
 <template>
     <div class="m-feedback-list" v-loading="loading">
         <el-table :data="data" highlight-current-row size="small" row-class-name="u-row" @row-click="viewFeedback">
-            <el-table-column label="状态" prop="status">
+            <el-table-column label="状态" prop="status" width="100">
                 <template #default="{ row }">
                     <span class="u-status" :style="{ backgroundColor: statusColors[row.status] }">{{
                         statusMap[row.status]
                     }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="客户端" prop="client">
+            <el-table-column label="客户端" prop="client" width="100">
                 <template #default="{ row }">
                     <span class="u-client" :class="'i-client-' + row.client">{{ formatClient(row.client) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="来源" prop="type">
+            <el-table-column label="来源" prop="type" width="200">
                 <template #default="{ row }">
-                    {{ types[row.type] }}
+                    {{ `${types[row.type]} - ${subtypes[row.subtype]}` }}
                 </template>
             </el-table-column>
-            <el-table-column label="类型" prop="subtype">
-                <template #default="{ row }">
-                    {{ subtypes[row.subtype] }}
-                </template>
-            </el-table-column>
-            <!-- <el-table-column label="内容" prop="content" show-overflow-tooltip></el-table-column> -->
-            <el-table-column label="提交时间" prop="created_at">
+            <el-table-column label="内容" prop="content" show-overflow-tooltip></el-table-column>
+            <el-table-column label="提交时间" prop="created_at" width="160">
                 <template #default="{ row }">
                     {{ formatTime(row.created_at) }}
                 </template>
@@ -59,7 +54,7 @@ export default {
             data: [],
             loading: false,
             page: 1,
-            per: 10,
+            per: 15,
             total: 0,
 
             types,
@@ -120,17 +115,17 @@ export default {
     flex-direction: column;
     gap: 20px;
 
-    .u-row *{
+    .u-row * {
         .pointer !important;
     }
 
-    .u-status{
-        color:#fff;
-        padding:2px 5px;
+    .u-status {
+        color: #fff;
+        padding: 2px 5px;
         .r(2px);
     }
-    .u-client{
-        padding:2px 5px;
+    .u-client {
+        padding: 2px 5px;
         .r(2px);
     }
 }

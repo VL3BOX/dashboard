@@ -32,7 +32,8 @@
                 </el-select>
             </div>
             <div class="m-feedback-tool__item">
-                <el-date-picker v-model="time" type="month" placeholder="选择月份" size="small" format="yyyy年MM月"> </el-date-picker>
+                <el-date-picker v-model="time" type="month" placeholder="选择月份" size="small" format="yyyy年MM月">
+                </el-date-picker>
             </div>
             <el-checkbox class="u-only-check" v-model="onlyMe"> 指派给我的 </el-checkbox>
         </div>
@@ -114,7 +115,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="操作" width="100">
-                    <template #default="{row}">
+                    <template #default="{ row }">
                         <el-tooltip :content="row.content" placement="top" popper-class="m-content-popover">
                             <el-button type="text" size="small">查看</el-button>
                         </el-tooltip>
@@ -207,8 +208,8 @@ export default {
             return {
                 pageIndex: this.page,
                 pageSize: this.per,
-            }
-        }
+            };
+        },
     },
     watch: {
         select(val) {
@@ -222,7 +223,7 @@ export default {
             handler: function (val, oldVal) {
                 if (!isEqual(val, oldVal)) {
                     this.page = 1;
-                    console.log("reset", this.page_params)
+                    console.log("reset", this.page_params);
                 }
             },
         },
@@ -243,7 +244,7 @@ export default {
                 const params = {
                     ...this.page_params,
                     ...this.params,
-                }
+                };
                 let res = await getMiscfeedback(params);
                 this.data = res.data.data.list || [];
                 this.total = res.data.data.page.total;
@@ -267,7 +268,7 @@ export default {
             this.getData();
         },
         viewFeedback: function (row) {
-            window.open("/feedback/" + row.id, "_blank");
+            window.open("/feedback/" + row.id, "_self");
         },
         filterChange(filters) {
             Object.entries(filters).forEach(([key, value]) => {
@@ -278,7 +279,10 @@ export default {
             const list = await getTeammates().then((res) => {
                 return res.filter((item) => item.status);
             });
-            this.assigns = concat({ user_id: 0, teammate_info: { display_name: "全部" } }, list.filter(item => item.group && ['mp', 'developer', 'designer'].includes(item.group)));
+            this.assigns = concat(
+                { user_id: 0, teammate_info: { display_name: "全部" } },
+                list.filter((item) => item.group && ["mp", "developer", "designer"].includes(item.group))
+            );
         },
         formateDuty(val) {
             return (
@@ -303,7 +307,7 @@ export default {
                             updateFeedback(row.id, {
                                 remark: instance.inputValue,
                             }).then(() => {
-                                done()
+                                done();
                                 this.getData();
                             });
                         }
@@ -311,8 +315,8 @@ export default {
                         done();
                     }
                 },
-            })
-        }
+            });
+        },
     },
 };
 </script>
@@ -392,7 +396,6 @@ export default {
             color: #999;
         }
     }
-
 }
 @media screen and (max-width: @phone) {
     .m-feedback-tool {

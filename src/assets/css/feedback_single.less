@@ -8,16 +8,16 @@
     .u-item {
         .flex;
         align-items: center;
-        img{
+        img {
             .mr(5px);
         }
     }
 
-    .m-block{
+    .m-block {
         .flex;
         align-items: center;
     }
-    .u-subblock{
+    .u-subblock {
         .mr(20px);
         .flex;
         align-items: center;
@@ -64,8 +64,8 @@
             display: flex;
             align-items: center;
         }
-        .u-null{
-            color:#999;
+        .u-null {
+            color: #999;
         }
     }
     .m-textarea {
@@ -74,23 +74,22 @@
         .fz(14px,1.6);
         box-sizing: border-box;
     }
-    .m-content{
+    .m-content {
         min-height: 240px;
     }
-    .m-attachment{
-        .u-detail{
+    .m-attachment {
+        .u-detail {
             .flex;
             flex-wrap: wrap;
         }
-        .u-img{
+        .u-img {
             .mr(10px);
             .mb(10px);
         }
-        .el-image{
+        .el-image {
             .size(100px);
         }
     }
-
 }
 .m-teammate {
     display: flex;
@@ -111,12 +110,24 @@
             color: #999;
         }
     }
-
 }
 
-@media screen and (max-width:@phone) {
+@media screen and (max-width: @phone) {
     .u-list-assign {
         flex-wrap: wrap;
         padding-left: 10px;
+    }
+}
+
+.m-reply .c-comment .el-main {
+    .flex;
+    flex-direction: column;
+    .c-comment-order,
+    .c-comment-list,
+    .c-comment-pages {
+        order: 0;
+    }
+    .c-comment-box {
+        order: 1;
     }
 }

@@ -122,8 +122,7 @@ export default {
             getDecorationJson().then((res) => {
                 sessionStorage.setItem("decoration_json", JSON.stringify(res.data));
                 this.decorationJson = res.data;
-                getDecoration().then((res) => {
-                    console.log(res)
+                getDecoration().then((res) => { 
                     let typeArr = ["atcard", "homebg", "sidebar", "calendar"];
                     let arr = res.data.data.filter((item) => item.type != "" && typeArr.indexOf(item.type) != -1);
                     this.decoration = this.formattingData(arr, "val");
@@ -201,7 +200,7 @@ export default {
                 }
                 res.push({
                     [group_key]: key,
-                    name: decorationJson[key].desc,
+                    name: decorationJson[key]?.desc,
                     list: uniqueFromObject(map[key], "type", key).sort(sortBy("sort")),
                 });
             });

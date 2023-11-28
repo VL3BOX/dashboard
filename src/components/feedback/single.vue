@@ -73,7 +73,7 @@
             <div class="m-content m-textarea">
                 <el-divider content-position="left"><i class="el-icon-edit-outline"></i> 反馈内容</el-divider>
                 <div class="u-detail">
-                    <span v-html="data.content"></span>
+                    <span v-html="$filters.sanitize(data.content)"></span>
                 </div>
             </div>
             <div class="m-attachment m-textarea">

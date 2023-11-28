@@ -19,6 +19,7 @@
     "@jx3box/jx3box-emotion": "^1.2.4",
     "axios": "^0.21.1",
     "core-js": "^3.4.3",
+    "dompurify": "^3.0.6",
     "element-ui": "^2.15.7",
     "js-base64": "^3.7.1",
     "localforage": "^1.7.3",

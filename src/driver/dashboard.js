@@ -15,9 +15,6 @@ import ElementUI from "element-ui";
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI);
 
-import DOMPurify from 'dompurify';
-Vue.prototype.$filters = DOMPurify;
-
 import reporter from "@jx3box/jx3box-common/js/reporter";
 reporter.install(Vue);
 

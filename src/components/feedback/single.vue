@@ -73,7 +73,7 @@
             <div class="m-content m-textarea">
                 <el-divider content-position="left"><i class="el-icon-edit-outline"></i> 反馈内容</el-divider>
                 <div class="u-detail">
-                    <span v-html="$filters.sanitize(data.content)"></span>
+                    <span v-html="sanitizedHTML(data.content)"></span>
                 </div>
             </div>
             <div class="m-attachment m-textarea">
@@ -141,6 +141,7 @@
 </template>
 
 <script>
+import DOMPurify from "dompurify";
 import { getFeedback, updateFeedback } from "@/service/feedback";
 import { getTeammates } from "@/service/index";
 import { types, subtypes, statusMap, statusColors } from "@/assets/data/feedback.json";
@@ -261,6 +262,9 @@ export default {
             this.formData.repository = this.data.repository;
             this.formData.assign = this.data?.assign?.filter((item) => item) || [];
             this.visible = true;
+        },
+        sanitizedHTML(html) {
+            return DOMPurify.sanitize(html);
         },
     },
 };

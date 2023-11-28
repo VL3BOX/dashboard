@@ -8,7 +8,7 @@
     <div class="m-feedback-erase" v-loading="loading">
         <div class="m-feedback-article">
             <h1 class="u-title">账号注销</h1>
-            <div v-html="$filters.sanitize(article)"></div>
+            <div v-html="sanitizedHTML(article)"></div>
         </div>
         <div class="u-tips">
             <div class="u-checkbox"><el-checkbox v-model="agree">我已知晓并同意上述规则</el-checkbox></div>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import DOMPurify from 'dompurify';
 import User from "@jx3box/jx3box-common/js/user";
 import { getArticle } from "@jx3box/jx3box-common/js/api_misc";
 import { leave } from "@/service/feedback";
@@ -80,6 +81,9 @@ export default {
                     this.loading = false;
                 });
         },
+        sanitizedHTML(html){
+            return DOMPurify.sanitize(userHTML);
+        }
     },
 };
 </script>

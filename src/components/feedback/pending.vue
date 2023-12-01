@@ -229,7 +229,6 @@ export default {
         },
         params: {
             deep: true,
-            immediate: true,
             handler: function () {
                 this.getData();
             },
@@ -238,6 +237,10 @@ export default {
     methods: {
         showAvatar,
         authorLink,
+        initQuery() {
+            const query = this.$route.query;
+            this.page = Number(query.page) || 1;
+        },
         async getData() {
             try {
                 this.loading = true;
@@ -264,7 +267,14 @@ export default {
         handleView(row) {
             window.open(`/dashboard/feedback/${row.id}`, "_blank");
         },
-        currentChange() {
+        currentChange(val) {
+            const query = {
+                ...this.$route.query,
+                page: val,
+            };
+            this.$router.replace({
+                query,
+            });
             this.getData();
         },
         viewFeedback: function (row) {
@@ -317,6 +327,10 @@ export default {
                 },
             });
         },
+    },
+    mounted() {
+        this.initQuery();
+        this.getData();
     },
 };
 </script>

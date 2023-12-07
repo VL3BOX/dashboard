@@ -45,6 +45,7 @@
 // api
 import { getLetterList, sendLetter, getLetterListBefore } from "@/service/letter";
 // utils
+import DOMPurify from "dompurify";
 import User from "@jx3box/jx3box-common/js/user";
 import { formatContent } from "@/utils/emotion";
 import { showAvatar, authorLink, resolveImagePath } from "@jx3box/jx3box-common/js/utils";
@@ -120,6 +121,7 @@ export default {
     methods: {
         resolveImagePath,
         formatContent(content) {
+            content = DOMPurify.sanitize(content);
             return formatContent(this.nl2br(content));
         },
         nl2br(str) {

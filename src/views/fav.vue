@@ -10,7 +10,12 @@
                 </el-option-group>
             </el-select>
         </div>
-        <el-input class="m-dashboard-work-search" placeholder="请输入搜索内容" v-model="search" @keyup.enter.native="handleChange">
+        <el-input
+            class="m-dashboard-work-search"
+            placeholder="请输入搜索内容"
+            v-model="search"
+            @keyup.enter.native="handleChange"
+        >
             <template slot="prepend">关键词</template>
             <el-button slot="append" icon="el-icon-search" @click="handleChange"></el-button>
         </el-input>
@@ -25,7 +30,9 @@
                         item.post_title || "无标题"
                     }}</a>
                     <div class="u-desc">
-                        <span class="u-category"><i class="el-icon-folder"></i> {{ getTypeLabel(item.post_type) }} </span>
+                        <span class="u-category"
+                            ><i class="el-icon-folder"></i> {{ getTypeLabel(item.post_type) }}
+                        </span>
                         <span><i class="el-icon-date"></i> 于 {{ dateFormat(item.created) }} 加入收藏 </span>
                     </div>
                     <el-button-group class="u-action">
@@ -35,7 +42,17 @@
             </ul>
             <el-alert v-else class="m-dashboard-box-null" title="没有找到相关条目" type="info" center show-icon>
             </el-alert>
-            <el-pagination v-if="showPagination" class="m-dashboard-box-pages" background :hide-on-single-page="true" :page-size="per" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total" @current-change="currentChange">
+            <el-pagination
+                v-if="showPagination"
+                class="m-dashboard-box-pages"
+                background
+                :hide-on-single-page="true"
+                :page-size="per"
+                :current-page.sync="page"
+                layout="total, prev, pager, next, jumper"
+                :total="total"
+                @current-change="currentChange"
+            >
             </el-pagination>
         </div>
     </div>
@@ -104,8 +121,8 @@ export default {
             });
             const params = {
                 pageIndex: this.page,
-                pageSize: this.per
-            }
+                pageSize: this.per,
+            };
             if (this.search) params.post_title = this.search;
             if (this.searchType && this.searchType !== "all") params.post_type = this.searchType;
             getMyFavs(params)
@@ -133,7 +150,10 @@ export default {
             });
         },
         getLink,
-        getTypeLabel,
+        getTypeLabel(type) {
+            type = type.replace(/dbm_/g, "");
+            return getTypeLabel(type);
+        },
         dateFormat: function (val) {
             val = val * 1000;
             return dateFormat(new Date(val));
@@ -155,12 +175,12 @@ export default {
     },
     mounted: function () {
         this.page = Number(this.$route.query.page || 1);
-        this.subtype && (this.searchType = this.subtype)
+        this.subtype && (this.searchType = this.subtype);
         this.loadData();
     },
 };
 </script>
 
 <style scoped lang="less">
-    @import "../assets/css/fav.less";
+@import "../assets/css/fav.less";
 </style>

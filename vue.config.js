@@ -8,7 +8,7 @@ module.exports = {
         proxy: {
             // SERVER by iRuxu
             "/api/cms": {
-                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:5120" : "https://cms.jx3box.com",
+                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:7100" : "https://cms.jx3box.com",
             },
             // NEXT2服务
             "/api/article": {
@@ -72,9 +72,9 @@ module.exports = {
         },
         disableHostCheck: true,
     },
-    
-    outputDir: process.env["BUILD_MODE"] == "preview" ? path.resolve(__dirname, pkg.name) : 'dist', 
-    
+
+    outputDir: process.env["BUILD_MODE"] == "preview" ? path.resolve(__dirname, pkg.name) : 'dist',
+
     //❤️ Multiple pages ~
     pages: {
         index: {

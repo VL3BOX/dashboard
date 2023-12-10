@@ -176,9 +176,8 @@ export default {
                 return redirect.startsWith("http") ? redirect : ("/" + redirect.split("_").join("/"));
             } else {
                 // 贺卡处理
-                // TODO: 重构后使用getLink规范化？
                 if (source_type == "birthday") {
-                    return `/author/birthday/${user_id}?code=` + Base64.encode(source_id);
+                    return `/author/birthday?code=` + Base64.encode(source_id);
                 // 特殊回调
                 } else if (source_type == "callback") {
                     let info = encodeURIComponent(Base64.encode(JSON.stringify(item)));

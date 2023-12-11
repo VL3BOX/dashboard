@@ -82,7 +82,7 @@ export default {
                 });
         },
         sanitizedHTML(html){
-            return DOMPurify.sanitize(userHTML);
+            return DOMPurify.sanitize(html);
         }
     },
 };

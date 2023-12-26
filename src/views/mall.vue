@@ -88,7 +88,7 @@
 
                                 <!-- 已收货操作： 评价 -->
                                 <template v-if="scope.row.order.order_status == 4">
-                                    <el-button @click="handleShow('comment', scope.row.order.id)" type="text">
+                                    <el-button @click="handleShow('comment', scope.row.order.id)" type="text" size="small">
                                         评价商品
                                     </el-button>
                                 </template>

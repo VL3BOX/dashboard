@@ -7,7 +7,7 @@
                 <el-card shadow="never" v-if="content">
                     <el-divider content-position="left"><i class="el-icon-chat-line-round"></i> 显示内容</el-divider><span v-html="content"></span>
                 </el-card>
-                <el-card shadow="never" v-if="reason && reason.length">
+                <el-card shadow="never" v-if="reason && reason.length && isSuperAuth">
                     <el-divider content-position="left"><i class="el-icon-warning-outline"></i> 被屏蔽原因</el-divider>
                     <div class="m-item">
                         <span v-for="(item, i) in reason" :key="i">
@@ -26,6 +26,7 @@
 <script>
 import { filterSeaSun } from "@/service/cooperation";
 import { debounce } from "lodash";
+import User from "@jx3box/jx3box-common/js/user";
 export default {
     name: "filter",
     props: [],
@@ -37,7 +38,11 @@ export default {
             reason: [],
         };
     },
-
+    computed: {
+        isSuperAuth() {
+            return User.isSuperAuthor();
+        }
+    },
     methods: {
         filter() {
             this.loading = true;

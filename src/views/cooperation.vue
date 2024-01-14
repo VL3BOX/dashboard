@@ -39,7 +39,7 @@
             <el-alert
                 title="申请被驳回"
                 type="error"
-                description="请填写有效的联系方式与作品，不符合要求的作品将不会受理。"
+                :description="checkedRemark || '请填写有效的联系方式与作品，不符合要求的作品将不会受理。'"
                 show-icon
                 :closable="false"
                 v-if="!isSuperAuthor && checked == 2"
@@ -142,6 +142,7 @@ export default {
 
             // 请求成功的一次
             checked: -1,
+            checkedRemark: "",
 
             // 签约记录
             logs: [],
@@ -190,6 +191,7 @@ export default {
                 this.logs = res.data.data.list;
                 if (this.logs && this.logs.length) {
                     this.checked = this.logs[0]["checked"];
+                    this.checkedRemark = this.logs[0]["check_remark"];
                     this.form = this.logs[0];
                 }
             });

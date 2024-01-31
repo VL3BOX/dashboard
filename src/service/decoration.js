@@ -30,7 +30,8 @@ function updateAvatarFrame(data) {
 }
 
 function getHonor() {
-    return axios.get(`${__imgPath}decoration/honor.json?${Date.now()}`);
+    // return axios.get(`${__imgPath}decoration/honor.json?${Date.now()}`);
+    return $cms().get("/api/cms/user/config/honor");
 }
 
 function getUserHonors(uid) {

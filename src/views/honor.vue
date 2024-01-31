@@ -176,7 +176,7 @@ export default {
             });
         },
         loadDecoration() {
-            getUserHonors(this.uid).then(data => {
+            getUserHonors(this.uid).then((data) => {
                 let res = data || [];
                 let honorList = this.honorList;
                 let newArr = [];
@@ -187,16 +187,21 @@ export default {
                     let disposeHonor = function (honor) {
                         const data = honor?.honor || {};
                         //正则取出前缀
+                        let only = honorConfig.only;
                         let prefix = honorConfig.prefix;
                         let regPrefix = honorConfig.prefix.match(/(?<=\{)(.+?)(?=\})/g);
                         let ranking = honorConfig.ranking;
                         let honorStr = honorConfig.year || "";
-                        if (regPrefix) {
-                            if (data) {
-                                honorStr = honorStr + (honor?.[regPrefix[0]] || "");
+                        if (!only) {
+                            if (regPrefix) {
+                                if (data) {
+                                    honorStr = honorStr + (honor?.[regPrefix[0]] || "");
+                                }
+                            } else {
+                                honorStr = honorStr + prefix;
                             }
                         } else {
-                            honorStr = honorStr + prefix;
+                            honorStr = prefix;
                         }
                         //排名处理
                         if (ranking.length > 0 && data) {
@@ -213,9 +218,11 @@ export default {
                                     let regStr = str.match(/(?<=\{)(.+?)(?=\})/g);
                                     if (regStr) {
                                         //包含花括号替换
-                                        honorStr = honorStr + str.replace(/\{([^{}]+?)\}/g, function (match, p1) {
-                                            return data[p1] || honor[p1] || "";
-                                        });
+                                        honorStr =
+                                            honorStr +
+                                            str.replace(/\{([^{}]+?)\}/g, function (match, p1) {
+                                                return data[p1] || honor[p1] || "";
+                                            });
                                     } else {
                                         honorStr = honorStr + str;
                                     }
@@ -267,7 +274,7 @@ export default {
                 this.list.unshift(isCustomize);
                 this.isSelectBak = cloneDeep(this.isSelect);
                 this.listBak = cloneDeep(this.list);
-            })
+            });
             // getDecoration({ type: "honor" }).then((data) => {
             //     let res = data.data.data;
             //     // let res = [];

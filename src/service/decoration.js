@@ -1,4 +1,4 @@
-import { $cms } from "@jx3box/jx3box-common/js/https.js";
+import { $cms, $next } from "@jx3box/jx3box-common/js/https.js";
 import axios from "axios";
 import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 
@@ -30,6 +30,21 @@ function updateAvatarFrame(data) {
 }
 
 function getHonor() {
-    return axios.get(`${__imgPath}decoration/honor.json?${Date.now()}`);
+    // return axios.get(`${__imgPath}decoration/honor.json?${Date.now()}`);
+    return $cms().get("/api/cms/user/config/honor");
 }
-export { getDecoration, setDecoration, getDecorationJson, getEmotion, receive, updateAvatarFrame, getHonor };
+
+function getUserHonors(uid) {
+    return $next({ mute: true })
+        .get("/api/next2/user/" + uid + "/honors")
+        .then((res) => {
+            return res.data.data;
+        });
+}
+function setHonor(honor_id) {
+    return $cms().put(`/api/cms/user/honor/use/${honor_id}`)
+}
+function cancelHonor() {
+    return $cms().delete(`/api/cms/user/honor/use`)
+}
+export { getDecoration, setDecoration, getDecorationJson, getEmotion, receive, updateAvatarFrame, getHonor, getUserHonors, setHonor, cancelHonor };

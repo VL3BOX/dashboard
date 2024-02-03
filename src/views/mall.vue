@@ -52,7 +52,7 @@
                                     icon="el-icon-position"
                                     v-if="showPay(scope.row.order)"
                                     @click="toPay(scope.row)"
-                                    >点击支付</el-button
+                                    >{{ $t('点击支付') }}</el-button
                                 >
 
                                 <!-- 已发货操作： 确认收货&申请退货 -->
@@ -62,9 +62,9 @@
                                         type="success"
                                         icon="el-icon-circle-check"
                                         @click="isReceipt(scope.row.order.id)"
-                                        >确认收货</el-button
+                                        >{{ $t('确认收货') }}</el-button
                                     >
-                                    <!-- <el-button type="text">申请退货</el-button> -->
+                                    <!-- <el-button type="text">{{ $t('申请退货') }}</el-button> -->
                                 </template>
 
                                 <!-- 未发货允许操作： 取消订单 -->
@@ -82,7 +82,7 @@
                                         type="info"
                                         plain
                                         icon="el-icon-circle-close"
-                                        >取消订单</el-button
+                                        >{{ $t('取消订单') }}</el-button
                                     >
                                 </el-popconfirm>
 

@@ -6,13 +6,13 @@
                 <div class="m-order-list" v-if="list && list.length">
                     <table>
                         <thead>
-                            <th>产品</th>
-                            <th>订单编号</th>
-                            <th>金额</th>
-                            <th>支付方式</th>
-                            <th>交易号</th>
-                            <th>交易状态</th>
-                            <th>订单创建时间</th>
+                            <th>{{ $t('产品') }}</th>
+                            <th>{{ $t('订单编号') }}</th>
+                            <th>{{ $t('金额') }}</th>
+                            <th>{{ $t('支付方式') }}</th>
+                            <th>{{ $t('交易号') }}</th>
+                            <th>{{ $t('交易状态') }}</th>
+                            <th>{{ $t('订单创建时间') }}</th>
                         </thead>
                         <tbody>
                             <tr v-for="(item, i) in list" :key="i">

@@ -14,8 +14,8 @@
         </el-form-item>
 
         <div class="m-button">
-            <el-button @click="close('form')">取消</el-button>
-            <el-button type="primary" @click="submitForm('form')">确定</el-button>
+            <el-button @click="close('form')">{{ $t('取消') }}</el-button>
+            <el-button type="primary" @click="submitForm('form')">{{ $t('确定') }}</el-button>
         </div>
     </el-form>
 </template>

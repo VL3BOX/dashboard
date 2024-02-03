@@ -4,14 +4,14 @@
         <el-form class="m-config-form" label-position="left" label-width="120px">
             <el-form-item label="编辑器模式">
                 <el-radio-group v-model="conf.editor_mode" size="small">
-                    <el-radio-button label="tinymce">可视化</el-radio-button>
+                    <el-radio-button label="tinymce">{{ $t('可视化') }}</el-radio-button>
                     <el-radio-button label="markdown">Markdown</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="评论默认排序">
                 <el-radio-group v-model="conf.cmt_order" size="small">
-                    <el-radio-button label="DESC">最新靠前</el-radio-button>
-                    <el-radio-button label="ASC">最早靠前</el-radio-button>
+                    <el-radio-button label="DESC">{{ $t('最新靠前') }}</el-radio-button>
+                    <el-radio-button label="ASC">{{ $t('最早靠前') }}</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="接受赠礼">
@@ -39,7 +39,7 @@
                 <el-switch v-model="conf.achievement_process" active-color="#13ce66" active-text="同步" :active-value="1" :inactive-value="0" disabled></el-switch>
             </el-form-item> -->
             <el-form-item label="" class="u-btns">
-                <el-button class="u-publish" type="primary" @click="submit">保存</el-button>
+                <el-button class="u-publish" type="primary" @click="submit">{{ $t('保存') }}</el-button>
             </el-form-item>
         </el-form>
     </div>

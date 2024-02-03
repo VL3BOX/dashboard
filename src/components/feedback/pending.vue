@@ -117,9 +117,9 @@
                 <el-table-column label="操作" width="100">
                     <template #default="{ row }">
                         <el-tooltip :content="row.content" placement="top" popper-class="m-content-popover">
-                            <el-button type="text" size="small">查看</el-button>
+                            <el-button type="text" size="small">{{ $t('查看') }}<$t('查看') }}</el-button>
                         </el-tooltip>
-                        <el-button type="text" size="small" @click.stop="onRemarkClick(row)">备注</el-button>
+                        <el-button type="text" size="small" @click.stop="onRemarkClick(row)">{{ $t('备注') }}</el-button>
                     </template>
                 </el-table-column>
             </el-table>

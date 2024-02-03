@@ -3,7 +3,7 @@
         <h1 class="u-title">
             <i class="el-icon-message"></i> 邀请
         </h1>
-        <p class="u-desc">你收到了一条联合创作邀请。</p>
+        <p class="u-desc">{{ $t('你收到了一条联合创作邀请。') }}</p>
         <div class="u-post">
             <div class="u-post-avatar">
                 <img :src="userdata.user_avatar | showAvatar" />

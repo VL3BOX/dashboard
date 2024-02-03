@@ -9,7 +9,7 @@
                     <span class="u-value">{{ types[data.type] }}</span>
                     <span class="u-value">{{ subtypes[data.subtype] }}</span>
                 </div>
-                <el-button size="mini" @click="showVisible" v-if="isTeammate">处理</el-button>
+                <el-button size="mini" @click="showVisible" v-if="isTeammate">{{ $t('处理') }}</el-button>
             </div>
             <div class="m-block m-user">
                 <div class="u-subblock">
@@ -125,16 +125,16 @@
                 </el-form-item>
                 <el-form-item label="状态">
                     <el-radio-group v-model="formData.status">
-                        <el-radio-button :label="0">待处理</el-radio-button>
-                        <el-radio-button :label="1">已指派</el-radio-button>
-                        <el-radio-button :label="2">已处理</el-radio-button>
-                        <el-radio-button :label="3">已结束</el-radio-button>
+                        <el-radio-button :label="0">{{ $t('待处理') }}</el-radio-button>
+                        <el-radio-button :label="1">{{ $t('已指派') }}</el-radio-button>
+                        <el-radio-button :label="2">{{ $t('已处理') }}</el-radio-button>
+                        <el-radio-button :label="3">{{ $t('已结束') }}</el-radio-button>
                     </el-radio-group>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button size="small" @click="visible = false">取 消</el-button>
-                <el-button size="small" type="primary" @click="confirm">确 定</el-button>
+                <el-button size="small" @click="visible = false">{{ $t('取 消') }}</el-button>
+                <el-button size="small" type="primary" @click="confirm">{{ $t('确 定') }}</el-button>
             </span>
         </el-dialog>
     </div>

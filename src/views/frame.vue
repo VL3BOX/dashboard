@@ -27,12 +27,12 @@
                 </div>
             </div>
             <div class="m-frame-right">
-                <!-- <div class="u-no-theme" :class="decorationActivate==null?'select':''" @click="noSet">不设置主题</div> -->
+                <!-- <div class="u-no-theme" :class="decorationActivate==null?'select':''" @click="noSet">{{ $t('不设置主题') }}</div> -->
                 <!-- 主题渲染列表 -->
                 <div class="u-theme">
                     <div class="u-frame-list">
                         <div class="u-title">
-                            <span class="u-name"><i class="el-icon-collection-tag"></i>头像框</span>
+                            <span class="u-name"><i class="el-icon-collection-tag"></i>{{ $t('头像框') }}</span>
                             <a class="u-buy" :href="`/vip/mall?category=virtual&sub_category=avatar`" target="_blank"
                                 ><i class="el-icon-shopping-cart-2"></i> 前往获取</a
                             >
@@ -53,8 +53,8 @@
             </div>
         </div>
         <div class="m-btn">
-            <el-button type="primary" @click="updateAvatarFrame">确认</el-button>
-            <el-button @click="reset">清除所有装扮</el-button>
+            <el-button type="primary" @click="updateAvatarFrame">{{ $t('确认') }}</el-button>
+            <el-button @click="reset">{{ $t('清除所有装扮') }}</el-button>
         </div>
     </uc>
 </template>

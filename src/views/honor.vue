@@ -39,7 +39,7 @@
                             </el-tooltip>
                             <el-tooltip content="签约作者" v-if="isSuperAuthor" placement="top">
                                 <span class="u-superauthor">
-                                    <i class="u-icon superauthor">签约作者</i>
+                                    <i class="u-icon superauthor">{{ $t('签约作者') }}</i>
                                 </span>
                             </el-tooltip>
                         </div>
@@ -57,7 +57,7 @@
             <div class="m-honor-right">
                 <div class="u-honor-list">
                     <div class="u-title">
-                        <span class="u-name"><i class="el-icon-collection-tag"></i>称号</span>
+                        <span class="u-name"><i class="el-icon-collection-tag"></i>{{ $t('称号') }}</span>
                         <a class="u-buy" :href="`/vip/mall?category=virtual&sub_category=honor`" target="_blank"
                             ><i class="el-icon-shopping-cart-2"></i> 前往获取</a
                         >
@@ -77,8 +77,8 @@
             </div>
         </div>
         <div class="m-btn">
-            <el-button type="primary" @click="submit">确认</el-button>
-            <el-button @click="reset">重置</el-button>
+            <el-button type="primary" @click="submit">{{ $t('确认') }}</el-button>
+            <el-button @click="reset">{{ $t('重置') }}</el-button>
         </div>
     </uc>
 </template>

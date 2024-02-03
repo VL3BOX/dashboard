@@ -10,7 +10,7 @@
             <!-- 已绑定 -->
             <div v-if="status == true" class="u-done">
                 <template v-if="verified == true">
-                    <h1 class="u-title">已绑定邮箱</h1>
+                    <h1 class="u-title">{{ $t('已绑定邮箱') }}</h1>
                     <p class="u-address">{{ address }}</p>
                     <el-alert
                         class="u-tip"
@@ -27,13 +27,13 @@
                             class="u-button"
                             @click="changeEmail"
                             icon="el-icon-edit"
-                            >修改邮箱</el-button
+                            >{{ $t('修改邮箱') }}</el-button
                         >
                     </div>
                 </template>
 
                 <template v-if="verified == false">
-                    <h1 class="u-title">未验证邮箱</h1>
+                    <h1 class="u-title">{{ $t('未验证邮箱') }}</h1>
                     <p class="u-address">{{ address }}</p>
                     <el-alert
                         title="未验证邮箱"
@@ -50,14 +50,14 @@
                             class="u-button"
                             @click="verify"
                             icon="el-icon-s-promotion"
-                            >验证邮箱</el-button
+                            >{{ $t('验证邮箱') }}</el-button
                         >
                         <el-button
                             type="primary"
                             class="u-button"
                             @click="changeEmail"
                             icon="el-icon-edit"
-                            >修改邮箱</el-button
+                            >{{ $t('修改邮箱') }}</el-button
                         >
                     </div>
                 </template>
@@ -124,7 +124,7 @@
                         class="u-button"
                         @click="bind"
                         :disabled="!ready"
-                        >绑定邮箱</el-button
+                        >{{ $t('绑定邮箱') }}</el-button
                     >
                 </div>
             </div>

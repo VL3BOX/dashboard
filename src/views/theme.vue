@@ -41,7 +41,7 @@
             </div>
             <div class="m-theme-right">
                 <div class="u-tips"><i class="el-icon-warning-outline"></i> 仅限同主题配置，该主题下部位可分别激活</div>
-                <!-- <div class="u-no-theme" :class="decorationActivate==null?'select':''" @click="noSet">不设置主题</div> -->
+                <!-- <div class="u-no-theme" :class="decorationActivate==null?'select':''" @click="noSet">{{ $t('不设置主题') }}</div> -->
                 <!-- 主题渲染列表 -->
                 <div class="u-theme">
                     <div class="u-decoration-list" v-for="(item, i) in decoration" :key="i + item.val">
@@ -72,8 +72,8 @@
             </div>
         </div>
         <div class="u-btn">
-            <el-button type="primary" @click="decorationSubmit">确认</el-button>
-            <el-button @click="reset">重置</el-button>
+            <el-button type="primary" @click="decorationSubmit">{{ $t('确认') }}</el-button>
+            <el-button @click="reset">{{ $t('重置') }}</el-button>
         </div>
     </uc>
 </template>

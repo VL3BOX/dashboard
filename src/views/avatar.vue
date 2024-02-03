@@ -16,14 +16,14 @@
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">
                         将文件拖到此处，或
-                        <em>点击上传</em>
+                        <em>{{ $t('点击上传') }}</em>
                         <br />
                         <span class="u-tip">只能上传jpg/png/gif文件</span>
                     </div>
                 </el-upload>
                 <p class="u-btng">
-                    <el-button type="primary" @click="submit">确认</el-button>
-                    <el-button @click="reset">重置</el-button>
+                    <el-button type="primary" @click="submit">{{ $t('确认') }}</el-button>
+                    <el-button @click="reset">{{ $t('重置') }}</el-button>
                 </p>
             </div>
         </div>

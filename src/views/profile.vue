@@ -137,7 +137,7 @@
             </el-form-item>
 
             <el-form-item class="u-btns" label>
-                <el-button type="primary" class="u-submit" @click="submit">提交</el-button>
+                <el-button type="primary" class="u-submit" @click="submit">{{ $t('提交') }}</el-button>
             </el-form-item>
         </el-form>
     </uc>

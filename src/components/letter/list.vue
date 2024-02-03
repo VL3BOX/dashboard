@@ -4,12 +4,12 @@
         <div class="m-letter-list" v-loading="loading" element-loading-spinner="el-icon-loading" ref="letterList">
             <div class="u-letter-more">
                 <span class="u-load-more" v-show="hasHistory" @click.stop="getHistory"
-                    ><i class="el-icon-d-arrow-right u-more-icon"></i>查看历史消息</span
+                    ><i class="el-icon-d-arrow-right u-more-icon"></i>{{ $t('查看历史消息') }}<查看历史消息') }}<查看历史消息') }}</span
                 >
                 <span class="u-no-more" v-show="historyFetched && !hasHistory">没有更多消息了~</span>
                 <span class="u-loading" v-show="historyFetching"><i class="el-icon-loading"></i></span>
                 <span class="u-error" v-show="historyError">
-                    消息加载失败，<span class="u-error__btn" @click.stop="getHistory">点击重新加载</span>
+                    消息加载失败，<span class="u-error__btn" @click.stop="getHistory">{{ $t('点击重新加载') }}</span>
                 </span>
             </div>
             <div class="m-letter-list-content" v-for="(item, index) in letters" :key="item.id">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="u-letter-new" v-show="newMessage">
-            <div class="u-text" @click="toBottom">您有新消息</div>
+            <div class="u-text" @click="toBottom">{{ $t('您有新消息') }}</div>
         </div>
         <send-box @send="send" ref="sendBox" :disabled="!canOp" />
     </div>

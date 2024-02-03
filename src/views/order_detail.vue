@@ -14,7 +14,7 @@
                 <div class="m-order el-card" v-if="goods">
                     <div class="m-img">
                         <img v-if="goods.goods_images" :src="goods.goods_images[0]" />
-                        <span class="u-link" v-if="goods.is_virtual" @click="openVirtual(goods)">点击查看</span>
+                        <span class="u-link" v-if="goods.is_virtual" @click="openVirtual(goods)">{{ $t('点击查看') }}</span>
                     </div>
                     <el-descriptions
                         class="m-descriptions"
@@ -60,7 +60,7 @@
                                     >
                                     <el-input v-if="append" class="u-textarea" v-model="content">
                                         <template slot="append">
-                                            <span style="cursor: pointer" @click="appendComment">确定</span>
+                                            <span style="cursor: pointer" @click="appendComment">{{ $t('确定') }}</span>
                                         </template>
                                     </el-input>
                                 </div>
@@ -69,7 +69,7 @@
                                         追加评论
                                     </el-button>
                                     <el-popconfirm title="确认删除评价吗？" :width="200" @confirm="delComment(rate.id)">
-                                        <el-button slot="reference" type="text">删除</el-button>
+                                        <el-button slot="reference" type="text">{{ $t('删除') }}</el-button>
                                     </el-popconfirm>
                                 </div>
                             </div>
@@ -78,15 +78,15 @@
                 </div>
                 <div class="m-button">
                     <template v-if="data.order.order_status == 0">
-                        <el-button @click="cancel(data.order.id)">取消订单</el-button>
-                        <el-button @click="open(data.order.id, 'address')">修改地址</el-button>
-                        <el-button @click="open(data.order.id, 'remark')">添加备注</el-button>
+                        <el-button @click="cancel(data.order.id)">{{ $t('取消订单') }}</el-button>
+                        <el-button @click="open(data.order.id, 'address')">{{ $t('修改地址') }}</el-button>
+                        <el-button @click="open(data.order.id, 'remark')">{{ $t('添加备注') }}</el-button>
                     </template>
 
                     <el-button @click="toConfirm(data.order.id)" v-if="data.order.order_status == 3">
                         确认收货
                     </el-button>
-                    <el-button @click="toPay(data)" v-if="showPay(data.order)">点击付款</el-button>
+                    <el-button @click="toPay(data)" v-if="showPay(data.order)">{{ $t('点击付款') }}</el-button>
                 </div>
             </div>
 
@@ -112,8 +112,8 @@
                         </el-form-item>
                         <el-form-item>
                             <div class="m-button">
-                                <el-button @click="close">取 消</el-button>
-                                <el-button type="primary" @click="submit('address_form')">确定</el-button>
+                                <el-button @click="close">{{ $t('取 消') }}</el-button>
+                                <el-button type="primary" @click="submit('address_form')">{{ $t('确定') }}</el-button>
                             </div>
                         </el-form-item>
                     </el-form>
@@ -126,8 +126,8 @@
                         </el-form-item>
                         <el-form-item>
                             <div class="m-button">
-                                <el-button @click="close">取 消</el-button>
-                                <el-button type="primary" @click="submit('remark_form')">确定</el-button>
+                                <el-button @click="close">{{ $t('取 消') }}</el-button>
+                                <el-button type="primary" @click="submit('remark_form')">{{ $t('确定') }}</el-button>
                             </div>
                         </el-form-item>
                     </el-form>

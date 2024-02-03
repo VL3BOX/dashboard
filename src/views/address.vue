@@ -2,7 +2,7 @@
     <uc>
         <div class="m-page-address">
             <!-- 显示地址 -->
-            <el-button type="success" icon="el-icon-plus" @click="add" size="small">添加地址</el-button>
+            <el-button type="success" icon="el-icon-plus" @click="add" size="small">{{ $t('添加地址') }}</el-button>
 
             <div class="m-content">
                 <el-table :data="list" size="small">
@@ -22,7 +22,7 @@
                         <template slot-scope="scope">
                             <div>
                                 <el-button plain @click="edit(scope.row)" icon="el-icon-edit" size="mini"
-                                    >编辑</el-button
+                                    >{{ $t('编辑') }}</el-button
                                 >
                                 <el-popconfirm
                                     confirm-button-text="确定"
@@ -38,7 +38,7 @@
                                         plain
                                         size="mini"
                                         icon="el-icon-delete"
-                                        >删除</el-button
+                                        >{{ $t('删除') }}</el-button
                                     >
                                 </el-popconfirm>
                             </div>
@@ -68,8 +68,8 @@
                     </el-form-item>
                 </el-form>
                 <span slot="footer" class="m-footer">
-                    <el-button size="small" @click="visible = false">取 消</el-button>
-                    <el-button size="small" type="primary" @click="submit('ruleForm')">确 定</el-button>
+                    <el-button size="small" @click="visible = false">{{ $t('取 消') }}</el-button>
+                    <el-button size="small" type="primary" @click="submit('ruleForm')">{{ $t('确 定') }}</el-button>
                 </span>
             </el-dialog>
         </div>

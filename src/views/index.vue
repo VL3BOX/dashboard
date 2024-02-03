@@ -31,7 +31,7 @@
                                 <span class="u-expire">（{{ `有效期至:${expire_date}` }}）</span>
                             </template>
                             <a class="u-upgrade" href="/vip/premium?from=dashboard_index" target="_blank" v-else
-                                >升级账号类型</a
+                                >{{ $t('升级账号类型') }}</a
                             >
                         </span>
                     </div>
@@ -114,10 +114,10 @@
                         </div>
                         <div class="u-credit-op">
                             <!-- <a class="el-button el-button--primary el-button--mini" href="/vip/boxcoin" target="_blank"
-                                >充值</a
+                                >{{ $t('充值') }}</a
                             > -->
                             <router-link class="el-button el-button--primary el-button--mini" to="/boxcoin"
-                                >兑换</router-link
+                                >{{ $t('兑换') }}</router-link
                             >
                         </div>
                     </div>
@@ -137,10 +137,10 @@
                         </div>
                         <div class="u-credit-op">
                             <!-- <a class="el-button el-button--primary el-button--mini" href="/vip/cny" target="_blank"
-                                >充值</a
+                                >{{ $t('充值') }}</a
                             > -->
                             <router-link class="el-button el-button--primary el-button--mini" to="/cny"
-                                >兑现</router-link
+                                >{{ $t('兑现') }}</router-link
                             >
                         </div>
                     </div>
@@ -160,10 +160,10 @@
                         </div>
                         <div class="u-credit-op">
                             <router-link class="el-button el-button--primary el-button--mini" to="/points"
-                                >记录</router-link
+                                >{{ $t('记录') }}</router-link
                             >
                             <a class="el-button el-button--primary el-button--mini" href="/vip/mall" target="_blank"
-                                >兑换</a
+                                >{{ $t('兑换') }}</a
                             >
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                         </div>
                         <div class="u-credit-op">
                             <router-link class="el-button el-button--primary el-button--mini" to="/card"
-                                >查看</router-link
+                                >{{ $t('查看') }}</router-link
                             >
                         </div>
                     </div>
@@ -194,10 +194,10 @@
                         </div>
                         <div class="u-credit-op">
                             <router-link class="el-button el-button--primary el-button--mini" to="/packet"
-                                >记录</router-link
+                                >{{ $t('记录') }}</router-link
                             >
                             <a class="el-button el-button--primary el-button--mini" href="/vip/mall" target="_blank"
-                                >兑换</a
+                                >{{ $t('兑换') }}</a
                             >
                         </div>
                     </div> -->
@@ -231,7 +231,7 @@
                             class="u-link"
                             :href="getPostLink(item.data.post_type, item.data.article_id)"
                             v-if="item.data.post_type && item.data.article_id"
-                            ><i class="el-icon-link"></i>查看详情</a
+                            ><i class="el-icon-link"></i>{{ $t('查看详情') }}</a
                         >
                     </span>
                     <!-- 盒币 -->
@@ -247,7 +247,7 @@
                             class="u-link"
                             :href="getPostLink(item.data.post_type, item.data.post_id)"
                             v-if="item.data.post_type && item.data.post_id"
-                            ><i class="el-icon-link"></i>查看详情</a
+                            ><i class="el-icon-link"></i>{{ $t('查看详情') }}</a
                         >
                     </span>
 
@@ -278,7 +278,7 @@
                             class="u-link"
                             :href="getPostLink(item.data.link_article_type, item.data.link_article_id)"
                             v-if="item.data.link_article_type && item.data.link_article_id"
-                            ><i class="el-icon-link"></i>查看详情</a
+                            ><i class="el-icon-link"></i>{{ $t('查看详情') }}</a
                         >
                     </span>
 

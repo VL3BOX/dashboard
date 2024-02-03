@@ -13,7 +13,7 @@
             </el-tabs>
 
             <el-input v-if="active !== 'whitelist'" class="m-privacy-search" placeholder="请输入搜索内容" v-model="keyword" @keyup.enter.native="handleChange">
-                <template slot="prepend">关键词</template>
+                <template slot="prepend">{{ $t('关键词') }}</template>
                 <el-button slot="append" icon="el-icon-search" @click="handleChange"></el-button>
             </el-input>
 
@@ -47,7 +47,7 @@
                                     type="warning"
                                     size="mini"
                                     icon="el-icon-delete"
-                                >删除</el-button>
+                                >{{ $t('删除') }}</el-button>
                             </el-popconfirm>
 
                             <el-button
@@ -55,7 +55,7 @@
                                 size="mini"
                                 icon="el-icon-edit"
                                 class="u-btn-edit"
-                            >编辑</el-button>
+                            >{{ $t('编辑') }}</el-button>
                         </template>
                         <template v-else>
                             <el-button
@@ -63,7 +63,7 @@
                                 size="mini"
                                 icon="el-icon-delete"
                                 class="u-btn-delete"
-                            >移除</el-button>
+                            >{{ $t('移除') }}</el-button>
                         </template>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                         <span class="u-item-uid">UID：{{ userdata.ID }}</span>
                         <b class="u-item-name">{{ userdata.display_name }}</b>
                     </div>
-                    <i class="u-item-exist" v-if="!isNewKith">已添加</i>
+                    <i class="u-item-exist" v-if="!isNewKith">{{ $t('已添加') }}</i>
                 </div>
             </div>
             <div class="u-null" v-if="isNull">

@@ -66,7 +66,7 @@
                     :disabled="!canSubmit"
                     @click="submit"
                     :loading="loading"
-                    >提交</el-button
+                    >{{ $t('提交') }}</el-button
                 >
             </div>
         </div>

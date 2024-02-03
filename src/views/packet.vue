@@ -10,7 +10,7 @@
                 @click="togglePullBox"
                 size="mini"
                 :disabled="!money"
-                >提现</el-button
+                >{{ $t('提现') }}</el-button
             > -->
         </div>
         <div class="m-credit-pull m-packet-pull" v-if="showPullBox">
@@ -29,7 +29,7 @@
                 </el-form-item>
                 <el-form-item label="">
                     <el-button type="primary" @click="openConfirmBox" :disabled="!money || lockStatus"
-                        >提交申请</el-button
+                        >{{ $t('提交申请') }}</el-button
                     >
                 </el-form-item>
             </el-form>
@@ -40,11 +40,11 @@
                     <div class="m-packet-table" v-if="my_packet_list && my_packet_list.length">
                         <table class="m-packet-in-list">
                             <tr>
-                                <th>红包金额</th>
-                                <th>红包类型</th>
-                                <th>红包状态</th>
-                                <th>备注</th>
-                                <th>收入时间</th>
+                                <th>{{ $t('红包金额') }}</th>
+                                <th>{{ $t('红包类型') }}</th>
+                                <th>{{ $t('红包状态') }}</th>
+                                <th>{{ $t('备注') }}</th>
+                                <th>{{ $t('收入时间') }}</th>
                             </tr>
                             <tr v-for="(item, i) in my_packet_list" :key="i">
                                 <td>
@@ -85,12 +85,12 @@
                     >
                         <table class="m-packet-in-list">
                             <tr>
-                                <th>提现金额</th>
-                                <th>支付类型</th>
-                                <th>提现账号</th>
-                                <th>状态</th>
-                                <th>备注</th>
-                                <th>申请时间</th>
+                                <th>{{ $t('提现金额') }}</th>
+                                <th>{{ $t('支付类型') }}</th>
+                                <th>{{ $t('提现账号') }}</th>
+                                <th>{{ $t('状态') }}</th>
+                                <th>{{ $t('备注') }}</th>
+                                <th>{{ $t('申请时间') }}</th>
                             </tr>
                             <tr v-for="(item, i) in my_packet_history" :key="i">
                                 <td>

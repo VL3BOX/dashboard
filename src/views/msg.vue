@@ -8,7 +8,7 @@
                     v-model="keyword"
                     @keyup.enter.native="changePage(1)"
                 >
-                    <template slot="prepend">关键词</template>
+                    <template slot="prepend">{{ $t('关键词') }}<t('关键词') }}<t('关键词') }}</template>
                     <el-button slot="append" icon="el-icon-search" @click="changePage(1)"></el-button>
                 </el-input>
                 <el-button class="u-read-all" type="primary" @click="read(null)" :disabled="!unread_total">
@@ -20,8 +20,8 @@
                 <li v-for="(item, i) in data" :key="i" :class="{ on: item.read == 1 }" v-show="item.deleted == 0">
                     <div class="u-primary">
                         <span class="u-content">
-                            <span class="u-label u-hasChecked" v-if="item.read == 1">已读</span>
-                            <span class="u-label u-hasNotChecked" v-else>未读</span>
+                            <span class="u-label u-hasChecked" v-if="item.read == 1">{{ $t('已读') }}</span>
+                            <span class="u-label u-hasNotChecked" v-else>{{ $t('未读') }}</span>
                             <span v-html="item.content"></span>
                             <a
                                 :href="msgLink(item)"

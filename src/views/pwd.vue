@@ -79,7 +79,7 @@
                     type="primary"
                     @click="done"
                     :disabled="!ready"
-                    >提交</el-button
+                    >{{ $t('提交') }}</el-button
                 >
             </form>
             <div v-else class="m-dashboard-pwd-done">
@@ -88,12 +88,12 @@
                     svg-inline
                     src="../assets/img/setting/checked.svg"
                 />
-                <p>修改成功</p>
+                <p>{{ $t('修改成功') }}</p>
                 <el-button
                     class="u-submit u-button"
                     type="primary"
                     @click="reset"
-                    >返回</el-button
+                    >{{ $t('返回') }}</el-button
                 >
             </div>
         </div>

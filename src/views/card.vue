@@ -2,7 +2,7 @@
     <div class="m-dashboard-keycode m-credit">
         <h2 class="u-title"><i class="el-icon-bank-card"></i> 我的卡密</h2>
         <el-alert class="m-boxcoin-tip" title="请务必妥善保管，并注意过期时间。" type="warning" show-icon>
-            <a href="https://charge.xoyo.com/pay?item=jx3&way=kcard" target="_blank">金山一卡通充值页面</a>
+            <a href="https://charge.xoyo.com/pay?item=jx3&way=kcard" target="_blank">{{ $t('金山一卡通充值页面') }}</a>
         </el-alert>
         <div class="m-keycode-tab">
             <el-tabs type="border-card" v-model="tab" @tab-click="tabClick">
@@ -40,7 +40,7 @@
                                                 v-clipboard:copy="'' + scope.row.key"
                                                 v-clipboard:success="onCopy"
                                                 v-clipboard:error="onError"
-                                                >复制卡号</el-button
+                                                >{{ $t('复制卡号') }}</el-button
                                             >
                                         </div>
                                         <div class="u-line">
@@ -52,7 +52,7 @@
                                                 @click="getKeycode(scope.$index, scope.row)"
                                                 size="mini"
                                                 plain
-                                                >点击查看</el-button
+                                                >{{ $t('点击查看') }}</el-button
                                             >
                                             <el-button
                                                 class="u-btn"
@@ -63,7 +63,7 @@
                                                 v-clipboard:copy="'' + scope.row.code"
                                                 v-clipboard:success="onCopy"
                                                 v-clipboard:error="onError"
-                                                >复制卡密</el-button
+                                                >{{ $t('复制卡密') }}</el-button
                                             >
                                         </div>
                                     </div>
@@ -149,7 +149,7 @@
                                         @click="getSn(scope.$index, scope.row)"
                                         size="mini"
                                         plain
-                                        >点击查看</el-button
+                                        >{{ $t('点击查看') }}</el-button
                                     >
                                     <el-button
                                         class="u-btn"
@@ -160,7 +160,7 @@
                                         v-clipboard:copy="'' + scope.row.code"
                                         v-clipboard:success="onCopy"
                                         v-clipboard:error="onError"
-                                        >复制</el-button
+                                        >{{ $t('复制') }}</el-button
                                     >
                                 </div>
                             </template>
@@ -241,7 +241,7 @@
                                                     v-clipboard:copy="'' + scope.row.goods.good_number"
                                                     v-clipboard:success="onCopy"
                                                     v-clipboard:error="onError"
-                                                    >复制卡号</el-button
+                                                    >{{ $t('复制卡号') }}</el-button
                                                 >
                                             </div>
                                             <div class="u-line">
@@ -255,7 +255,7 @@
                                                     @click="getVirtualCode(scope.$index, scope.row)"
                                                     size="mini"
                                                     plain
-                                                    >点击查看</el-button
+                                                    >{{ $t('点击查看') }}</el-button
                                                 >
                                                 <el-button
                                                     class="u-btn"

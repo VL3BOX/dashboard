@@ -7,13 +7,13 @@
 <template>
     <div class="m-feedback-erase" v-loading="loading">
         <div class="m-feedback-article">
-            <h1 class="u-title">账号注销</h1>
+            <h1 class="u-title">{{ $t('账号注销') }}</h1>
             <div v-html="sanitizedHTML(article)"></div>
         </div>
         <div class="u-tips">
-            <div class="u-checkbox"><el-checkbox v-model="agree">我已知晓并同意上述规则</el-checkbox></div>
+            <div class="u-checkbox"><el-checkbox v-model="agree">{{ $t('我已知晓并同意上述规则') }}</el-checkbox></div>
             <div class="u-confirm">
-                <el-button size="small" type="danger" :disabled="!agree" @click="handleConfirm">确认注销</el-button>
+                <el-button size="small" type="danger" :disabled="!agree" @click="handleConfirm">{{ $t('确认注销') }}</el-button>
             </div>
         </div>
     </div>

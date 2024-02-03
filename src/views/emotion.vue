@@ -30,7 +30,7 @@
 
         <div class="u-actions">
             <el-button type="primary" @click="handleSave" icon="el-icon-circle-check" :loading="loading"
-                >保存</el-button
+                >{{ $t('保存') }}</el-button
             >
         </div>
     </uc>

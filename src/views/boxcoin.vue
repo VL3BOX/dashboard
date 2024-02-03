@@ -15,9 +15,9 @@
                     >双端：<b>{{ total_all }}</b></span
                 >
             </span>
-            <!-- <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/boxcoin" target="_blank">充值</a> -->
+            <!-- <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/boxcoin" target="_blank">{{ $t('充值') }}</a> -->
             <el-button class="u-btn" type="primary" @click="togglePullBox" size="mini" :disabled="!money"
-                >兑换</el-button
+                >{{ $t('兑换') }}</el-button
             >
         </div>
         <div class="m-credit-pull" v-if="showPullBox">
@@ -55,7 +55,7 @@
                 </el-form-item>
                 <el-form-item label>
                     <el-button type="primary" @click="openConfirmBox" :disabled="!ready || lockStatus"
-                        >提交申请</el-button
+                        >{{ $t('提交申请') }}</el-button
                     >
                     <span class="u-tip" v-if="!isAllowDate">
                         <i class="el-icon-warning-outline"></i> 每月{{ start_date }}-{{
@@ -71,11 +71,11 @@
                     <div class="m-packet-table" v-if="list && list.length">
                         <table class="m-boxcoin-in-list m-packet-in-list">
                             <tr>
-                                <th>类型</th>
-                                <th>数量</th>
-                                <th>源于作品</th>
-                                <th>备注</th>
-                                <th>时间</th>
+                                <th>{{ $t('类型') }}</th>
+                                <th>{{ $t('数量') }}</th>
+                                <th>{{ $t('源于作品') }}</th>
+                                <th>{{ $t('备注') }}</th>
+                                <th>{{ $t('时间') }}</th>
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
                                 <td>{{ formatType(item.action_type) }}</td>
@@ -118,13 +118,13 @@
                     <div class="m-packet-table" v-if="list && list.length">
                         <table class="m-boxcoin-out-list m-packet-in-list">
                             <tr>
-                                <th>数量</th>
-                                <th>大区</th>
-                                <th>账号</th>
-                                <th>邮箱</th>
-                                <th>处理状态</th>
-                                <th>备注</th>
-                                <th>申请时间</th>
+                                <th>{{ $t('数量') }}</th>
+                                <th>{{ $t('大区') }}</th>
+                                <th>{{ $t('账号') }}</th>
+                                <th>{{ $t('邮箱') }}</th>
+                                <th>{{ $t('处理状态') }}</th>
+                                <th>{{ $t('备注') }}</th>
+                                <th>{{ $t('申请时间') }}</th>
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
                                 <td>

@@ -88,7 +88,7 @@
                         @click="submitForm('form')"
                         icon="el-icon-s-promotion"
                         :disabled="isSuperAuthor || processing"
-                        >提交签约申请</el-button
+                        >{{ $t('提交签约申请') }}</el-button
                     >
                 </el-form-item>
             </el-form>

@@ -16,7 +16,7 @@
             v-model="search"
             @keyup.enter.native="handleChange"
         >
-            <template slot="prepend">关键词</template>
+            <template slot="prepend">{{ $t('关键词') }}</template>
             <el-button slot="append" icon="el-icon-search" @click="handleChange"></el-button>
         </el-input>
 

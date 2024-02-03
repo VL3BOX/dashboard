@@ -5,9 +5,9 @@
         <div class="m-credit-total m-packet-total">
             余额 :
             <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
-            <!-- <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/cny" target="_blank">充值</a> -->
+            <!-- <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/cny" target="_blank">{{ $t('充值') }}</a> -->
             <el-button class="u-btn" type="primary" @click="togglePullBox" size="mini" :disabled="!money"
-                >提现</el-button
+                >{{ $t('提现') }}</el-button
             >
         </div>
 
@@ -60,7 +60,7 @@
                 </el-form-item>
                 <el-form-item label>
                     <el-button type="primary" @click="openConfirmBox" :disabled="!ready || lockStatus"
-                        >提交申请</el-button
+                        >{{ $t('提交申请') }}</el-button
                     >
                     <span class="u-tip" v-if="!isAllowDate">
                         <i class="el-icon-warning-outline"></i> 每月{{ start_date }}-{{
@@ -94,12 +94,12 @@
                             "process_success": false //相关业务是否执行成功 -->
 
                             <tr>
-                                <th>类型</th>
-                                <th>来源</th>
-                                <th>去向</th>
-                                <th>数量</th>
-                                <th>备注</th>
-                                <th>时间</th>
+                                <th>{{ $t('类型') }}</th>
+                                <th>{{ $t('来源') }}</th>
+                                <th>{{ $t('去向') }}</th>
+                                <th>{{ $t('数量') }}</th>
+                                <th>{{ $t('备注') }}</th>
+                                <th>{{ $t('时间') }}</th>
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
                                 <td>
@@ -110,14 +110,14 @@
                                         <img class="u-avatar" :src="showAvatar(item.pay_user.avatar)" alt="" />
                                         {{ item.pay_user.display_name }}
                                     </a>
-                                    <span v-else>系统</span>
+                                    <span v-else>{{ $t('系统') }}</span>
                                 </td>
                                 <td>
                                     <a class="u-user" :href="authorLink(item.access_user.id)" v-if="!!item.access_user">
                                         <img class="u-avatar" :src="showAvatar(item.access_user.avatar)" alt="" />
                                         {{ item.access_user.display_name }}
                                     </a>
-                                    <span v-else>系统</span>
+                                    <span v-else>{{ $t('系统') }}</span>
                                 </td>
                                 <td class="u-count" :class="{ isNegative: !isIncome(item) }">
                                     <span>{{ isIncome(item) ? "+" : "-" }}</span>

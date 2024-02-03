@@ -2,7 +2,7 @@
     <nav class="m-nav">
         <a class="m-nav-publish el-button el-button--primary" href="/publish" target="_blank">
             <!-- <i class="el-icon-edit-outline"></i> -->
-            <span>前往创作中心</span>
+            <span>{{ $t('前往创作中心') }}</span>
         </a>
 
         <div v-for="item in navList" :key="item.group_name">

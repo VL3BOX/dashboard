@@ -2,8 +2,8 @@
     <div class="m-dashboard m-dashboard-work m-dashboard-fav">
         <div class="m-dashboard-work-header">
             <h2 class="u-title"><i class="el-icon-star-off"></i> 收藏订阅</h2>
-            <el-select v-model="searchType" placeholder="类型过滤" class="u-filter" size="small" @change="handleChange">
-                <el-option label="全部" value=""> </el-option>
+            <el-select v-model="searchType" :placeholder="$t('类型过滤')" class="u-filter" size="small" @change="handleChange">
+                <el-option :label="$t('全部')" value=""> </el-option>
                 <el-option-group v-for="group in options" :key="group.label" :label="group.label">
                     <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
@@ -12,7 +12,7 @@
         </div>
         <el-input
             class="m-dashboard-work-search"
-            placeholder="请输入搜索内容"
+            :placeholder="$t('请输入搜索内容')"
             v-model="search"
             @keyup.enter.native="handleChange"
         >
@@ -36,11 +36,11 @@
                         <span><i class="el-icon-date"></i> 于 {{ dateFormat(item.created) }} 加入收藏 </span>
                     </div>
                     <el-button-group class="u-action">
-                        <el-button size="mini" icon="el-icon-delete" title="取消收藏" @click="del(item.id)"></el-button>
+                        <el-button size="mini" icon="el-icon-delete" :title="$t('取消收藏')" @click="del(item.id)"></el-button>
                     </el-button-group>
                 </li>
             </ul>
-            <el-alert v-else class="m-dashboard-box-null" title="没有找到相关条目" type="info" center show-icon>
+            <el-alert v-else class="m-dashboard-box-null" :title="$t('没有找到相关条目')" type="info" center show-icon>
             </el-alert>
             <el-pagination
                 v-if="showPagination"

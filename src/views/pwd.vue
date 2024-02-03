@@ -9,9 +9,9 @@
                 />
                 <el-alert
                     class="u-ac"
-                    title="请妥善保管"
+                    :title="$t('请妥善保管')"
                     type="warning"
-                    description="未绑定邮箱用户将无法使用找回密码功能"
+                    :description="$t('未绑定邮箱用户将无法使用找回密码功能')"
                     show-icon
                     :closable="false"
                 >
@@ -21,7 +21,7 @@
                 <div class="u-pass">
                     <el-input
                         class="u-text"
-                        placeholder="新密码"
+                        :placeholder="$t('新密码')"
                         v-model="pwd1"
                         show-password
                         @change="checkPass"
@@ -49,7 +49,7 @@
                 <div class="u-pass">
                     <el-input
                         class="u-text"
-                        placeholder="重复密码"
+                        :placeholder="$t('重复密码')"
                         v-model="pwd2"
                         show-password
                         @input="checkPass"

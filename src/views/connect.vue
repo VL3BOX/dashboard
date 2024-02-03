@@ -3,7 +3,7 @@
         <div class="m-profile-connect">
             <el-alert
                 class="u-tip"
-                title="如需解绑则需要先绑定一个邮箱"
+                :title="$t('如需解绑则需要先绑定一个邮箱')"
                 type="warning"
                 show-icon
             >

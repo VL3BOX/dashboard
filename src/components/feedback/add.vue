@@ -2,32 +2,32 @@
     <div class="m-add-feedback">
         <div class="type-box">
             <el-form inline>
-                <el-form-item label="来源">
-                    <el-select v-model="form.type" placeholder="请选择问题来源" size="small">
+                <el-form-item :label="$t('来源')">
+                    <el-select v-model="form.type" :placeholder="$t('请选择问题来源')" size="small">
                         <el-option v-for="(value, key) in types" :key="key" :value="key" :label="value"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="类别">
-                    <el-select v-model="form.subtype" placeholder="请选择问题类别" size="small">
+                <el-form-item :label="$t('类别')">
+                    <el-select v-model="form.subtype" :placeholder="$t('请选择问题类别')" size="small">
                         <el-option v-for="(value, key) in subtypes" :key="key" :value="key" :label="value"></el-option>
                     </el-select>
                 </el-form-item>
             </el-form>
             <!-- <div class="type-box-item">
                 <span class="u-label">来源：</span>
-                <el-select v-model="form.type" placeholder="请选择问题来源" size="small">
+                <el-select v-model="form.type" :placeholder="$t('请选择问题来源')" size="small">
                     <el-option v-for="(value, key) in types" :key="key" :value="key" :label="value"></el-option>
                 </el-select>
             </div>
             <div class="type-box-item">
                 <span class="u-label">类别：</span>
-                <el-select v-model="form.subtype" placeholder="请选择问题类别" size="small">
+                <el-select v-model="form.subtype" :placeholder="$t('请选择问题类别')" size="small">
                     <el-option v-for="(value, key) in subtypes" :key="key" :value="key" :label="value"></el-option>
                 </el-select>
             </div> -->
         </div>
         <div class="m-content">
-            <el-input v-model="form.content" type="textarea" :rows="10" placeholder="输入反馈内容"></el-input>
+            <el-input v-model="form.content" type="textarea" :rows="10" :placeholder="$t('输入反馈内容')"></el-input>
         </div>
         <div class="m-feedback-actions">
             <div class="m-feedback-attachment">
@@ -42,7 +42,7 @@
                     :on-exceed="exceed"
                     :before-upload="beforeUpload"
                     :limit="max"
-                    title="上传图片"
+                    :title="$t('上传图片')"
                     with-credentials
                     accept="image/jpg, image/jpeg, image/gif, image/png, image/bmp"
                     size="small"
@@ -54,7 +54,7 @@
             <div class="m-feedback-visible">
                 <span class="u-label">是否公开：</span>
                 <el-checkbox class="u-checkbox" :true-label="1" :false-label="0" v-model="form.public"></el-checkbox>
-                <!-- <el-tooltip v-show="!canSubmit" content="必须先填写类型，子类和内容">
+                <!-- <el-tooltip v-show="!canSubmit" :content="$t('必须先填写类型，子类和内容')">
                     <i class="el-icon-question"></i>
                 </el-tooltip> -->
             </div>

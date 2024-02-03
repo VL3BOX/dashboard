@@ -1,5 +1,5 @@
 <template>
-    <uc class="m-dashboard-honor m-dashboard-skin" icon="el-icon-brush" title="主题装扮" :tab-list="tabList">
+    <uc class="m-dashboard-honor m-dashboard-skin" icon="el-icon-brush" :title="$t('主题装扮')" :tab-list="tabList">
         <template #header>
             <a
                 class="u-link el-button el-button--default el-button--mini is-round is-plain"
@@ -37,7 +37,7 @@
                                     <i class="u-icon vip">{{ vipType }}</i>
                                 </span>
                             </el-tooltip>
-                            <el-tooltip content="签约作者" v-if="isSuperAuthor" placement="top">
+                            <el-tooltip :content="$t('签约作者')" v-if="isSuperAuthor" placement="top">
                                 <span class="u-superauthor">
                                     <i class="u-icon superauthor">{{ $t('签约作者') }}</i>
                                 </span>

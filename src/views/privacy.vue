@@ -6,13 +6,13 @@
             </h2>
 
             <el-tabs v-model="active" @tab-click="tabChange">
-                 <el-tab-pane label="我的亲友" name="whitelist"></el-tab-pane>
-                 <el-tab-pane label="黑名单" name="blacklist"></el-tab-pane>
-                 <el-tab-pane label="我的关注" name="myfollow"></el-tab-pane>
-                 <el-tab-pane label="我的粉丝" name="myfans"></el-tab-pane>
+                 <el-tab-pane :label="$t('我的亲友')" name="whitelist"></el-tab-pane>
+                 <el-tab-pane :label="$t('黑名单')" name="blacklist"></el-tab-pane>
+                 <el-tab-pane :label="$t('我的关注')" name="myfollow"></el-tab-pane>
+                 <el-tab-pane :label="$t('我的粉丝')" name="myfans"></el-tab-pane>
             </el-tabs>
 
-            <el-input v-if="active !== 'whitelist'" class="m-privacy-search" placeholder="请输入搜索内容" v-model="keyword" @keyup.enter.native="handleChange">
+            <el-input v-if="active !== 'whitelist'" class="m-privacy-search" :placeholder="$t('请输入搜索内容')" v-model="keyword" @keyup.enter.native="handleChange">
                 <template slot="prepend">{{ $t('关键词') }}</template>
                 <el-button slot="append" icon="el-icon-search" @click="handleChange"></el-button>
             </el-input>
@@ -97,7 +97,7 @@
                 </div>
             </div>
             <div class="u-null" v-if="isNull">
-                <el-alert title="无搜索结果" type="info" show-icon :closable="false"></el-alert>
+                <el-alert :title="$t('无搜索结果')" type="info" show-icon :closable="false"></el-alert>
             </div>
             <el-button
                 class="u-submit"

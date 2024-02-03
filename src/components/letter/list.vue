@@ -24,7 +24,7 @@
                             v-if="item.content_type == 0"
                             v-html="formatContent(item.content)"
                         ></div>
-                        <div class="u-letter-image" v-if="item.content_type == 1" title="点击查看大图">
+                        <div class="u-letter-image" v-if="item.content_type == 1" :title="$t('点击查看大图')">
                             <el-image
                                 :src="resolveImagePath(item.content)"
                                 :preview-src-list="[item.content]"

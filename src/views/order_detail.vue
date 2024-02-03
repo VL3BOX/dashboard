@@ -1,5 +1,5 @@
 <template>
-    <uc icon="el-icon-shopping-bag-1" title="订单中心" :tabList="tabList">
+    <uc icon="el-icon-shopping-bag-1" :title="$t('订单中心')" :tabList="tabList">
         <div class="m-mall-detail">
             <div class="m-breadcrumb">
                 <span @click="goBack" class="u-back"><i class="el-icon-arrow-left"></i> 返回</span>
@@ -23,18 +23,18 @@
                         :column="3"
                         border
                     >
-                        <el-descriptions-item label="下单时间">{{ order.created_at }}</el-descriptions-item>
-                        <el-descriptions-item label="订单编号" :span="2">{{ order.order_no }}</el-descriptions-item>
+                        <el-descriptions-item :label="$t('下单时间')">{{ order.created_at }}</el-descriptions-item>
+                        <el-descriptions-item :label="$t('订单编号')" :span="2">{{ order.order_no }}</el-descriptions-item>
 
-                        <el-descriptions-item label="购买数量">{{ order.goods_num }}</el-descriptions-item>
-                        <el-descriptions-item label="邮费">
+                        <el-descriptions-item :label="$t('购买数量')">{{ order.goods_num }}</el-descriptions-item>
+                        <el-descriptions-item :label="$t('邮费')">
                             {{ goods.postage ? goods.postage / 100 + "元" : "包邮" }}
                         </el-descriptions-item>
-                        <el-descriptions-item label="支付状态">{{ payStatus[order.pay_status] }}</el-descriptions-item>
-                        <el-descriptions-item label="订单状态">
+                        <el-descriptions-item :label="$t('支付状态')">{{ payStatus[order.pay_status] }}</el-descriptions-item>
+                        <el-descriptions-item :label="$t('订单状态')">
                             {{ orderStatus[order.order_status] }}
                         </el-descriptions-item>
-                        <el-descriptions-item label="购买消耗">
+                        <el-descriptions-item :label="$t('购买消耗')">
                             <div class="u-box">
                                 <span v-if="order.goods_price_cny">
                                     金箔：<b>{{ order.goods_price_cny * order.goods_num }}</b>
@@ -47,11 +47,11 @@
                                 </span>
                             </div>
                         </el-descriptions-item>
-                        <el-descriptions-item label="是否为赠送">{{
+                        <el-descriptions-item :label="$t('是否为赠送')">{{
                             order.is_vitural_gift_order ? "是" : "否"
                         }}</el-descriptions-item>
-                        <el-descriptions-item label="备注">{{ order.remark || "-" }}</el-descriptions-item>
-                        <el-descriptions-item label="评价" v-if="rate.comment" :span="3">
+                        <el-descriptions-item :label="$t('备注')">{{ order.remark || "-" }}</el-descriptions-item>
+                        <el-descriptions-item :label="$t('评价')" v-if="rate.comment" :span="3">
                             <div class="m-comment">
                                 <div class="m-text">
                                     <span class="u-comment">{{ rate.comment }}</span>
@@ -100,7 +100,7 @@
             >
                 <template v-if="mode == 'address'">
                     <el-form ref="address_form" :model="address_form" :rules="address_rules" class="demo-form-inline">
-                        <el-form-item label="选择收货地址" prop="address_id">
+                        <el-form-item :label="$t('选择收货地址')" prop="address_id">
                             <el-select v-model="address_form.address_id">
                                 <el-option
                                     :label="`【 ${item.contact_name} ${item.contact_phone} 】 ${item.province}${item.city}${item.area}${item.address}`"
@@ -120,8 +120,8 @@
                 </template>
                 <template v-else>
                     <el-form ref="remark_form" :model="remark_form" :rules="remark_rules" class="demo-form-inline">
-                        <el-form-item label="备注" prop="remark">
-                            <el-input type="textarea" :rows="2" placeholder="请输入备注" v-model="remark_form.remark">
+                        <el-form-item :label="$t('备注')" prop="remark">
+                            <el-input type="textarea" :rows="2" :placeholder="$t('请输入备注')" v-model="remark_form.remark">
                             </el-input>
                         </el-form-item>
                         <el-form-item>

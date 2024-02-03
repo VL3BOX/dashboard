@@ -8,7 +8,7 @@
                     class="u-select"
                     slot="prepend"
                     size="small"
-                    placeholder="请选择处理人"
+                    :placeholder="$t('请选择处理人')"
                     filterable
                 >
                     <el-option
@@ -32,7 +32,7 @@
                 </el-select>
             </div>
             <div class="m-feedback-tool__item">
-                <el-date-picker v-model="time" type="month" placeholder="选择月份" size="small" format="yyyy年MM月">
+                <el-date-picker v-model="time" type="month" :placeholder="$t('选择月份')" size="small" format="yyyy年MM月">
                 </el-date-picker>
             </div>
             <el-checkbox class="u-only-check" v-model="onlyMe"> 指派给我的 </el-checkbox>
@@ -49,7 +49,7 @@
                 stripe
             >
                 <el-table-column
-                    label="状态"
+                    :label="$t('状态')"
                     prop="status"
                     column-key="status"
                     :filters="filterOptions.status"
@@ -62,7 +62,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                    label="客户端"
+                    :label="$t('客户端')"
                     prop="client"
                     column-key="client"
                     :filters="filterOptions.client"
@@ -72,18 +72,18 @@
                         <span class="u-client" :class="'i-client-' + row.client">{{ formatClient(row.client) }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="来源" prop="type" v-show="!isEditor">
+                <el-table-column :label="$t('来源')" prop="type" v-show="!isEditor">
                     <template #default="{ row }">
                         {{ types[row.type] }}
                     </template>
                 </el-table-column>
-                <el-table-column label="类型" prop="subtype">
+                <el-table-column :label="$t('类型')" prop="subtype">
                     <template #default="{ row }">
                         {{ subtypes[row.subtype] }}
                     </template>
                 </el-table-column>
-                <el-table-column label="备注" prop="remark"></el-table-column>
-                <el-table-column label="提交人" prop="user" v-show="isEditor">
+                <el-table-column :label="$t('备注')" prop="remark"></el-table-column>
+                <el-table-column :label="$t('提交人')" prop="user" v-show="isEditor">
                     <template #default="{ row }">
                         <div class="m-assign">
                             <a class="u-assign" :href="authorLink(row.user.id)" target="_blank">
@@ -93,7 +93,7 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="指派给">
+                <el-table-column :label="$t('指派给')">
                     <template #default="{ row }">
                         <div class="m-assign" v-if="row.assign_user && row.assign_user.length">
                             <a
@@ -109,12 +109,12 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="提交时间" prop="created_at">
+                <el-table-column :label="$t('提交时间')" prop="created_at">
                     <template #default="{ row }">
                         {{ formatTime(row.created_at) }}
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" width="100">
+                <el-table-column :label="$t('操作')" width="100">
                     <template #default="{ row }">
                         <el-tooltip :content="row.content" placement="top" popper-class="m-content-popover">
                             <el-button type="text" size="small">{{ $t('查看') }}<$t('查看') }}</el-button>

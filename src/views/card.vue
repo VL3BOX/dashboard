@@ -1,12 +1,12 @@
 <template>
     <div class="m-dashboard-keycode m-credit">
         <h2 class="u-title"><i class="el-icon-bank-card"></i> 我的卡密</h2>
-        <el-alert class="m-boxcoin-tip" title="请务必妥善保管，并注意过期时间。" type="warning" show-icon>
+        <el-alert class="m-boxcoin-tip" :title="$t('请务必妥善保管，并注意过期时间。')" type="warning" show-icon>
             <a href="https://charge.xoyo.com/pay?item=jx3&way=kcard" target="_blank">{{ $t('金山一卡通充值页面') }}</a>
         </el-alert>
         <div class="m-keycode-tab">
             <el-tabs type="border-card" v-model="tab" @tab-click="tabClick">
-                <el-tab-pane label="一卡通" name="keycode">
+                <el-tab-pane :label="$t('一卡通')" name="keycode">
                     <el-table
                         class="m-table"
                         v-if="filteredList.length"
@@ -14,18 +14,18 @@
                         show-header
                         v-loading="loading"
                     >
-                        <el-table-column prop="type" label="类型" width="140">
+                        <el-table-column prop="type" :label="$t('类型')" width="140">
                             <template slot-scope="scope">{{ keycodeOptions.types[scope.row.type] || "其他" }}</template>
                         </el-table-column>
-                        <el-table-column prop="subtype" label="渠道" width="140">
+                        <el-table-column prop="subtype" :label="$t('渠道')" width="140">
                             <template slot-scope="scope">{{
                                 keycodeOptions.subtypes[scope.row.subtype] || "其他"
                             }}</template>
                         </el-table-column>
-                        <el-table-column label="面额" width="120">
+                        <el-table-column :label="$t('面额')" width="120">
                             <template slot-scope="scope">{{ scope.row.count }}</template>
                         </el-table-column>
-                        <el-table-column label="卡密" min-width="330">
+                        <el-table-column :label="$t('卡密')" min-width="330">
                             <template slot-scope="scope">
                                 <div class="u-card">
                                     <div class="u-count">
@@ -70,7 +70,7 @@
                                 </div>
                             </template>
                         </el-table-column>
-                        <el-table-column label="过期时间" min-width="180">
+                        <el-table-column :label="$t('过期时间')" min-width="180">
                             <template slot-scope="scope">
                                 <div class="u-time" v-if="scope.row.expire_at">
                                     <span class="u-tag" :class="compareTime(scope.row.expire_at, 'tag')">{{
@@ -81,9 +81,9 @@
                                 <span v-else>-</span>
                             </template>
                         </el-table-column>
-                        <el-table-column label="发放时间" min-width="180" prop="grant_at"></el-table-column>
-                        <el-table-column prop="remark" label="备注" min-width="200"> </el-table-column>
-                        <el-table-column prop="used_by_self" label="是否使用">
+                        <el-table-column :label="$t('发放时间')" min-width="180" prop="grant_at"></el-table-column>
+                        <el-table-column prop="remark" :label="$t('备注')" min-width="200"> </el-table-column>
+                        <el-table-column prop="used_by_self" :label="$t('是否使用')">
                             <template slot-scope="scope">
                                 {{ scope.row.used_by_self ? "是" : "否" }}
 
@@ -100,7 +100,7 @@
                     <el-alert
                         v-else
                         class="m-credit-null m-packet-null"
-                        title="没有找到任何记录"
+                        :title="$t('没有找到任何记录')"
                         type="info"
                         center
                         show-icon
@@ -117,7 +117,7 @@
                         :total="total"
                     ></el-pagination>
                 </el-tab-pane>
-                <el-tab-pane label="激活码" name="sn">
+                <el-tab-pane :label="$t('激活码')" name="sn">
                     <el-table
                         class="m-table"
                         v-if="filteredList.length"
@@ -127,18 +127,18 @@
                         header-cell-class-name="u-header-cell"
                         v-loading="loading"
                     >
-                        <el-table-column prop="type" label="类型">
+                        <el-table-column prop="type" :label="$t('类型')">
                             <template slot-scope="scope">{{
                                 snOptions.types[scope.row.type] || scope.row.type || "其他"
                             }}</template>
                         </el-table-column>
-                        <el-table-column prop="subtype" label="渠道">
+                        <el-table-column prop="subtype" :label="$t('渠道')">
                             <template slot-scope="scope">{{
                                 snOptions.subtypes[scope.row.subtype] || "其他"
                             }}</template>
                         </el-table-column>
-                        <el-table-column prop="describe" label="描述"> </el-table-column>
-                        <el-table-column label="激活码" min-width="300">
+                        <el-table-column prop="describe" :label="$t('描述')"> </el-table-column>
+                        <el-table-column :label="$t('激活码')" min-width="300">
                             <template slot-scope="scope">
                                 <div class="u-code">
                                     <span class="u-txt">{{ scope.row.code || "****************" }}</span>
@@ -165,7 +165,7 @@
                                 </div>
                             </template>
                         </el-table-column>
-                        <el-table-column label="过期时间" min-width="180">
+                        <el-table-column :label="$t('过期时间')" min-width="180">
                             <template slot-scope="scope">
                                 <div class="u-time" v-if="scope.row.expire_at">
                                     <span class="u-tag" :class="compareTime(scope.row.expire_at, 'tag')">{{
@@ -176,9 +176,9 @@
                                 <span v-else>-</span>
                             </template>
                         </el-table-column>
-                        <el-table-column label="发放时间" min-width="180" prop="grant_at"></el-table-column>
-                        <el-table-column prop="remark" label="备注" min-width="300"> </el-table-column>
-                        <el-table-column prop="used_by_self" label="是否使用">
+                        <el-table-column :label="$t('发放时间')" min-width="180" prop="grant_at"></el-table-column>
+                        <el-table-column prop="remark" :label="$t('备注')" min-width="300"> </el-table-column>
+                        <el-table-column prop="used_by_self" :label="$t('是否使用')">
                             <template slot-scope="scope">
                                 {{ scope.row.used_by_self ? "是" : "否" }}
 
@@ -195,7 +195,7 @@
                     <el-alert
                         v-else
                         class="m-credit-null m-packet-null"
-                        title="没有找到任何记录"
+                        :title="$t('没有找到任何记录')"
                         type="info"
                         center
                         show-icon
@@ -212,7 +212,7 @@
                         :total="total"
                     ></el-pagination>
                 </el-tab-pane>
-                <el-tab-pane label="虚拟商品" name="virtual">
+                <el-tab-pane :label="$t('虚拟商品')" name="virtual">
                     <el-table
                         class="m-table"
                         v-if="virtualList.length"
@@ -220,10 +220,10 @@
                         show-header
                         v-loading="loading"
                     >
-                        <el-table-column label="名称">
+                        <el-table-column :label="$t('名称')">
                             <template slot-scope="scope">{{ scope.row.goods.title || "-" }}</template>
                         </el-table-column>
-                        <el-table-column label="卡密" min-width="330">
+                        <el-table-column :label="$t('卡密')" min-width="330">
                             <template slot-scope="scope">
                                 <div class="u-card">
                                     <div class="u-count">
@@ -290,7 +290,7 @@
                                 </div>
                             </template>
                         </el-table-column>
-                        <el-table-column label="过期时间" min-width="180">
+                        <el-table-column :label="$t('过期时间')" min-width="180">
                             <template slot-scope="scope">
                                 <div class="u-time" v-if="scope.row.goods.expire_at">
                                     <span class="u-tag" :class="compareTime(scope.row.goods.expire_at, 'tag')">{{
@@ -301,12 +301,12 @@
                                 <span v-else>-</span>
                             </template>
                         </el-table-column>
-                        <el-table-column label="备注" min-width="200">
+                        <el-table-column :label="$t('备注')" min-width="200">
                             <template slot-scope="scope">
                                 {{ scope.row.goods.mark || scope.row.goods.subtitle }}
                             </template>
                         </el-table-column>
-                        <!-- <el-table-column prop="used_by_self" label="是否使用">
+                        <!-- <el-table-column prop="used_by_self" :label="$t('是否使用')">
                         <template slot-scope="scope">
                             {{ scope.row.used_by_self ? "是" : "否" }}
 
@@ -323,7 +323,7 @@
                     <el-alert
                         v-else
                         class="m-credit-null m-packet-null"
-                        title="没有找到任何记录"
+                        :title="$t('没有找到任何记录')"
                         type="info"
                         center
                         show-icon
@@ -342,7 +342,7 @@
                 </el-tab-pane>
             </el-tabs>
             <div class="u-only" v-if="tab !== 'virtual'">
-                <el-switch v-model="onlyNew" active-text="仅查看未使用"></el-switch>
+                <el-switch v-model="onlyNew" :active-text="$t('仅查看未使用')"></el-switch>
             </div>
         </div>
     </div>

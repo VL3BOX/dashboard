@@ -1,5 +1,5 @@
 <template>
-    <uc icon="el-icon-shopping-bag-1" title="订单中心" :tabList="tabList">
+    <uc icon="el-icon-shopping-bag-1" :title="$t('订单中心')" :tabList="tabList">
         <div class="m-dashboard m-dashboard-work m-dashboard-orders">
             <div class="m-dashboard-orders-cont">
                 <!-- 表单 -->
@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="m-order-null" v-else>
-                    <el-alert title="还有任何订单记录" type="info" show-icon></el-alert>
+                    <el-alert :title="$t('还有任何订单记录')" type="info" show-icon></el-alert>
                 </div>
             </div>
         </div>

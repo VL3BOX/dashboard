@@ -3,18 +3,18 @@
         <h2 class="u-title"><i class="el-icon-shopping-cart-2"></i> 付费资源</h2>
 
         <el-table class="m-table" :data="list" v-loading="loading" @row-click="rowClick" @filter-change="filterChange" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell">
-            <el-table-column label="购买类型" :filters="postTypeFilters" :filter-multiple="false"  column-key="post_type">
+            <el-table-column :label="$t('购买类型')" :filters="postTypeFilters" :filter-multiple="false"  column-key="post_type">
                 <template slot-scope="{ row }">
                     <a :href="getLink(row.post_type, row.post_id)">{{ postType(row.post_type) }}</a>
                 </template>
             </el-table-column>
-            <el-table-column label="货币类型">
+            <el-table-column :label="$t('货币类型')">
                 <template slot-scope="{ row }">
                     {{ priceType(row.price_type) }}
                 </template>
             </el-table-column>
-            <el-table-column label="货币数量" prop="price_count" />
-            <el-table-column label="购买时间" prop="created_at" />
+            <el-table-column :label="$t('货币数量')" prop="price_count" />
+            <el-table-column :label="$t('购买时间')" prop="created_at" />
         </el-table>
 
         <el-pagination class="m-pagination" background :page-size="limit" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>

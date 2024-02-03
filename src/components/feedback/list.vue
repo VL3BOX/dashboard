@@ -1,30 +1,30 @@
 <template>
     <div class="m-feedback-list" v-loading="loading">
         <el-table :data="data" highlight-current-row size="small" row-class-name="u-row" @row-click="viewFeedback">
-            <el-table-column label="状态" prop="status" width="100">
+            <el-table-column :label="$t('状态')" prop="status" width="100">
                 <template #default="{ row }">
                     <span class="u-status" :style="{ backgroundColor: statusColors[row.status] }">{{
                         statusMap[row.status]
                     }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="客户端" prop="client" width="100">
+            <el-table-column :label="$t('客户端')" prop="client" width="100">
                 <template #default="{ row }">
                     <span class="u-client" :class="'i-client-' + row.client">{{ formatClient(row.client) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="来源" prop="type" width="200">
+            <el-table-column :label="$t('来源')" prop="type" width="200">
                 <template #default="{ row }">
                     {{ `${types[row.type]} - ${subtypes[row.subtype]}` }}
                 </template>
             </el-table-column>
-            <el-table-column label="内容" prop="content" show-overflow-tooltip></el-table-column>
-            <el-table-column label="提交时间" prop="created_at" width="160">
+            <el-table-column :label="$t('内容')" prop="content" show-overflow-tooltip></el-table-column>
+            <el-table-column :label="$t('提交时间')" prop="created_at" width="160">
                 <template #default="{ row }">
                     {{ formatTime(row.created_at) }}
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="100">
+            <el-table-column :label="$t('操作')" width="100">
                 <template #default>
                     <el-button type="text" size="small">{{ $t('查看') }}</el-button>
                 </template>

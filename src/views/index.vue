@@ -5,7 +5,7 @@
             <div class="u-info">
                 <h1 class="u-name">
                     <span class="u-name-txt">{{ info.display_name }}</span>
-                    <!-- <el-tooltip class="item" effect="dark" content="修改昵称" placement="top">
+                    <!-- <el-tooltip class="item" effect="dark" :content="$t('修改昵称')" placement="top">
                         <a class="u-edit-name" href="/vip/rename?from=dashboard_index">
                             <i class="el-icon-edit-outline"></i>
                         </a>
@@ -15,7 +15,7 @@
                             class="u-superauth"
                             :class="{ 'is-vip': !(isVIP || isPRO) }"
                             v-if="isSuperAuthor"
-                            title="签约作者"
+                            :title="$t('签约作者')"
                         >
                             <img :src="super_author_icon" alt="superAuthor" />
                         </span>
@@ -184,7 +184,7 @@
                         <el-tooltip
                             class="item"
                             effect="dark"
-                            content="红包可用于积分商城抵扣现金，通过特殊活动获取"
+                            :content="$t('红包可用于积分商城抵扣现金，通过特殊活动获取')"
                             placement="top"
                         >
                             <div class="u-credit-name"><i class="el-icon-present"></i> 红包</div>

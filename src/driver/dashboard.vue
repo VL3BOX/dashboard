@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <Header></Header>
-        <Breadcrumb name="个人中心" slug="dashboard" root="/dashboard" :crumbEnable="true">
+        <Breadcrumb :name="$t('个人中心')" slug="dashboard" root="/dashboard" :crumbEnable="true">
             <img slot="logo" svg-inline src="../assets/img/logo.svg" />
             <Info />
         </Breadcrumb>

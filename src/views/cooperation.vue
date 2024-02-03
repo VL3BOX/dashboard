@@ -21,7 +21,7 @@
             <el-alert
                 title="签约成功！"
                 type="success"
-                description="签约为每赛季审核一次，过期后如不满足条件的将会被取消资格。"
+                :description="$t('签约为每赛季审核一次，过期后如不满足条件的将会被取消资格。')"
                 show-icon
                 :closable="false"
                 v-if="isSuperAuthor"
@@ -37,7 +37,7 @@
             >
             </el-alert>
             <el-alert
-                title="申请被驳回"
+                :title="$t('申请被驳回')"
                 type="error"
                 :description="checkedRemark || '请填写有效的联系方式与作品，不符合要求的作品将不会受理。'"
                 show-icon
@@ -54,28 +54,28 @@
                 :label-position="position"
                 :disabled="isSuperAuthor || !checked"
             >
-                <el-form-item class="u-item" label="昵称" prop="nickname">
-                    <el-input v-model="form.nickname" placeholder="请输入昵称"></el-input>
+                <el-form-item class="u-item" :label="$t('昵称')" prop="nickname">
+                    <el-input v-model="form.nickname" :placeholder="$t('请输入昵称')"></el-input>
                 </el-form-item>
 
                 <el-form-item class="u-item" label="QQ" prop="qq">
                     <el-input v-model="form.qq" placeholder="请输入联系QQ"></el-input>
                 </el-form-item>
 
-                <el-form-item class="u-item" label="电话" prop="phone">
-                    <el-input v-model="form.phone" placeholder="请输入联系电话"></el-input>
+                <el-form-item class="u-item" :label="$t('电话')" prop="phone">
+                    <el-input v-model="form.phone" :placeholder="$t('请输入联系电话')"></el-input>
                 </el-form-item>
 
-                <el-form-item class="u-item" label="社交平台" prop="weibo">
+                <el-form-item class="u-item" :label="$t('社交平台')" prop="weibo">
                     <el-input v-model="form.weibo" placeholder="请输入微博/B站地址"></el-input>
                 </el-form-item>
 
-                <el-form-item class="u-item" label="自述" prop="description">
+                <el-form-item class="u-item" :label="$t('自述')" prop="description">
                     <el-input
                         type="textarea"
                         :rows="8"
                         :maxlength="800"
-                        placeholder="详述自己的一些作品"
+                        :placeholder="$t('详述自己的一些作品')"
                         v-model="form.description"
                         show-word-limit
                     ></el-input>

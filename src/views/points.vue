@@ -8,24 +8,24 @@
         </div>
         <el-tabs class="m-tabs" type="border-card" v-model="tab_value" @tab-click="changeTab">
             <!-- 积分记录 -->
-            <el-tab-pane label="积分记录" name="point">
+            <el-tab-pane :label="$t('积分记录')" name="point">
                 <el-table class="m-table" :data="list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell">
-                    <el-table-column label="类型">
+                    <el-table-column :label="$t('类型')">
                         <template slot-scope="scope">{{ formatType(scope.row.action_type) }}</template>
                     </el-table-column>
-                    <el-table-column label="数量">
+                    <el-table-column :label="$t('数量')">
                         <div class="u-count" :class="{ isNegative: Number(scope.row.count) < 0 }" slot-scope="scope">
                             <span>{{ Number(scope.row.count) > 0 ? "+" : "" }}</span> <b>{{ scope.row.count }}</b>
                         </div>
                     </el-table-column>
-                    <el-table-column prop="count" label="源于作品">
+                    <el-table-column prop="count" :label="$t('源于作品')">
                         <a class="u-link" :href="getPostLink(scope.row)" target="_blank" v-if="getPostLink(scope.row)" slot-scope="scope"><i class="el-icon-link"></i> 点击查看 </a>
                         <span v-else> - </span>
                     </el-table-column>
-                    <el-table-column label="备注">
+                    <el-table-column :label="$t('备注')">
                         <template slot-scope="scope">{{ formatRemark(scope.row.remark) }}</template>
                     </el-table-column>
-                    <el-table-column label="时间">
+                    <el-table-column :label="$t('时间')">
                         <template slot-scope="scope">
                             <span>{{ showTime(scope.row.created_at) }}</span>
                         </template>
@@ -33,24 +33,24 @@
                 </el-table>
                 <el-pagination class="m-packet-pages" background :page-size="per" :hide-on-single-page="true" :current-page.sync="page" layout="total, prev, pager, next, jumper" :total="total"></el-pagination>
             </el-tab-pane>
-            <el-tab-pane label="经验记录" name="ex">
+            <el-tab-pane :label="$t('经验记录')" name="ex">
                 <el-table class="m-table" :data="list" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell">
-                    <el-table-column label="类型">
+                    <el-table-column :label="$t('类型')">
                         <template slot-scope="scope">{{ formatType(scope.row.action_type) }}</template>
                     </el-table-column>
-                    <el-table-column label="数量">
+                    <el-table-column :label="$t('数量')">
                         <div class="u-count" :class="{ isNegative: Number(scope.row.count) < 0 }" slot-scope="scope">
                             <span>{{ Number(scope.row.count) > 0 ? "+" : "" }}</span> <b>{{ scope.row.count }}</b>
                         </div>
                     </el-table-column>
-                    <el-table-column prop="count" label="源于作品">
+                    <el-table-column prop="count" :label="$t('源于作品')">
                         <a class="u-link" :href="getPostLink(scope.row)" target="_blank" v-if="getPostLink(scope.row)" slot-scope="scope"><i class="el-icon-link"></i> 点击查看 </a>
                         <span v-else> - </span>
                     </el-table-column>
-                    <el-table-column label="备注">
+                    <el-table-column :label="$t('备注')">
                         <template slot-scope="scope">{{ formatRemark(scope.row.remark) }}</template>
                     </el-table-column>
-                    <el-table-column label="时间">
+                    <el-table-column :label="$t('时间')">
                         <template slot-scope="scope">
                             <span>{{ showTime(scope.row.created_at) }}</span>
                         </template>

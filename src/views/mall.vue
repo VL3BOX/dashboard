@@ -1,42 +1,42 @@
 <template>
-    <uc icon="el-icon-shopping-bag-1" title="订单中心" :tabList="tabList">
+    <uc icon="el-icon-shopping-bag-1" :title="$t('订单中心')" :tabList="tabList">
         <div class="m-page-record p-mall-orders" v-loading="loading">
             <div class="m-content">
                 <el-table :data="list" size="small">
-                    <el-table-column prop="order.created_at" label="兑换时间" width="180"> </el-table-column>
-                    <el-table-column label="兑换商品">
+                    <el-table-column prop="order.created_at" :label="$t('兑换时间')" width="180"> </el-table-column>
+                    <el-table-column :label="$t('兑换商品')">
                         <template slot-scope="scope">
                             <div class="m-line">
                                 {{ scope.row.goods.title }}
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column label="订单号">
+                    <el-table-column :label="$t('订单号')">
                         <template slot-scope="scope">
                             <div class="m-line">
                                 {{ scope.row.order.order_no }}
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="order.goods_num" label="数量" width="80"> </el-table-column>
-                    <el-table-column label="订单状态" width="160">
+                    <el-table-column prop="order.goods_num" :label="$t('数量')" width="80"> </el-table-column>
+                    <el-table-column :label="$t('订单状态')" width="160">
                         <template slot-scope="scope">
                             {{ orderStatus[scope.row.order.order_status] }}
                         </template>
                     </el-table-column>
-                    <el-table-column label="付款状态" width="160">
+                    <el-table-column :label="$t('付款状态')" width="160">
                         <template slot-scope="scope">
                             {{ payStatus[scope.row.order.pay_status] }}
                         </template>
                     </el-table-column>
-                    <el-table-column label="是否为赠送" width="160">
+                    <el-table-column :label="$t('是否为赠送')" width="160">
                         <template slot-scope="scope">
                             {{ scope.row.order.is_vitural_gift_order ? "是" : "否" }}
                         </template>
                     </el-table-column>
-                    <!-- <el-table-column prop="order.remark" label="备注"> </el-table-column> -->
+                    <!-- <el-table-column prop="order.remark" :label="$t('备注')"> </el-table-column> -->
 
-                    <el-table-column label="操作" min-width="220">
+                    <el-table-column :label="$t('操作')" min-width="220">
                         <template slot-scope="scope">
                             <div class="m-button">
                                 <!-- <template v-if="scope.row.goods.sub_category !== 'emotion'"> -->
@@ -69,8 +69,8 @@
 
                                 <!-- 未发货允许操作： 取消订单 -->
                                 <el-popconfirm
-                                    confirm-button-text="确定"
-                                    cancel-button-text="取消"
+                                    :confirm-button-text="$t('确定')"
+                                    :cancel-button-text="$t('取消')"
                                     icon="el-icon-info"
                                     title="确定取消吗？"
                                     @confirm="cancel(scope.row.order.id)"

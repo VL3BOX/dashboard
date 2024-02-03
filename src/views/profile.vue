@@ -1,7 +1,7 @@
 <template>
     <uc>
         <el-form class="m-profile-basic" ref="form" label-width="100px" :label-position="position">
-            <el-form-item class="u-name" label="昵称">
+            <el-form-item class="u-name" :label="$t('昵称')">
                 <div class="u-value">
                     {{ nickname }}
                     <a
@@ -14,12 +14,12 @@
                 </div>
             </el-form-item>
 
-            <el-form-item class="u-name" label="服务器">
+            <el-form-item class="u-name" :label="$t('服务器')">
                 <el-select
                     class="u-server"
                     v-model="form.jx3_server"
                     filterable
-                    placeholder="请输入服务器"
+                    :placeholder="$t('请输入服务器')"
                 >
                     <el-option v-for="item in servers" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
@@ -61,7 +61,7 @@
                 <el-date-picker
                     v-model="form.birthday"
                     type="date"
-                    placeholder="选择日期"
+                    :placeholder="$t('选择日期')"
                     value-format="yyyy-MM-dd"
                     placement="bottom-start"
                     :picker-options="birthday_options"
@@ -80,7 +80,7 @@
                         </div>
                     </el-tooltip>
                 </div>
-                <el-input v-model="form.phone" placeholder="请输入收货电话"></el-input>
+                <el-input v-model="form.phone" :placeholder="$t('请输入收货电话')"></el-input>
             </el-form-item> -->
 
             <!-- <el-form-item class="u-address">
@@ -96,29 +96,29 @@
                         </div>
                     </el-tooltip>
                 </div>
-                <el-input v-model="form.address" placeholder="请输入收货地址" type="textarea"></el-input>
+                <el-input v-model="form.address" :placeholder="$t('请输入收货地址')" type="textarea"></el-input>
             </el-form-item> -->
 
-            <!-- <el-form-item class="u-tuilan" label="推栏">
+            <!-- <el-form-item class="u-tuilan" :label="$t('推栏')">
                 <el-input v-model="form.tuilan_id" placeholder="请输入推栏ID"></el-input>
             </el-form-item> -->
 
-            <el-form-item class="u-name" label="签名">
+            <el-form-item class="u-name" :label="$t('签名')">
                 <el-input
                     type="textarea"
                     :rows="4"
                     maxlength="80"
-                    placeholder="签名内容"
+                    :placeholder="$t('签名内容')"
                     v-model="form.user_bio"
                     show-word-limit
                 ></el-input>
             </el-form-item>
 
-            <el-form-item class="u-tv" label="直播间">
+            <el-form-item class="u-tv" :label="$t('直播间')">
                 <el-row>
                     <el-col :span="4">
                         <div class="u-tv-type">
-                            <el-select v-model="form.tv_type" placeholder="请选择平台">
+                            <el-select v-model="form.tv_type" :placeholder="$t('请选择平台')">
                                 <el-option
                                     v-for="(label, val) in tvmap"
                                     :key="val"
@@ -130,7 +130,7 @@
                     </el-col>
                     <el-col :span="20">
                         <div class="u-tv-id" style="margin-left:10px;">
-                            <el-input v-model="form.tv_id" placeholder="请输入直播间房间号"></el-input>
+                            <el-input v-model="form.tv_id" :placeholder="$t('请输入直播间房间号')"></el-input>
                         </div>
                     </el-col>
                 </el-row>

@@ -14,9 +14,9 @@
                     <p class="u-address">{{ address }}</p>
                     <el-alert
                         class="u-tip"
-                        title="已验证邮箱"
+                        :title="$t('已验证邮箱')"
                         type="success"
-                        description="仅绑定邮箱用户支持邮件订阅通知等功能"
+                        :description="$t('仅绑定邮箱用户支持邮件订阅通知等功能')"
                         show-icon
                         :closable="false"
                     >
@@ -36,7 +36,7 @@
                     <h1 class="u-title">{{ $t('未验证邮箱') }}</h1>
                     <p class="u-address">{{ address }}</p>
                     <el-alert
-                        title="未验证邮箱"
+                        :title="$t('未验证邮箱')"
                         class="u-tip"
                         type="warning"
                         description="请尽快进行邮箱验证,否则您的账号将面临风险与权限受阻"
@@ -73,7 +73,7 @@
                     <el-input
                         class="u-text u-email"
                         v-model="email"
-                        placeholder="邮箱地址"
+                        :placeholder="$t('邮箱地址')"
                         minlength="3"
                         maxlength="50"
                         @change="checkEmail"
@@ -109,7 +109,7 @@
                 </div>
 
                 <el-alert
-                    title="请填写正确的邮箱地址"
+                    :title="$t('请填写正确的邮箱地址')"
                     class="u-tip"
                     type="warning"
                     description="绑定邮箱后将可以使用邮箱进行登录,当第三方登录出现异常时不会受影响"

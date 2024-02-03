@@ -1,10 +1,10 @@
 <template>
-    <uc class="m-dashboard-frame m-dashboard-skin" icon="el-icon-bell" title="我的消息" :tab-list="tabList">
+    <uc class="m-dashboard-frame m-dashboard-skin" icon="el-icon-bell" :title="$t('我的消息')" :tab-list="tabList">
         <div class="m-dashboard m-dashboard-work m-dashboard-msg">
             <div class="m-dashboard-msg-header">
                 <el-input
                     class="m-dashboard-work-search"
-                    placeholder="请输入搜索内容"
+                    :placeholder="$t('请输入搜索内容')"
                     v-model="keyword"
                     @keyup.enter.native="changePage(1)"
                 >
@@ -42,18 +42,18 @@
                         <el-button
                             size="mini"
                             icon="el-icon-check"
-                            title="设为已读"
+                            :title="$t('设为已读')"
                             @click="read(item)"
                             :disabled="item.read == 1"
                         ></el-button>
-                        <el-button size="mini" icon="el-icon-delete" title="删除" @click="del(item)"></el-button>
+                        <el-button size="mini" icon="el-icon-delete" :title="$t('删除')" @click="del(item)"></el-button>
                     </el-button-group>
                 </li>
             </ul>
             <el-alert
                 v-else
                 class="m-dashboard-box-null"
-                title="没有找到相关条目"
+                :title="$t('没有找到相关条目')"
                 type="info"
                 center
                 show-icon

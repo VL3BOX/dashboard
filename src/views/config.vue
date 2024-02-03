@@ -2,41 +2,41 @@
     <div class="m-dashboard m-dashboard-config">
         <h2 class="u-title"><i class="el-icon-setting"></i> 全局设置</h2>
         <el-form class="m-config-form" label-position="left" label-width="120px">
-            <el-form-item label="编辑器模式">
+            <el-form-item :label="$t('编辑器模式')">
                 <el-radio-group v-model="conf.editor_mode" size="small">
                     <el-radio-button label="tinymce">{{ $t('可视化') }}</el-radio-button>
                     <el-radio-button label="markdown">Markdown</el-radio-button>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="评论默认排序">
+            <el-form-item :label="$t('评论默认排序')">
                 <el-radio-group v-model="conf.cmt_order" size="small">
                     <el-radio-button label="DESC">{{ $t('最新靠前') }}</el-radio-button>
                     <el-radio-button label="ASC">{{ $t('最早靠前') }}</el-radio-button>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="接受赠礼">
-                <el-switch v-model="conf.allow_cny" active-color="#13ce66" active-text="开启" :active-value="1" :inactive-value="0"></el-switch>
+            <el-form-item :label="$t('接受赠礼')">
+                <el-switch v-model="conf.allow_cny" active-color="#13ce66" :active-text="$t('开启')" :active-value="1" :inactive-value="0"></el-switch>
             </el-form-item>
 
 
-            <!-- <el-form-item label="评论邮件通知">
-                <el-switch v-model="conf.cmt_email" active-color="#13ce66" active-text="开启" :active-value="1" :inactive-value="0" disabled></el-switch>
+            <!-- <el-form-item :label="$t('评论邮件通知')">
+                <el-switch v-model="conf.cmt_email" active-color="#13ce66" :active-text="$t('开启')" :active-value="1" :inactive-value="0" disabled></el-switch>
             </el-form-item> -->
 
-            <!-- <el-form-item label="快捷键">
-                <el-switch v-model="conf.hotkey" active-color="#13ce66" active-text="同步" :active-value="1" :inactive-value="0" disabled></el-switch>
+            <!-- <el-form-item :label="$t('快捷键')">
+                <el-switch v-model="conf.hotkey" active-color="#13ce66" :active-text="$t('同步')" :active-value="1" :inactive-value="0" disabled></el-switch>
             </el-form-item>
-            <el-form-item label="游戏设置">
-                <el-switch v-model="conf.game_setting" active-color="#13ce66" active-text="同步" :active-value="1" :inactive-value="0" disabled></el-switch>
+            <el-form-item :label="$t('游戏设置')">
+                <el-switch v-model="conf.game_setting" active-color="#13ce66" :active-text="$t('同步')" :active-value="1" :inactive-value="0" disabled></el-switch>
             </el-form-item>
-            <el-form-item label="自定义界面">
-                <el-switch v-model="conf.custom_ui" active-color="#13ce66" active-text="同步" :active-value="1" :inactive-value="0" disabled></el-switch>
+            <el-form-item :label="$t('自定义界面')">
+                <el-switch v-model="conf.custom_ui" active-color="#13ce66" :active-text="$t('同步')" :active-value="1" :inactive-value="0" disabled></el-switch>
             </el-form-item>
-            <el-form-item label="插件设置">
-                <el-switch v-model="conf.plugin_setting" active-color="#13ce66" active-text="同步" :active-value="1" :inactive-value="0" disabled></el-switch>
+            <el-form-item :label="$t('插件设置')">
+                <el-switch v-model="conf.plugin_setting" active-color="#13ce66" :active-text="$t('同步')" :active-value="1" :inactive-value="0" disabled></el-switch>
             </el-form-item>
-            <el-form-item label="成就进度">
-                <el-switch v-model="conf.achievement_process" active-color="#13ce66" active-text="同步" :active-value="1" :inactive-value="0" disabled></el-switch>
+            <el-form-item :label="$t('成就进度')">
+                <el-switch v-model="conf.achievement_process" active-color="#13ce66" :active-text="$t('同步')" :active-value="1" :inactive-value="0" disabled></el-switch>
             </el-form-item> -->
             <el-form-item label="" class="u-btns">
                 <el-button class="u-publish" type="primary" @click="submit">{{ $t('保存') }}</el-button>

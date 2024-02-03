@@ -28,18 +28,18 @@
                 <slot name="description"><div class="u-tips" v-html="tips"></div> </slot>
             </el-alert>
             <el-form label-position="left" label-width="80px" class="m-boxcoin-form">
-                <el-form-item label="游戏大区">
-                    <el-select v-model="pull.zone" placeholder="请选择所在大区">
+                <el-form-item :label="$t('游戏大区')">
+                    <el-select v-model="pull.zone" :placeholder="$t('请选择所在大区')">
                         <el-option v-for="zone in zones" :key="zone" :label="zone" :value="zone"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="游戏账号">
-                    <el-input v-model="pull.account" placeholder="请务必填写正确的账号"></el-input>
+                <el-form-item :label="$t('游戏账号')">
+                    <el-input v-model="pull.account" :placeholder="$t('请务必填写正确的账号')"></el-input>
                 </el-form-item>
-                <el-form-item label="游戏账号">
-                    <el-input v-model="pull.accounts" placeholder="请重新再次输入游戏账号"></el-input>
+                <el-form-item :label="$t('游戏账号')">
+                    <el-input v-model="pull.accounts" :placeholder="$t('请重新再次输入游戏账号')"></el-input>
                 </el-form-item>
-                <el-form-item label="兑换数目">
+                <el-form-item :label="$t('兑换数目')">
                     <el-radio-group v-model="pull.cash">
                         <el-radio :label="1500" border :disabled="!canSelect(1500)" v-if="client == 'std'"
                             >1500通宝</el-radio
@@ -50,8 +50,8 @@
                         <el-radio :label="50000" border :disabled="!canSelect(50000)">50000通宝</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="邮箱地址">
-                    <el-input v-model="pull.email" placeholder="请务必填写正确的邮箱"></el-input>
+                <el-form-item :label="$t('邮箱地址')">
+                    <el-input v-model="pull.email" :placeholder="$t('请务必填写正确的邮箱')"></el-input>
                 </el-form-item>
                 <el-form-item label>
                     <el-button type="primary" @click="openConfirmBox" :disabled="!ready || lockStatus"
@@ -67,7 +67,7 @@
         </div>
         <div class="m-credit-table m-packet-table" v-loading="loading">
             <el-tabs v-model="tab" @tab-click="changeType" type="border-card">
-                <el-tab-pane label="盒币记录" name="in" lazy>
+                <el-tab-pane :label="$t('盒币记录')" name="in" lazy>
                     <div class="m-packet-table" v-if="list && list.length">
                         <table class="m-boxcoin-in-list m-packet-in-list">
                             <tr>
@@ -99,7 +99,7 @@
                     <el-alert
                         v-else
                         class="m-credit-null m-packet-null"
-                        title="没有找到相关条目"
+                        :title="$t('没有找到相关条目')"
                         type="info"
                         center
                         show-icon
@@ -114,7 +114,7 @@
                         :total="total"
                     ></el-pagination>
                 </el-tab-pane>
-                <el-tab-pane label="兑换记录" name="out" lazy>
+                <el-tab-pane :label="$t('兑换记录')" name="out" lazy>
                     <div class="m-packet-table" v-if="list && list.length">
                         <table class="m-boxcoin-out-list m-packet-in-list">
                             <tr>
@@ -147,7 +147,7 @@
                     <el-alert
                         v-else
                         class="m-credit-null m-packet-null"
-                        title="没有找到相关条目"
+                        :title="$t('没有找到相关条目')"
                         type="info"
                         center
                         show-icon

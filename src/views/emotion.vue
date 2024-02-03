@@ -1,5 +1,5 @@
 <template>
-    <uc class="m-dashboard-emotion m-dashboard-skin" icon="el-icon-brush" title="主题装扮" :tabList="tabList">
+    <uc class="m-dashboard-emotion m-dashboard-skin" icon="el-icon-brush" :title="$t('主题装扮')" :tabList="tabList">
         <template #header>
             <a
                 class="u-link el-button el-button--default el-button--mini is-round is-plain"

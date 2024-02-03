@@ -6,27 +6,27 @@
 
             <div class="m-content">
                 <el-table :data="list" size="small">
-                    <el-table-column prop="contact_name" label="姓名" width="180"> </el-table-column>
-                    <el-table-column prop="contact_phone" label="电话" width="180"> </el-table-column>
-                    <el-table-column label="默认地址" width="180">
+                    <el-table-column prop="contact_name" :label="$t('姓名')" width="180"> </el-table-column>
+                    <el-table-column prop="contact_phone" :label="$t('电话')" width="180"> </el-table-column>
+                    <el-table-column :label="$t('默认地址')" width="180">
                         <template slot-scope="scope">
                             <el-switch v-model="scope.row.is_default" @change="change(scope.row)"> </el-switch>
                         </template>
                     </el-table-column>
-                    <el-table-column label="地址">
+                    <el-table-column :label="$t('地址')">
                         <template slot-scope="scope">
                             {{ scope.row.province }}{{ scope.row.city }}{{ scope.row.area }}{{ scope.row.address }}
                         </template>
                     </el-table-column>
-                    <el-table-column label="操作">
+                    <el-table-column :label="$t('操作')">
                         <template slot-scope="scope">
                             <div>
                                 <el-button plain @click="edit(scope.row)" icon="el-icon-edit" size="mini"
                                     >{{ $t('编辑') }}</el-button
                                 >
                                 <el-popconfirm
-                                    confirm-button-text="确定"
-                                    cancel-button-text="取消"
+                                    :confirm-button-text="$t('确定')"
+                                    :cancel-button-text="$t('取消')"
                                     icon="el-icon-info"
                                     title="确定删除吗？"
                                     @confirm="del(scope.row.id)"
@@ -47,15 +47,15 @@
                 </el-table>
             </div>
             <!-- 地址表单 -->
-            <el-dialog custom-class="m-address-dialog" :visible.sync="visible" title="我的地址" width="750px">
+            <el-dialog custom-class="m-address-dialog" :visible.sync="visible" :title="$t('我的地址')" width="750px">
                 <el-form :model="form" :rules="rules" ref="ruleForm" label-position="top">
-                    <el-form-item label="联系人" prop="contact_name">
-                        <el-input placeholder="请输入名称" v-model="form.contact_name"></el-input>
+                    <el-form-item :label="$t('联系人')" prop="contact_name">
+                        <el-input :placeholder="$t('请输入名称')" v-model="form.contact_name"></el-input>
                     </el-form-item>
-                    <el-form-item label="手机号" prop="contact_phone">
-                        <el-input placeholder="请输入手机号" v-model="form.contact_phone"></el-input>
+                    <el-form-item :label="$t('手机号')" prop="contact_phone">
+                        <el-input :placeholder="$t('请输入手机号')" v-model="form.contact_phone"></el-input>
                     </el-form-item>
-                    <el-form-item label="联系地址" prop="address">
+                    <el-form-item :label="$t('联系地址')" prop="address">
                         <div class="m-line">
                             <el-cascader
                                 class="u-address"
@@ -63,7 +63,7 @@
                                 :options="addressList"
                                 @change="handleChange"
                             ></el-cascader>
-                            <el-input placeholder="详细地址" v-model="form.address"></el-input>
+                            <el-input :placeholder="$t('详细地址')" v-model="form.address"></el-input>
                         </div>
                     </el-form-item>
                 </el-form>

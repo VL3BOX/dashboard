@@ -90,11 +90,11 @@
             </div>
         </main>
 
-        <el-dialog :visible.sync="visible" title="处理" width="750px">
+        <el-dialog :visible.sync="visible" :title="$t('处理')" width="750px">
             <el-form :model="formData" :rules="rules" label-position="top">
-                <el-form-item label="关联处理人">
+                <el-form-item :label="$t('关联处理人')">
                     <el-select
-                        placeholder="请选择关联处理人"
+                        :placeholder="$t('请选择关联处理人')"
                         filterable
                         v-model="formData.assign"
                         multiple
@@ -120,10 +120,10 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="仓库">
-                    <el-input placeholder="请输入仓库" v-model="formData.repository"></el-input>
+                <el-form-item :label="$t('仓库')">
+                    <el-input :placeholder="$t('请输入仓库')" v-model="formData.repository"></el-input>
                 </el-form-item>
-                <el-form-item label="状态">
+                <el-form-item :label="$t('状态')">
                     <el-radio-group v-model="formData.status">
                         <el-radio-button :label="0">{{ $t('待处理') }}</el-radio-button>
                         <el-radio-button :label="1">{{ $t('已指派') }}</el-radio-button>

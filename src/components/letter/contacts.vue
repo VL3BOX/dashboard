@@ -7,7 +7,7 @@
             :class="{ active: active == item.receiver_info.id }"
             @click="onContactClick(item)"
         >
-            <div class="u-close" @click.stop="removeContact(item)" title="移除" v-if="item.receiver_info.id != 0 && canOp">
+            <div class="u-close" @click.stop="removeContact(item)" :title="$t('移除')" v-if="item.receiver_info.id != 0 && canOp">
                 <i class="el-icon-close"></i>
             </div>
             <img class="u-avatar" :src="showAvatar(item.receiver_info.avatar)" alt="" />

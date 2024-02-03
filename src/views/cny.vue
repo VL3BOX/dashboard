@@ -29,27 +29,27 @@
                 > -->
             </el-alert>
             <el-form label-position="left" label-width="80px" class="m-boxcoin-form" :model="pull">
-                <el-form-item label="类型">
-                    <el-select v-model="pull.pay_type" placeholder="请选择">
+                <el-form-item :label="$t('类型')">
+                    <el-select v-model="pull.pay_type" :placeholder="$t('请选择')">
                         <el-option v-for="(label, key) in paytypes" :key="key" :label="label" :value="key"> </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="账号">
-                    <el-input v-model="pull.account" placeholder="请务必填写正确的收款账号"></el-input>
+                <el-form-item :label="$t('账号')">
+                    <el-input v-model="pull.account" :placeholder="$t('请务必填写正确的收款账号')"></el-input>
                 </el-form-item>
-                <el-form-item label="确认账号">
-                    <el-input v-model="pull.account_sure" placeholder="请务必填写正确的收款账号"></el-input>
+                <el-form-item :label="$t('确认账号')">
+                    <el-input v-model="pull.account_sure" :placeholder="$t('请务必填写正确的收款账号')"></el-input>
                 </el-form-item>
-                <el-form-item label="姓名">
-                    <el-input v-model="pull.username" placeholder="请务必填写正确的收款人"></el-input>
+                <el-form-item :label="$t('姓名')">
+                    <el-input v-model="pull.username" :placeholder="$t('请务必填写正确的收款人')"></el-input>
                 </el-form-item>
-                <el-form-item label="数量">
+                <el-form-item :label="$t('数量')">
                     <el-input-number
                         v-model.number="pull.money"
                         :max="money"
                         :min="100"
                         :step="100"
-                        placeholder="请务必填写正确的金额"
+                        :placeholder="$t('请务必填写正确的金额')"
                     >
                         <!-- <template slot="prepend"></template> -->
                         <template slot="append">金箔（分）</template>
@@ -72,7 +72,7 @@
         </div>
         <div class="m-credit-table m-packet-table" v-loading="loading">
             <el-tabs type="border-card" v-model="tab">
-                <el-tab-pane label="变动记录" name="list">
+                <el-tab-pane :label="$t('变动记录')" name="list">
                     <div class="m-packet-table" v-if="list && list.length">
                         <table class="m-boxcoin-in-list m-packet-in-list">
                             <!-- "id": 48,
@@ -133,7 +133,7 @@
                     <el-alert
                         v-else
                         class="m-credit-null m-packet-null"
-                        title="没有找到相关条目"
+                        :title="$t('没有找到相关条目')"
                         type="info"
                         center
                         show-icon

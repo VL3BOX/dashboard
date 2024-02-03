@@ -15,6 +15,10 @@ import ElementUI from "element-ui";
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI);
 
+import VueI18n from "vue-i18n";
+Vue.use(VueI18n);
+import i18n from "@jx3box/jx3box-common/i18n";
+
 import reporter from "@jx3box/jx3box-common/js/reporter";
 reporter.install(Vue);
 
@@ -30,6 +34,7 @@ import store from "../store";
 import dashboard from "./dashboard.vue";
 
 new Vue({
+    i18n,
     router,
     store,
     render: (h) => h(dashboard),

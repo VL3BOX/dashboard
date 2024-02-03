@@ -1,6 +1,6 @@
 <template>
     <div class="m-credit m-tasks">
-        <h2 class="u-title"><i class="el-icon-coffee-cup"></i> 任务中心</h2>
+        <h2 class="u-title"><i class="el-icon-coffee-cup"></i> {{ $t('任务中心') }}</h2>
         <div class="m-tasks-list" v-loading="loading">
             <div class="u-item" v-for="(item, index) in list" :key="index">
                 <img class="u-img" :src="item.task.task_icon || defaultTaskIcon" :alt="item.task.action_type_desc" />
@@ -21,7 +21,7 @@
                             :disabled="item.hasFinish"
                             :icon="item.hasFinish && 'el-icon-check' || ''"
                             @click="checkFinish(item.task.id)"
-                            >{{item.hasFinish ? '已完成' : '接受任务'}}</el-button
+                            >{{ item.hasFinish ? $t('已完成') : $t('接受任务') }}</el-button
                         >
                     </div>
                 </div>

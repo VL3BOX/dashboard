@@ -15,10 +15,10 @@
                 >
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">
-                        将文件拖到此处，或
+                        {{ $t('将文件拖到此处，或') }}
                         <em>{{ $t('点击上传') }}</em>
                         <br />
-                        <span class="u-tip">只能上传jpg/png/gif文件</span>
+                        <span class="u-tip">{{ $t('只能上传jpg/png/gif文件') }}</span>
                     </div>
                 </el-upload>
                 <p class="u-btng">

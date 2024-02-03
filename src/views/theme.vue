@@ -5,7 +5,7 @@
                 class="u-link el-button el-button--default el-button--mini is-round is-plain"
                 href="/vip/mall?category=virtual"
                 target="_blank"
-                ><i class="el-icon-shopping-cart-2"></i> 前往获取装扮</a
+                ><i class="el-icon-shopping-cart-2"></i> {{ $t('前往获取装扮') }}</a
             >
         </template>
         <div class="m-theme-box">
@@ -14,8 +14,8 @@
                 <div class="u-top">
                     <img :src="previewUrl" class="u-img" fit="contain" v-if="previewUrl" />
                     <div class="u-no-preview" v-else>
-                        暂 无<br />
-                        预 览
+                        {{ $t('暂 无') }}<br />
+                        {{ $t('预 览') }}
                     </div>
                 </div>
                 <div class="u-bottom">
@@ -28,19 +28,19 @@
                             @click="preview(item)"
                         />
                         <div class="u-no-select" v-else-if="!item.statue">
-                            敬 请<br />
-                            期 待
+                            {{ $t('敬 请') }}<br />
+                            {{ $t('期 待') }}
                         </div>
                         <div class="u-no-select" v-else>
-                            暂 无<br />
-                            设 置
+                            {{ $t('暂 无') }}<br />
+                            {{ $t('设 置') }}
                         </div>
                         <div class="u-title">{{ item.name }}</div>
                     </div>
                 </div>
             </div>
             <div class="m-theme-right">
-                <div class="u-tips"><i class="el-icon-warning-outline"></i> 仅限同主题配置，该主题下部位可分别激活</div>
+                <div class="u-tips"><i class="el-icon-warning-outline"></i> {{ $t('仅限同主题配置，该主题下部位可分别激活') }}</div>
                 <!-- <div class="u-no-theme" :class="decorationActivate==null?'select':''" @click="noSet">{{ $t('不设置主题') }}</div> -->
                 <!-- 主题渲染列表 -->
                 <div class="u-theme">
@@ -51,7 +51,7 @@
                                 class="u-buy"
                                 :href="`/vip/mall?category=virtual&sub_category=skin&search=${item.name}`"
                                 target="_blank"
-                                ><i class="el-icon-shopping-cart-2"></i> 前往获取</a
+                                ><i class="el-icon-shopping-cart-2"></i> {{ $t('前往获取') }}</a
                             >
                         </div>
                         <div class="u-decoration-item">

@@ -17,7 +17,7 @@
                     {{ item.receiver_info.display_name }}
                 </div>
                 <div class="u-latest-chat" v-if="item.latest_letter">
-                    {{ item.latest_letter.content_type ? `[图片]` : item.latest_letter.content }}
+                    {{ item.latest_letter.content_type ? `[${$t('图片')}]` : item.latest_letter.content }}
                 </div>
             </div>
         </div>

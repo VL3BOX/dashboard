@@ -1,6 +1,6 @@
 <template>
     <div class="m-dashboard-keycode m-credit">
-        <h2 class="u-title"><i class="el-icon-bank-card"></i> 我的卡密</h2>
+        <h2 class="u-title"><i class="el-icon-bank-card"></i> {{ $t('我的卡密') }}</h2>
         <el-alert class="m-boxcoin-tip" :title="$t('请务必妥善保管，并注意过期时间。')" type="warning" show-icon>
             <a href="https://charge.xoyo.com/pay?item=jx3&way=kcard" target="_blank">{{ $t('金山一卡通充值页面') }}</a>
         </el-alert>
@@ -19,7 +19,7 @@
                         </el-table-column>
                         <el-table-column prop="subtype" :label="$t('渠道')" width="140">
                             <template slot-scope="scope">{{
-                                keycodeOptions.subtypes[scope.row.subtype] || "其他"
+                                keycodeOptions.subtypes[scope.row.subtype] || $t('其他')
                             }}</template>
                         </el-table-column>
                         <el-table-column :label="$t('面额')" width="120">
@@ -30,7 +30,7 @@
                                 <div class="u-card">
                                     <div class="u-count">
                                         <div class="u-line">
-                                            <span>卡号：{{ scope.row.key || "****************" }}</span>
+                                            <span>{{ $t('卡号：') + (scope.row.key || "****************") }}</span>
                                             <el-button
                                                 class="u-btn"
                                                 v-if="scope.row.key"
@@ -44,7 +44,7 @@
                                             >
                                         </div>
                                         <div class="u-line">
-                                            <span>卡密：{{ scope.row.code || "****************" }} </span>
+                                            <span>{{ $t('卡密：') + (scope.row.code || "****************") }} </span>
                                             <el-button
                                                 v-if="!scope.row.code"
                                                 type="primary"
@@ -85,14 +85,14 @@
                         <el-table-column prop="remark" :label="$t('备注')" min-width="200"> </el-table-column>
                         <el-table-column prop="used_by_self" :label="$t('是否使用')">
                             <template slot-scope="scope">
-                                {{ scope.row.used_by_self ? "是" : "否" }}
+                                {{ scope.row.used_by_self ? $t('是') : $t('否') }}
 
                                 <el-button
                                     v-show="!scope.row.used_by_self"
                                     type="text"
                                     size="mini"
                                     @click="onKeyCodeUsedClick(scope.row)"
-                                    >（标记使用）</el-button
+                                    >{{ $t('（标记使用）') }}</el-button
                                 >
                             </template>
                         </el-table-column>
@@ -129,12 +129,12 @@
                     >
                         <el-table-column prop="type" :label="$t('类型')">
                             <template slot-scope="scope">{{
-                                snOptions.types[scope.row.type] || scope.row.type || "其他"
+                                snOptions.types[scope.row.type] || scope.row.type || $t('其他')
                             }}</template>
                         </el-table-column>
                         <el-table-column prop="subtype" :label="$t('渠道')">
                             <template slot-scope="scope">{{
-                                snOptions.subtypes[scope.row.subtype] || "其他"
+                                snOptions.subtypes[scope.row.subtype] || $t('其他')
                             }}</template>
                         </el-table-column>
                         <el-table-column prop="describe" :label="$t('描述')"> </el-table-column>
@@ -180,14 +180,14 @@
                         <el-table-column prop="remark" :label="$t('备注')" min-width="300"> </el-table-column>
                         <el-table-column prop="used_by_self" :label="$t('是否使用')">
                             <template slot-scope="scope">
-                                {{ scope.row.used_by_self ? "是" : "否" }}
+                                {{ scope.row.used_by_self ? $t('是') : $t('否') }}
 
                                 <el-button
                                     v-show="!scope.row.used_by_self"
                                     type="text"
                                     size="mini"
                                     @click="onSnUsedClick(scope.row)"
-                                    >（标记使用）</el-button
+                                    >{{ $t('（标记使用）') }}</el-button
                                 >
                             </template>
                         </el-table-column>

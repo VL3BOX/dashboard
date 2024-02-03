@@ -1,6 +1,6 @@
 <template>
     <div class="m-dashboard m-dashboard-work m-dashboard-purchases">
-        <h2 class="u-title"><i class="el-icon-shopping-cart-2"></i> 付费资源</h2>
+        <h2 class="u-title"><i class="el-icon-shopping-cart-2"></i> {{ $t('付费资源') }}</h2>
 
         <el-table class="m-table" :data="list" v-loading="loading" @row-click="rowClick" @filter-change="filterChange" show-header cell-class-name="u-table-cell" header-cell-class-name="u-header-cell">
             <el-table-column :label="$t('购买类型')" :filters="postTypeFilters" :filter-multiple="false"  column-key="post_type">

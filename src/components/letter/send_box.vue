@@ -2,7 +2,7 @@
     <div class="m-letter-sendbox" :class="{ disabled: disabled }">
         <sendTools @update:image="sendImage" @update:text="updateText" />
         <div class="u-send-content">
-            <el-input type="textarea" placeholder="按 Ctrl+Enter 可快速发送消息" v-model="content" id="letterInput" @keydown.ctrl.enter.native="send"></el-input>
+            <el-input type="textarea" :placeholder="$t('按 Ctrl+Enter 可快速发送消息')" v-model="content" id="letterInput" @keydown.ctrl.enter.native="send"></el-input>
         </div>
         <div class="u-send-action">
             <span class="u-text-sum">

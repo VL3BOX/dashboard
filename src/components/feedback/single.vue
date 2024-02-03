@@ -13,17 +13,17 @@
             </div>
             <div class="m-block m-user">
                 <div class="u-subblock">
-                    <span class="u-label">提交人：</span>
+                    <span class="u-label">{{ $t('提交人：') }}</span>
                     <a class="u-item u-user" :href="authorLink(data.user.id)" target="_blank">
                         <img class="u-user-avatar" :src="showAvatar(data.user.avatar)" />
                         <span class="u-user-name">{{ data.user.display_name }}</span>
                     </a>
                 </div>
-                <span class="u-time u-subblock">提交时间：{{ formateTime(data.created_at) }}</span>
+                <span class="u-time u-subblock">{{ $t('提交时间：') + formateTime(data.created_at) }}</span>
             </div>
             <div class="m-block m-dev">
                 <div class="u-subblock">
-                    <span class="u-label">分配至：</span>
+                    <span class="u-label">{{ $t('分配至：') }}</span>
                     <div class="u-list u-list-assign" v-if="data.assign_user && data.assign_user.length">
                         <a
                             class="u-item u-assign"
@@ -40,14 +40,14 @@
                         <a class="u-item u-assign" :href="authorLink(1)" target="_blank">
                             <img
                                 class="u-assign-avatar"
-                                :src="showAvatar('https://oss.jx3box.com/upload/avatar/2021/3/18/6568744.png')"
+                                :src="showAvatar('https://oss.vl3box.com/upload/avatar/2021/3/18/6568744.png')"
                             />
                             <span class="u-assign-name">JX3BOX</span>
                         </a>
                     </div>
                 </div>
                 <div class="u-subblock">
-                    <span class="u-label">关联仓库：</span>
+                    <span class="u-label">{{ $t('关联仓库：') }}</span>
                     <div class="u-list u-list-repo">
                         <a
                             class="u-repo u-item"
@@ -64,20 +64,20 @@
             </div>
             <div class="m-block m-refer" v-if="data.refer">
                 <div class="u-subblock">
-                    <span class="u-label">来源：</span>
+                    <span class="u-label">{{ $t('来源：') }}</span>
                     <a class="u-item u-user" :href="data.refer" target="_blank">
                         {{ data.refer }}
                     </a>
                 </div>
             </div>
             <div class="m-content m-textarea">
-                <el-divider content-position="left"><i class="el-icon-edit-outline"></i> 反馈内容</el-divider>
+                <el-divider content-position="left"><i class="el-icon-edit-outline"></i> {{ $t('反馈内容') }}</el-divider>
                 <div class="u-detail">
                     <span v-html="sanitizedHTML(data.content)"></span>
                 </div>
             </div>
             <div class="m-attachment m-textarea">
-                <el-divider content-position="left"><i class="el-icon-picture-outline-round"></i> 附件截图</el-divider>
+                <el-divider content-position="left"><i class="el-icon-picture-outline-round"></i> {{ $t('附件截图') }}</el-divider>
                 <div class="u-detail">
                     <div class="u-img" v-for="(img, index) in data.images" :key="index">
                         <el-image :src="img" lazy :preview-src-list="data.images"></el-image>
@@ -85,7 +85,7 @@
                 </div>
             </div>
             <div class="m-reply" v-if="done">
-                <el-divider content-position="left"><i class="el-icon-chat-line-square"></i> 回复处理</el-divider>
+                <el-divider content-position="left"><i class="el-icon-chat-line-square"></i> {{ $t('回复处理') }}</el-divider>
                 <Comment :id="id" category="feedback" order="desc" />
             </div>
         </main>

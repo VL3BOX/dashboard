@@ -35,7 +35,7 @@
                 <el-date-picker v-model="time" type="month" :placeholder="$t('选择月份')" size="small" format="yyyy年MM月">
                 </el-date-picker>
             </div>
-            <el-checkbox class="u-only-check" v-model="onlyMe"> 指派给我的 </el-checkbox>
+            <el-checkbox class="u-only-check" v-model="onlyMe"> {{ $t('指派给我的') }} </el-checkbox>
         </div>
         <!-- list -->
         <div class="m-feedback-list" v-loading="loading">
@@ -117,7 +117,7 @@
                 <el-table-column :label="$t('操作')" width="100">
                     <template #default="{ row }">
                         <el-tooltip :content="row.content" placement="top" popper-class="m-content-popover">
-                            <el-button type="text" size="small">{{ $t('查看') }}<$t('查看') }}</el-button>
+                            <el-button type="text" size="small">{{ $t('查看') }}</el-button>
                         </el-tooltip>
                         <el-button type="text" size="small" @click.stop="onRemarkClick(row)">{{ $t('备注') }}</el-button>
                     </template>

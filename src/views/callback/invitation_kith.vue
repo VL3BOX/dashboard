@@ -1,7 +1,7 @@
 <template>
     <div class="m-callback m-invitation-kith">
         <h1 class="u-title">
-            <i class="el-icon-message"></i> 邀请
+            <i class="el-icon-message"></i> {{ $t('邀请') }}
         </h1>
         <p class="u-desc">{{ $t('你收到了一条亲友邀请。') }}</p>
         <div class="u-post">
@@ -26,8 +26,8 @@
                 icon="el-icon-check"
                 :disabled="alreadyAccept"
                 @click="accept"
-            >{{ alreadyAccept ? "已接受" : "接受" }}</el-button>
-            <el-button type="info" icon="el-icon-close" @click="confirmQuit" :disabled="alreadyAccept">{{ alreadyAccept ? "解除亲友关系" : "拒绝" }}</el-button>
+            >{{ alreadyAccept ? $t('已接受'): $t('接受') }}</el-button>
+            <el-button type="info" icon="el-icon-close" @click="confirmQuit" :disabled="alreadyAccept">{{ alreadyAccept ? $t('解除亲友关系') : $t('拒绝') }}</el-button>
         </div>
     </div>
 </template>

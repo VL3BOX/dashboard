@@ -1,7 +1,7 @@
 <template>
     <div class="m-callback m-invitation-creators">
         <h1 class="u-title">
-            <i class="el-icon-message"></i> 邀请
+            <i class="el-icon-message"></i> {{ $t('邀请') }}
         </h1>
         <p class="u-desc">{{ $t('你收到了一条联合创作邀请。') }}</p>
         <div class="u-post">
@@ -23,8 +23,8 @@
                 icon="el-icon-check"
                 :disabled="isNotExist || alreadyAccept"
                 @click="accept"
-            >{{ alreadyAccept ? "已接受" : "接受" }}</el-button>
-            <el-button type="info" icon="el-icon-close" @click="confirmQuit" :disabled="isNotExist">{{ alreadyAccept ? "退出联合创作" : "拒绝" }}</el-button>
+            >{{ alreadyAccept ? $t('已接受') : $t('接受') }}</el-button>
+            <el-button type="info" icon="el-icon-close" @click="confirmQuit" :disabled="isNotExist">{{ alreadyAccept ? $t('退出联合创作') : $t('拒绝') }}</el-button>
         </div>
     </div>
 </template>

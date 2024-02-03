@@ -28,7 +28,7 @@
                                     :confirm-button-text="$t('确定')"
                                     :cancel-button-text="$t('取消')"
                                     icon="el-icon-info"
-                                    title="确定删除吗？"
+                                    :title="$t('确定删除吗？')"
                                     @confirm="del(scope.row.id)"
                                 >
                                     <el-button

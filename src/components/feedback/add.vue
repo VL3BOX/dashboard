@@ -52,7 +52,7 @@
                 </el-upload>
             </div>
             <div class="m-feedback-visible">
-                <span class="u-label">是否公开：</span>
+                <span class="u-label">{{ $t('是否公开：') }}</span>
                 <el-checkbox class="u-checkbox" :true-label="1" :false-label="0" v-model="form.public"></el-checkbox>
                 <!-- <el-tooltip v-show="!canSubmit" :content="$t('必须先填写类型，子类和内容')">
                     <i class="el-icon-question"></i>

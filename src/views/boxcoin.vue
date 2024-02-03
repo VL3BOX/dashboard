@@ -1,18 +1,18 @@
 <template>
     <div class="m-credit m-boxcoin">
-        <h2 class="u-title"><i class="el-icon-coin"></i> 我的盒币</h2>
+        <h2 class="u-title"><i class="el-icon-coin"></i> {{ $t('我的盒币') }}</h2>
         <div class="m-credit-total m-packet-total">
-            余额 :
+            {{ $t('余额 :') }}
             <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
             <span class="u-types">
                 <span class="u-type u-type-std"
-                    >重制：<b>{{ total_std }}</b></span
+                    >{{ $t('重制：') }}<b>{{ total_std }}</b></span
                 >
                 <span class="u-type u-type-origin"
-                    >缘起：<b>{{ total_origin }}</b></span
+                    >{{ $t('缘起：') }}<b>{{ total_origin }}</b></span
                 >
                 <span class="u-type u-type-all"
-                    >双端：<b>{{ total_all }}</b></span
+                    >{{ $t('双端：') }}<b>{{ total_all }}</b></span
                 >
             </span>
             <!-- <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/boxcoin" target="_blank">{{ $t('充值') }}</a> -->
@@ -24,7 +24,7 @@
             <el-alert class="m-boxcoin-ac" type="error" show-icon :closable="false" v-if="breadcrumb" size="mini">
                 <slot name="title"><div v-html="breadcrumb"></div></slot>
             </el-alert>
-            <el-alert class="m-boxcoin-tip" title="1盒币可兑换1通宝，不可折现" type="warning" show-icon>
+            <el-alert class="m-boxcoin-tip" :title="$t('1盒币可兑换1通宝，不可折现')" type="warning" show-icon>
                 <slot name="description"><div class="u-tips" v-html="tips"></div> </slot>
             </el-alert>
             <el-form label-position="left" label-width="80px" class="m-boxcoin-form">
@@ -42,12 +42,12 @@
                 <el-form-item :label="$t('兑换数目')">
                     <el-radio-group v-model="pull.cash">
                         <el-radio :label="1500" border :disabled="!canSelect(1500)" v-if="client == 'std'"
-                            >1500通宝</el-radio
+                            >1500{{ $t('通宝') }}</el-radio
                         >
-                        <el-radio :label="3000" border :disabled="!canSelect(3000)">3000通宝</el-radio>
-                        <el-radio :label="5000" border :disabled="!canSelect(5000)">5000通宝</el-radio>
-                        <el-radio :label="10000" border :disabled="!canSelect(10000)">10000通宝</el-radio>
-                        <el-radio :label="50000" border :disabled="!canSelect(50000)">50000通宝</el-radio>
+                        <el-radio :label="3000" border :disabled="!canSelect(3000)">3000{{ $t('通宝') }}</el-radio>
+                        <el-radio :label="5000" border :disabled="!canSelect(5000)">5000{{ $t('通宝') }}</el-radio>
+                        <el-radio :label="10000" border :disabled="!canSelect(10000)">10000{{ $t('通宝') }}</el-radio>
+                        <el-radio :label="50000" border :disabled="!canSelect(50000)">50000{{ $t('通宝') }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item :label="$t('邮箱地址')">
@@ -58,9 +58,9 @@
                         >{{ $t('提交申请') }}</el-button
                     >
                     <span class="u-tip" v-if="!isAllowDate">
-                        <i class="el-icon-warning-outline"></i> 每月{{ start_date }}-{{
+                        <i class="el-icon-warning-outline"></i> {{ $t('每月') + start_date }}-{{
                             end_date
-                        }}日结算期间不能进行兑换申请
+                        }}{{ $t('日结算期间不能进行兑换申请') }}
                     </span>
                 </el-form-item>
             </el-form>
@@ -85,7 +85,7 @@
                                 </td>
                                 <td>
                                     <a :href="getPostLink(item)" target="_blank" v-if="getPostLink(item)">
-                                        <i class="el-icon-link"></i> 点击查看
+                                        <i class="el-icon-link"></i> {{ $t('点击查看') }}
                                     </a>
                                     <span v-else>-</span>
                                 </td>
@@ -128,7 +128,7 @@
                             </tr>
                             <tr v-for="(item, i) in list" :key="i">
                                 <td>
-                                    <b>{{ item.cash }}通宝</b>
+                                    <b>{{ item.cash }}{{ $t('通宝') }}</b>
                                 </td>
                                 <td>{{ item.zone }}</td>
                                 <td>{{ item.account }}</td>

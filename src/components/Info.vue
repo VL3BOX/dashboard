@@ -7,7 +7,7 @@
                     class="u-home-icon"
                     svg-inline
                     src="../assets/img/home.svg"
-                />{{ $t('个人主页') }}<('个人主页') }}</a
+                />{{ $t('个人主页') }}</a
             >
         </div>
     </div>

@@ -37,7 +37,7 @@ function getMyAssetLogs(start_date) {
  * @returns
  */
 function isTeammate() {
-    return $cms().get(`/api/cms/account/teammate`)
+    return $cms().get(`/api/cms/account/teammate/check`)
 }
 
 /**

@@ -202,6 +202,7 @@ export default {
                 ...this.filters,
                 assign: this.params.assign,
                 time: this.time,
+                onlyMe: this.onlyMe,
             };
         },
         page_params() {
@@ -278,7 +279,7 @@ export default {
             this.getData();
         },
         viewFeedback: function (row) {
-            window.open("/feedback/" + row.id, "_self");
+            window.open("/feedback/" + row.id, "_blank");
         },
         filterChange(filters) {
             Object.entries(filters).forEach(([key, value]) => {

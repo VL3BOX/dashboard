@@ -41,7 +41,7 @@
                             <div class="m-button">
                                 <!-- <template v-if="scope.row.goods.sub_category !== 'emotion'"> -->
                                 <el-button size="small" @click="showDetail(scope.row)" icon="el-icon-link">
-                                    查看详情
+                                    {{ $t('查看详情') }}
                                 </el-button>
                                 <!-- </template> -->
 
@@ -72,7 +72,7 @@
                                     :confirm-button-text="$t('确定')"
                                     :cancel-button-text="$t('取消')"
                                     icon="el-icon-info"
-                                    title="确定取消吗？"
+                                    :title="$t('确定取消吗？')"
                                     @confirm="cancel(scope.row.order.id)"
                                 >
                                     <el-button
@@ -89,7 +89,7 @@
                                 <!-- 已收货操作： 评价 -->
                                 <template v-if="scope.row.order.order_status == 4">
                                     <el-button @click="handleShow('comment', scope.row.order.id)" type="text" size="small">
-                                        评价商品
+                                        {{ $t('评价商品') }}
                                     </el-button>
                                 </template>
                             </div>

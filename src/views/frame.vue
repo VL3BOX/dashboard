@@ -5,7 +5,7 @@
                 class="u-link el-button el-button--default el-button--mini is-round is-plain"
                 href="/vip/mall?category=virtual"
                 target="_blank"
-                ><i class="el-icon-shopping-cart-2"></i> 前往获取装扮</a
+                ><i class="el-icon-shopping-cart-2"></i> {{ $t('前往获取装扮') }}</a
             >
         </template>
         <div class="m-frame">
@@ -15,7 +15,7 @@
                     class="u-btn el-button el-button--default el-button--mini is-plain"
                     href="/dashboard/avatar"
                     target="_blank"
-                    ><i class="el-icon-picture-outline-round"></i> 修改头像</a
+                    ><i class="el-icon-picture-outline-round"></i> {{ $t('修改头像') }}</a
                 >
                 <div class="u-avatar-box">
                     <div class="u-avatar">
@@ -34,7 +34,7 @@
                         <div class="u-title">
                             <span class="u-name"><i class="el-icon-collection-tag"></i>{{ $t('头像框') }}</span>
                             <a class="u-buy" :href="`/vip/mall?category=virtual&sub_category=avatar`" target="_blank"
-                                ><i class="el-icon-shopping-cart-2"></i> 前往获取</a
+                                ><i class="el-icon-shopping-cart-2"></i> {{ $t('前往获取') }}</a
                             >
                         </div>
                         <div class="u-frame-item">

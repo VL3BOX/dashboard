@@ -1,7 +1,7 @@
 <template>
     <div class="m-dashboard m-dashboard-work m-dashboard-fav">
         <div class="m-dashboard-work-header">
-            <h2 class="u-title"><i class="el-icon-star-off"></i> 收藏订阅</h2>
+            <h2 class="u-title"><i class="el-icon-star-off"></i> {{ $t('收藏订阅') }}</h2>
             <el-select v-model="searchType" :placeholder="$t('类型过滤')" class="u-filter" size="small" @change="handleChange">
                 <el-option :label="$t('全部')" value=""> </el-option>
                 <el-option-group v-for="group in options" :key="group.label" :label="group.label">
@@ -27,13 +27,13 @@
                         <img svg-inline src="../assets/img/works/repo.svg" />
                     </i>
                     <a class="u-title" target="_blank" :href="getLink(item.post_type, item.post_id)">{{
-                        item.post_title || "无标题"
+                        item.post_title || $t('无标题')
                     }}</a>
                     <div class="u-desc">
                         <span class="u-category"
                             ><i class="el-icon-folder"></i> {{ getTypeLabel(item.post_type) }}
                         </span>
-                        <span><i class="el-icon-date"></i> 于 {{ dateFormat(item.created) }} 加入收藏 </span>
+                        <span><i class="el-icon-date"></i> 于 {{ dateFormat(item.created) }} {{ $t('加入收藏') }} </span>
                     </div>
                     <el-button-group class="u-action">
                         <el-button size="mini" icon="el-icon-delete" :title="$t('取消收藏')" @click="del(item.id)"></el-button>

@@ -5,7 +5,7 @@
                 class="u-link el-button el-button--default el-button--mini is-round is-plain"
                 href="/vip/mall?category=virtual"
                 target="_blank"
-                ><i class="el-icon-shopping-cart-2"></i> 前往获取装扮</a
+                ><i class="el-icon-shopping-cart-2"></i> {{ $t('前往获取装扮') }}</a
             >
         </template>
         <div class="m-honor">
@@ -20,11 +20,11 @@
                     />
                     <div class="u-author-info">
                         <span class="u-name">
-                            <span @click="copyData(data.display_name || '匿名')">{{ data.display_name || "匿名" }}</span
+                            <span @click="copyData(data.display_name || $t('匿名'))">{{ data.display_name || $t('匿名') }}</span
                             >&nbsp;<span class="u-uid" @click="copyData(data.ID || 0)">(UID : {{ data.ID || 0 }})</span>
                         </span>
                         <div class="u-tips">
-                            <el-tooltip :content="`当前经验 ${data.experience || 0}`" placement="top">
+                            <el-tooltip :content="$t('当前经验') + `${data.experience || 0}`" placement="top">
                                 <span
                                     class="u-level"
                                     :class="'lv-' + level"
@@ -59,7 +59,7 @@
                     <div class="u-title">
                         <span class="u-name"><i class="el-icon-collection-tag"></i>{{ $t('称号') }}</span>
                         <a class="u-buy" :href="`/vip/mall?category=virtual&sub_category=honor`" target="_blank"
-                            ><i class="el-icon-shopping-cart-2"></i> 前往获取</a
+                            ><i class="el-icon-shopping-cart-2"></i> {{ $t('前往获取') }}</a
                         >
                     </div>
                     <div class="u-honor-item">

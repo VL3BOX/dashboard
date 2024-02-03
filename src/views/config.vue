@@ -1,6 +1,6 @@
 <template>
     <div class="m-dashboard m-dashboard-config">
-        <h2 class="u-title"><i class="el-icon-setting"></i> 全局设置</h2>
+        <h2 class="u-title"><i class="el-icon-setting"></i> {{ $t('全局设置') }}</h2>
         <el-form class="m-config-form" label-position="left" label-width="120px">
             <el-form-item :label="$t('编辑器模式')">
                 <el-radio-group v-model="conf.editor_mode" size="small">

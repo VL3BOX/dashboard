@@ -1,9 +1,9 @@
 <template>
     <div class="m-credit m-boxcoin m-cny">
-        <h2 class="u-title"><i class="el-icon-wallet"></i> 我的金箔</h2>
+        <h2 class="u-title"><i class="el-icon-wallet"></i> {{ $t('我的金箔') }}</h2>
 
         <div class="m-credit-total m-packet-total">
-            余额 :
+            {{ $t('余额') }} :
             <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
             <!-- <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/cny" target="_blank">{{ $t('充值') }}</a> -->
             <el-button class="u-btn" type="primary" @click="togglePullBox" size="mini" :disabled="!money"
@@ -17,7 +17,7 @@
             </el-alert>
             <el-alert
                 class="m-boxcoin-tip"
-                title="100金箔可兑换1元人民币，最小兑换起步100金箔"
+                :title="$t('100金箔可兑换1元人民币，最小兑换起步100金箔')"
                 type="warning"
                 show-icon
             >
@@ -52,10 +52,10 @@
                         :placeholder="$t('请务必填写正确的金额')"
                     >
                         <!-- <template slot="prepend"></template> -->
-                        <template slot="append">金箔（分）</template>
+                        <template slot="append">{{ $t('金箔') }}（{{ $t('分') }}）</template>
                     </el-input-number>
                     <div class="u-tip" v-if="pull.money">
-                        手续费{{ formatMoney(fee) }}元，实际到账{{ formatMoney(real) }}元
+                        {{ $t('手续费') + formatMoney(fee) + $t('元，实际到账') + formatMoney(real) + $t('元') }}
                     </div>
                 </el-form-item>
                 <el-form-item label>
@@ -63,9 +63,9 @@
                         >{{ $t('提交申请') }}</el-button
                     >
                     <span class="u-tip" v-if="!isAllowDate">
-                        <i class="el-icon-warning-outline"></i> 每月{{ start_date }}-{{
+                        <i class="el-icon-warning-outline"></i> {{ $t('每月') + start_date }}-{{
                             end_date
-                        }}日结算期间不能进行提现申请
+                        }} {{ $t('日结算期间不能进行提现申请') }}
                     </span>
                 </el-form-item>
             </el-form>

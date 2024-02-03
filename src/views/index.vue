@@ -28,7 +28,7 @@
                                     target="_blank"
                                     >{{ vipType }}</a
                                 >
-                                <span class="u-expire">（{{ `有效期至:${expire_date}` }}）</span>
+                                <span class="u-expire">（{{ $t('有效期至') + `:${expire_date}` }}）</span>
                             </template>
                             <a class="u-upgrade" href="/vip/premium?from=dashboard_index" target="_blank" v-else
                                 >{{ $t('升级账号类型') }}</a
@@ -52,7 +52,7 @@
                         <el-tooltip
                             class="item"
                             effect="dark"
-                            :content="~~info.verify_email ? '邮箱已验证' : '邮箱未验证'"
+                            :content="~~info.verify_email ? $t('邮箱已验证') : $t('邮箱未验证')"
                             placement="top"
                         >
                             <a href="/dashboard/email" :class="info.verify_email && 'done'"
@@ -62,7 +62,7 @@
                         <el-tooltip
                             class="item"
                             effect="dark"
-                            :content="~~info.verify_phone ? '手机已绑定' : '手机未绑定'"
+                            :content="~~info.verify_phone ? $t('手机已绑定') : $t('手机未绑定')"
                             placement="top"
                         >
                             <a href="/dashboard/phone" :class="info.verify_phone && 'done'">
@@ -104,10 +104,10 @@
                         <el-tooltip
                             class="item"
                             effect="dark"
-                            content="1盒币可用于兑换1通宝，通过评审团/用户打赏获取"
+                            :content="$t('1盒币可用于兑换1通宝，通过评审团/用户打赏获取')"
                             placement="top"
                         >
-                            <div class="u-credit-name"><i class="el-icon-coin"></i> 盒币</div>
+                            <div class="u-credit-name"><i class="el-icon-coin"></i> {{ $t('盒币') }}</div>
                         </el-tooltip>
                         <div class="u-credit-value">
                             <b>{{ asset.box_coin }}</b>
@@ -127,10 +127,10 @@
                         <el-tooltip
                             class="item"
                             effect="dark"
-                            content="余额与人民币(单位分)为1:1，只能通过充值或玩家赠送获取"
+                            :content="$t('余额与人民币(单位分)为1:1，只能通过充值或玩家赠送获取')"
                             placement="top"
                         >
-                            <div class="u-credit-name"><i class="el-icon-wallet"></i> 金箔</div>
+                            <div class="u-credit-name"><i class="el-icon-wallet"></i> {{ $t('金箔') }}</div>
                         </el-tooltip>
                         <div class="u-credit-value">
                             <b>{{ asset.cny }}</b>
@@ -150,10 +150,10 @@
                         <el-tooltip
                             class="item"
                             effect="dark"
-                            content="积分可用于兑换限量纪念品、激活码等，通过发布作品或参与站内活动获取"
+                            :content="$t('积分可用于兑换限量纪念品、激活码等，通过发布作品或参与站内活动获取')"
                             placement="top"
                         >
-                            <div class="u-credit-name"><i class="el-icon-sugar"></i> 银铛</div>
+                            <div class="u-credit-name"><i class="el-icon-sugar"></i> {{ $t('银铛') }}</div>
                         </el-tooltip>
                         <div class="u-credit-value">
                             <b>{{ asset.points }}</b>
@@ -170,7 +170,7 @@
                 </el-col>
                 <el-col :span="6">
                     <div class="u-packet">
-                        <div class="u-credit-name"><i class="el-icon-bank-card"></i> 卡密</div>
+                        <div class="u-credit-name"><i class="el-icon-bank-card"></i> {{ $t('卡密') }}</div>
                         <div class="u-credit-value" v-if="asset.ext_info">
                             <b>{{ Number(asset.ext_info.keycode || 0) + Number(asset.ext_info.sn || 0) }}</b>
                         </div>
@@ -206,7 +206,7 @@
         </div>
         <div class="m-index-asset-logs">
             <h2 class="u-title">
-                <i class="el-icon-bell"></i> 资产动态
+                <i class="el-icon-bell"></i> {{ $t('资产动态') }}
                 <div class="u-dates">
                     <i class="el-icon-date"></i>
                     <el-radio-group v-model="date">
@@ -253,16 +253,16 @@
 
                     <!-- 订单 -->
                     <span class="u-order" v-if="item.type == 'order'">
-                        产品：{{ showProduct(item.data.product_id) }}， 金额：¥
+                        产品：{{ showProduct(item.data.product_id) }}， {{ $t('金额') }}：¥
                         <b>{{ showPrice(item.data.total_fee) }}</b>
                         ， 状态：{{ showPayStatus(item.data.pay_status) }}
                     </span>
 
                     <!-- 红包 -->
                     <span class="u-redpack" v-if="item.type == 'redpack'">
-                        金额：¥
+                        {{ $t('金额') }}：¥
                         <b>{{ showPrice(item.data.money) }}</b>
-                        ， 补充信息：{{ item.data.describe || "-" }}
+                        ， {{ $t('补充信息：') + (item.data.describe || "-") }}
                     </span>
 
                     <!-- 金箔 -->
@@ -285,7 +285,7 @@
                     <time class="u-time">{{ showTime(item.created_at) }}</time>
                 </li>
             </ul>
-            <div class="u-null" v-else><i class="el-icon-warning-outline"></i> 当前时间范围内无记录</div>
+            <div class="u-null" v-else><i class="el-icon-warning-outline"></i> {{ $t('当前时间范围内无记录') }}</div>
         </div>
     </div>
 </template>

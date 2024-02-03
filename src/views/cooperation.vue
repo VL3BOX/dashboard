@@ -1,25 +1,25 @@
 <template>
     <div class="m-dashboard m-cooperation">
         <h2 class="u-title">
-            <span><i class="el-icon-reading"></i> 签约作者</span>
+            <span><i class="el-icon-reading"></i> {{ $t('签约作者') }}</span>
             <el-button type="primary" @click="openPage" size="small" v-if="isSuperAuthor" icon="el-icon-unlock">
-                敏感词测试
+                {{ $t('敏感词测试') }}
             </el-button>
         </h2>
         <div class="m-cooperation-ac m-block" v-html="data"></div>
         <div class="m-cooperation-form m-block">
-            <h3>【认证说明】</h3>
+            <h3>【{{ $t('认证说明') }}】</h3>
             <div>
-                <p>1、以下所有项目请务必填写真实有效，否则将不会处理，多次提交被拒后将不再接受申请。</p>
-                <p>2、自述部分请填写魔盒内发布的有效作品链接（不少于3篇），站外链接将不会作为参考依据。</p>
+                <p>{{ $t('1、以下所有项目请务必填写真实有效，否则将不会处理，多次提交被拒后将不再接受申请。') }}</p>
+                <p>{{ $t('2、自述部分请填写魔盒内发布的有效作品链接（不少于3篇），站外链接将不会作为参考依据。') }}</p>
                 <p>
-                    3、当成功接受申请后，请加入Q群<a href="https://jq.qq.com/?_wv=1027&k=3Hgmu6jg">140129951</a
-                    >，不定期发放奖励或其它通知。
+                    {{ $t('3、当成功接受申请后，请加入Q群') }}<a href="https://jq.qq.com/?_wv=1027&k=3Hgmu6jg">140129951</a
+                    >{{ $t('，不定期发放奖励或其它通知。') }}
                 </p>
             </div>
             <hr />
             <el-alert
-                title="签约成功！"
+                :title="$t('签约成功！')"
                 type="success"
                 :description="$t('签约为每赛季审核一次，过期后如不满足条件的将会被取消资格。')"
                 show-icon
@@ -28,9 +28,9 @@
             >
             </el-alert>
             <el-alert
-                title="等待审核！"
+                :title="$t('等待审核！')"
                 type="warning"
-                description="签约申请提交成功，请耐心等待审核！"
+                :description="$t('签约申请提交成功，请耐心等待审核！')"
                 show-icon
                 :closable="false"
                 v-if="!isSuperAuthor && !checked"
@@ -39,7 +39,7 @@
             <el-alert
                 :title="$t('申请被驳回')"
                 type="error"
-                :description="checkedRemark || '请填写有效的联系方式与作品，不符合要求的作品将不会受理。'"
+                :description="checkedRemark || $t('请填写有效的联系方式与作品，不符合要求的作品将不会受理。')"
                 show-icon
                 :closable="false"
                 v-if="!isSuperAuthor && checked == 2"
@@ -59,7 +59,7 @@
                 </el-form-item>
 
                 <el-form-item class="u-item" label="QQ" prop="qq">
-                    <el-input v-model="form.qq" placeholder="请输入联系QQ"></el-input>
+                    <el-input v-model="form.qq" :placeholder="$t('请输入联系QQ')"></el-input>
                 </el-form-item>
 
                 <el-form-item class="u-item" :label="$t('电话')" prop="phone">
@@ -67,7 +67,7 @@
                 </el-form-item>
 
                 <el-form-item class="u-item" :label="$t('社交平台')" prop="weibo">
-                    <el-input v-model="form.weibo" placeholder="请输入微博/B站地址"></el-input>
+                    <el-input v-model="form.weibo" :placeholder="$t('请输入微博/B站地址')"></el-input>
                 </el-form-item>
 
                 <el-form-item class="u-item" :label="$t('自述')" prop="description">

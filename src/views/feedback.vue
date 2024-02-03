@@ -7,7 +7,7 @@
 <template>
     <div class="m-credit m-feedback">
         <h2 class="u-title">
-            <i class="el-icon-phone-outline"></i> 反馈中心
+            <i class="el-icon-phone-outline"></i> {{ $t('反馈中心') }}
             <el-button class="u-back" size="mini" plain icon="el-icon-arrow-left" @click="goBack">{{ $t('返回') }}</el-button>
         </h2>
 

@@ -2,14 +2,14 @@
     <uc icon="el-icon-shopping-bag-1" :title="$t('订单中心')" :tabList="tabList">
         <div class="m-mall-detail">
             <div class="m-breadcrumb">
-                <span @click="goBack" class="u-back"><i class="el-icon-arrow-left"></i> 返回</span>
+                <span @click="goBack" class="u-back"><i class="el-icon-arrow-left"></i> {{ $t('返回') }}</span>
             </div>
 
             <div class="m-content" v-if="goods">
                 <div class="m-address el-card" v-if="!goods.is_virtual">
-                    <span>收件人：{{ address.actual_contact }}</span>
-                    <span>联系电话：{{ address.actual_phone }}</span>
-                    <span>收货地址： {{ address.actual_address }}</span>
+                    <span>{{$t('收件人：') }}{{ address.actual_contact }}</span>
+                    <span>{{$t('联系电话：') }}{{ address.actual_phone }}</span>
+                    <span>{{$t('收货地址：') }} {{ address.actual_address }}</span>
                 </div>
                 <div class="m-order el-card" v-if="goods">
                     <div class="m-img">
@@ -28,7 +28,7 @@
 
                         <el-descriptions-item :label="$t('购买数量')">{{ order.goods_num }}</el-descriptions-item>
                         <el-descriptions-item :label="$t('邮费')">
-                            {{ goods.postage ? goods.postage / 100 + "元" : "包邮" }}
+                            {{ goods.postage ? goods.postage / 100 + $t('元') : $t('包邮') }}
                         </el-descriptions-item>
                         <el-descriptions-item :label="$t('支付状态')">{{ payStatus[order.pay_status] }}</el-descriptions-item>
                         <el-descriptions-item :label="$t('订单状态')">
@@ -37,18 +37,18 @@
                         <el-descriptions-item :label="$t('购买消耗')">
                             <div class="u-box">
                                 <span v-if="order.goods_price_cny">
-                                    金箔：<b>{{ order.goods_price_cny * order.goods_num }}</b>
+                                    {{ $t('金箔：') }}<b>{{ order.goods_price_cny * order.goods_num }}</b>
                                 </span>
                                 <span v-if="order.goods_price_boxcoin">
-                                    盒币：<b>{{ order.goods_price_boxcoin * order.goods_num }}</b>
+                                    {{ $t('盒币：') }}<b>{{ order.goods_price_boxcoin * order.goods_num }}</b>
                                 </span>
                                 <span v-if="order.goods_price_point">
-                                    银铛：<b>{{ order.goods_price_point * order.goods_num }}</b>
+                                    {{ $t('银铛：') }}<b>{{ order.goods_price_point * order.goods_num }}</b>
                                 </span>
                             </div>
                         </el-descriptions-item>
                         <el-descriptions-item :label="$t('是否为赠送')">{{
-                            order.is_vitural_gift_order ? "是" : "否"
+                            order.is_vitural_gift_order ? $t('是') : $t('否')
                         }}</el-descriptions-item>
                         <el-descriptions-item :label="$t('备注')">{{ order.remark || "-" }}</el-descriptions-item>
                         <el-descriptions-item :label="$t('评价')" v-if="rate.comment" :span="3">
@@ -56,7 +56,7 @@
                                 <div class="m-text">
                                     <span class="u-comment">{{ rate.comment }}</span>
                                     <span class="u-add_comment" v-if="rate.add_comment"
-                                        >追加评价：{{ rate.add_comment }}</span
+                                        >{{ $t('追加评价：') + rate.add_comment }}</span
                                     >
                                     <el-input v-if="append" class="u-textarea" v-model="content">
                                         <template slot="append">
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="u-button">
                                     <el-button @click="append = !append" type="text" v-if="order.order_status == 5">
-                                        追加评论
+                                        {{ $t('追加评论') }}
                                     </el-button>
                                     <el-popconfirm title="确认删除评价吗？" :width="200" @confirm="delComment(rate.id)">
                                         <el-button slot="reference" type="text">{{ $t('删除') }}</el-button>
@@ -84,7 +84,7 @@
                     </template>
 
                     <el-button @click="toConfirm(data.order.id)" v-if="data.order.order_status == 3">
-                        确认收货
+                        {{ $t('确认收货') }}
                     </el-button>
                     <el-button @click="toPay(data)" v-if="showPay(data.order)">{{ $t('点击付款') }}</el-button>
                 </div>

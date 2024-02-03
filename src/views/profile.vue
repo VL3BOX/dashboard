@@ -9,7 +9,7 @@
                         href="/vip/rename?from=dashboard_profile"
                         target="_blank"
                     >
-                        <i class="el-icon-edit"></i> 修改昵称
+                        <i class="el-icon-edit"></i> {{ $t('修改昵称') }}
                     </a>
                 </div>
             </el-form-item>
@@ -25,7 +25,7 @@
                 </el-select>
                 <span class="u-server-tip">
                     <i class="el-icon-question"></i>
-                    部分应用将使用此服务器作为默认服务器
+                    {{ $t('部分应用将使用此服务器作为默认服务器') }}
                 </span>
             </el-form-item>
 
@@ -34,7 +34,7 @@
                     <el-tooltip
                         class="item"
                         effect="dark"
-                        content="此项不会被公开,仅用于赛事联系或其它确认"
+                        :content="$t('此项不会被公开,仅用于赛事联系或其它确认')"
                         placement="left"
                     >
                         <div>
@@ -42,7 +42,7 @@
                         </div>
                     </el-tooltip>
                 </div>
-                <el-input v-model="form.qq_number" placeholder="请输入QQ号码"></el-input>
+                <el-input v-model="form.qq_number" :placeholder="$t('请输入QQ号码')"></el-input>
             </el-form-item>
 
             <el-form-item class="u-birthday">
@@ -50,11 +50,11 @@
                     <el-tooltip
                         class="item"
                         effect="dark"
-                        content="此项不会被公开,仅用于礼品发放"
+                        :content="$t('此项不会被公开,仅用于礼品发放')"
                         placement="left"
                     >
                         <div>
-                            <i class="el-icon-lock"></i> 生日
+                            <i class="el-icon-lock"></i> {{ $t('生日') }}
                         </div>
                     </el-tooltip>
                 </div>

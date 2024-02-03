@@ -246,7 +246,7 @@
                                             </div>
                                             <div class="u-line">
                                                 <span
-                                                    >卡密：{{ scope.row.goods.goods_secret || "****************" }}
+                                                    >{{ $t('卡密：') + (scope.row.goods.goods_secret || "****************") }}
                                                 </span>
                                                 <el-button
                                                     v-if="!scope.row.goods.goods_secret"
@@ -267,7 +267,7 @@
                                                     v-clipboard:success="onCopy"
                                                     v-clipboard:error="onError"
                                                 >
-                                                    复制卡密
+                                                    {{ $t('复制卡密') }}
                                                 </el-button>
                                             </div>
                                         </template>
@@ -283,7 +283,7 @@
                                                 v-clipboard:success="onCopy"
                                                 v-clipboard:error="onError"
                                             >
-                                                复制卡号
+                                                {{ $t('复制卡号') }}
                                             </el-button>
                                         </div>
                                     </div>

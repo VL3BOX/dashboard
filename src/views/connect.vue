@@ -16,14 +16,14 @@
                 >
                     <img :class="'u-' + type" svg-inline :src="type | icon" />
                     <p class="u-status">
-                        {{ checkStatus(type) ? getNickname(type) : "未绑定" }}
+                        {{ checkStatus(type) ? getNickname(type) : $t('未绑定') }}
                     </p>
                     <el-button
                         class="u-button"
                         :type="!checkStatus(type) ? 'primary' : 'danger'"
                         @click="!checkStatus(type) ? bind(type) : unbind(type)"
                         >{{
-                            !checkStatus(type) ? "绑定" : "解除绑定"
+                            !checkStatus(type) ? $t('绑定') : $t('解除绑定')
                         }}</el-button
                     >
                 </el-card>

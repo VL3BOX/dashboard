@@ -2,7 +2,7 @@
     <div class="m-dashboard m-dashboard-profile m-dashboard-work m-dashboard-whitelist m-whitelist">
         <div class="m-whitelist-primary" v-loading="loading">
             <h2 class="m-whitelist-title u-title">
-                <i class="el-icon-ship"></i> 隐私设置
+                <i class="el-icon-ship"></i> {{ $t('隐私设置') }}
             </h2>
 
             <el-tabs v-model="active" @tab-click="tabChange">
@@ -34,14 +34,14 @@
                         target="_blank"
                     >{{ (item.kith_info || item).display_name }}</a>
                     <template v-if="active === 'whitelist'">
-                        <span class="u-item-remark" v-if="item.status">备注：{{ item.remark || '无' }}</span>
+                        <span class="u-item-remark" v-if="item.status">{{ $t('备注：') + (item.remark || $t('无')) }}</span>
                         <span class="u-item-remark" v-else>
-                            <i class="el-icon-loading"></i> 等待确认中...
+                            <i class="el-icon-loading"></i> {{ $t('等待确认中...') }}
                         </span>
                     </template>
                     <div class="u-item-btns">
                         <template v-if="active === 'whitelist'">
-                            <el-popconfirm title="确认删除亲友关系吗？" @confirm="remove(item.kith_id,i)">
+                            <el-popconfirm :title="$t('确认删除亲友关系吗？')" @confirm="remove(item.kith_id,i)">
                                 <el-button
                                     slot="reference"
                                     type="warning"
@@ -77,7 +77,7 @@
             <el-input
                 class="u-input"
                 v-model.number="uid"
-                placeholder="输入UID添加"
+                :placeholder="$t('输入UID添加')"
                 suffix-icon="el-icon-search"
                 @keyup.enter.native="search"
                 @change="search"

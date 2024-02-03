@@ -1,8 +1,8 @@
 <template>
     <div class="m-credit m-packet">
-        <h2 class="u-title"><i class="el-icon-present"></i> 我的红包</h2>
+        <h2 class="u-title"><i class="el-icon-present"></i> {{ $t('我的红包') }}</h2>
         <div class="m-credit-total m-packet-total">
-            余额 :
+            {{ $t('余额') }} :
             <b :class="{ hasLeft: hasLeft }">{{ formatMoney(money) }}</b>
             <!-- <el-button
                 class="u-btn"
@@ -51,7 +51,7 @@
                                     <b>{{ formatMoney(item.money) }}</b>
                                 </td>
                                 <td>{{ formatType(item.action_type) }}</td>
-                                <td>{{ item.is_success ? "已处理" : "未处理" }}</td>
+                                <td>{{ item.is_success ? $t('已处理') : $t('未处理') }}</td>
                                 <td>{{ item.description || item.remark || '-' }}</td>
                                 <td>{{ formatDate(item.created_at) }}</td>
                             </tr>

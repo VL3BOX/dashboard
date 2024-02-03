@@ -8,7 +8,7 @@
                     v-model="keyword"
                     @keyup.enter.native="changePage(1)"
                 >
-                    <template slot="prepend">{{ $t('关键词') }}<t('关键词') }}<t('关键词') }}</template>
+                    <template slot="prepend">{{ $t('关键词') }}</template>
                     <el-button slot="append" icon="el-icon-search" @click="changePage(1)"></el-button>
                 </el-input>
                 <el-button class="u-read-all" type="primary" @click="read(null)" :disabled="!unread_total">
@@ -30,7 +30,7 @@
                                 @click="read(item)"
                                 target="_blank"
                             >
-                                <i class="el-icon-link"></i> 点击查看
+                                <i class="el-icon-link"></i> {{ $t('点击查看') }}
                             </a>
                         </span>
                         <time class="u-time">

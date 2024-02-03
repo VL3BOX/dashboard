@@ -39,7 +39,7 @@
                         :title="$t('未验证邮箱')"
                         class="u-tip"
                         type="warning"
-                        description="请尽快进行邮箱验证,否则您的账号将面临风险与权限受阻"
+                        :description="$t('请尽快进行邮箱验证,否则您的账号将面临风险与权限受阻')"
                         show-icon
                         :closable="false"
                     >
@@ -66,7 +66,7 @@
             <!-- 未绑定 -->
             <div v-if="status == false" class="u-none">
                 <h1 class="u-title">
-                    {{ changeEmailMode ? "修改邮箱" : "未绑定邮箱" }}
+                    {{ changeEmailMode ? $t('修改邮箱') : $t('未绑定邮箱') }}
                 </h1>
 
                 <div class="u-email">
@@ -112,7 +112,7 @@
                     :title="$t('请填写正确的邮箱地址')"
                     class="u-tip"
                     type="warning"
-                    description="绑定邮箱后将可以使用邮箱进行登录,当第三方登录出现异常时不会受影响"
+                    :description="$t('绑定邮箱后将可以使用邮箱进行登录,当第三方登录出现异常时不会受影响')"
                     show-icon
                     :closable="false"
                 >

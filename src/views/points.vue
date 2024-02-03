@@ -1,8 +1,8 @@
 <template>
     <div class="m-points" v-loading="loading">
-        <h2><i class="el-icon-sugar"></i> 我的银铛</h2>
+        <h2><i class="el-icon-sugar"></i> {{ $t('我的银铛') }}</h2>
         <div class="m-balance">
-            <span class="u-label">余额 : </span>
+            <span class="u-label">{{ $t('余额') }} : </span>
             <b :class="money > 0 ? 'u-have' : ''" class="u-num">{{ money }}</b>
             <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/mall" target="_blank">{{ $t('兑换') }}</a>
         </div>
@@ -19,7 +19,7 @@
                         </div>
                     </el-table-column>
                     <el-table-column prop="count" :label="$t('源于作品')">
-                        <a class="u-link" :href="getPostLink(scope.row)" target="_blank" v-if="getPostLink(scope.row)" slot-scope="scope"><i class="el-icon-link"></i> 点击查看 </a>
+                        <a class="u-link" :href="getPostLink(scope.row)" target="_blank" v-if="getPostLink(scope.row)" slot-scope="scope"><i class="el-icon-link"></i> {{ $t('点击查看') }} </a>
                         <span v-else> - </span>
                     </el-table-column>
                     <el-table-column :label="$t('备注')">
@@ -44,7 +44,7 @@
                         </div>
                     </el-table-column>
                     <el-table-column prop="count" :label="$t('源于作品')">
-                        <a class="u-link" :href="getPostLink(scope.row)" target="_blank" v-if="getPostLink(scope.row)" slot-scope="scope"><i class="el-icon-link"></i> 点击查看 </a>
+                        <a class="u-link" :href="getPostLink(scope.row)" target="_blank" v-if="getPostLink(scope.row)" slot-scope="scope"><i class="el-icon-link"></i> {{ $t('点击查看') }} </a>
                         <span v-else> - </span>
                     </el-table-column>
                     <el-table-column :label="$t('备注')">

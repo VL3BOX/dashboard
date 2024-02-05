@@ -304,14 +304,14 @@ export default {
             );
         },
         onRemarkClick(row) {
-            this.$prompt("请输入备注", "备注", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
+            this.$prompt(this.$t("请输入备注"), this.$t("备注"), {
+                confirmButtonText: this.$t("确定"),
+                cancelButtonText: this.$t("取消"),
                 inputValue: row.remark,
                 beforeClose: (action, instance, done) => {
                     if (action === "confirm") {
                         if (!instance.inputValue) {
-                            this.$message.error("请输入备注");
+                            this.$message.error(this.$t("请输入备注"));
                             done();
                         } else {
                             updateFeedback(row.id, {

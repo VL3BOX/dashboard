@@ -69,7 +69,7 @@ export default {
             return !!this.data[type + "_id"];
         },
         getNickname : function (type){
-            return this.data[type + '_name'] || '未知'
+            return this.data[type + '_name'] || this.$t("未知")
         },
         bind: function(type) {
             location.href = links[type].replace('state=login',`state=bind_${client}`)
@@ -77,7 +77,7 @@ export default {
         unbind: function(type) {
             unbindOAuth(type).then((res) => {
                 this.$message({
-                    message: "解绑成功",
+                    message: this.$t("解绑成功"),
                     type: "success",
                 });
                 location.reload();

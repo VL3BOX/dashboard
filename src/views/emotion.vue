@@ -114,7 +114,7 @@ export default {
             }
             // 最多只能选择五个
             if (this.active.length >= 5 && !this.isUsing(item.group_name)) {
-                this.$message.error("最多只能选择五个表情包");
+                this.$message.error(this.$t("最多只能选择五个表情包"));
                 return;
             } else {
                 if (this.isUsing(item.group_name)) {
@@ -134,7 +134,7 @@ export default {
                 };
             });
             setDecoration(data).then((res) => {
-                this.$message.success("保存成功");
+                this.$message.success(this.$t("保存成功"));
                 this.loading = false;
             });
         },

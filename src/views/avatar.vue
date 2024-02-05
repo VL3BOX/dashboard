@@ -77,7 +77,7 @@ export default {
             formdata.append("avatar", filedata);
             uploadAvatar(formdata).then((res) => {
                 this.$message({
-                    message: "上传成功",
+                    message: this.$t("上传成功"),
                     type: "success",
                 });
                 this.avatar = res.data.data[0];
@@ -101,7 +101,7 @@ export default {
             updateAvatar(this.data).then((res) => {
                 User.refresh("avatar", this.avatar);
                 this.$message({
-                    message: "头像更新成功",
+                    message: this.$t("头像更新成功"),
                     type: "success",
                 });
             });

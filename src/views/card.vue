@@ -476,9 +476,9 @@ export default {
         },
         //  获取单个卡密
         getKeycode(index, row) {
-            this.$prompt("请输入密码", "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
+            this.$prompt(this.$t("请输入密码"), this.$t("提示"), {
+                confirmButtonText: this.$t("确定"),
+                cancelButtonText: this.$t("取消"),
                 inputType: "password",
             }).then(({ value }) => {
                 activationKeycode(row.id, { password: value }).then((res) => {
@@ -491,9 +491,9 @@ export default {
         },
         //  获取单个激活码
         getSn(index, row) {
-            this.$prompt("请输入密码", "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
+            this.$prompt(this.$t("请输入密码"), this.$t("提示"), {
+                confirmButtonText: this.$t("确定"),
+                cancelButtonText: this.$t("取消"),
                 inputType: "password",
             }).then(({ value }) => {
                 activationSn(row.id, { password: value }).then((res) => {
@@ -504,9 +504,9 @@ export default {
         },
         // 获取虚拟卡密
         getVirtualCode(index, row) {
-            this.$prompt("请输入密码", "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
+            this.$prompt(this.$t("请输入密码"), this.$t("提示"), {
+                confirmButtonText: this.$t("确定"),
+                cancelButtonText: this.$t("取消"),
                 inputType: "password",
             }).then(({ value }) => {
                 getVirtualCode(row.goods.id, { password: value }).then((res) => {
@@ -534,16 +534,16 @@ export default {
 
         // 标记使用
         onKeyCodeUsedClick(row) {
-            this.$confirm("确认标记为已使用吗？", "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
+            this.$confirm(this.$t("确认标记为已使用吗？"), this.$t("提示"), {
+                confirmButtonText: this.$t("确定"),
+                cancelButtonText: this.$t("取消"),
                 type: "warning",
             })
                 .then(() => {
                     markKeycode(row.id, "used").then((res) => {
                         this.$message({
                             type: "success",
-                            message: "标记成功!",
+                            message: this.$t("标记成功!"),
                         });
                         this.loadKeycode();
                     });
@@ -551,16 +551,16 @@ export default {
                 .catch(() => {});
         },
         onSnUsedClick(row) {
-            this.$confirm("确认标记为已使用吗？", "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
+            this.$confirm(this.$t("确认标记为已使用吗？"), this.$t("提示"), {
+                confirmButtonText: this.$t("确定"),
+                cancelButtonText: this.$t("取消"),
                 type: "warning",
             })
                 .then(() => {
                     markSn(row.id, "used").then((res) => {
                         this.$message({
                             type: "success",
-                            message: "标记成功!",
+                            message: this.$t("标记成功!"),
                         });
                         this.loadSn();
                     });
@@ -570,15 +570,15 @@ export default {
 
         onCopy: function (val) {
             this.$notify({
-                title: "复制成功",
+                title: this.$t("复制成功"),
                 message: "复制内容 : " + val.text,
                 type: "success",
             });
         },
         onError: function () {
             this.$notify.error({
-                title: "复制失败",
-                message: "请手动复制",
+                title: this.$t("复制失败"),
+                message: this.$t("请手动复制"),
             });
         },
         currentChange(val) {

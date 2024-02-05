@@ -372,13 +372,13 @@ export default {
             this.formStatus = true;
         },
         openConfirmBox: function () {
-            if (this.pull.account !== this.pull.accounts) return this.$alert(`请确认游戏账号是否填写正确`);
+            if (this.pull.account !== this.pull.accounts) return this.$alert(this.$t("请确认游戏账号是否填写正确"));
 
             this.$alert(
-                `<div class="m-boxcoin-msg">大区：<b>${this.pull.zone}</b> <br/> 账号：<b>${this.pull.account}</b> <br/> 邮箱：<b>${this.pull.email}</b> <br/> 兑换：<b>${this.pull.cash}通宝</b></div>`,
-                "确认信息",
+                `<div class="m-boxcoin-msg">大区：<b>${this.pull.zone}</b> <br/> ${this.$t("账号：")}<b>${this.pull.account}</b> <br/> ${this.$t("邮箱：")}<b>${this.pull.email}</b> <br/> ${this.$t("兑换：")}<b>${this.pull.cash + this.$t("通宝")}</b></div>`,
+                this.$t("确认信息"),
                 {
-                    confirmButtonText: "确定",
+                    confirmButtonText: this.$t("确定"),
                     dangerouslyUseHTMLString: true,
                     callback: (action) => {
                         if (action == "confirm") {
@@ -391,7 +391,7 @@ export default {
                                 .then((res) => {
                                     this.$message({
                                         type: "success",
-                                        message: `申请成功,请耐心等待结算`,
+                                        message: this.$t("申请成功,请耐心等待结算"),
                                     });
                                     this.showPullBox = false;
                                     this.money = this.money - this.pull.cash;
@@ -437,11 +437,11 @@ export default {
         },
         formatHistoryStatus: function (item) {
             const { status, received_in_game } = item;
-            if (status == 0) return "待处理";
-            if (status == 2) return "异常";
+            if (status == 0) return this.$t("待处理");
+            if (status == 2) return this.$t("异常");
             if (status == 1) {
-                if (received_in_game == 1) return "已完成";
-                return "审批中";
+                if (received_in_game == 1) return this.$t("已完成");
+                return this.$t("审批中");
             }
         },
         statusClass(item) {

@@ -296,12 +296,12 @@ export default {
             delete this.pull.account_sure;
             this.$alert(
                 `<div class="m-packet-msg">
-                收款账号<b>${this.pull.account}</b><br/>
-                收款人<b>${this.pull.username}</b><br/>
+                ${this.$t("收款账号")}<b>${this.pull.account}</b><br/>
+                ${this.$t("收款人")}<b>${this.pull.username}</b><br/>
                 </div>`,
-                "确认信息",
+                this.$t("确认信息"),
                 {
-                    confirmButtonText: "确定",
+                    confirmButtonText: this.$t("确定"),
                     dangerouslyUseHTMLString: true,
                     callback: (action) => {
                         if (action == "confirm") {
@@ -311,7 +311,7 @@ export default {
                                 .then((res) => {
                                     this.$message({
                                         type: "success",
-                                        message: `申请成功,请耐心等待结算`,
+                                        message: $t("申请成功,请耐心等待结算"),
                                     });
                                     this.showPullBox = false;
                                     this.money = this.money - this.pull.money;
@@ -363,7 +363,7 @@ export default {
             return showTime(val);
         },
         formatType: function (val) {
-            return (val && types[val]) || "未知";
+            return (val && types[val]) || this.$t("未知");
         },
         formatRemark: function (str) {
             if (str) {

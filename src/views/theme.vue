@@ -280,7 +280,7 @@ export default {
                 sessionStorage.removeItem("decoration_calendar");
                 sessionStorage.removeItem("decoration_atcard" + this.uid);
                 this.$message({
-                    message: "主题更新成功",
+                    message: this.$t("主题更新成功"),
                     type: "success",
                 });
             });

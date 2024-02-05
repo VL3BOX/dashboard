@@ -110,7 +110,7 @@ export default {
         updateAvatarFrame() {
             updateAvatarFrame({ user_avatar_frame: this.frame }).then((res) => {
                 this.$message({
-                    message: "头像框更新成功",
+                    message: this.$t("头像框更新成功"),
                     type: "success",
                 });
                 const params = this.frameList.map((item) => {
@@ -122,7 +122,7 @@ export default {
         receiveFrame(type) {
             receive(this.uid, type).then((data) => {
                 this.$message({
-                    message: "领取成功",
+                    message: this.$t("领取成功"),
                     type: "success",
                 });
                 this.loadDecoration();

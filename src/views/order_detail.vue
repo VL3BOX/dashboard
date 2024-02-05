@@ -166,13 +166,13 @@ export default {
                 address_id: "",
             },
             address_rules: {
-                address_id: [{ required: true, message: "请选择地址", trigger: "change" }],
+                address_id: [{ required: true, message: this.$t("请选择地址"), trigger: "change" }],
             },
             remark_form: {
                 remark: "",
             },
             remark_rules: {
-                remark: [{ required: true, message: "请输入备注", trigger: "blur" }],
+                remark: [{ required: true, message: this.$t("请输入备注"), trigger: "blur" }],
             },
             content: "",
             append: false,
@@ -206,7 +206,7 @@ export default {
             return orderStatus;
         },
         title() {
-            return this.mode == "address" ? "修改收货地址" : "修改备注";
+            return this.mode == "address" ? this.$t("修改收货地址") : this.$t("修改备注");
         },
     },
     methods: {
@@ -239,7 +239,7 @@ export default {
         toConfirm(id) {
             toConfirm(id).then(() => {
                 this.$message({
-                    message: "收货成功",
+                    message: this.$t("收货成功"),
                     type: "success",
                 });
                 this.data.order.order_status = 4;
@@ -268,7 +268,7 @@ export default {
         cancel(id) {
             closeOrder(id).then((res) => {
                 this.$message({
-                    message: "关闭订单成功",
+                    message: this.$t("关闭订单成功"),
                     type: "success",
                 });
                 this.list = this.list.map((item) => {
@@ -282,7 +282,7 @@ export default {
             const id = data.order.id;
             toPay(id).then(() => {
                 this.$message({
-                    message: "支付成功",
+                    message: this.$t("支付成功"),
                     type: "success",
                 });
                 this.list = this.list.map((item) => {
@@ -297,7 +297,7 @@ export default {
                     this.mode == "address"
                         ? updateOrderAddress(this.order_id, this.address_form.address_id).then(() => {
                               this.$message({
-                                  message: "修改地址成功",
+                                  message: this.$t("修改地址成功"),
                                   type: "success",
                               });
 
@@ -315,7 +315,7 @@ export default {
                           })
                         : updateOrderRemark(this.order_id, this.remark_form.remark).then(() => {
                               this.$message({
-                                  message: "修改备注成功",
+                                  message: this.$t("修改备注成功"),
                                   type: "success",
                               });
                               this.data.order.remark = this.remark_form.remark;
@@ -355,7 +355,7 @@ export default {
             if (this.content)
                 appendGoodsRate(this.rate.id, { content: this.content }).then((res) => {
                     this.$message({
-                        message: "追评成功",
+                        message: this.$t("追评成功"),
                         type: "success",
                     });
                     this.data.rate.add_comment = this.content;
@@ -367,7 +367,7 @@ export default {
         delComment(id) {
             delGoodsRate(id).then((res) => {
                 this.$message({
-                    message: "删除评价成功",
+                    message: this.$t("删除评价成功"),
                     type: "success",
                 });
                 this.data.rate.comment = "";

@@ -375,15 +375,15 @@ export default {
         dates: function () {
             return [
                 {
-                    label: "今天",
+                    label: this.$t("今天"),
                     value: moment().format("YYYYMMDD"),
                 },
                 {
-                    label: "7天",
+                    label: this.$t("7天"),
                     value: moment().subtract(7, "days").format("YYYYMMDD"),
                 },
                 {
-                    label: "30天",
+                    label: this.$t("30天"),
                     value: moment().subtract(30, "days").format("YYYYMMDD"),
                 },
             ];

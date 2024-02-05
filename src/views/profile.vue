@@ -183,7 +183,7 @@ export default {
         submit() {
             updateProfile(this.form).then((res) => {
                 this.$message({
-                    message: "资料修改成功",
+                    message: this.$t("资料修改成功"),
                     type: "success",
                 });
             });

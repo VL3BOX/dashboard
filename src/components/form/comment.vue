@@ -35,7 +35,7 @@ export default {
             },
 
             rules: {
-                comment: { required: true, message: "请填写评价内容", trigger: "blur" },
+                comment: { required: true, message: this.$t("请填写评价内容"), trigger: "blur" },
             },
         };
     },
@@ -49,7 +49,7 @@ export default {
                 if (valid) {
                     goodsRate(this.form).then(() => {
                         this.$message({
-                            message: "评价成功",
+                            message: this.$t("评价成功"),
                             type: "success",
                         });
                         this.close(this.order_id);

@@ -155,9 +155,9 @@ export default {
 
             email: "",
             email_validate: null,
-            email_validate_tip: "邮箱格式不正确或长度超出限制",
+            email_validate_tip: this.$t("邮箱格式不正确或长度超出限制"),
             email_available: null,
-            email_available_tip: "邮箱已被使用,请更换",
+            email_available_tip: this.$t("邮箱已被使用,请更换"),
 
             changeEmailMode: false,
         };
@@ -171,7 +171,7 @@ export default {
         verify: function() {
             sendVerifyEmail(this.uid).then((res) => {
                 this.$message({
-                    message: "邮件已发送请查收",
+                    message: this.$t("邮件已发送请查收"),
                     type: "success",
                 });
             });
@@ -199,7 +199,7 @@ export default {
         },
         bind: function() {
             if (!this.ready) {
-                this.$message.error("邮箱地址不合法");
+                this.$message.error(this.$t("邮箱地址不合法"));
                 return;
             }
 
@@ -207,8 +207,8 @@ export default {
                 uid: this.uid,
                 email: this.email,
             }).then((res) => {
-                this.$alert("申请提交成功,请前往邮箱验证", "消息", {
-                    confirmButtonText: "确定",
+                this.$alert(this.$t("申请提交成功,请前往邮箱验证"), this.$t("消息"), {
+                    confirmButtonText: this.$t("确定"),
                 });
                 this.status = true;
                 this.verified = false;

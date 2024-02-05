@@ -209,16 +209,16 @@ export default {
         },
         btnText() {
             return {
-                blacklist: "拉黑",
-                myfollow: "关注",
-                whitelist: `添加亲友 (${ this.total } / ${ this.limit })`
+                blacklist: this.$t("拉黑"),
+                myfollow: this.$t("关注"),
+                whitelist: this.$t("添加亲友") + ` (${ this.total } / ${ this.limit })`
             }[this.active]
         },
         sideTitle() {
             return {
-                blacklist: "添加黑名单",
-                myfollow: "添加关注",
-                whitelist: "添加亲友"
+                blacklist: this.$t("添加黑名单"),
+                myfollow: this.$t("添加关注"),
+                whitelist: this.$t("添加亲友")
             }[this.active]
         }
     },
@@ -256,8 +256,8 @@ export default {
         addKith() {
             this.allowAppend && addKith(this.uid).then(() => {
                 this.$notify({
-                    title: "成功",
-                    message: "添加成功",
+                    title: this.$t("成功"),
+                    message: this.$t("添加成功"),
                     type: "success",
                 });
                 this.list.push({
@@ -272,8 +272,8 @@ export default {
         follow() {
             follow(this.userdata.ID).then(() => {
                 this.$notify({
-                    title: "成功",
-                    message: "关注成功",
+                    title: this.$t("成功"),
+                    message: this.$t("关注成功"),
                     type: "success",
                 });
                 this.loadList();
@@ -283,8 +283,8 @@ export default {
         deny() {
             deny(this.userdata.ID).then(() => {
                 this.$notify({
-                    title: "成功",
-                    message: "拉黑成功",
+                    title: this.$t("成功"),
+                    message: this.$t("拉黑成功"),
                     type: "success",
                 });
                 this.loadList();
@@ -329,8 +329,8 @@ export default {
         remove(kith_id, i) {
             removeKith(kith_id).then(() => {
                 this.$notify({
-                    title: "成功",
-                    message: "删除成功",
+                    title: this.$t("成功"),
+                    message: this.$t("删除成功"),
                     type: "success",
                 });
                 this.list.splice(i, 1);
@@ -355,19 +355,19 @@ export default {
         // 移除
         removeOther(item) {
             const msgs = {
-                blacklist: "确认解除对该用户的屏蔽？",
-                myfollow: "确认不再关注该用户？",
-                myfans: "确认要移除粉丝？",
+                blacklist: this.$t("确认解除对该用户的屏蔽？"),
+                myfollow: this.$t("确认不再关注该用户？"),
+                myfans: this.$t("确认要移除粉丝？"),
             }
-            this.$confirm(msgs[this.active], "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
+            this.$confirm(msgs[this.active], this.$t("提示"), {
+                confirmButtonText: this.$t("确定"),
+                cancelButtonText: this.$t("取消"),
             }).then(() => {
                 const id = this.active === 'myfans' ? item.user_id : item.bind_user_id;
                 this.removeFns[this.active](id).then(() => {
                     this.$notify({
-                        title: "成功",
-                        message: "操作成功",
+                        title: this.$t("成功"),
+                        message: this.$t("操作成功"),
                         type: "success",
                     });
                     this.loadList();

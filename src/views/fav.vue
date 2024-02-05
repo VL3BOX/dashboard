@@ -78,25 +78,25 @@ export default {
             searchType: "",
             options: [
                 {
-                    label: "文章作品",
+                    label: this.$t("文章作品"),
                     options: Object.entries(__postType).map((item) => {
                         return { value: item[0], label: item[1] };
                     }),
                 },
                 {
-                    label: "百科词条",
+                    label: this.$t("百科词条"),
                     options: Object.entries(__wikiType).map((item) => {
                         return { value: item[0], label: item[1] };
                     }),
                 },
                 {
-                    label: "游戏资料",
+                    label: this.$t("游戏资料"),
                     options: Object.entries(__gameType).map((item) => {
                         return { value: item[0], label: item[1] };
                     }),
                 },
                 {
-                    label: "其它应用",
+                    label: this.$t("其它应用"),
                     options: Object.entries(__appType).map((item) => {
                         return { value: item[0], label: item[1] };
                     }),
@@ -136,13 +136,13 @@ export default {
                 });
         },
         del: function (id) {
-            this.$alert("确定要取消收藏吗？", "确认信息", {
-                confirmButtonText: "确定",
+            this.$alert(this.$t("确定要取消收藏吗？"), this.$t("确认信息"), {
+                confirmButtonText: this.$t("确定"),
                 callback: (action) => {
                     delFav(id).then(() => {
                         this.$message({
                             type: "success",
-                            message: `取消收藏成功`,
+                            message: this.$t("取消收藏成功"),
                         });
                         location.reload();
                     });

@@ -113,8 +113,8 @@ export default {
             pwd1: "",
             pwd2: "",
             pass_validate: null,
-            pass_validate_tip: "密码有效长度为6-50个字符",
-            pass_accordance_tip: "两次密码不一致",
+            pass_validate_tip: this.$t("密码有效长度为6-50个字符"),
+            pass_accordance_tip: this.$t("两次密码不一致"),
             status: true,
         };
     },
@@ -145,7 +145,7 @@ export default {
                 pwd2: this.pwd2,
             }).then((res) => {
                 this.$message({
-                    message: "密码修改成功",
+                    message: this.$t("密码修改成功"),
                     type: "success",
                 });
                 this.status = false;

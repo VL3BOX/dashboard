@@ -274,14 +274,14 @@ export default {
             if (item?.id) {
                 setHonor(item.id).then((res) => {
                     this.$message({
-                        message: "称号更新成功",
+                        message: this.$t("称号更新成功"),
                         type: "success",
                     });
                 });
             } else {
                 cancelHonor().then((res) => {
                     this.$message({
-                        message: "称号更新成功",
+                        message: this.$t("称号更新成功"),
                         type: "success",
                     });
                 });

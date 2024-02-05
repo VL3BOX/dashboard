@@ -69,15 +69,15 @@ export default {
             getCheckTasks(id).then((res) => {
                 if (res.data.data.hasFinish) {
                     this.$notify({
-                        title: "成功",
-                        message: "完成任务，获得奖励",
+                        title: this.$t("成功"),
+                        message: this.$t("完成任务，获得奖励"),
                         type: "success",
                     });
                     location.reload();
                 } else {
                     this.$notify({
-                        title: "提示",
-                        message: "您没有完成任务",
+                        title: this.$t("提示"),
+                        message: this.$t("您没有完成任务"),
                         type: "warning",
                     });
                 }

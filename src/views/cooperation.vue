@@ -114,25 +114,25 @@ export default {
                 description: "",
             },
             rules: {
-                nickname: [{ required: true, message: "请输入昵称", trigger: "blur" }],
+                nickname: [{ required: true, message: this.$t("请输入昵称"), trigger: "blur" }],
                 qq: [
                     {
                         required: true,
-                        message: "请输入QQ号码",
+                        message: this.$t("请输入QQ号码"),
                         trigger: "blur",
                     },
                 ],
                 phone: [
                     {
                         required: true,
-                        message: "请输入联系电话",
+                        message: this.$t("请输入联系电话"),
                         trigger: "blur",
                     },
                 ],
                 description: [
                     {
                         required: true,
-                        message: "请认真填写，否则将申请将不会被通过",
+                        message: this.$t("请认真填写，否则将申请将不会被通过"),
                         trigger: "blur",
                     },
                 ],
@@ -167,7 +167,7 @@ export default {
                     contractAuthorApply(data)
                         .then((res) => {
                             this.checked = 0;
-                            this.$message.success("提交申请成功，请等待管理审核。");
+                            this.$message.success(this.$t("提交申请成功，请等待管理审核。"));
                         })
                         .catch((e) => {
                             this.$message.error(e.message);

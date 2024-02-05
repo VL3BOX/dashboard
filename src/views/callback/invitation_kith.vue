@@ -95,9 +95,9 @@ export default {
             });
         },
         confirmQuit: function() {
-            this.$confirm("确定解除亲友关系吗？", "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
+            this.$confirm(this.$t("确定解除亲友关系吗？"), this.$t("提示"), {
+                confirmButtonText: this.$t("确定"),
+                cancelButtonText: this.$t("取消"),
                 type: "warning",
             })
             .then(() => {
@@ -108,7 +108,7 @@ export default {
         refuse: function () {
             refuseKithInvitation(this.uid).then(() => {
                 this.$message({
-                    message: "操作成功",
+                    message: this.$t("操作成功"),
                     type: "success",
                 });
             });
@@ -117,7 +117,7 @@ export default {
         accept: function () {
             acceptKithInvitation(this.uid).then((res) => {
                 this.$message({
-                    message: "操作成功",
+                    message: this.$t("操作成功"),
                     type: "success",
                 });
                 this.$router.push("/msg");

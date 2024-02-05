@@ -89,7 +89,7 @@ export default {
             if (value) {
                 const num = /^[1][3,4,5,7,8][0-9]{9}$/;
                 if (!num.test(value)) {
-                    callback(new Error("请输入正确的手机号"));
+                    callback(new Error(this.$t("请输入正确的手机号")));
                 } else {
                     callback();
                 }
@@ -100,10 +100,10 @@ export default {
                 if (this.form.province) {
                     callback();
                 } else {
-                    callback(new Error("请选择省市区"));
+                    callback(new Error(this.$t("请选择省市区")));
                 }
             } else {
-                callback(new Error("请输入具体地址"));
+                callback(new Error(this.$t("请输入具体地址")));
             }
         };
         return {
@@ -122,7 +122,7 @@ export default {
             },
 
             rules: {
-                contact_name: [{ required: true, message: "请输入联系人名称", trigger: "blur" }],
+                contact_name: [{ required: true, message: this.$t("请输入联系人名称"), trigger: "blur" }],
                 contact_phone: [{ required: true, validator: checkPhone, trigger: "blur" }],
                 address: [{ required: true, validator: checkAddress, trigger: "blur" }],
             },
@@ -153,14 +153,14 @@ export default {
                     this.form.id
                         ? updateAddress(this.form.id, form).then(() => {
                               this.$message({
-                                  message: "编辑成功",
+                                  message: this.$t("编辑成功"),
                                   type: "success",
                               });
                               this.reset();
                           })
                         : addAddress(this.form).then((res) => {
                               this.$message({
-                                  message: "添加成功",
+                                  message: this.$t("添加成功"),
                                   type: "success",
                               });
                               this.reset();
@@ -181,7 +181,7 @@ export default {
         del(id) {
             delAddress(id).then(() => {
                 this.$message({
-                    message: "删除成功",
+                    message: this.$t("删除成功"),
                     type: "success",
                 });
                 location.reload();

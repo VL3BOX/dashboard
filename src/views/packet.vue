@@ -301,7 +301,7 @@ export default {
                 `<div class="m-packet-msg">请确认收款账号和收款人 <br/> 收款账号<b>${this.pull.account}</b> <br/> 收款人<b>${this.pull.username}</b></div>`,
                 "确认信息",
                 {
-                    confirmButtonText: "确定",
+                    confirmButtonText: this.$t("确定"),
                     dangerouslyUseHTMLString: true,
                     callback: (action) => {
                         if (action == "confirm") {
@@ -311,7 +311,7 @@ export default {
                                 .then((res) => {
                                     this.$message({
                                         type: "success",
-                                        message: `申请成功,请耐心等待审核结果`,
+                                        message: this.$t("申请成功,请耐心等待审核结果"),
                                     });
                                     this.showPullBox = false;
                                     this.money = 0;
@@ -338,7 +338,7 @@ export default {
                     this.showPushBox = false;
                     this.$message({
                         type: "success",
-                        message: `操作成功`,
+                        message: this.$t("操作成功"),
                     });
                     this.checkItem.status = this.push.status;
                 })
@@ -358,7 +358,7 @@ export default {
                     this.showGiftBox = false;
                     this.$message({
                         type: "success",
-                        message: `发放成功`,
+                        message: this.$t("发放成功"),
                     });
                 })
                 .finally(() => {
@@ -372,7 +372,7 @@ export default {
                 reason: User.getInfo().uid, //由哪个管理操作
             }).then((res) => {
                 this.$message({
-                    message: `收回数量` + res.data.data.successCount,
+                    message: this.$t("收回数量") + res.data.data.successCount,
                     type: "success",
                 });
                 item.status = -1;

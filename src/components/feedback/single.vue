@@ -250,7 +250,7 @@ export default {
                 status: this.formData.status,
             })
                 .then((res) => {
-                    this.$message.success("处理成功");
+                    this.$message.success(this.$t("处理成功"));
                     this.visible = false;
                     this.getData();
                 })

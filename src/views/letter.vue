@@ -46,7 +46,7 @@ export default {
             hasData: true,
             info: {
                 uid: 8,
-                name: "匿名",
+                name: this.$t("匿名"),
                 user_avatar: "https://img.jx3box.com/image/common/avatar.png",
                 user_avatar_frame: "default",
                 bio: "-",

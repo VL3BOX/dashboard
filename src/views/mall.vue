@@ -207,7 +207,7 @@ export default {
         cancel(id) {
             closeOrder(id).then(() => {
                 this.$message({
-                    message: "关闭订单成功",
+                    message: this.$t("关闭订单成功"),
                     type: "success",
                 });
                 this.list = this.list.map((item) => {
@@ -221,7 +221,7 @@ export default {
             const id = row.order.id;
             toPay(id).then(() => {
                 this.$message({
-                    message: "付款成功",
+                    message: this.$t("付款成功"),
                     type: "success",
                 });
                 this.list = this.list.map((item) => {
@@ -234,7 +234,7 @@ export default {
         isReceipt(id) {
             toConfirm(id).then(() => {
                 this.$message({
-                    message: "收货成功",
+                    message: this.$t("收货成功"),
                     type: "success",
                 });
                 this.list = this.list.map((item) => {

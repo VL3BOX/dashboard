@@ -80,7 +80,7 @@ export default {
         submit: function() {
             setUserConf(this.conf).then((res) => {
                 this.$message({
-                    message: "设置更新成功",
+                    message: this.$t("设置更新成功"),
                     type: "success",
                 });
             });

@@ -252,6 +252,7 @@ export default {
                 }
                 this.honorList.unshift(isCustomize);
                 this.list = cloneDeep(this.honorList);
+                this.isSelectBak = cloneDeep(this.isSelect);
             });
         },
         selectChange(item) {

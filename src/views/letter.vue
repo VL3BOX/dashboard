@@ -3,7 +3,7 @@
     <uc class="m-dashboard-frame m-dashboard-skin" icon="el-icon-bell" :title="$t('我的消息')" :tab-list="tabList">
         <div class="m-dashboard-letter" v-if="hasData">
             <div class="m-dashboard-letter__left">
-                <div class="u-title">{{ $t('近期消息') }} <span class="u-limit">{{ $t('每日上限') + total_limit + $t(条) }}</span></div>
+                <div class="u-title">{{ $t('近期消息') }} <span class="u-limit">{{ $t('每日上限') + total_limit + $t('条') }}</span></div>
                 <contact-list
                     @update:contact="updateContact"
                     @check:contacts="checkContacts"

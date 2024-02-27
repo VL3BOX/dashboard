@@ -6,7 +6,7 @@
             余额 :
             <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
             <!-- <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/cny" target="_blank">充值</a> -->
-            <el-button class="u-btn" type="primary" @click="togglePullBox" size="mini" :disabled="!money"
+            <el-button v-if="cny_enable" class="u-btn" type="primary" @click="togglePullBox" size="mini" :disabled="!money"
                 >提现</el-button
             >
         </div>
@@ -172,6 +172,7 @@ export default {
         return {
             // 手续费
             pay_fee: 0,
+            cny_enable: 0,
 
             // 💠 余额
             money: 0,
@@ -260,6 +261,9 @@ export default {
 
         // 获取手续费
         loadFee: function () {
+            getConfig("cny_enable").then((enable) => {
+                this.cny_enable = Number(enable);
+            });
             getConfig("pay_fee").then((fee) => {
                 this.pay_fee = Number(fee);
             });

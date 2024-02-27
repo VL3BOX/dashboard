@@ -22,7 +22,7 @@
                         <div
                             class="u-letter-text"
                             v-if="item.content_type == 0"
-                            v-html="formatContent(item.content)"
+                            v-html="lettersTrans[item.content]"
                         ></div>
                         <div class="u-letter-image" v-if="item.content_type == 1" title="点击查看大图">
                             <el-image
@@ -70,6 +70,7 @@ export default {
     emits: ["update:contact"],
     data() {
         return {
+            lettersTrans: {},
             letters: [],
             peoples: {},
             user: User.getInfo(),
@@ -114,6 +115,16 @@ export default {
                 this.cycleLoad();
             },
         },
+        letters: {
+            deep: true,
+            handler(val) {
+                if (Array.isArray(val) && val.length > 0) {
+                    val.filter((item) => item.content_type === 0).forEach((item) => {
+                        this.formatContent(item.content);
+                    });
+                }
+            },
+        },
     },
     beforeDestroy() {
         clearInterval(this.timer);
@@ -122,7 +133,9 @@ export default {
         resolveImagePath,
         formatContent(content) {
             content = DOMPurify.sanitize(content);
-            return formatContent(this.nl2br(content));
+            formatContent(this.nl2br(content)).then((res) => {
+                this.$set(this.lettersTrans, content, res);
+            });
         },
         nl2br(str) {
             return str.replace(/\n/g, "<br>");

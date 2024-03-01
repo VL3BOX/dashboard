@@ -6,9 +6,9 @@
             余额 :
             <b :class="{ hasLeft: hasLeft }">{{ money }}</b>
             <!-- <a class="el-button u-btn el-button--primary el-button--mini" href="/vip/cny" target="_blank">充值</a> -->
-            <el-button class="u-btn" type="primary" @click="togglePullBox" size="mini" :disabled="!money"
+            <!-- <el-button class="u-btn" type="primary" @click="togglePullBox" size="mini" :disabled="!money"
                 >提现</el-button
-            >
+            > -->
         </div>
 
         <div class="m-credit-pull" v-if="showPullBox">

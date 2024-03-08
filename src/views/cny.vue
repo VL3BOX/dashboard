@@ -172,6 +172,7 @@ export default {
         return {
             // 手续费
             pay_fee: 0,
+            cny_enable: 0,
 
             // 💠 余额
             money: 0,
@@ -255,11 +256,14 @@ export default {
             this.loadAsset();
             this.loadAc();
             this.loadData();
-            this.loadFee()
+            this.loadFee();
         },
 
         // 获取手续费
         loadFee: function () {
+            getConfig("cny_enable").then((enable) => {
+                this.cny_enable = Number(enable);
+            });
             getConfig("pay_fee").then((fee) => {
                 this.pay_fee = Number(fee);
             });

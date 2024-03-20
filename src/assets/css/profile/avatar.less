@@ -1,15 +1,31 @@
 .m-profile-avatar {
-    .mt(5vh);
+    .flex;
+    .mt(20px);
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.m-dashboard-avatar .u-profile-btn {
     .x;
+    .mt(25px);
+    .el-button {
+        .pl(40px);
+        .pr(40px);
+    }
+}
+.m-profile-box {
+    .r(10px);
+    .size(435px,470px);
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid #eee;
 }
 .m-profile-avatar-primary {
-    .dbi;
-    .y(top);
-    // border-right:1px solid #eee;
-    // padding-right:40px;
-    .mr(40px);
-
-    // max-width: 400px;
+    .flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 
     .u-preview {
         .clearfix;
@@ -17,11 +33,7 @@
     }
 
     .u-avatar {
-        // .auto(x);
-        // width:240px;
-        .mb(10px);
-        .dbi;
-        .mr(10px);
+        .auto(x);
     }
     .u-avatar-l {
         .size(240px);
@@ -63,12 +75,21 @@
             .mr(10px);
         }
     }
-    .u-btng {
-        .x;
-
-        button {
-            padding-left: 40px;
-            padding-right: 40px;
+}
+.m-profile-avatar-list {
+    .scrollbar();
+    overflow-y: scroll;
+    .u-title {
+        .lh(32px);
+        .bold;
+        .mb(10px);
+    }
+    .u-avatar {
+        .dbi;
+        .pointer;
+        margin: 0 10px 10px 0;
+        &:hover {
+            filter: brightness(120%);
         }
     }
 }
@@ -180,13 +201,13 @@
                 }
             }
             // .u-picbox:nth-child(2) {
-                // -webkit-filter: grayscale(100%); /* CSS3 filter方式，webkit内核方式，firefox外的绝大部分的现代浏览器*/
-                // -moz-filter: grayscale(100%); /* 目前没有实现 */
-                // -ms-filter: grayscale(100%);
-                // -o-filter: grayscale(100%);
-                // filter: grayscale(100%); /* CSS3 filter方式，标准写法*/
-                // /*filter: url(filters.svg#grayscale);*/ /* Firefox 4+ */
-                // filter: gray; /* IE 6-9 */
+            // -webkit-filter: grayscale(100%); /* CSS3 filter方式，webkit内核方式，firefox外的绝大部分的现代浏览器*/
+            // -moz-filter: grayscale(100%); /* 目前没有实现 */
+            // -ms-filter: grayscale(100%);
+            // -o-filter: grayscale(100%);
+            // filter: grayscale(100%); /* CSS3 filter方式，标准写法*/
+            // /*filter: url(filters.svg#grayscale);*/ /* Firefox 4+ */
+            // filter: gray; /* IE 6-9 */
             // }
             // .u-picbox:nth-child(6) {
             //     .mr(0);

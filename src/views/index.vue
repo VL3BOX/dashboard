@@ -139,9 +139,9 @@
                             <!-- <a class="el-button el-button--primary el-button--mini" href="/vip/cny" target="_blank"
                                 >充值</a
                             > -->
-                            <!-- <router-link class="el-button el-button--primary el-button--mini" to="/cny"
+                            <router-link class="el-button el-button--primary el-button--mini" to="/cny"
                                 >兑现</router-link
-                            > -->
+                            >
                         </div>
                     </div>
                 </el-col>

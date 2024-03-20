@@ -1,10 +1,8 @@
 <template>
     <uc class="m-dashboard-avatar">
         <div class="m-profile-avatar">
-            <div class="m-profile-avatar-primary">
-                <div class="u-avatar">
-                    <img class="u-avatar u-avatar-l" :src="avatar | showAvatar" />
-                </div>
+            <div class="m-profile-box m-profile-avatar-primary">
+                <img class="u-avatar u-avatar-l" :src="showAvatar(avatar)" /> 
                 <el-upload
                     class="u-upload"
                     drag
@@ -21,24 +19,36 @@
                         <span class="u-tip">只能上传jpg/png/gif文件</span>
                     </div>
                 </el-upload>
-                <p class="u-btng">
-                    <el-button type="primary" @click="submit">确认</el-button>
-                    <el-button @click="reset">重置</el-button>
-                </p>
             </div>
+            <div class="m-profile-box m-profile-avatar-list">
+                <div class="u-title">默认头像</div>
+                <template v-if="avatarList.length">
+                    <span
+                        class="u-avatar"
+                        v-for="(item, i) in avatarList"
+                        :key="i"
+                        @click="changeAvatar(`${imgPath}img/avatar/${item}.jpg`)"
+                    >
+                        <el-avatar shape="square" :size="86" :src="`${imgPath}img/avatar/${item}.jpg`"></el-avatar>
+                    </span>
+                </template>
+            </div>
+        </div>
+        <div class="u-profile-btn">
+            <el-button type="primary" @click="submit">确认</el-button>
+            <el-button @click="reset">重置</el-button>
         </div>
     </uc>
 </template>
 
 <script>
 import uc from "@/components/uc.vue";
-import { updateAvatar, uploadAvatar, getFrames, getUserOverview } from "@/service/profile";
-import { getDecoration, setDecoration, getDecorationJson } from "@/service/decoration";
+import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc.js";
+import { updateAvatar, uploadAvatar, getUserOverview } from "@/service/profile";
 import User from "@jx3box/jx3box-common/js/user";
-import { showAvatar, getThumbnail } from "@jx3box/jx3box-common/js/utils";
+import { showAvatar } from "@jx3box/jx3box-common/js/utils";
 import frames from "@jx3box/jx3box-common/data/user_avatar_frame.json";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
-import { flatten } from "lodash";
 export default {
     name: "avatar",
     props: [],
@@ -61,6 +71,9 @@ export default {
             originalActivateName: null,
             selectAll: [],
             noDecoration: false,
+
+            avatarList: [],
+            imgPath: __imgPath,
         };
     },
     computed: {
@@ -117,9 +130,16 @@ export default {
             getUserOverview(this.uid).then((res) => {
                 this.frame = res.data.data.user_avatar_frame || "";
             });
+            this.loadAvatar();
         },
-    },
-    filters: {
+        loadAvatar() {
+            getBreadcrumb("dashboard-default-avatar").then((res) => {
+                this.avatarList = res ? res.split(",") : [];
+            });
+        },
+        changeAvatar(link) {
+            this.avatar = link;
+        },
         showAvatar: function (val) {
             return showAvatar(val, 480, false);
         },
